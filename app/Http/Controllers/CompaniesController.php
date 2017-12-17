@@ -6,6 +6,7 @@ use App\Company;
 use Illuminate\Http\Request;
 use Image;
 use File;
+use Auth;
 
 class CompaniesController extends Controller
 {
@@ -15,10 +16,13 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         $company = new Company;
+        $hasCompany = $company->where('user_id', Auth::id())->first();
+
         $companies = $company->all();
-        return view('front.company.index', compact('companies'));
+
+        return view('front.company.index', compact('companies', 'hasCompany'));
     }
 
     /**
