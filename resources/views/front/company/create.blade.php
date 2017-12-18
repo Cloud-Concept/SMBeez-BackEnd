@@ -8,9 +8,9 @@
                 <div class="panel-heading">Create New Company</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
+                    @if (session('success'))
                         <div class="alert alert-success">
-                            {{ session('status') }}
+                            {{ session('success') }}
                         </div>
                     @endif
 
@@ -40,7 +40,7 @@
                                 <input class="input-control" type="text" name="city" placeholder="City" id="city">
                             </p>
                             <p class="group-control">
-                                <select name="company_size">
+                                <select name="company_size" id="company_size">
                                     <option value="1-10">1-10</option>
                                     <option value="10-20">11-20</option>
                                 </select>
@@ -49,9 +49,16 @@
                                 <input class="input-control" type="text" name="year_founded" placeholder="Year Founded" id="year_founded">
                             </p>
                             <p class="group-control">
-                                <select name="company_type">
+                                <select name="company_type" id="company_type">
                                     <option value="llc">LLC</option>
                                     <option value="inc">Inc.</option>
+                                </select>
+                            </p>
+                            <p class="group-control">
+                                <select name="industry_id" id="industry_id">
+                                    @foreach($industries as $industry)
+                                    <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
+                                    @endforeach
                                 </select>
                             </p>
                             <p class="group-control">

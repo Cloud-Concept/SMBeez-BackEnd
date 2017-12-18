@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Industry;
 use Illuminate\Http\Request;
 use Image;
 use File;
@@ -19,10 +20,9 @@ class CompaniesController extends Controller
     {   
         $company = new Company;
         $hasCompany = $company->where('user_id', Auth::id())->first();
-
+        $industries = Industry::all();
         $companies = $company->all();
-
-        return view('front.company.index', compact('companies', 'hasCompany'));
+        return view('front.company.index', compact('companies', 'hasCompany', 'industries'));
     }
 
     /**
@@ -31,8 +31,10 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('front.company.create');
+    {   
+        $industries = new Industry;
+        $industries = $industries->all();
+        return view('front.company.create', compact('industries'));
     }
 
     /**
@@ -42,7 +44,9 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $company = new Company;
+
         $this->validate($request, [
             'company_name' => 'required|string|max:255',
             'company_description' => 'required',
@@ -58,8 +62,6 @@ class CompaniesController extends Controller
             'company_email' => 'required|string|email|max:255',
             'slug' => 'unique:companies'
         ]);
-
-        $company = new Company;
 
         $company->company_name = $request['company_name'];
         $company->user_id = auth()->id();
@@ -128,7 +130,8 @@ class CompaniesController extends Controller
 
         //save it to the database 
         $company->save();
-
+        //sync company industries
+        $company->industries()->sync($request['industry_id'], false);
         //make the company sluggable
         $sluggable = $company->replicate();
         // redirect to the home page

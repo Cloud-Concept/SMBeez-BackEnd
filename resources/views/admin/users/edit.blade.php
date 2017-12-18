@@ -8,9 +8,9 @@
                 <div class="panel-heading">Edit User {{$user->name}}</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
+                    @if (session('success'))
                         <div class="alert alert-success">
-                            {{ session('status') }}
+                            {{ session('success') }}
                         </div>
                     @endif
                     <a href="{{route('admin.user.delete', $user->id)}}" class="btn btn-danger" onclick="event.preventDefault(); var r = confirm('Are you sure you want to delete this user ?'); if (r == true) {document.getElementById('delete-form-{{$user->id}}').submit();}">Delete User</a>

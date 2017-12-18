@@ -31,6 +31,9 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 	Route::get('/manage/users/edit/{user}', 'UserController@edit')->name('admin.user.edit');
 	Route::post('/manage/users/update/{user}', 'UserController@update')->name('admin.user.update');
 	Route::delete('/manage/users/delete/{user}', 'UserController@destroy')->name('admin.user.delete');
+	//Industries Module
+	Route::get('/manage/industries/create', 'industriesController@create')->name('admin.industry.create');
+	Route::post('/manage/industries/store', 'industriesController@store')->name('admin.industry.store');
 
 });
 
@@ -45,4 +48,10 @@ Route::prefix('user')->group(function() {
 Route::prefix('companies')->group(function() {
 	Route::get('/all', 'CompaniesController@index')->name('front.company.all');
 	Route::get('/{company}', 'CompaniesController@show')->name('front.company.show');
+});
+
+
+Route::prefix('industries')->group(function() {
+	Route::get('/all', 'IndustriesController@index')->name('front.industry.all');
+	Route::get('/{industry}', 'IndustriesController@show')->name('front.industry.show');
 });

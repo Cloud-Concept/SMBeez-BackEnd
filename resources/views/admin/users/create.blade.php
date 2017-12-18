@@ -8,9 +8,9 @@
                 <div class="panel-heading">Create New User</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
+                    @if (session('success'))
                         <div class="alert alert-success">
-                            {{ session('status') }}
+                            {{ session('success') }}
                         </div>
                     @endif
 

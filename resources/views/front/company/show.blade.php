@@ -19,7 +19,7 @@
                             <div class="text-center my-3"></div>
                             @elseif(Auth::user()->id == $company->user_id)
                             <div class="text-center my-3"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Edit Company</button></div>
-                            @elseif ($company->user_id == '')
+                            @elseif ($company->user_id == '0')
                             <div class="text-center my-3"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</button></div>
                             @endif
 
