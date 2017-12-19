@@ -10,7 +10,8 @@ use File;
 use Auth;
 
 class CompaniesController extends Controller
-{
+{   
+
     /**
      * Display a listing of the resource.
      *
@@ -30,11 +31,16 @@ class CompaniesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Company $company)
     {   
-        $industries = new Industry;
-        $industries = $industries->all();
-        return view('front.company.create', compact('industries'));
+        //check if user have company so restrict access to create page
+        if($company->has_company() == true) {
+            return redirect(route('front.company.all'));
+        }else {
+            $industries = new Industry;
+            $industries = $industries->all();
+            return view('front.company.create', compact('industries'));
+        }
     }
 
     /**
@@ -159,8 +165,13 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Company $company)
-    {
-        //
+    {   
+        //allow edit for company owner only
+        if($company->is_owner(auth()->id())) {
+            //
+        }else {
+            return redirect(route('front.company.all'));
+        }
     }
 
     /**

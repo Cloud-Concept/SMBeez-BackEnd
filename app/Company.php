@@ -29,7 +29,22 @@ class Company extends Model
     public function industries() {
         return $this->belongsToMany(Industry::class);
     }
+    //check if user is a manager of a company
+    public function has_company()
+    {
+        $hasCompany = Company::where('user_id', auth()->id())->first();
 
+        if($hasCompany) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+    //check if the user is the owner of this company
+    public function is_owner($user) {
+        return $this->user_id === auth()->id();
+    }
     //use slug to get company
     public function getRouteKeyName() {
         return 'slug';
