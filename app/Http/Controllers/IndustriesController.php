@@ -98,8 +98,9 @@ class IndustriesController extends Controller
     public function show(Industry $industry)
     {   $industries = $industry->all();
         $company = new Company;
+        $companies = $company->all();
         $hasCompany = $company->where('user_id', Auth::id())->first();
-        return view('front.industry.show', compact('industries', 'hasCompany', 'industry'));
+        return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies'));
     }
 
     /**

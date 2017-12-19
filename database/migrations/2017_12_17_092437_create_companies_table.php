@@ -35,6 +35,7 @@ class CreateCompaniesTable extends Migration
             $table->string('cover_url')->nullable();
             $table->string('status')->nullable();
             $table->string('is_verified')->nullable();
+            $table->string('is_promoted')->nullable();
             $table->timestamps();
         });
     }

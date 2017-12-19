@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Browse more than  SMBeez</h1>
+                    <h1 class="text-center">Browse more than {{$companies->count()}} SMBeez</h1>
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && !$hasCompany && \Laratrust::hasRole('user|superadmin'))
                     <div class="btn-hero text-center"><a href="{{route('front.company.create')}}" class="btn btn-blue">Add your company</a></div>
@@ -49,9 +49,9 @@
                             <div class="company-box box-block mb-5">
                                 <img class="img-responsive" src="{{asset($company->cover_url)}}" alt="tile here">
                                 <div class="company-box-header media mt-4">
-                                    <a href="#" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
+                                    <a href="{{route('front.company.show', $company->slug)}}" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
                                     <div class="media-body">
-                                        <p class="thumb-title mt-1 mb-1">{{$company->company_name}}</p>
+                                        <a href="{{route('front.company.show', $company->slug)}}"><p class="thumb-title mt-1 mb-1">{{$company->company_name}}</p></a>
                                         <div class="star-rating">
                                             <ul class="list-inline">
                                                 <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
@@ -65,7 +65,11 @@
                                     </div>
                                 </div>
                                 <p>{{$company->company_description}}</p>
-                                <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
+                                <p class="tags">More in: 
+                                    @foreach($company->industries as $industry)
+                                        <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
+                                    @endforeach
+                                </p>
                             </div>
                         </div>
                         @endforeach
