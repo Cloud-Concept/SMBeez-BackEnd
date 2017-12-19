@@ -29,3 +29,5 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - Rename the file called .env.example to .env (found in the main files directory)
 - Set APP_NAME = SMBeez ,  DB_DATABASE= the name of database u created , DB_USERNAME=root, DB_PASSWORD= (leave empty for password)
 - In the terminal run php artisan serve
+- Go to [this page](http://localhost:8000/companies/all)
+- SignIn with superadmin@app.com | password=password
