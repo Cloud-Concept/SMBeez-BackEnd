@@ -59,6 +59,7 @@ class CompaniesController extends Controller
             'reg_date' => 'required',
             'location' => 'required',
             'logo_url' => 'required',
+            'industry_id' => 'required',
             'company_email' => 'required|string|email|max:255',
             'slug' => 'unique:companies'
         ]);

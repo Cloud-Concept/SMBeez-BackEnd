@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link rel="icon" href="{{asset('images/favicon.ico')}}" type="image/x-icon" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -24,19 +24,7 @@
             <div class="cd-logo"><a href="#"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
             <nav class="cd-main-nav-wrapper">
                 <a href="#search" class="cd-search-trigger"></a>
-                <ul class="cd-main-nav">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Companies</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Project List#1</a> <a class="dropdown-item" href="#">Project List#2</a> <a class="dropdown-item" href="#">Project List#3</a> <a class="dropdown-item" href="#">Project List#4</a> <a class="dropdown-item" href="#">Project List#5</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Project List#4</a> <a class="dropdown-item" href="#">Project List#5</a>
-                        </div>
-                    </li>
-                    <li><a href="#">Sign in</a></li>
-                </ul>
+                @include ('layouts.main-menu')
             </nav>
             <a href="#" class="cd-nav-trigger cd-text-replace">Menu<span></span></a>
         </header>
