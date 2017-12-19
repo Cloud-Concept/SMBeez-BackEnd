@@ -18,6 +18,9 @@
             @if(\Laratrust::hasRole('admin|superadmin'))
             <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
             @endif
+            @if($hascompany && \Laratrust::hasRole('company'))
+            <a class="dropdown-item" href="{{ route('front.company.show', $mycompany->slug) }}">My Company</a>
+            @endif
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
         </div>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
