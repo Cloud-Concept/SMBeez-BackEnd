@@ -19,33 +19,13 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+## Runing SMBeez Application
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
-
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
-
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+- Install [WAMP](http://www.wampserver.com/en/) Server for PC or [MAMP](https://www.mamp.info/en/downloads/) for mac
+- [Install Composer (if it's not installed on your PC/Mac)](https://getcomposer.org/).
+- Open the terminal CMD and get sure that it is on the same directory of the files and type composer install
+- Go to localhost/phpmyadmin and login with root and no password (if any error get sure that wamp/mamp is on)
+- Create a database with charset utf8mb4 -- UTF-8 Unicode and collation utf8mb4_general_ci and Upload the sql file in the repo
+- Rename the file called .env.example to .env (found in the main files directory)
+- Set APP_NAME = SMBeez ,  DB_DATABASE= the name of database u created , DB_USERNAME=root, DB_PASSWORD= (leave empty for password)
+- In the terminal run php artisan serve
