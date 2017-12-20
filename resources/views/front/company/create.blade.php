@@ -20,7 +20,7 @@
                             <p class="group-control">
                                 <input class="input-control" type="text" name="company_name" placeholder="Company Name" id="company_name">
                             </p>
-                            <textarea name="company_description"></textarea>
+                            <textarea name="company_description" id="company_description"></textarea>
                             <p class="group-control">
                                 <input class="input-control" type="text" name="company_tagline" placeholder="Company Tagline" id="company_tagline">
                             </p>
@@ -93,12 +93,12 @@ jQuery(document).ready(function () {
     tinymce.init({
         selector: '#company_description',
         plugins: [
-          'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
-          'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+          'advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker',
+          'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking',
           'save table contextmenu directionality emoticons template paste textcolor'
         ],
         height: 300,
-        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | print preview media fullpage | forecolor backcolor emoticons'
     });
 });
 </script>

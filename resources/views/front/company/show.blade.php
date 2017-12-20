@@ -25,9 +25,6 @@
 
 
                             <h3>Contact info</h3>
-                            @if (Auth::guest() || Auth::user()->id != $company->user_id)
-                            <p>Contact info Locked</p>
-                            @else
                             <ul class="list-unstyled details-box vcard-list">
                                 <li>
                                     <span class="pull-left"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
@@ -50,7 +47,6 @@
                                     <div class="pull-left"><a href="">{{$company->linkedin_url}}</a></div>
                                 </li>
                             </ul>
-                            @endif
                             
                         </div>
                     </div>

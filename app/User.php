@@ -34,4 +34,9 @@ class User extends Authenticatable
     function company() {
         $this->hasMany(Company::class);
     }
+
+    //project relationship
+    function project() {
+        $this->hasMany(Project::class);
+    }
 }

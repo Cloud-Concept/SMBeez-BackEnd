@@ -12,12 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('front.home');
+})->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 
 //Dashboard for admins only
@@ -54,4 +54,10 @@ Route::prefix('companies')->group(function() {
 Route::prefix('industries')->group(function() {
 	Route::get('/all', 'IndustriesController@index')->name('front.industry.all');
 	Route::get('/{industry}', 'IndustriesController@show')->name('front.industry.show');
+});
+
+Route::prefix('projects')->group(function() {
+	Route::post('/store', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@store'])->name('front.project.store');
+	Route::get('/create', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@create'])->name('front.project.create');
+	Route::get('/{project}', 'ProjectsController@show')->name('front.project.show');
 });

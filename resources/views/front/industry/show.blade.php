@@ -44,30 +44,14 @@
                 </div>
                 <div class="col-md-8">
                     <div class="row equal">
-                        @foreach($industry->companies as $company)
-                        <div class="col-md-6">
-                            <div class="company-box box-block mb-5">
-                                <img class="img-responsive" src="{{asset($company->cover_url)}}" alt="tile here">
-                                <div class="company-box-header media mt-4">
-                                    <a href="{{route('front.company.show', $company->slug)}}" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
-                                    <div class="media-body">
-                                        <a href="{{route('front.company.show', $company->slug)}}"><p class="thumb-title mt-1 mb-1">{{$company->company_name}}</p></a>
-                                        <div class="star-rating">
-                                            <ul class="list-inline">
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">(35 Reviews)</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>{{$company->company_description}}</p>
+                        @foreach($industry->projects as $project)
+                        <div class="col-md-12 mt-5">
+                            <div class="project-box project-box-side box-block">
+                                <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
+                                <p>{{strip_tags($project->project_description)}}</p> 
                                 <p class="tags">More in: 
-                                    @foreach($company->industries as $industry)
-                                        <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
+                                    @foreach($project->industries as $industry)
+                                    <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
                                     @endforeach
                                 </p>
                             </div>

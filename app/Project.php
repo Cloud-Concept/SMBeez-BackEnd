@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Industry extends Model
-{	
+class Project extends Model
+{
+    protected $dates = ['close_date'];
 
-	use Sluggable;
+    use Sluggable;
     /**
     * Return the sluggable configuration array for this model.
     *
@@ -17,21 +18,21 @@ class Industry extends Model
     public function sluggable() {
         return [
             'slug' => [
-                'source' => 'industry_name'
+                'source' => 'project_title'
             ]
         ];
     }
 
-	//setting up relationship
-    public function companies() {
-        return $this->belongsToMany(Company::class);
+    public function industries() {
+        return $this->belongsToMany(Industry::class);
     }
 
-    public function projects() {
-        return $this->belongsToMany(Project::class);
+    //user relationship
+    public function user() {
+    	return $this->belongsTo(User::class);
     }
 
-    //use slug to get company
+    //use slug to get project
     public function getRouteKeyName() {
         return 'slug';
     }
