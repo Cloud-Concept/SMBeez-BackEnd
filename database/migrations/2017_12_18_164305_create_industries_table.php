@@ -12,7 +12,10 @@ class CreateIndustriesTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
+        Schema::dropIfExists('industries');
+        Schema::dropIfExists('company_industry');
+        Schema::dropIfExists('industry_project');
         Schema::create('industries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('industry_name');
@@ -27,7 +30,7 @@ class CreateIndustriesTable extends Migration
             $table->integer('industry_id')->unsigned();
         });
 
-        Schema::create('project_industry', function (Blueprint $table) {
+        Schema::create('industry_project', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id')->unsigned();
             $table->integer('industry_id')->unsigned();
@@ -43,5 +46,6 @@ class CreateIndustriesTable extends Migration
     {
         Schema::dropIfExists('industries');
         Schema::dropIfExists('company_industry');
+        Schema::dropIfExists('industry_project');
     }
 }
