@@ -24,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
             $view->with('hascompany',   $company->has_company());
             $view->with('mycompany', $company->where('user_id', auth()->id())->first());
         });
+
+        // register a composer for filter sidebar
+        view()->composer('layouts.filter-sidebar', function ($view) {
+            // set the view industries from industries method
+            $view->with('industry', new \App\Industry);
+            $view->with('industries', \App\Industry::all());
+        });
     }
 
     /**

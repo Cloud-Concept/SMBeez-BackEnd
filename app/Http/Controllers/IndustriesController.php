@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Industry;
 use App\Company;
+use App\Project;
 use Auth;
 use Illuminate\Http\Request;
 use Image;
 use File;
+use DB;
 
 class IndustriesController extends Controller
 {
@@ -100,7 +102,14 @@ class IndustriesController extends Controller
         $company = new Company;
         $companies = $company->all();
         $hasCompany = $company->where('user_id', Auth::id())->first();
-        return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies'));
+        $project = new Project;
+        $featured_projects = $project->where('is_promoted', 1)
+        ->where('status', '!=', 'closed')
+        ->where('save_as', '!=', 'draft')
+        ->orderBy(DB::raw('RAND()'))
+        ->take(2)
+        ->get();
+        return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies', 'featured_projects'));
     }
 
     /**

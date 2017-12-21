@@ -62,6 +62,13 @@
                                 </select>
                             </p>
                             <p class="group-control">
+                                <select name="speciality_id[]" id="speciality_id" class="multi-select" multiple>
+                                    @foreach($specialities as $speciality)
+                                    <option value="{{$speciality->id}}">{{$speciality->speciality_name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <p class="group-control">
                                 <input class="input-control" type="text" name="reg_number" placeholder="Registeration Number" id="reg_number">
                             </p>
                             <p class="group-control">

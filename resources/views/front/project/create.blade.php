@@ -44,8 +44,16 @@
                                 </select>
                             </p>
                             <p class="group-control">
+                                <select name="speciality_id[]" id="speciality_id" class="multi-select" multiple>
+                                    @foreach($specialities as $speciality)
+                                    <option value="{{$speciality->id}}">{{$speciality->speciality_name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <p class="group-control">
                                 <label for="supportive_docs">Supportive Document</label>
-                                <input class="input-control" type="file" name="supportive_docs" id="supportive_docs">
+                                <input class="input-control" type="file" name="supportive_docs" id="supportive_docs" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf">
+                                Accepts Excel, Word, PowerPoint, Text, PDF
                             </p>
                             <input type="submit" class="btn btn-primary" value="Submit">
                         </div>

@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Role;
 use App\Industry;
+use App\Speciality;
+use App\Project;
 use Illuminate\Http\Request;
 use Image;
 use File;
 use Auth;
+use DB;
 
 class CompaniesController extends Controller
 {   
@@ -24,7 +27,12 @@ class CompaniesController extends Controller
         $hasCompany = $company->where('user_id', Auth::id())->first();
         $industries = Industry::all();
         $companies = $company->all();
-        return view('front.company.index', compact('companies', 'hasCompany', 'industries'));
+        $featured_companies = $company->where('is_promoted', 1)
+        ->where('status', '!=', '0')
+        ->orderBy(DB::raw('RAND()'))
+        ->take(2)
+        ->get();
+        return view('front.company.index', compact('companies', 'hasCompany', 'industries', 'featured_companies'));
     }
 
     /**
@@ -40,7 +48,9 @@ class CompaniesController extends Controller
         }else {
             $industries = new Industry;
             $industries = $industries->all();
-            return view('front.company.create', compact('industries'));
+            $speciality = new Speciality;
+            $specialities = $speciality->all();
+            return view('front.company.create', compact('industries', 'specialities'));
         }
     }
 
@@ -144,6 +154,8 @@ class CompaniesController extends Controller
             $company->save();
             //sync company industries
             $company->industries()->sync($request['industry_id'], false);
+            //sync company specialities
+            $company->specialities()->sync($request['speciality_id'], false);
             //change current user to company role
             $roles = new Role;
             $role = $roles->where('name', 'company')->pluck('id');
@@ -165,8 +177,15 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Company $company)
-    {
-        return view('front.company.show', compact('company'));
+    {   
+        $project = new Project;
+        
+        $closed_projects = $project->where('user_id', $company->user_id)
+        ->where('status', 'closed')
+        ->where('save_as', 'publish')
+        ->where('awarded_to', '!=', null)->take(8)->get();
+
+        return view('front.company.show', compact('company', 'closed_projects'));
     }
 
     /**

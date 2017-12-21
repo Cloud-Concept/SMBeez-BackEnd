@@ -5,10 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Industry extends Model
-{	
-
-	use Sluggable;
+class Speciality extends Model
+{
+    use Sluggable;
     /**
     * Return the sluggable configuration array for this model.
     *
@@ -17,20 +16,19 @@ class Industry extends Model
     public function sluggable() {
         return [
             'slug' => [
-                'source' => 'industry_name'
+                'source' => 'speciality_name'
             ]
         ];
     }
 
-	//setting up relationship
+
+    //setting up relationship
     public function companies() {
         return $this->belongsToMany(Company::class);
     }
 
     public function projects() {
-        return $this->belongsToMany(Project::class)
-        ->where('status', '!=', 'closed')
-        ->where('save_as', '!=', 'draft');
+        return $this->belongsToMany(Project::class);
     }
 
     //use slug to get company

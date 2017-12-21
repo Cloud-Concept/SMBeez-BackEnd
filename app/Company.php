@@ -29,6 +29,10 @@ class Company extends Model
     public function industries() {
         return $this->belongsToMany(Industry::class);
     }
+
+    public function specialities() {
+        return $this->belongsToMany(Speciality::class);
+    }
     //check if user is a manager of a company
     public function has_company()
     {

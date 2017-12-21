@@ -12,8 +12,12 @@
                         <div class="p-3">
                             <h2 class="mt-2"><i class="fa fa-address-card" aria-hidden="true"></i> {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
-                                <li>Industry: <a href="">Manufacturing, Transportation,</a></li>
-                                <li>Speciality: <span>Electrical Supplies, CMS, Sales force</span></li>
+                                <li>Industry: <a href="{{route('front.industry.show', $company->industries[0]->slug)}}">{{$company->industries[0]->industry_name}}</a></li>
+                                <li>Speciality: <span>
+                                    @foreach($company->specialities as $speciality)
+                                        {{$speciality->speciality_name . ','}} 
+                                    @endforeach
+                                </span></li>
                             </ul>
                             @if (Auth::guest() || Auth::user()->id != $company->user_id)
                             <div class="text-center my-3"></div>
@@ -32,7 +36,7 @@
                                 </li>
                                 <li>
                                     <span class="pull-left"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                    <div class="pull-left">{{$company->phone}}</div>
+                                    <div class="pull-left"><a href="tel:{{$company->company_phone}}">{{$company->company_phone}}</a></div>
                                 </li>
                                 <li>
                                     <span class="pull-left"><i class="fa fa-globe" aria-hidden="true"></i></span>
@@ -77,30 +81,22 @@
                     </div>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade pt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
-                           	<p>{{$company->company_description}}</p>
+                           	{!!$company->company_description!!}
                             <h3 class="mb-4 mt-5">Closed projects</h3>
                             <div class="row equal">
-                                <div class="col-md-6">
-                                    <div class="project-box box-block mb-3">
-                                        <p class="thumb-title mt-1 mb-1">Low Cost Advertising</p>
-                                        <p>There are many ways chocolate makes people happy and one of the worthiest is a tour that has been described a</p>
-                                        <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="project-box box-block mb-3">
-                                        <p class="thumb-title mt-1 mb-1">Low Cost Advertising</p>
-                                        <p>There are many ways chocolate makes people happy and one of the worthiest is a tour that has been described a</p>
-                                        <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="project-box box-block mb-3">
-                                        <p class="thumb-title mt-1 mb-1">Low Cost Advertising</p>
-                                        <p>There are many ways chocolate makes people happy and one of the worthiest is a tour that has been described a</p>
-                                        <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
-                                    </div>
-                                </div>
+                                @foreach($closed_projects as $project)
+                                   <div class="col-md-6">
+                                        <div class="project-box box-block mb-3">
+                                            <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
+                                            <p>{{strip_tags($project->project_description)}}</p>
+                                            <p class="tags">More in: 
+                                                @foreach($company->industries as $industry)
+                                                    <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                    </div> 
+                                @endforeach   
                             </div>
                         </div>
                         <div class="tab-pane fade active show pt-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">

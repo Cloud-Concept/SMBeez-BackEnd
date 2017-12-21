@@ -28,6 +28,7 @@ class CreateProjectsTable extends Migration
             $table->string('status_on_close')->nullable();
             $table->integer('awarded_to')->nullable();
             $table->string('supportive_docs')->nullable();
+            $table->integer('is_promoted')->nullable();
             $table->timestamps();
         });
     }

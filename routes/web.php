@@ -34,6 +34,9 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 	//Industries Module
 	Route::get('/manage/industries/create', 'industriesController@create')->name('admin.industry.create');
 	Route::post('/manage/industries/store', 'industriesController@store')->name('admin.industry.store');
+	//Specialities Module
+	Route::get('/manage/specialities/create', 'SpecialitiesController@create')->name('admin.speciality.create');
+	Route::post('/manage/specialities/store', 'SpecialitiesController@store')->name('admin.speciality.store');
 
 });
 
@@ -61,3 +64,8 @@ Route::prefix('projects')->group(function() {
 	Route::get('/create', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@create'])->name('front.project.create');
 	Route::get('/{project}', 'ProjectsController@show')->name('front.project.show');
 });
+
+
+//Send Express Interest Request
+Route::post('/interest/store', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@store'])->name('express.interest');
+Route::delete('/interest/delete/{interest}', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@destroy'])->name('withdraw.interest');

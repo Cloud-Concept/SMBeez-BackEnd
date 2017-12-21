@@ -39,4 +39,8 @@ class User extends Authenticatable
     function project() {
         $this->hasMany(Project::class);
     }
+    //interests relationship
+    function interests() {
+        $this->hasMany(Interest::class);
+    }
 }

@@ -12,7 +12,8 @@ class CreateCompaniesTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
+        Schema::dropIfExists('companies');
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('company_name');
@@ -34,8 +35,8 @@ class CreateCompaniesTable extends Migration
             $table->string('logo_url');
             $table->string('cover_url')->nullable();
             $table->string('status')->nullable();
-            $table->string('is_verified')->nullable();
-            $table->string('is_promoted')->nullable();
+            $table->integer('is_verified')->nullable();
+            $table->integer('is_promoted')->nullable();
             $table->timestamps();
         });
     }

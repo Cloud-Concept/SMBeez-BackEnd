@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\Industry;
 use App\Company;
+use App\Speciality;
+use App\Interest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -31,7 +33,10 @@ class ProjectsController extends Controller
     {
         $industries = new Industry;
         $industries = $industries->all();
-        return view('front.project.create', compact('industries'));
+        $speciality = new Speciality;
+        $specialities = $speciality->all();
+
+        return view('front.project.create', compact('industries', 'specialities'));
     }
 
     /**
@@ -76,6 +81,8 @@ class ProjectsController extends Controller
         $project->save();
         //sync project industries
         $project->industries()->sync($request['industry_id'], false);
+        //sync project specialities
+        $project->specialities()->sync($request['speciality_id'], false);
         //make the project sluggable
         $sluggable = $project->replicate();
         // redirect to the home page
@@ -92,8 +99,17 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Project $project)
-    {
-        return view('front.project.show');
+    {   
+        //get projects within the same industry
+        $industries = $project->industries->modelKeys();
+        //find the related projects to the industry and exclude the draft and closed projects
+        $relatedprojects = $project->whereHas('industries', function ($q) use ($industries) {
+            $q->whereIn('industries.id', $industries);
+        })->where('id', '<>', $project->id)
+        ->where('status', '!=', 'closed')
+        ->where('save_as', '!=', 'draft')->take(4)->get();
+
+        return view('front.project.show', compact('project', 'relatedprojects'));
     }
 
     /**
