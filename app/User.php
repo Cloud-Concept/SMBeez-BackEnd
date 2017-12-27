@@ -31,16 +31,35 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     //company relationship
-    function company() {
-        $this->hasMany(Company::class);
+    public function companies() {
+        return $this->hasMany(Company::class);
     }
 
     //project relationship
-    function project() {
-        $this->hasMany(Project::class);
+    public function projects() {
+        return $this->hasMany(Project::class);
     }
     //interests relationship
-    function interests() {
-        $this->hasMany(Interest::class);
+    public function interests() {
+        return $this->hasMany(Interest::class);
+    }
+    //reviews relationship
+    public function reviews() {
+        return $this->hasMany(Review::class);
+    }
+    //check for profile completion
+    public function profile_completion() {
+
+        $count_empty = '';
+        return $count_empty;
+    }
+
+    //check for dashboard owner
+    public function dashboard_owner($user) {
+        return $this->id === auth()->id();
+    }
+    //use slug to get dashboard
+    public function getRouteKeyName() {
+        return 'username';
     }
 }

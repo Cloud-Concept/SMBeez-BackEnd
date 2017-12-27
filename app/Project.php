@@ -62,6 +62,11 @@ class Project extends Model
 
     }
 
+    //check if the user is the owner of this project
+    public function is_owner($user) {
+        return $this->user_id === auth()->id();
+    }
+
     //use slug to get project
     public function getRouteKeyName() {
         return 'slug';

@@ -98,17 +98,33 @@ class IndustriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Industry $industry)
-    {   $industries = $industry->all();
+    {   
+        //get the current user company
+        if(!Auth::guest()) {
+
+            $user_company = Auth::user()->companies[0];
+
+            if($user_company->industries[0]->id != $industry->id) {
+                return redirect(route('front.industry.show', $user_company->industries[0]->slug));
+            }
+
+        }
+
+        $industries = $industry->all();
         $company = new Company;
         $companies = $company->all();
         $hasCompany = $company->where('user_id', Auth::id())->first();
         $project = new Project;
-        $featured_projects = $project->where('is_promoted', 1)
-        ->where('status', '!=', 'closed')
-        ->where('save_as', '!=', 'draft')
+        //show featured projects from the same industry
+        $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
+            $q->where('industries.id', $industry->id);
+        })
+        ->where('is_promoted', 1)
+        ->where('status', 'publish')
         ->orderBy(DB::raw('RAND()'))
         ->take(2)
         ->get();
+
         return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies', 'featured_projects'));
     }
 

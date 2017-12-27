@@ -7,6 +7,8 @@ use App\Role;
 use App\Industry;
 use App\Speciality;
 use App\Project;
+use App\Review;
+use App\User;
 use Illuminate\Http\Request;
 use Image;
 use File;
@@ -32,7 +34,8 @@ class CompaniesController extends Controller
         ->orderBy(DB::raw('RAND()'))
         ->take(2)
         ->get();
-        return view('front.company.index', compact('companies', 'hasCompany', 'industries', 'featured_companies'));
+
+        return view('front.company.index', compact('companies', 'hasCompany', 'industries', 'featured_companies', 'company_overall_rating'));
     }
 
     /**
@@ -176,16 +179,49 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show(Company $company, User $user)
     {   
         $project = new Project;
         
         $closed_projects = $project->where('user_id', $company->user_id)
-        ->where('status', 'closed')
-        ->where('save_as', 'publish')
+        ->where('status', 'publish')
         ->where('awarded_to', '!=', null)->take(8)->get();
+        
+        $customer_reviews = $company->reviews->where('company_id', $company->id)
+        ->where('reviewer_relation', 'customer');
 
-        return view('front.company.show', compact('company', 'closed_projects'));
+        $suppliers_reviews = $company->reviews->where('company_id', $company->id)
+        ->where('reviewer_relation', 'supplier');
+        
+        if($company->reviews->count() > 0) {
+            //sum of all reviews rates
+            $customer_overall = DB::table('reviews')
+            ->select(DB::raw("SUM(overall_rate + selection_process_rate + money_value_rate + delivery_quality_rate)"))
+            ->where('company_id', $company->id)
+            ->where('reviewer_relation', 'customer')->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 4 which means 4 types of rates
+            foreach ($customer_overall[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            $customer_overall = ceil($value / ($customer_reviews->count() * 4));
+
+            //sum of all reviews rates
+            $suppliers_overall = DB::table('reviews')
+            ->select(DB::raw("SUM(overall_rate + selection_process_rate + money_value_rate + delivery_quality_rate)"))
+            ->where('company_id', $company->id)
+            ->where('reviewer_relation', 'supplier')->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 4 which means 4 types of rates
+            foreach ($suppliers_overall[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 4));
+        }
+        
+        return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews', 'customer_overall', 'suppliers_overall'));
     }
 
     /**
@@ -196,9 +232,10 @@ class CompaniesController extends Controller
      */
     public function edit(Company $company)
     {   
+        $user = auth()->user();
         //allow edit for company owner only
         if($company->is_owner(auth()->id())) {
-            //
+            return view('front.company.edit', compact('company', 'user'));
         }else {
             return redirect(route('front.company.all'));
         }

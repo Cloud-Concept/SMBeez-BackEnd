@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('honeycombs')->nullable();
             $table->string('phone')->nullable();
             $table->string('profile_pic_url')->nullable();
+            $table->string('user_city')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

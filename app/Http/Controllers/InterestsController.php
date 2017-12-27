@@ -38,6 +38,23 @@ class InterestsController extends Controller
         return back();
     }
 
+    public function accept_interest(Request $request, Interest $interest)
+    {   
+        
+        $interest->where('id', $interest->id)->update(['is_accepted' => 1]);
+
+        $interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
+
+        return back();
+    }
+
+    public function decline_interest(Request $request, Interest $interest)
+    {   
+        
+        $interest->where('id', $interest->id)->update(['is_accepted' => 0]);
+
+        return back();
+    }
     /**
      * Display the specified resource.
      *
@@ -45,29 +62,6 @@ class InterestsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Interest $interest)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Interest  $interest
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Interest $interest)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Interest  $interest
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Interest $interest)
     {
         //
     }

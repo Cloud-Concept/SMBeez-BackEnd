@@ -2,13 +2,17 @@
     <li><a href="#">About</a></li>
     <li><a href="{{route('front.company.all')}}">Companies</a></li>
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
+        @if (Auth::guest() || !$hascompany)
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opportunities</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{route('front.industry.all')}}">All Industries</a>
             @foreach($industries as $industry)
             <a class="dropdown-item" href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
             @endforeach
         </div>
+        @elseif($hascompany && \Laratrust::hasRole('company|superadmin'))
+        <a class="nav-link" href="{{route('front.industry.show', $mycompany->industries[0]->slug)}}">Opportunities</a>
+        @endif
     </li>
     @if (Auth::guest())
     <li><a href="{{ route('login') }}">Sign in</a></li>
@@ -16,6 +20,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ route('front.user.dashboard', Auth::user()->username) }}">Dashboard</a>
             @if(\Laratrust::hasRole('admin|superadmin'))
             <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
             @endif

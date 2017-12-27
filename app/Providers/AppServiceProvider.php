@@ -31,6 +31,16 @@ class AppServiceProvider extends ServiceProvider
             $view->with('industry', new \App\Industry);
             $view->with('industries', \App\Industry::all());
         });
+
+        //register a view for express interest popup
+        view()->composer('layouts.interests-modal', function ($view) {
+            $view->with('user', auth()->user());
+        });
+        //register view for dashboard menu
+        view()->composer('layouts.dashboard-menu', function ($view) {
+            $view->with('user', auth()->user());
+        });
+
     }
 
     /**

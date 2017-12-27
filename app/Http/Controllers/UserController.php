@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Role;
+use App\Project;
+use App\Industry;
 use Image;
 use File;
+use DB;
 
 class UserController extends Controller
 {
@@ -53,6 +56,7 @@ class UserController extends Controller
         $user->username = $request['username'];
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
+        $user->honeycombs = 0;
 
         $user->save();
 
@@ -158,9 +162,90 @@ class UserController extends Controller
 
     // Front End Stuff
 
-    public function frontDashboard(User $user)
+    public function dashboard(User $user)
     {   
+        //if trying to access the dashboard 
+        //and you are not the owner redirect to home
 
-        return view('front.users.dashboard', compact('user'));
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            //get the user interests
+            $interests = $user->interests->modelKeys();
+
+            $project = new Project;
+            //find the interested projects where the user id is the user_id in the interests table
+            $interested_projects = $project->whereHas('interests', function ($q) use ($interests) {
+                $q->whereIn('interests.id', $interests);
+            })->where('id', '<>', $user->id)->get();
+
+            return view('front.users.dashboard', compact('user', 'interested_projects'));
+
+        }
+    }
+
+    public function myprojects(User $user)
+    {
+        //if trying to access the dashboard 
+        //and you are not the owner redirect to home
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+            
+        }else {
+
+            $project = new Project;
+            $industry = new Industry;
+
+            $suggested_projects = $project->whereHas('industries', function ($q) use ($industry) {
+                $user_company = auth()->user()->companies[0];
+                $q->where('industries.id', $user_company->industries[0]->id);
+            })
+            ->where('is_promoted', 1)
+            ->where('status', 'publish')
+            ->where('user_id', '!=', $user->id)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+            return view('front.users.myprojects', compact('user', 'suggested_projects'));
+        }
+    }
+
+    public function opportunities(User $user)
+    {
+        //if trying to access the dashboard 
+        //and you are not the owner redirect to home
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+            
+        }else {
+
+            $project = new Project;
+            $industry = new Industry;
+
+            $suggested_projects = $project->whereHas('industries', function ($q) use ($industry) {
+                $user_company = auth()->user()->companies[0];
+                $q->where('industries.id', $user_company->industries[0]->id);
+            })
+            ->where('is_promoted', 1)
+            ->where('status', 'publish')
+            ->where('user_id', '!=', $user->id)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+
+            $interests = $user->interests->modelKeys();
+            //find the interested projects where the user id is the user_id in the interests table
+            $interested_projects = $project->whereHas('interests', function ($q) use ($interests) {
+                $q->whereIn('interests.id', $interests);
+            })->where('id', '<>', $user->id)->get();
+
+            return view('front.users.opportunities', compact('user', 'suggested_projects', 'interested_projects'));
+        }
     }
 }

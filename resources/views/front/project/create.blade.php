@@ -25,16 +25,7 @@
                                 <input class="input-control" type="number" name="budget" placeholder="Estimated Budget" id="budget">
                             </p>
                             <p class="group-control">
-                                <select name="status" id="status">
-                                    <option value="open">Open</option>
-                                    <option value="closed">Closed</option>
-                                </select>
-                            </p>
-                            <p class="group-control">
-                                <select name="save_as" id="save_as">
-                                    <option value="publish">Publish</option>
-                                    <option value="draft">Draft</option>
-                                </select>
+                                <input class="input-control" type="hidden" name="status" value="publish" id="status">
                             </p>
                             <p class="group-control">
                                 <select name="industry_id" id="industry_id">

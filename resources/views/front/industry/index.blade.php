@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Browse projects in more than {{$industries->count()}} industries</h1>
+                    <h1 class="text-center">Discover hundreds of opportunities</h1>
                     <p class="text-center">In your local marketplace</p>
                 </div>
             </div>

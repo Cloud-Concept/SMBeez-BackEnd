@@ -15,7 +15,7 @@ class CreateSpecialitiesTable extends Migration
     {   
         Schema::dropIfExists('specialities');
         Schema::dropIfExists('company_speciality');
-        Schema::dropIfExists('speciality_project');
+        Schema::dropIfExists('project_speciality');
 
         Schema::create('specialities', function (Blueprint $table) {
             $table->increments('id');

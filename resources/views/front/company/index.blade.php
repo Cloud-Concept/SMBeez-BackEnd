@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Browse more than {{$companies->count()}} SMBeez</h1>
+                    <h1 class="text-center">Browse hundreds of SMBeez</h1>
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && !$hasCompany && \Laratrust::hasRole('user|superadmin'))
                     <div class="btn-hero text-center"><a href="{{route('front.company.create')}}" class="btn btn-blue">Add your company</a></div>
@@ -38,7 +38,7 @@
                                                 <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
                                                 <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
                                                 <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">(35 Reviews)</a></li>
+                                                <li class="list-inline-item thumb-review"><a href="">({{$company->reviews->count()}} Reviews)</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -65,16 +65,20 @@
                                     <a href="{{route('front.company.show', $company->slug)}}" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
                                     <div class="media-body">
                                         <a href="{{route('front.company.show', $company->slug)}}"><p class="thumb-title mt-1 mb-1">{{$company->company_name}}</p></a>
+                                        @if($company->reviews->count() > 0)
                                         <div class="star-rating">
                                             <ul class="list-inline">
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">(35 Reviews)</a></li>
+                                                <li class="list-inline-item">
+                                                    <select class="star-rating-fn">
+                                                        @for($i = 1; $i <= 5; $i++)
+                                                        <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
+                                                        @endfor
+                                                    </select>
+                                                </li>
+                                                <li class="list-inline-item thumb-review"><a href="">({{$company->reviews->count()}} Reviews)</a></li>
                                             </ul>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>

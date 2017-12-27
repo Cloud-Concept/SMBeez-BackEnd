@@ -1,0 +1,137 @@
+@extends('layouts.inner')
+
+@section('content')
+<nav class="dashboard-nav navbar navbar-expand-lg">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent2">
+        @include ('layouts.dashboard-menu')
+    </div>
+</nav>
+<main class="cd-main-content">
+    <section class="dashboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="sidebar-dashboard mb-3">
+                        @if(\Laratrust::hasRole('company|superadmin'))
+                            <div class="dashbord-quickbtn dashbord-quickbtn-single"><a href="{{route('front.project.create')}}"><button class="btn-dash btn-blue btn-yellow">Publish New Project</button></a> <span class="inf">(900 <i>Honeycombs</i>)</span></div>
+                        @endif
+                    </div>
+                    <div class="sidebar-dashboard mb-5">
+                        <ul class="dash-info">
+                            <li>
+                                <i class="fa fa-cubes fa-2x pull-left mr-3" aria-hidden="true"></i>
+                                <div class="pull-right">
+                                    <p class="numb">{{$user->honeycombs ? $user->honeycombs : 0}}</p>
+                                    <p><i><b>Honeycombs</b></i> Earned</p>
+                                    <a href="">My Achievements</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-pie-chart fa-2x pull-left mr-3" aria-hidden="true"></i>
+                                <div class="pull-right">
+                                    <p class="numb">87%</p>
+                                    <p><i><b>Profile</b></i> Completion</p>
+                                    <a href="">Edit Profile</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-folder-open-o fa-2x pull-left mr-3" aria-hidden="true"></i>
+                                <div class="pull-right">
+                                    <p class="numb">{{count($user->projects)}}</p>
+                                    <p>Published <i><b>Projects</b></i></p>
+                                    <a href="">My Projects</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                        <h3><i class="fa fa-thumb-tack fa-rotate-45" aria-hidden="true"></i> Tips</h3>
+                        <p>s conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you</p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="sidebar-updates mt-5">
+                        <h5 class="title-blue">Updates (32)</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
+                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
+                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
+                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
+                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
+                            <li class="list-group-item"><a href="">All Messages</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <nav aria-label="breadcrumb" role="navigation">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">My Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Opportunities Applied</li>
+                        </ol>
+                    </nav>
+                    <h4>My Opportunities ({{count($user->interests)}})</h4>
+                    <table class="table table-striped">
+                        <thead class="thead-blue">
+                            <tr>
+                                <th scope="col">Opportunity name</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Interests</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($user->interests) > 0)
+
+                            @foreach($interested_projects as $project)
+                            <tr>
+                                <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a></td>
+                                @if($project->awarded_to == $user->id)
+                                    <td>Awarded to you</td>
+                                @elseif(!$project->awarded_to)
+                                    <td>Not awarded yet</td>
+                                @else
+                                    <td>Not awarded to you</td>
+                                @endif
+                                <td><a href="{{route('front.project.show', $project->slug)}}">{{count($project->interests) > 0 ? count($project->interests) . ' Express Interests' : 'NA'}}</a></td>
+                            </tr>
+                            @endforeach
+
+                            @endif
+                        </tbody>
+                    </table>
+                    <div class="dashboard-update mt-5">
+                        <h5 class="title-blue">Suggested Projects</h5>
+                        <ul class="list-group">
+                            @foreach($suggested_projects as $project)
+                            
+                                
+                                <li class="list-group-item">
+
+                                    @if(\Laratrust::hasRole('company|superadmin') && !$project->has_interest() && !$project->is_owner($user->id))
+                                        <form action="{{route('express.interest')}}" method="post">
+                                            {{csrf_field()}}
+                                            <input type="hidden" value="{{$project->id}}" name="project_id">
+                                            <button class="btn btn-sm btn-yellow-2 pull-right" type="submit" data-toggle="modal" data-target="#expressInterestModal">Express Interest</button>
+                                        </form>
+                                    @elseif($project->has_interest() && \Laratrust::hasRole('company|superadmin') && !$project->is_owner($user->id))
+                                        <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
+                                            {{csrf_field()}}
+                                            {{ method_field('DELETE') }}
+                                            <input type="hidden" value="{{$project->id}}" name="project_id">
+                                            <div class="text-center"><button class="btn btn-sm btn-yellow-2 pull-right" type="submit" data-toggle="modal" data-target="#expressInterestModal">Withdraw Interest</button></div>
+                                        </form>
+                                    @endif
+
+                                    <h3><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></h3>
+                                    <p class="date">Due Date: {{$project->close_date->toFormattedDateString()}}</p>
+                                    {!! $project->project_description !!}
+
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+@endsection

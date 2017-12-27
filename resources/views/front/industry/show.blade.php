@@ -2,14 +2,14 @@
 
 @section('content')
 <main class="cd-main-content">
-    <section class="hero-company">
+    <section class="hero-project">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Browse more than {{$companies->count()}} SMBeez</h1>
+                    <h1 class="text-center">Discover hundreds of opportunities</h1>
                     <p class="text-center">In your local marketplace</p>
-                    @if (!Auth::guest() && !$hasCompany && \Laratrust::hasRole('user|superadmin'))
-                    <div class="btn-hero text-center"><a href="{{route('front.company.create')}}" class="btn btn-blue">Add your company</a></div>
+                    @if (!Auth::guest() && $hasCompany && \Laratrust::hasRole('company|superadmin'))
+                    <div class="btn-hero text-center"><a href="{{route('front.project.create')}}" class="btn btn-yellow-2">Publish your project</a></div>
                     @endif
                 </div>
             </div>

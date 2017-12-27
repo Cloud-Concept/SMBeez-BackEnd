@@ -7,6 +7,7 @@ use App\Industry;
 use App\Company;
 use App\Speciality;
 use App\Interest;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,6 @@ class ProjectsController extends Controller
         $project->project_description = $request['project_description'];
         $project->budget = $request['budget'];
         $project->status = $request['status'];
-        $project->save_as = $request['save_as'];
         $project->user_id = auth()->id();
         $project->close_date = Carbon::now('Asia/Dubai')->addDays(60);
         $project->company_id = Company::where('user_id', auth()->id())->pluck('id')->first();
@@ -79,6 +79,7 @@ class ProjectsController extends Controller
         }
         //save it to the database 
         $project->save();
+
         //sync project industries
         $project->industries()->sync($request['industry_id'], false);
         //sync project specialities
@@ -106,8 +107,9 @@ class ProjectsController extends Controller
         $relatedprojects = $project->whereHas('industries', function ($q) use ($industries) {
             $q->whereIn('industries.id', $industries);
         })->where('id', '<>', $project->id)
-        ->where('status', '!=', 'closed')
-        ->where('save_as', '!=', 'draft')->take(4)->get();
+        ->where('status', 'publish')
+        ->where('user_id', '!=', auth()->id())
+        ->take(4)->get();
 
         return view('front.project.show', compact('project', 'relatedprojects'));
     }

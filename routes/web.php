@@ -41,7 +41,9 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 });
 
 Route::prefix('user')->group(function() {
-	//Route::get('/dashboard/{user}', 'UserController@frontDashboard')->name('front.user.dashboard');
+	Route::get('/dashboard/{user}', 'UserController@dashboard')->name('front.user.dashboard');
+	Route::get('/dashboard/{user}/myprojects', 'UserController@myprojects')->name('front.user.myprojects');
+	Route::get('/dashboard/{user}/opportunities', 'UserController@opportunities')->name('front.user.opportunities');
 	//Company Module
 	Route::post('/company/store', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@store'])->name('front.company.store');
 	Route::get('/company/create', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@create'])->name('front.company.create');
@@ -51,6 +53,7 @@ Route::prefix('user')->group(function() {
 Route::prefix('companies')->group(function() {
 	Route::get('/all', 'CompaniesController@index')->name('front.company.all');
 	Route::get('/{company}', 'CompaniesController@show')->name('front.company.show');
+	Route::get('/{company}/edit', 'CompaniesController@edit')->name('front.company.edit');
 });
 
 
@@ -69,3 +72,6 @@ Route::prefix('projects')->group(function() {
 //Send Express Interest Request
 Route::post('/interest/store', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@store'])->name('express.interest');
 Route::delete('/interest/delete/{interest}', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@destroy'])->name('withdraw.interest');
+Route::post('/interest/{interest}/accept', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@accept_interest'])->name('accept.interest');
+Route::post('/interest/{interest}/decline', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@decline_interest'])->name('decline.interest');
+Route::post('/review/store', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store'])->name('add.review');
