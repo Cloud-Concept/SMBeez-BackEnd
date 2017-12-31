@@ -38,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
         });
         //register view for dashboard menu
         view()->composer('layouts.dashboard-menu', function ($view) {
+            $company = new \App\Company;
+            $view->with('hascompany',   $company->has_company());
             $view->with('user', auth()->user());
         });
 

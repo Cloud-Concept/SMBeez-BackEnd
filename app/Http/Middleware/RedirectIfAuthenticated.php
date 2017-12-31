@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect(route('front.user.dashboard', Auth::user())); // this is the route that you are sent to if you're already logged in and try to access the /login route
         }
 
         return $next($request);

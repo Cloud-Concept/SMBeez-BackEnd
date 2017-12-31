@@ -24,7 +24,7 @@ class Industry extends Model
 
 	//setting up relationship
     public function companies() {
-        return $this->belongsToMany(Company::class);
+        return $this->hasMany(Company::class);
     }
 
     public function projects() {

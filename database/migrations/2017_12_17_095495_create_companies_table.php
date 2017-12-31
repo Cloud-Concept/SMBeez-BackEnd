@@ -19,6 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->string('company_name');
             $table->string('slug')->unique();
             $table->integer('user_id');
+            $table->integer('industry_id');
             $table->text('company_description');
             $table->string('company_tagline')->nullable();
             $table->string('company_website')->nullable();

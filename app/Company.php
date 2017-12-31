@@ -27,8 +27,8 @@ class Company extends Model
     	return $this->belongsTo(User::class);
     }
 
-    public function industries() {
-        return $this->belongsToMany(Industry::class);
+    public function industry() {
+        return $this->belongsTo(Industry::class);
     }
 
     public function specialities() {

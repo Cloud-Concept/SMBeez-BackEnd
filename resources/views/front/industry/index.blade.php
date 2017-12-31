@@ -1,5 +1,5 @@
 @extends('layouts.inner')
-
+<!-- This file has been removed from the design .. will be deleted on approval -->
 @section('content')
 <main class="cd-main-content">
     <section class="hero-company hero-all">

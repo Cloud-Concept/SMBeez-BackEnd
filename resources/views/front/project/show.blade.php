@@ -14,10 +14,10 @@
                     <div class="box-block-gray">
                         <h3>Project Details <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></h3>
                         <ul class="list-unstyled details-box">
-                            @if(!$project->is_owner(Auth::user()->id))
+                            @if(!Auth::guest() && !$project->is_owner(Auth::user()->id))
 
                                 @if($project->awarded_to == Auth::user()->id)
-                                    <li>Client: <span><a href="{{route('front.company.show', $project->user->companies[0]->slug)}}">{{$project->user->companies[0]->company_name}}</a></span></li>
+                                    <li>Client: <span><a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a></span></li>
                                 @else
                                 <li>Client: <i class="fa fa-lock" aria-hidden="true"></i> <span> Locked</span></li>
                                 @endif
@@ -26,11 +26,11 @@
                                 <div class="pull-left">Client Overall Rating:</div>
                                 <div class="star-rating pull-left">
                                     <ul class="list-inline">
-                                        @if($project->user->companies[0]->reviews->count() > 0)
+                                        @if($project->user->company->reviews->count() > 0)
                                         <li class="list-inline-item">
                                             <select class="star-rating-fn">
                                                 @for($i = 1; $i <= 5; $i++)
-                                                <option value="{{$i}}" {{$i == $project->user->companies[0]->company_overall_rating($project->user->companies[0]->id) ? 'selected' : ''}}>{{$i}}</option>
+                                                <option value="{{$i}}" {{$i == $project->user->company->company_overall_rating($project->user->company->id) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
                                             </select>
                                         </li>
@@ -39,7 +39,7 @@
                                 </div>
                             </li>
                             @endif
-                            <li>Budget: <span>{{$project->budget}} USD</span></li>
+                            <li>Budget: <span>{{$project->budget}} AED</span></li>
                             <li>Industry: <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
                             <li>Speciality: <span>
                                 @foreach($project->specialities as $speciality)
@@ -88,7 +88,7 @@
                 <div class="col-md-8">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.industry.all')}}">All industries</a></li>
+                            <li class="breadcrumb-item"><a href="#">All industries</a></li>
                             <li class="breadcrumb-item"><a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{$project->project_title}}</li>
                         </ol>

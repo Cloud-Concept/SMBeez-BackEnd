@@ -28,10 +28,10 @@
                                 <div class="col-md-4">
                                     <div class="modal-sidebar">
                                         <div class="media-body">
-                                            <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $interest->user->companies[0]->slug)}}">{{$interest->user->companies[0]->company_name}}</a></h5>
-                                            <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $interest->user->companies[0]->industries[0]->slug)}}">{{$interest->user->companies[0]->industries[0]->industry_name}}</a></p>
+                                            <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $interest->user->company->slug)}}">{{$interest->user->company->company_name}}</a></h5>
+                                            <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $interest->user->company->industry->slug)}}">{{$interest->user->company->industry->industry_name}}</a></p>
                                             <p class="tags"><b>Specialities:</b> <span>
-                                                @foreach($interest->user->companies[0]->specialities as $speciality)
+                                                @foreach($interest->user->company->specialities as $speciality)
                                                     {{$speciality->speciality_name}},
                                                 @endforeach
                                             </span></p>
@@ -50,9 +50,9 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="modal-company">
-                                        <p class="tags"><b>Company Size:</b> {{$interest->user->companies[0]->company_size}}</p>
+                                        <p class="tags"><b>Company Size:</b> {{$interest->user->company->company_size}}</p>
                                         <p class="tags"><b>About:</b></p>
-                                        {!! $interest->user->companies[0]->company_description !!}
+                                        {!! $interest->user->company->company_description !!}
                                         <div class="btn-list mt-3 mb-4">
                                             @if($interest->is_accepted === 1)
                                                 <p>Accepted</p>

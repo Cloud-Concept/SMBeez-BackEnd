@@ -33,7 +33,7 @@ class ProjectsController extends Controller
     public function create()
     {
         $industries = new Industry;
-        $industries = $industries->all();
+        $industries = $industries->orderBy('industry_name')->get();
         $speciality = new Speciality;
         $specialities = $speciality->all();
 

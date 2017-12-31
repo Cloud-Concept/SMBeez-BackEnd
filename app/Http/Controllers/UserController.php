@@ -200,8 +200,8 @@ class UserController extends Controller
             $industry = new Industry;
 
             $suggested_projects = $project->whereHas('industries', function ($q) use ($industry) {
-                $user_company = auth()->user()->companies[0];
-                $q->where('industries.id', $user_company->industries[0]->id);
+                $user_company = auth()->user()->company;
+                $q->where('industries.id', $user_company->industry->id);
             })
             ->where('is_promoted', 1)
             ->where('status', 'publish')
@@ -228,8 +228,8 @@ class UserController extends Controller
             $industry = new Industry;
 
             $suggested_projects = $project->whereHas('industries', function ($q) use ($industry) {
-                $user_company = auth()->user()->companies[0];
-                $q->where('industries.id', $user_company->industries[0]->id);
+                $user_company = auth()->user()->company;
+                $q->where('industries.id', $user_company->industry->id);
             })
             ->where('is_promoted', 1)
             ->where('status', 'publish')

@@ -5,13 +5,12 @@
         @if (Auth::guest() || !$hascompany)
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opportunities</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{route('front.industry.all')}}">All Industries</a>
             @foreach($industries as $industry)
             <a class="dropdown-item" href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
             @endforeach
         </div>
         @elseif($hascompany && \Laratrust::hasRole('company|superadmin'))
-        <a class="nav-link" href="{{route('front.industry.show', $mycompany->industries[0]->slug)}}">Opportunities</a>
+        <a class="nav-link" href="{{route('front.industry.show', $mycompany->industry->slug)}}">Opportunities</a>
         @endif
     </li>
     @if (Auth::guest())

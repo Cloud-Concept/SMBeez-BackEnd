@@ -54,11 +54,11 @@ Route::prefix('companies')->group(function() {
 	Route::get('/all', 'CompaniesController@index')->name('front.company.all');
 	Route::get('/{company}', 'CompaniesController@show')->name('front.company.show');
 	Route::get('/{company}/edit', 'CompaniesController@edit')->name('front.company.edit');
+	Route::get('/industries/{industry}', 'CompaniesController@show_industry')->name('front.company.showindustry');
 });
 
 
 Route::prefix('industries')->group(function() {
-	Route::get('/all', 'IndustriesController@index')->name('front.industry.all');
 	Route::get('/{industry}', 'IndustriesController@show')->name('front.industry.show');
 });
 

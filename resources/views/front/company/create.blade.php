@@ -41,8 +41,12 @@
                             </p>
                             <p class="group-control">
                                 <select name="company_size" id="company_size">
-                                    <option value="1-10">1-10</option>
-                                    <option value="10-20">11-20</option>
+                                    <option value="0-1 Employees">0-1 Employees</option>
+                                    <option value="2-10 Employees">2-10 Employees</option>
+                                    <option value="11-50 Employees">11-50 Employees</option>
+                                    <option value="51-200 Employees">51-200 Employees</option>
+                                    <option value="201-500 Employees">201-500 Employees</option>
+                                    <option value="501+ Employees">501+ Employees</option>
                                 </select>
                             </p>
                             <p class="group-control">
@@ -50,8 +54,12 @@
                             </p>
                             <p class="group-control">
                                 <select name="company_type" id="company_type">
-                                    <option value="llc">LLC</option>
-                                    <option value="inc">Inc.</option>
+                                    <option value="Sole Ownership">Sole Ownership</option>
+                                    <option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
+                                    <option value="Free Zone Sole Ownership">Free Zone Sole Ownership</option>
+                                    <option value="Free Zone LLC">Free Zone LLC</option>
+                                    <option value="Public Joint-Stock Company (PJSC)">Public Joint-Stock Company (PJSC)</option>
+                                    <option value="Private Joint-Stock Company (PrJSC)">Private Joint-Stock Company (PrJSC)</option>
                                 </select>
                             </p>
                             <p class="group-control">

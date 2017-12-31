@@ -18,7 +18,7 @@ class IndustriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    /*public function index()
     {   
         $industries = new Industry;
         $industries_1 = $industries->skip(0)->take(3)->get();
@@ -27,7 +27,7 @@ class IndustriesController extends Controller
         $industries_4 = $industries->skip(8)->take(3)->get();
         $industries = $industries->pluck('id');
         return view('front.industry.index', compact('industries','industries_1','industries_2','industries_3','industries_4'));
-    }
+    }*/
 
     /**
      * Show the form for creating a new resource.
@@ -99,21 +99,25 @@ class IndustriesController extends Controller
      */
     public function show(Industry $industry)
     {   
-        //get the current user company
-        if(!Auth::guest()) {
+        $company = new Company;
+        //check if the user has a company
+        $hasCompany = $company->where('user_id', Auth::id())->first();
 
-            $user_company = Auth::user()->companies[0];
+        //get the current user company if the user already has company
+        if(!Auth::guest() && $hasCompany) {
 
-            if($user_company->industries[0]->id != $industry->id) {
-                return redirect(route('front.industry.show', $user_company->industries[0]->slug));
+            $user_company = Auth::user()->company;
+
+            if($user_company->industry->id != $industry->id) {
+                return redirect(route('front.industry.show', $user_company->industry->slug));
             }
 
         }
 
         $industries = $industry->all();
-        $company = new Company;
+        
         $companies = $company->all();
-        $hasCompany = $company->where('user_id', Auth::id())->first();
+        
         $project = new Project;
         //show featured projects from the same industry
         $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {

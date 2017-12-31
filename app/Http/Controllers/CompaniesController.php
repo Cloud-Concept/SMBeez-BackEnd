@@ -26,16 +26,34 @@ class CompaniesController extends Controller
     public function index()
     {   
         $company = new Company;
+        $user = Auth::user();
+
         $hasCompany = $company->where('user_id', Auth::id())->first();
         $industries = Industry::all();
-        $companies = $company->all();
-        $featured_companies = $company->where('is_promoted', 1)
-        ->where('status', '!=', '0')
-        ->orderBy(DB::raw('RAND()'))
-        ->take(2)
-        ->get();
 
-        return view('front.company.index', compact('companies', 'hasCompany', 'industries', 'featured_companies', 'company_overall_rating'));
+        //if user logged in so get companies from his profile city
+        if($user) {
+            $companies = $company->where('city', Auth::user()->user_city)->get();
+            $featured_companies = $company->where('is_promoted', 1)
+            ->where('status', '!=', '0')
+            ->where('city', Auth::user()->user_city)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+        }else {
+            //this will be changed to the selected country from the menu
+            $companies = $company->all();
+
+            $featured_companies = $company->where('is_promoted', 1)
+            ->where('status', '!=', '0')
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+        }   
+
+        
+
+        return view('front.company.index', compact('companies', 'hasCompany', 'industries', 'featured_companies'));
     }
 
     /**
@@ -50,7 +68,7 @@ class CompaniesController extends Controller
             return redirect(route('front.company.all'));
         }else {
             $industries = new Industry;
-            $industries = $industries->all();
+            $industries = $industries->orderBy('industry_name')->get();
             $speciality = new Speciality;
             $specialities = $speciality->all();
             return view('front.company.create', compact('industries', 'specialities'));
@@ -90,6 +108,7 @@ class CompaniesController extends Controller
 
             $company->company_name = $request['company_name'];
             $company->user_id = auth()->id();
+            $company->industry_id = $request['industry_id'];
             $company->company_description = $request['company_description'];
             $company->company_tagline = $request['company_tagline'];
             $company->company_website = $request['company_website'];
@@ -155,8 +174,6 @@ class CompaniesController extends Controller
 
             //save it to the database 
             $company->save();
-            //sync company industries
-            $company->industries()->sync($request['industry_id'], false);
             //sync company specialities
             $company->specialities()->sync($request['speciality_id'], false);
             //change current user to company role
@@ -192,7 +209,7 @@ class CompaniesController extends Controller
 
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
-        
+
         if($company->reviews->count() > 0) {
             //sum of all reviews rates
             $customer_overall = DB::table('reviews')
@@ -205,7 +222,9 @@ class CompaniesController extends Controller
             foreach ($customer_overall[0] as $key => $value) {
                 $value = (int)$value;
             }
-            $customer_overall = ceil($value / ($customer_reviews->count() * 4));
+            if($value > 0) {
+                $customer_overall = ceil($value / ($customer_reviews->count() * 4));
+            }   
 
             //sum of all reviews rates
             $suppliers_overall = DB::table('reviews')
@@ -218,7 +237,9 @@ class CompaniesController extends Controller
             foreach ($suppliers_overall[0] as $key => $value) {
                 $value = (int)$value;
             }
-            $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 4));
+            if($value > 0) {
+                $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 4));
+            }
         }
         
         return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews', 'customer_overall', 'suppliers_overall'));
@@ -262,5 +283,23 @@ class CompaniesController extends Controller
     public function destroy(Company $company)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show_industry(Industry $industry)
+    {   
+        $company = new Company;
+        $hasCompany = $company->where('user_id', Auth::id())->first();
+        $featured_companies = $company->where('is_promoted', 1)
+        ->where('status', '!=', '0')
+        ->orderBy(DB::raw('RAND()'))
+        ->take(2)
+        ->get();
+
+        return view('front.company.showindustry', compact('hasCompany', 'featured_companies', 'industry'));
     }
 }

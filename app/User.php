@@ -31,8 +31,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     //company relationship
-    public function companies() {
-        return $this->hasMany(Company::class);
+    public function company() {
+        return $this->hasOne(Company::class);
     }
 
     //project relationship

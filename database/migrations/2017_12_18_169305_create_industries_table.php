@@ -14,7 +14,6 @@ class CreateIndustriesTable extends Migration
     public function up()
     {   
         Schema::dropIfExists('industries');
-        Schema::dropIfExists('company_industry');
         Schema::dropIfExists('industry_project');
         Schema::create('industries', function (Blueprint $table) {
             $table->increments('id');
@@ -22,12 +21,6 @@ class CreateIndustriesTable extends Migration
             $table->string('slug');
             $table->string('industry_img_url');
             $table->timestamps();
-        });
-
-        Schema::create('company_industry', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('company_id')->unsigned();
-            $table->integer('industry_id')->unsigned();
         });
 
         Schema::create('industry_project', function (Blueprint $table) {

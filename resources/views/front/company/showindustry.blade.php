@@ -10,8 +10,6 @@
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && !$hasCompany && \Laratrust::hasRole('user|superadmin'))
                     <div class="btn-hero text-center"><a href="{{route('front.company.create')}}" class="btn btn-blue">Add your company</a></div>
-                    @elseif(Auth::guest())
-                    <div class="btn-hero text-center"><a href="{{route('login')}}" class="btn btn-blue">Add your company</a></div>
                     @endif
                 </div>
             </div>
@@ -47,7 +45,9 @@
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>
                                 <p class="tags">More in: 
-                                    <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    @foreach($company->industries as $industry)
+                                        <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
+                                    @endforeach
                                 </p>
                                 <p class="tags"><b>Specialities:</b>
                                     @foreach($company->specialities as $speciality)
@@ -57,8 +57,9 @@
                             </div>
                         </div>
                         @endforeach
-
-                        @foreach($companies as $company)
+                        {{$industry->industry_name}}
+                        {{$industry->companies}}
+                        @foreach($industry->companies as $company)
                         <div class="col-md-12 mt-2">
                             <div class="company-box company-box-side box-block mb-5">
                                 <div class="company-box-header media">
@@ -83,7 +84,9 @@
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>
                                 <p class="tags">More in:
-                                    <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    @foreach($company->industries as $industry)
+                                        <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
+                                    @endforeach
                                 </p>
                                 <p class="tags"><b>Specialities:</b> 
                                     @foreach($company->specialities as $speciality)

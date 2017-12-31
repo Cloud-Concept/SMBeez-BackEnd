@@ -12,7 +12,7 @@
                         <div class="p-3">
                             <h2 class="mt-2"><i class="fa fa-address-card" aria-hidden="true"></i> {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
-                                <li>Industry: <a href="{{route('front.industry.show', $company->industries[0]->slug)}}">{{$company->industries[0]->industry_name}}</a></li>
+                                <li>Industry: <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
                                 <li>Speciality: <span>
                                     @foreach($company->specialities as $speciality)
                                         {{$speciality->speciality_name . ','}} 
@@ -81,8 +81,8 @@
                     </div>
                     <div class="company-tabs">
                         <ul class="nav d-flex nav-tabs mt-5" id="myTab" role="tablist">
-                            <li class="nav-item"><a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Profile</a></li>
-                            <li class="nav-item"><a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Reviews from Customers</a></li>
+                            <li class="nav-item"><a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews from Customers</a></li>
                             <li class="nav-item mr-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Reviews from Suppliers</a></li>
                             @if(!Auth::guest() && !$company->is_owner(Auth::user()->id))
                             <li><button class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write a Review</button></li>
@@ -100,9 +100,7 @@
                                             <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
                                             <p>{{strip_tags($project->project_description)}}</p>
                                             <p class="tags">More in: 
-                                                @foreach($company->industries as $industry)
-                                                    <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
-                                                @endforeach
+                                                <a href="{{route('front.industry.show', $industry->slug)}}">{{$company->industry->industry_name}}</a>
                                             </p>
                                         </div>
                                     </div> 
@@ -113,6 +111,7 @@
                             <div class="review-bar">
                                 <div class="star-rating">
                                     <ul class="list-inline">
+                                        @if($customer_reviews->count() > 0)
                                         <li class="list-inline-item">
                                             @if($company->reviews->count() > 0)
                                             <select class="star-rating-fn">
@@ -122,6 +121,7 @@
                                             </select>
                                             @endif
                                         </li>
+                                        @endif
                                         <li class="list-inline-item thumb-review"><a href="">(Customers Overall Rating)</a></li>
                                         <li class="list-inline-item thumb-review"><a href="">({{$customer_reviews->count()}} Reviews from Customers)</a></li>
                                     </ul>
@@ -135,7 +135,7 @@
                                         <div class="col-md-2"><img class="img-fluid img-full mb-3" src="../images/media/placeholder.png" alt="Generic placeholder image"></div>
                                         <div class="col-lg-7 col-md-10 mb-4">
                                             @if($review->review_privacy === 'public')
-                                            <h5 class="mt-0">{{$review->user->companies[0]->company_name}}</h5>
+                                            <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
                                             @elseif($review->review_privacy === 'private')
                                             <h5 class="mt-0">Anonymous</h5>
                                             @endif
@@ -219,6 +219,7 @@
                             <div class="review-bar">
                                 <div class="star-rating">
                                     <ul class="list-inline">
+                                        @if($suppliers_reviews->count() > 0)
                                         <li class="list-inline-item">
                                             @if($company->reviews->count() > 0)
                                             <select class="star-rating-fn">
@@ -228,6 +229,7 @@
                                             </select>
                                             @endif
                                         </li>
+                                        @endif
                                         <li class="list-inline-item thumb-review"><a href="">(Suppliers Overall Rating)</a></li>
                                         <li class="list-inline-item thumb-review"><a href="">({{$suppliers_reviews->count()}} Reviews from Suppliers)</a></li>
                                     </ul>
@@ -241,7 +243,7 @@
                                         <div class="col-md-2"><img class="img-fluid img-full mb-3" src="../images/media/placeholder.png" alt="Generic placeholder image"></div>
                                         <div class="col-lg-7 col-md-10 mb-4">
                                             @if($review->review_privacy === 'public')
-                                            <h5 class="mt-0">{{$review->user->companies[0]->company_name}}</h5>
+                                            <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
                                             @elseif($review->review_privacy === 'private')
                                             <h5 class="mt-0">Anonymous</h5>
                                             @endif
