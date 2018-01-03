@@ -13,6 +13,9 @@
         <a class="nav-link" href="{{route('front.industry.show', $mycompany->industry->slug)}}">Opportunities</a>
         @endif
     </li>
+    <li class="nav-item dropdown flags-dropdown">
+        <a class="nav-link" href="#"><span class="flag-icon flag-icon-ae"></span></a>
+    </li>
     @if (Auth::guest())
     <li><a href="{{ route('login') }}">Sign in</a></li>
     @else

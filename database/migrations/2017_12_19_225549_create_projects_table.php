@@ -18,15 +18,14 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('project_title');
             $table->string('slug');
-            $table->string('project_description');
+            $table->text('project_description');
             $table->integer('user_id');
             $table->integer('company_id');
             $table->string('city')->nullable();
             $table->string('budget');
             $table->string('status');
-            $table->timestamp('close_date');
+            $table->date('close_date');
             $table->string('status_on_close')->nullable();
-            $table->integer('awarded_to')->nullable();
             $table->string('supportive_docs')->nullable();
             $table->integer('is_promoted')->nullable();
             $table->timestamps();

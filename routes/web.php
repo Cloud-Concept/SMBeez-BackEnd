@@ -66,6 +66,7 @@ Route::prefix('projects')->group(function() {
 	Route::post('/store', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@store'])->name('front.project.store');
 	Route::get('/create', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@create'])->name('front.project.create');
 	Route::get('/{project}', 'ProjectsController@show')->name('front.project.show');
+	Route::post('close/{project}', 'ProjectsController@close')->name('front.project.close');
 });
 
 

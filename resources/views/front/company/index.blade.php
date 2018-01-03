@@ -33,19 +33,23 @@
                                     <a href="{{route('front.company.show', $company->slug)}}" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
                                     <div class="media-body">
                                         <a href="{{route('front.company.show', $company->slug)}}"><p class="thumb-title mt-1 mb-1">{{$company->company_name}}</p></a>
+                                        @if($company->reviews->count() > 0)
                                         <div class="star-rating">
                                             <ul class="list-inline">
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">({{$company->reviews->count()}} Reviews)</a></li>
+                                                <li class="list-inline-item">
+                                                    <select class="star-rating-ro">
+                                                        @for($i = 1; $i <= 5; $i++)
+                                                        <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
+                                                        @endfor
+                                                    </select>
+                                                </li>
+                                                <li class="list-inline-item thumb-review"><a href="{{route('front.company.show', $company->slug)}}">({{$company->reviews->count()}} Reviews)</a></li>
                                             </ul>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
-                                <p>{{strip_tags($company->company_description)}}</p>
+                                <p>{{strip_tags(substr($company->company_description, 0, 180))}}</p>
                                 <p class="tags">More in: 
                                     <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
@@ -57,7 +61,8 @@
                             </div>
                         </div>
                         @endforeach
-
+                    </div>
+                    <div class="row equal infinite-scroll">
                         @foreach($companies as $company)
                         <div class="col-md-12 mt-2">
                             <div class="company-box company-box-side box-block mb-5">
@@ -69,19 +74,19 @@
                                         <div class="star-rating">
                                             <ul class="list-inline">
                                                 <li class="list-inline-item">
-                                                    <select class="star-rating-fn">
+                                                    <select class="star-rating-ro">
                                                         @for($i = 1; $i <= 5; $i++)
                                                         <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
                                                         @endfor
                                                     </select>
                                                 </li>
-                                                <li class="list-inline-item thumb-review"><a href="">({{$company->reviews->count()}} Reviews)</a></li>
+                                                <li class="list-inline-item thumb-review"><a href="{{route('front.company.show', $company->slug)}}">({{$company->reviews->count()}} Reviews)</a></li>
                                             </ul>
                                         </div>
                                         @endif
                                     </div>
                                 </div>
-                                <p>{{strip_tags($company->company_description)}}</p>
+                                <p>{{strip_tags(substr($company->company_description, 0, 180))}}</p>
                                 <p class="tags">More in:
                                     <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
@@ -93,10 +98,13 @@
                             </div>
                         </div>
                         @endforeach
+
+                        {{$companies->links()}}
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
+
 @endsection

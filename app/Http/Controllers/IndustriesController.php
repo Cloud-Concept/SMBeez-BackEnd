@@ -125,6 +125,7 @@ class IndustriesController extends Controller
         })
         ->where('is_promoted', 1)
         ->where('status', 'publish')
+        ->where('city', Auth::user()->user_city)
         ->orderBy(DB::raw('RAND()'))
         ->take(2)
         ->get();

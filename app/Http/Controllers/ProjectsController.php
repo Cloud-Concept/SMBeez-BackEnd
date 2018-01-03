@@ -101,6 +101,8 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {   
+        //if access deleted project redirect home
+        if($project->status == 'deleted') return redirect(route('home'));
         //get projects within the same industry
         $industries = $project->industries->modelKeys();
         //find the related projects to the industry and exclude the draft and closed projects
@@ -146,5 +148,18 @@ class ProjectsController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    /**
+     * Close the specified project.
+     *
+     * @param  \App\Project  $project
+     * @return \Illuminate\Http\Response
+     */
+    public function close(Project $project)
+    {   
+        $project->where('id', $project->id)->update(['status' => 'closed', 'status_on_close' => 'by_owner']);
+
+        return redirect(route('front.user.myprojects', $project->user->username));
     }
 }

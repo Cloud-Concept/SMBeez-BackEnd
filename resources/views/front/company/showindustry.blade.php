@@ -57,8 +57,7 @@
                             </div>
                         </div>
                         @endforeach
-                        {{$industry->industry_name}}
-                        {{$industry->companies}}
+
                         @foreach($industry->companies as $company)
                         <div class="col-md-12 mt-2">
                             <div class="company-box company-box-side box-block mb-5">

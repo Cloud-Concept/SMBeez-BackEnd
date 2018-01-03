@@ -65,7 +65,7 @@
                                 <div class="star-rating">
                                     <ul class="list-inline">
                                         <li class="list-inline-item">
-                                            <select class="star-rating-fn">
+                                            <select class="star-rating-ro">
                                                 @for($i = 1; $i <= 5; $i++)
                                                 <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
@@ -114,7 +114,7 @@
                                         @if($customer_reviews->count() > 0)
                                         <li class="list-inline-item">
                                             @if($company->reviews->count() > 0)
-                                            <select class="star-rating-fn">
+                                            <select class="star-rating-ro">
                                                 @for($i = 1; $i <= 5; $i++)
                                                 <option value="{{$i}}" {{$i == $customer_overall ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
@@ -156,7 +156,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->overall_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -170,7 +170,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->selection_process_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -184,7 +184,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->money_value_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -198,7 +198,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->delivery_quality_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -222,7 +222,7 @@
                                         @if($suppliers_reviews->count() > 0)
                                         <li class="list-inline-item">
                                             @if($company->reviews->count() > 0)
-                                            <select class="star-rating-fn">
+                                            <select class="star-rating-ro">
                                                 @for($i = 1; $i <= 5; $i++)
                                                 <option value="{{$i}}" {{$i == $suppliers_overall ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
@@ -264,7 +264,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->overall_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -278,7 +278,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->selection_process_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -292,7 +292,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->money_value_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
@@ -306,7 +306,7 @@
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
-                                                                <select class="star-rating-fn">
+                                                                <select class="star-rating-ro">
                                                                     @for($i = 1; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->delivery_quality_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor

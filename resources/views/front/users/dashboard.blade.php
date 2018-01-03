@@ -89,7 +89,7 @@
 
                                     <td>Expired on {{$project->close_date->toFormattedDateString()}}</td>
 
-                                @elseif($project->status == 'closed' && $project->status_on_close == 'awarded')
+                                @elseif($project->status == 'closed' && $project->status_on_close == 'by_owner')
 
                                     <td>Closed</td>
 
@@ -120,12 +120,15 @@
                             @foreach($interested_projects as $project)
                             <tr>
                                 <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a></td>
-                                @if($project->awarded_to == $user->id)
-                                    <td>Awarded to you</td>
-                                @elseif(!$project->awarded_to)
-                                    <td>Not awarded yet</td>
-                                @else
-                                    <td>Not awarded to you</td>
+
+                                @if($project->interest_status() == 1)
+                                    <td>Interest Accepted
+                                        <br><span><a href="{{route('front.company.show', $project->user->company->slug)}}">Contact Client</a></span>
+                                    </td>
+                                @elseif(is_null($project->interest_status()))
+                                    <td>Waiting for Client</td>
+                                @elseif($project->interest_status() == 0)
+                                    <td>Interest Rejected</td>
                                 @endif
                                 <td><a href="{{route('front.project.show', $project->slug)}}">{{count($project->interests) > 0 ? count($project->interests) . ' Express Interests' : 'NA'}}</a></td>
                             </tr>

@@ -94,7 +94,7 @@
 
                                     <td>Expired on {{$project->close_date->toFormattedDateString()}}</td>
 
-                                @elseif($project->status == 'closed' && $project->status_on_close == 'awarded')
+                                @elseif($project->status == 'closed' && $project->status_on_close == 'by_owner')
 
                                     <td>Closed</td>
 
@@ -110,7 +110,7 @@
                         </tbody>
                     </table>
                     <div class="dashboard-update mt-5">
-                        <h5 class="title-blue">Suggested Projects</h5>
+                        <h5 class="title-blue">Suggested Opportunities</h5>
                         <ul class="list-group">
                             @foreach($suggested_projects as $project)
                             
@@ -134,7 +134,7 @@
 
                                     <h3><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></h3>
                                     <p class="date">Due Date: {{$project->close_date->toFormattedDateString()}}</p>
-                                    {!! $project->project_description !!}
+                                    {!! substr($project->project_description, 0, 150) !!}
 
                                 </li>
                             @endforeach

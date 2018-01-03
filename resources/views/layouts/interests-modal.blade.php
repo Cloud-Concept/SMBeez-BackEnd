@@ -52,7 +52,7 @@
                                     <div class="modal-company">
                                         <p class="tags"><b>Company Size:</b> {{$interest->user->company->company_size}}</p>
                                         <p class="tags"><b>About:</b></p>
-                                        {!! $interest->user->company->company_description !!}
+                                        {!! substr($interest->user->company->company_description, 0, 400) !!}
                                         <div class="btn-list mt-3 mb-4">
                                             @if($interest->is_accepted === 1)
                                                 <p>Accepted</p>

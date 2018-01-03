@@ -16,28 +16,28 @@
                         <ul class="list-unstyled details-box">
                             @if(!Auth::guest() && !$project->is_owner(Auth::user()->id))
 
-                                @if($project->awarded_to == Auth::user()->id)
+                                @if($project->has_interest() && $project->interest_status() == 1)
                                     <li>Client: <span><a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a></span></li>
                                 @else
                                 <li>Client: <i class="fa fa-lock" aria-hidden="true"></i> <span> Locked</span></li>
                                 @endif
 
-                            <li>
-                                <div class="pull-left">Client Overall Rating:</div>
-                                <div class="star-rating pull-left">
-                                    <ul class="list-inline">
-                                        @if($project->user->company->reviews->count() > 0)
-                                        <li class="list-inline-item">
-                                            <select class="star-rating-fn">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                <option value="{{$i}}" {{$i == $project->user->company->company_overall_rating($project->user->company->id) ? 'selected' : ''}}>{{$i}}</option>
-                                                @endfor
-                                            </select>
-                                        </li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            </li>
+                                <li>
+                                    <div class="pull-left">Client Overall Rating:</div>
+                                    <div class="star-rating pull-left">
+                                        <ul class="list-inline">
+                                            @if($project->user->company->reviews->count() > 0)
+                                            <li class="list-inline-item">
+                                                <select class="star-rating-ro">
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                    <option value="{{$i}}" {{$i == $project->user->company->company_overall_rating($project->user->company->id) ? 'selected' : ''}}>{{$i}}</option>
+                                                    @endfor
+                                                </select>
+                                            </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </li>
                             @endif
                             <li>Budget: <span>{{$project->budget}} AED</span></li>
                             <li>Industry: <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
@@ -56,7 +56,7 @@
 
                                     <span>Expired on {{$project->close_date->toFormattedDateString()}}</span>
 
-                                @elseif($project->status == 'closed' && $project->status_on_close == 'awarded')
+                                @elseif($project->status == 'closed' && $project->status_on_close == 'by_owner')
 
                                     <span>Closed</span>
 
@@ -81,6 +81,11 @@
                             {{ method_field('DELETE') }}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
                             <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Withdraw Interest</button></div>
+                        </form>
+                        @elseif($project->is_owner(Auth::user()->id) && $project->status != 'closed')
+                        <form action="{{route('front.project.close', $project->slug)}}" method="post">
+                            {{csrf_field()}}
+                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Close Project</button></div>
                         </form>
                         @endif
                     </div>

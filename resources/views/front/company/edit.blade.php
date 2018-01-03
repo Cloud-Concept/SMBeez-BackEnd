@@ -53,9 +53,13 @@
                         <div class="d-flex justify-content-between">
                             <div><a href="" class="edit-thumb"><i class="fa fa-pencil-square-o align-self-center" aria-hidden="true"></i></a></div>
                             <div class="media-body px-3">
-                                <h5 class="mt-1 mb-2">Cloud Concept</h5>
-                                <p class="tags"><b>Industry</b>:<a href="">Manufacturing, Transportation and Warehousing</a></p>
-                                <p class="tags"><b>Specialities:</b> <span>Electrical Supplies, Sales force, Electrical Supplies, Sales force</span></p>
+                                <h5 class="mt-1 mb-2">{{$company->company_name}}</h5>
+                                <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></p>
+                                <p class="tags"><b>Specialities:</b> <span>
+                                    @foreach($company->specialities as $speciality)
+                                        {{$speciality->speciality_name}},
+                                    @endforeach
+                                </span></p>
                             </div>
                             <div><a href="{{route('front.company.show', $company->slug)}}" class="btn btn-sm btn-blue btn-yellow">Preview</a></div>
                         </div>
@@ -75,31 +79,31 @@
                             <tbody>
                                 <tr>
                                     <td scope="row"><b>Company name</b></td>
-                                    <td><input class="input-control" type="text" name="company_name" value="{{$company->company_name}}" id="company_name"></td>
+                                    <td><input class="form-control" type="text" name="company_name" value="{{$company->company_name}}" id="company_name"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Company Tag Line</b></td>
-                                    <td><input class="input-control" type="text" name="company_tagline" value="{{$company->company_tagline}}" id="company_tagline"></td>
+                                    <td><input class="form-control" type="text" name="company_tagline" value="{{$company->company_tagline}}" id="company_tagline"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Website</b></td>
-                                    <td><input class="input-control" type="url" name="company_website" value="{{$company->company_website}}" id="company_website"></td>
+                                    <td><input class="form-control" type="url" name="company_website" value="{{$company->company_website}}" id="company_website"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Email</b></td>
-                                    <td><input class="input-control" type="email" name="company_email" value="{{$company->company_email}}" id="company_email"></td>
+                                    <td><input class="form-control" type="email" name="company_email" value="{{$company->company_email}}" id="company_email"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Phone</b></td>
-                                    <td><input class="input-control" type="number" name="company_phone" value="{{$company->company_phone}}" id="company_phone"></td>
+                                    <td><input class="form-control" type="number" name="company_phone" value="{{$company->company_phone}}" id="company_phone"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>LinkedIn Profile</b></td>
-                                    <td><input class="input-control" type="url" name="linkedin_url" value="{{$company->linkedin_url}}" id="linkedin_url"></td>
+                                    <td><input class="form-control" type="url" name="linkedin_url" value="{{$company->linkedin_url}}" id="linkedin_url"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>City</b></td>
-                                    <td><input class="input-control" type="text" name="city" value="{{$company->city}}" id="city"></td>
+                                    <td><input class="form-control" type="text" name="city" value="{{$company->city}}" id="city"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Company Size</b></td>
@@ -110,7 +114,7 @@
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Year Founded</b></td>
-                                    <td><input class="input-control" type="text" name="year_founded" value="{{$company->year_founded}}" id="year_founded"></td>
+                                    <td><input class="form-control" type="text" name="year_founded" value="{{$company->year_founded}}" id="year_founded"></td>
                                 </tr>
                                 <tr>
                                     <td scope="row"><b>Company Type</b></td>
@@ -126,9 +130,9 @@
                         <div class="registration-details">
                             <h5 class="title-blue">Registration details <a href="">Edit</a></h5>
                             <div class="p-3">
-                                <p>Registration Number : <input class="input-control" type="text" name="reg_number" value="{{$company->reg_number}}" id="reg_number"></p>
+                                <p>Registration Number : <input class="form-control" type="text" name="reg_number" value="{{$company->reg_number}}" id="reg_number"></p>
                                 <br>
-                                <p>Date of Registration : <input class="input-control" type="date" name="reg_date" value="{{$company->reg_date}}" id="reg_date"></p>
+                                <p>Date of Registration : <input class="form-control" type="date" name="reg_date" value="{{$company->reg_date}}" id="reg_date"></p>
                                 <a href="" class="btn btn-sm btn-yellow-2 mt-3">Upload Document</a>
                             </div>
                         </div>

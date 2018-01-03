@@ -154,12 +154,29 @@
         <script src="{{ asset('js/main.js') }}"></script>
         <script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script src="{{ asset('js/jquery.jscroll.js') }}"></script>
 
         <script type="text/javascript">
             google.maps.event.addDomListener(window, 'load', function () {
                 var places = new google.maps.places.Autocomplete(document.getElementById('location'));
                 google.maps.event.addListener(places, 'place_changed', function () {
 
+                });
+            });
+        </script>
+
+        <script type="text/javascript">
+            $('ul.pagination').hide();
+            $(function() {
+                $('.infinite-scroll').jscroll({
+                    autoTrigger: true,
+                    loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+                    padding: 0,
+                    nextSelector: '.pagination li.active + li a',
+                    contentSelector: 'div.infinite-scroll',
+                    callback: function() {
+                        $('ul.pagination').remove();
+                    }
                 });
             });
         </script>

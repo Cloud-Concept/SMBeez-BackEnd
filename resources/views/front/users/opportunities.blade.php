@@ -84,12 +84,14 @@
                             @foreach($interested_projects as $project)
                             <tr>
                                 <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a></td>
-                                @if($project->awarded_to == $user->id)
-                                    <td>Awarded to you</td>
-                                @elseif(!$project->awarded_to)
-                                    <td>Not awarded yet</td>
-                                @else
-                                    <td>Not awarded to you</td>
+                                @if($project->interest_status() == 1)
+                                    <td>Interest Accepted
+                                        <br><span><a href="{{route('front.company.show', $project->user->company->slug)}}">Contact Client</a></span>
+                                    </td>
+                                @elseif(is_null($project->interest_status()))
+                                    <td>Waiting for Client</td>
+                                @elseif($project->interest_status() == 0)
+                                    <td>Interest Rejected</td>
                                 @endif
                                 <td><a href="{{route('front.project.show', $project->slug)}}">{{count($project->interests) > 0 ? count($project->interests) . ' Express Interests' : 'NA'}}</a></td>
                             </tr>
@@ -99,7 +101,7 @@
                         </tbody>
                     </table>
                     <div class="dashboard-update mt-5">
-                        <h5 class="title-blue">Suggested Projects</h5>
+                        <h5 class="title-blue">Suggested Opportunities</h5>
                         <ul class="list-group">
                             @foreach($suggested_projects as $project)
                             
@@ -123,7 +125,7 @@
 
                                     <h3><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></h3>
                                     <p class="date">Due Date: {{$project->close_date->toFormattedDateString()}}</p>
-                                    {!! $project->project_description !!}
+                                    {!! substr($project->project_description, 0, 150) !!}
 
                                 </li>
                             @endforeach

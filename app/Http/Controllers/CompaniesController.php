@@ -33,22 +33,25 @@ class CompaniesController extends Controller
 
         //if user logged in so get companies from his profile city
         if($user) {
-            $companies = $company->where('city', Auth::user()->user_city)->get();
+            
             $featured_companies = $company->where('is_promoted', 1)
             ->where('status', '!=', '0')
             ->where('city', Auth::user()->user_city)
             ->orderBy(DB::raw('RAND()'))
             ->take(2)
             ->get();
+
+            $companies = $company->where('city', Auth::user()->user_city)->paginate(1);
         }else {
             //this will be changed to the selected country from the menu
-            $companies = $company->all();
 
             $featured_companies = $company->where('is_promoted', 1)
             ->where('status', '!=', '0')
             ->orderBy(DB::raw('RAND()'))
             ->take(2)
             ->get();
+
+            $companies = $company->paginate(1);
         }   
 
         

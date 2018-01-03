@@ -50,6 +50,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|min:3|unique:users',
+            'user_city' => 'required',
+            'phone' => 'required|min:5',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -67,9 +70,12 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'username' => $data['username'],
+            'user_city' => $data['user_city'],
+            'phone' => $data['phone'],
             'honeycombs' => 0,
         ]);
-
+        // set user role as user (4) is user role id
         $user->roles()->attach(4);
         
         return $user;

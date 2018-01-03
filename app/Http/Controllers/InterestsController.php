@@ -43,7 +43,7 @@ class InterestsController extends Controller
         
         $interest->where('id', $interest->id)->update(['is_accepted' => 1]);
 
-        $interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
+        //$interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
 
         return back();
     }

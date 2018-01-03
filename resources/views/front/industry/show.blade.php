@@ -27,7 +27,7 @@
                         <div class="col-md-6">
                             <div class="project-box box-block">
                                 <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
-                                <p>{{strip_tags($project->project_description)}}</p> 
+                                <p>{{strip_tags(substr($project->project_description, 0, 100))}}</p> 
                                 <p class="tags">More in: 
                                     <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
                                 </p>
@@ -39,7 +39,7 @@
                         <div class="col-md-12 mt-5">
                             <div class="project-box project-box-side box-block">
                                 <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
-                                <p>{{strip_tags($project->project_description)}}</p> 
+                                <p>{{strip_tags(substr($project->project_description, 0, 150))}}</p> 
                                 <p class="tags">More in: 
                                     <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
                                 </p>
