@@ -23,21 +23,21 @@
                                         <form class="form-signin my-4" method="POST" action="{{ route('login') }}">
                                             {{ csrf_field() }}
                                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
+                                                <input id="email" type="email" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
 
                                                 @if ($errors->has('email'))
-                                                    <div class="invalid-feedback">
-                                                        <strong>{{ $errors->first('email') }}</strong>
+                                                    <div class="text-left invalid-feedback">
+                                                        {{ $errors->first('email') }}
                                                     </div>
                                                 @endif
                                             </div>
 
                                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                                <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
+                                                <input id="password" type="password" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}" name="password" placeholder="Password" required>
 
                                                 @if ($errors->has('password'))
-                                                    <div class="invalid-feedback">
-                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    <div class="text-left invalid-feedback">
+                                                        {{ $errors->first('password') }}
                                                     </div>
                                                 @endif
                                             </div>
@@ -55,82 +55,82 @@
                             <div class="tab-pane fade" id="create-account" role="tabpanel" aria-labelledby="create-account-tab">
                                 <h2 class="py-2 text-center">
                                     Create your new SMBeez account
-                                    <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
-                                    <p class="text-center my-3">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can</p>
-                                    <form class="form-signin my-4" method="POST" action="{{ route('register') }}">
-                                        {{ csrf_field() }}
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
-                                                <input id="name" type="text" class="form-control is-invalid" name="name" placeholder="Full Name" value="{{ old('name') }}" required autofocus>
-
-                                                @if ($errors->has('name'))
-                                                    <div class="invalid-feedback">
-                                                        <strong>{{ $errors->first('name') }}</strong>
-                                                    </div>
-                                                @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="col">
-                                                <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
-                                                <input id="email" type="email" class="form-control is-invalid" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
-
-                                                @if ($errors->has('email'))
-                                                    <div class="invalid-feedback">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </div>
-                                                @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
-                                                <input id="password" type="password" class="form-control is-invalid" name="password" placeholder="Password" required>
-
-                                                @if ($errors->has('password'))
-                                                    <div class="invalid-feedback">
-                                                        <strong>{{ $errors->first('password') }}</strong>
-                                                    </div>
-                                                @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="col">
-                                                <div class="">
-                                                <input id="password-confirm" type="password" class="form-control is-invalid" name="password_confirmation" placeholder="Confirm Password" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="{{ $errors->has('username') ? ' has-error' : '' }}">
-                                                <input id="username" type="text" class="form-control is-invalid" name="username" placeholder="Username" value="{{ old('username') }}" required>
-
-                                                @if ($errors->has('username'))
-                                                    <div class="invalid-feedback">
-                                                        <strong>{{ $errors->first('username') }}</strong>
-                                                    </div>
-                                                @endif
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <input id="phone" type="text" class="form-control is-invalid" name="phone" placeholder="Phone No." value="{{ old('phone') }}" required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col"><input type="file" class="form-control is-invalid" name="profile_pic_url"></div>
-                                            <div class="col">
-                                                <select name="user_city" class="form-control custom-select d-block" required>
-                                                    <option value="">Select your City</option>
-                                                    <option value="Dubai">Dubai</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="text-center mt-4"><button type="submit" class="btn btn-blue btn-yellow">Create your account</button></div>
-                                    </form>
                                 </h2>
+                                <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
+                                <p class="text-center my-3">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can</p>
+                                <form class="form-signin my-4" method="POST" action="{{ route('register') }}">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
+                                            <input id="name" type="text" class="form-control {{$errors->has('name') ? 'is-invalid' : ''}}" name="name" placeholder="Full Name" value="{{ old('name') }}" required autofocus>
+
+                                            @if ($errors->has('name'))
+                                                <div class="text-left invalid-feedback">
+                                                    {{ $errors->first('name') }}
+                                                </div>
+                                            @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
+                                            <input id="email" type="email" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
+
+                                            @if ($errors->has('email'))
+                                                <div class="text-left invalid-feedback">
+                                                    {{ $errors->first('email') }}
+                                                </div>
+                                            @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
+                                            <input id="password" type="password" class="form-control {{$errors->has('password') ? 'is-invalid' : ''}}" name="password" placeholder="Password" required>
+
+                                            @if ($errors->has('password'))
+                                                <div class="text-left invalid-feedback">
+                                                    {{ $errors->first('password') }}
+                                                </div>
+                                            @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="">
+                                            <input id="password-confirm" type="password" class="form-control {{$errors->has('password_confirmation') ? 'is-invalid' : ''}}" name="password_confirmation" placeholder="Confirm Password" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="{{ $errors->has('username') ? ' has-error' : '' }}">
+                                            <input id="username" type="text" class="form-control {{$errors->has('username') ? 'is-invalid' : ''}}" name="username" placeholder="Username" value="{{ old('username') }}" required>
+
+                                            @if ($errors->has('username'))
+                                                <div class="text-left invalid-feedback">
+                                                    {{ $errors->first('username') }}
+                                                </div>
+                                            @endif
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <input id="phone" type="text" class="form-control {{$errors->has('phone') ? 'is-invalid' : ''}}" name="phone" placeholder="Phone No." value="{{ old('phone') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><input type="file" class="form-control {{$errors->has('profile_pic_url') ? 'is-invalid' : ''}}" name="profile_pic_url"></div>
+                                        <div class="col">
+                                            <select name="user_city" class="form-control custom-select d-block" required>
+                                                <option value="">Select your City</option>
+                                                <option value="Dubai">Dubai</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-4"><button type="submit" class="btn btn-blue btn-yellow">Create your account</button></div>
+                                </form>
                             </div>
                         </div>
                     </div>

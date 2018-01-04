@@ -32,8 +32,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 	Route::post('/manage/users/update/{user}', 'UserController@update')->name('admin.user.update');
 	Route::delete('/manage/users/delete/{user}', 'UserController@destroy')->name('admin.user.delete');
 	//Industries Module
-	Route::get('/manage/industries/create', 'industriesController@create')->name('admin.industry.create');
-	Route::post('/manage/industries/store', 'industriesController@store')->name('admin.industry.store');
+	Route::get('/manage/industries/create', 'IndustriesController@create')->name('admin.industry.create');
+	Route::post('/manage/industries/store', 'IndustriesController@store')->name('admin.industry.store');
 	//Specialities Module
 	Route::get('/manage/specialities/create', 'SpecialitiesController@create')->name('admin.speciality.create');
 	Route::post('/manage/specialities/store', 'SpecialitiesController@store')->name('admin.speciality.store');

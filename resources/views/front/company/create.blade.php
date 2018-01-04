@@ -18,26 +18,26 @@
                         {{csrf_field()}}
                         <div class="field">
                             <p class="group-control">
-                                <input class="input-control" type="text" name="company_name" placeholder="Company Name" id="company_name">
+                                <input class="form-control" type="text" name="company_name" placeholder="Company Name" id="company_name">
                             </p>
                             <textarea name="company_description" id="company_description"></textarea>
                             <p class="group-control">
-                                <input class="input-control" type="text" name="company_tagline" placeholder="Company Tagline" id="company_tagline">
+                                <input class="form-control" type="text" name="company_tagline" placeholder="Company Tagline" id="company_tagline">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="url" name="company_website" placeholder="Company Website" id="company_website">
+                                <input class="form-control" type="url" name="company_website" placeholder="Company Website" id="company_website">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="email" name="company_email" placeholder="Company Email" id="company_email">
+                                <input class="form-control" type="email" name="company_email" placeholder="Company Email" id="company_email">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="text" name="company_phone" placeholder="Company Phone" id="company_phone">
+                                <input class="form-control" type="text" name="company_phone" placeholder="Company Phone" id="company_phone">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="url" name="linkedin_url" placeholder="Linkedin URL" id="linkedin_url">
+                                <input class="form-control" type="url" name="linkedin_url" placeholder="Linkedin URL" id="linkedin_url">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="text" name="city" placeholder="City" id="city">
+                                <input class="form-control" type="text" name="city" placeholder="City" id="city">
                             </p>
                             <p class="group-control">
                                 <select name="company_size" id="company_size">
@@ -50,7 +50,7 @@
                                 </select>
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="text" name="year_founded" placeholder="Year Founded" id="year_founded">
+                                <input class="form-control" type="text" name="year_founded" placeholder="Year Founded" id="year_founded">
                             </p>
                             <p class="group-control">
                                 <select name="company_type" id="company_type">
@@ -77,21 +77,21 @@
                                 </select>
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="text" name="reg_number" placeholder="Registeration Number" id="reg_number">
+                                <input class="form-control" type="text" name="reg_number" placeholder="Registeration Number" id="reg_number">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="date" name="reg_date" placeholder="Registeration Date" id="reg_date">
+                                <input class="form-control" type="date" name="reg_date" placeholder="Registeration Date" id="reg_date">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="text" name="location" placeholder="Location" id="location">
+                                <input class="form-control" type="text" name="location" placeholder="Location" id="location">
                             </p>
                             <p class="group-control">
                                 <label for="logo_url">Company Logo</label>
-                                <input class="input-control" type="file" name="logo_url" id="logo_url">
+                                <input class="form-control" type="file" name="logo_url" id="logo_url">
                             </p>
                             <p class="group-control">
                                 <label for="cover_url">Company Cover</label>
-                                <input class="input-control" type="file" name="cover_url" id="cover_url">
+                                <input class="form-control" type="file" name="cover_url" id="cover_url">
                             </p>
                             <input type="submit" class="btn btn-primary" value="Submit">
                         </div>

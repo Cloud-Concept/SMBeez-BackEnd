@@ -21,7 +21,7 @@ class CreateProjectsTable extends Migration
             $table->text('project_description');
             $table->integer('user_id');
             $table->integer('company_id');
-            $table->string('city')->nullable();
+            $table->string('city');
             $table->string('budget');
             $table->string('status');
             $table->date('close_date');

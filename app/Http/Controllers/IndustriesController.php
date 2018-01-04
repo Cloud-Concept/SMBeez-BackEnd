@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Industry;
 use App\Company;
 use App\Project;
+use App\Speciality;
 use Auth;
 use Illuminate\Http\Request;
 use Image;
@@ -49,7 +50,6 @@ class IndustriesController extends Controller
     {
         $this->validate($request, [
             'industry_name' => 'required|string|max:255',
-            'industry_img_url' => 'required',
             'slug' => 'unique:industries'
         ]);
 
@@ -119,18 +119,38 @@ class IndustriesController extends Controller
         $companies = $company->all();
         
         $project = new Project;
-        //show featured projects from the same industry
-        $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
-            $q->where('industries.id', $industry->id);
-        })
-        ->where('is_promoted', 1)
-        ->where('status', 'publish')
-        ->where('city', Auth::user()->user_city)
-        ->orderBy(DB::raw('RAND()'))
-        ->take(2)
-        ->get();
 
-        return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies', 'featured_projects'));
+        $speciality = new Speciality;
+
+        $specialities = $speciality->all();
+
+        if(Auth::user()) {
+            //show featured projects from the same industry
+            $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
+                $q->where('industries.id', $industry->id);
+            })
+            ->where('is_promoted', 1)
+            ->where('status', 'publish')
+            ->where('city', Auth::user()->user_city)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+        }else {
+
+            $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
+                $q->where('industries.id', $industry->id);
+            })
+            ->where('is_promoted', 1)
+            ->where('status', 'publish')
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+        }
+
+
+        return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies', 'featured_projects', 'specialities'));
     }
 
     /**

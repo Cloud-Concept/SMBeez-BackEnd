@@ -59,10 +59,10 @@
                 </div>
                 <div class="col-md-9">
                     <ul class="dashbord-quickbtn nav nav-pills nav-fill">
-                        @if(\Laratrust::hasRole('company|superadmin'))
-                            <li class="nav-item"><a href="{{route('front.project.create')}}"><button class="btn-dash btn-blue btn-yellow">Publish New Project</button></a> <span class="inf">(900 <i>Honeycombs</i>)</span></li>
+                        @if($hascompany)
+                            <li class="nav-item"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">Publish New Project</button> <span class="inf">(900 <i>Honeycombs</i>)</span></li>
                         @else
-                            <li class="nav-item"><a href="{{route('front.company.create')}}"><button class="btn-dash btn-blue btn-yellow">Add Your Company</button></a></li>
+                            <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button class="btn-dash btn-blue btn-yellow">Add Your Company</button></a></li>
                         @endif
                         <li class="nav-item"><button class="btn-dash btn-blue btn-yellow">Submit a Review</button> <span class="inf">(900 <i>Honeycombs</i>)</span></li>
                         <li class="nav-item"><button class="btn-dash btn-blue btn-yellow"><i class="fa fa-cubes mr-1" aria-hidden="true"></i> Redeem Honeycombs</button> <span class="inf">(900 <i>Honeycombs</i>)</span></li>
@@ -143,6 +143,12 @@
     </section>
 </main>
 
-@include ('layouts.interests-modal')
+@if($hascompany)
+    @include ('layouts.create-project-modal')
+    @include ('layouts.interests-modal')
+@else
+    @include ('layouts.add-company-modal')
+@endif
+
 
 @endsection

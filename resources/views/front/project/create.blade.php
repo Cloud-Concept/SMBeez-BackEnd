@@ -18,14 +18,14 @@
                         {{csrf_field()}}
                         <div class="field">
                             <p class="group-control">
-                                <input class="input-control" type="text" name="project_title" placeholder="Project Title" id="project_title">
+                                <input class="form-control" type="text" name="project_title" placeholder="Project Title" id="project_title">
                             </p>
                             <textarea name="project_description" id="project_description"></textarea>
                             <p class="group-control">
-                                <input class="input-control" type="number" name="budget" placeholder="Estimated Budget" id="budget">
+                                <input class="form-control" type="number" name="budget" placeholder="Estimated Budget" id="budget">
                             </p>
                             <p class="group-control">
-                                <input class="input-control" type="hidden" name="status" value="publish" id="status">
+                                <input class="form-control" type="hidden" name="status" value="publish" id="status">
                             </p>
                             <p class="group-control">
                                 <select name="industry_id" id="industry_id">
@@ -43,7 +43,7 @@
                             </p>
                             <p class="group-control">
                                 <label for="supportive_docs">Supportive Document</label>
-                                <input class="input-control" type="file" name="supportive_docs" id="supportive_docs" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf">
+                                <input class="form-control" type="file" name="supportive_docs" id="supportive_docs" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf">
                                 Accepts Excel, Word, PowerPoint, Text, PDF
                             </p>
                             <input type="submit" class="btn btn-primary" value="Submit">

@@ -14,7 +14,7 @@
                 <div class="col-md-3">
                     <div class="sidebar-dashboard mb-3">
                         @if(\Laratrust::hasRole('company|superadmin'))
-                            <div class="dashbord-quickbtn dashbord-quickbtn-single"><a href="{{route('front.project.create')}}"><button class="btn-dash btn-blue btn-yellow">Publish New Project</button></a> <span class="inf">(900 <i>Honeycombs</i>)</span></div>
+                            <div class="dashbord-quickbtn dashbord-quickbtn-single"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">Publish New Project</button> <span class="inf">(900 <i>Honeycombs</i>)</span></div>
                         @endif
                     </div>
                     <div class="sidebar-dashboard mb-5">
@@ -136,4 +136,9 @@
         </div>
     </section>
 </main>
+
+@if(\Laratrust::hasRole('company|superadmin'))
+    @include ('layouts.create-project-modal')
+@endif
+
 @endsection

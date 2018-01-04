@@ -9,7 +9,7 @@
                     <h1 class="text-center">Browse hundreds of SMBeez</h1>
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && !$hasCompany && \Laratrust::hasRole('user|superadmin'))
-                    <div class="btn-hero text-center"><a href="{{route('front.company.create')}}" class="btn btn-blue">Add your company</a></div>
+                    <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">Add your company</a></div>
                     @elseif(Auth::guest())
                     <div class="btn-hero text-center"><a href="{{route('login')}}" class="btn btn-blue">Add your company</a></div>
                     @endif
@@ -106,5 +106,7 @@
         </div>
     </section>
 </main>
+
+@include ('layouts.add-company-modal')
 
 @endsection

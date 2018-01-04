@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Role;
 use App\Project;
+use App\Company;
 use App\Industry;
+use App\Speciality;
 use Image;
 use File;
 use DB;
+use Auth;
 
 class UserController extends Controller
 {
@@ -174,6 +177,8 @@ class UserController extends Controller
         }else {
             //get the user interests
             $interests = $user->interests->modelKeys();
+            $company = new Company;
+            $hascompany = $company->where('user_id', Auth::id())->first();
 
             $project = new Project;
             //find the interested projects where the user id is the user_id in the interests table
@@ -181,7 +186,12 @@ class UserController extends Controller
                 $q->whereIn('interests.id', $interests);
             })->where('id', '<>', $user->id)->get();
 
-            return view('front.users.dashboard', compact('user', 'interested_projects'));
+            $industries = new Industry;
+            $industries = $industries->orderBy('industry_name')->get();
+            $speciality = new Speciality;
+            $specialities = $speciality->all();
+
+            return view('front.users.dashboard', compact('user', 'hascompany','interested_projects', 'industries', 'specialities'));
 
         }
     }
@@ -210,7 +220,12 @@ class UserController extends Controller
             ->take(2)
             ->get();
 
-            return view('front.users.myprojects', compact('user', 'suggested_projects'));
+            $industries = new Industry;
+            $industries = $industries->orderBy('industry_name')->get();
+            $speciality = new Speciality;
+            $specialities = $speciality->all();
+
+            return view('front.users.myprojects', compact('user', 'suggested_projects', 'industries', 'specialities'));
         }
     }
 
@@ -245,7 +260,12 @@ class UserController extends Controller
                 $q->whereIn('interests.id', $interests);
             })->where('id', '<>', $user->id)->get();
 
-            return view('front.users.opportunities', compact('user', 'suggested_projects', 'interested_projects'));
+            $industries = new Industry;
+            $industries = $industries->orderBy('industry_name')->get();
+            $speciality = new Speciality;
+            $specialities = $speciality->all();
+
+            return view('front.users.opportunities', compact('user', 'suggested_projects', 'interested_projects', 'industries', 'specialities'));
         }
     }
 }

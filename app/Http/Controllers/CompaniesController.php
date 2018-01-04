@@ -10,6 +10,7 @@ use App\Project;
 use App\Review;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Image;
 use File;
 use Auth;
@@ -30,7 +31,8 @@ class CompaniesController extends Controller
 
         $hasCompany = $company->where('user_id', Auth::id())->first();
         $industries = Industry::all();
-
+        $speciality = new Speciality;
+        $specialities = $speciality->all();
         //if user logged in so get companies from his profile city
         if($user) {
             
@@ -56,7 +58,7 @@ class CompaniesController extends Controller
 
         
 
-        return view('front.company.index', compact('companies', 'hasCompany', 'industries', 'featured_companies'));
+        return view('front.company.index', compact('companies', 'hasCompany', 'specialities', 'industries', 'featured_companies'));
     }
 
     /**
@@ -98,14 +100,7 @@ class CompaniesController extends Controller
                 'company_phone' => 'required',
                 'city' => 'required',
                 'company_size' => 'required',
-                'year_founded' => 'required',
-                'company_type' => 'required',
-                'reg_number' => 'required',
-                'reg_date' => 'required',
-                'location' => 'required',
-                'logo_url' => 'required',
                 'industry_id' => 'required',
-                'company_email' => 'required|string|email|max:255',
                 'slug' => 'unique:companies'
             ]);
 
@@ -113,67 +108,13 @@ class CompaniesController extends Controller
             $company->user_id = auth()->id();
             $company->industry_id = $request['industry_id'];
             $company->company_description = $request['company_description'];
-            $company->company_tagline = $request['company_tagline'];
             $company->company_website = $request['company_website'];
-            $company->company_email = $request['company_email'];
             $company->company_phone = $request['company_phone'];
             $company->linkedin_url = $request['linkedin_url'];
             $company->city = $request['city'];
             $company->company_size = $request['company_size'];
-            $company->year_founded = $request['year_founded'];
             $company->company_type = $request['company_type'];
-            $company->reg_number = $request['reg_number'];
-            $company->reg_date = $request['reg_date'];
-            $company->location = $request['location'];
-            $company->logo_url = $request['logo_url'];
-            $company->cover_url = $request['cover_url'];
             $company->status = 1;
-
-            if($request->hasFile('logo_url')) {
-
-                $logo_url     = $request->file('logo_url');
-                $img_name  = time() . '.' . $logo_url->getClientOriginalExtension();
-                //path to year/month folder
-                $date_path = public_path('images/company/' . date('Y') . '/' . date('m'));
-                $date_path_db = 'images/company/' . date('Y') . '/' . date('m') . '/';
-                //check if date foler exists if not create it
-                if(!File::exists($date_path)) {
-                    File::makeDirectory($date_path, 666, true);
-                }
-                //path of the new image
-                $path       = $date_path . '/' . $img_name;
-                //save image to the path
-                Image::make($logo_url)->resize(130, 43)->save($path);
-                //get the old image
-                $oldImage = $company->logo_url;
-                //make the field logo_url in the table = to the link of img
-                $company->logo_url = $date_path_db . $img_name;
-                //delete the old image
-                File::delete(public_path($oldImage));
-            }
-
-            if($request->hasFile('cover_url')) {
-
-                $cover_url     = $request->file('cover_url');
-                $img_name  = time() . '.' . $cover_url->getClientOriginalExtension();
-                //path to year/month folder
-                $date_path = public_path('images/company/' . date('Y') . '/' . date('m'));
-                $date_path_db = 'images/company/' . date('Y') . '/' . date('m') . '/';
-                //check if date foler exists if not create it
-                if(!File::exists($date_path)) {
-                    File::makeDirectory($date_path, 666, true);
-                }
-                //path of the new image
-                $path       = $date_path . '/' . $img_name;
-                //save image to the path
-                Image::make($cover_url)->resize(346, 213)->save($path);
-                //get the old image
-                $oldImage = $company->cover_url;
-                //make the field cover_url in the table = to the link of img
-                $company->cover_url = $date_path_db . $img_name;
-                //delete the old image
-                File::delete(public_path($oldImage));
-            }
 
             //save it to the database 
             $company->save();
@@ -188,8 +129,12 @@ class CompaniesController extends Controller
             $sluggable = $company->replicate();
             // redirect to the home page
             session()->flash('success', 'Your company has been created.');
-
-            return redirect(route('front.company.show', $company->slug));
+            //if save go to company page, if continue go to edit page
+            if(Input::get('save')) {
+                return redirect(route('front.company.show', $company->slug));
+            }elseif(Input::get('edit')) {
+                return redirect(route('front.company.edit', $company->slug));
+            }
         }
     }
 

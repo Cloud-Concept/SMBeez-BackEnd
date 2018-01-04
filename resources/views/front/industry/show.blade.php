@@ -9,7 +9,7 @@
                     <h1 class="text-center">Discover hundreds of opportunities</h1>
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && $hasCompany && \Laratrust::hasRole('company|superadmin'))
-                    <div class="btn-hero text-center"><a href="{{route('front.project.create')}}" class="btn btn-yellow-2">Publish your project</a></div>
+                    <div class="btn-hero text-center"><button class="btn btn-yellow-2" data-toggle="modal" data-target="#add-project">Publish New Project</button></div>
                     @endif
                 </div>
             </div>
@@ -52,4 +52,7 @@
         </div>
     </section>
 </main>
+
+@include ('layouts.create-project-modal')
+
 @endsection

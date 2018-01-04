@@ -19,7 +19,7 @@ class CreateIndustriesTable extends Migration
             $table->increments('id');
             $table->string('industry_name');
             $table->string('slug');
-            $table->string('industry_img_url');
+            $table->string('industry_img_url')->nullable();
             $table->timestamps();
         });
 

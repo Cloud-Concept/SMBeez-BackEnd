@@ -28,9 +28,14 @@ class Industry extends Model
     }
 
     public function projects() {
-        return $this->belongsToMany(Project::class)
-        ->where('status', 'publish')
-        ->where('city', auth()->user()->user_city);
+        if (auth()->user()) {
+            return $this->belongsToMany(Project::class)
+            ->where('status', 'publish')
+            ->where('city', auth()->user()->user_city);
+        }else {
+            return $this->belongsToMany(Project::class)
+            ->where('status', 'publish');
+        }
     }
 
     //use slug to get company

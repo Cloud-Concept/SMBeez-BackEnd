@@ -10,6 +10,7 @@ use App\Interest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 use File;
 
@@ -30,7 +31,7 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    /*public function create()
     {
         $industries = new Industry;
         $industries = $industries->orderBy('industry_name')->get();
@@ -38,7 +39,7 @@ class ProjectsController extends Controller
         $specialities = $speciality->all();
 
         return view('front.project.create', compact('industries', 'specialities'));
-    }
+    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -58,11 +59,17 @@ class ProjectsController extends Controller
             'slug' => 'unique:projects'
         ]);
 
+        
         $project->project_title = $request['project_title'];
         $project->project_description = $request['project_description'];
         $project->budget = $request['budget'];
-        $project->status = $request['status'];
+        if(Input::get('publish')) {
+            $project->status = $request['publish'];
+        }elseif(Input::get('draft')) {
+            $project->status = $request['draft'];
+        }
         $project->user_id = auth()->id();
+        $project->city = auth()->user()->user_city;
         $project->close_date = Carbon::now('Asia/Dubai')->addDays(60);
         $project->company_id = Company::where('user_id', auth()->id())->pluck('id')->first();
         

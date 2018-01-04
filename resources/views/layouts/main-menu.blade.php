@@ -9,12 +9,12 @@
             <a class="dropdown-item" href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
             @endforeach
         </div>
-        @elseif($hascompany && \Laratrust::hasRole('company|superadmin'))
+        @elseif($hascompany)
         <a class="nav-link" href="{{route('front.industry.show', $mycompany->industry->slug)}}">Opportunities</a>
         @endif
     </li>
     <li class="nav-item dropdown flags-dropdown">
-        <a class="nav-link" href="#"><span class="flag-icon flag-icon-ae"></span></a>
+        <a href="#"><span class="flag-icon flag-icon-ae"></span> Dubai</a>
     </li>
     @if (Auth::guest())
     <li><a href="{{ route('login') }}">Sign in</a></li>
