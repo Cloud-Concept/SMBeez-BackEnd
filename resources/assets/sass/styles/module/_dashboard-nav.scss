@@ -1,0 +1,26 @@
+/*
+DashBoard Main nav
+*/
+
+.dashboard-nav {
+  justify-content: flex-end;
+  background: $yellow;
+  @include rem(padding, 10px 0);
+
+  ul {
+    text-align: center;
+
+    li {
+      @include rem(margin, 0 15px)
+    }
+  }
+  a {
+    text-transform: uppercase;
+    color: $main-blue;
+  }
+
+  .navbar-toggler{
+    @include rem(margin-right, 6px);
+
+  }
+}

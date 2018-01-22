@@ -1,0 +1,13 @@
+/* Project Boxes */
+
+.project-box {
+  background:$gray;
+  @include rem(padding,10px 20px 20px);
+  @include mq(md){
+  };
+}
+
+.project-box-side {
+  background: none;
+  border-bottom: 1px solid $gray;
+}

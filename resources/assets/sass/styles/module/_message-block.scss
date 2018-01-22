@@ -1,0 +1,19 @@
+/*
+Messages Block
+*/
+
+.message-intro {
+  p {
+    margin-bottom: 0;
+    span {
+      color: $main-blue;
+    }
+  }
+}
+
+.message-interest {
+  h5 {
+    @include rem(font-size, $base-font-size);
+    color: $main-blue;
+  }
+}

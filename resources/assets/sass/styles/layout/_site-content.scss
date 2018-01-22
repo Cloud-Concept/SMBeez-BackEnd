@@ -1,0 +1,18 @@
+/* Global Content Layout */
+
+.main-content {
+  min-height: 100vh;
+}
+
+.featured-projects,
+.featured-companies {
+  @include rem(padding,40px 0);
+}
+
+.bg-gray {
+  background: $gray;
+}
+
+.bg-blue {
+  background: $main-blue;
+}

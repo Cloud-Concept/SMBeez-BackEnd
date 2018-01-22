@@ -11,5 +11,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+mix.js('resources/assets/js/main.js', 'public/js');
+mix.sass('resources/assets/sass/styles/main.scss', 'public/css').options({
+  processCssUrls: false
+});
+mix.browserSync({
+	proxy: 'localhost:8000'
+});

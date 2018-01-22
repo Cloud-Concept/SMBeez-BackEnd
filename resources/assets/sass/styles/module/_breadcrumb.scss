@@ -1,0 +1,17 @@
+/*
+breadcrumb
+*/
+
+
+.breadcrumb {
+  background: $gray;
+  border: 0;
+  border-radius: 0;
+  a {
+    color: $main-blue;
+  }
+
+  .breadcrumb-item.active {
+    color: $offblack;
+  }
+}

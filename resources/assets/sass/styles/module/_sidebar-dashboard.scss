@@ -1,0 +1,78 @@
+/*
+DashBoard main sidebar
+*/
+
+.dash-info {
+  @include restmp;
+  li {
+    @extend .clearfix;
+    @include rem(margin-bottom, 15px);
+  }
+
+  i {
+    @include rem(margin-top, 10px);
+  }
+
+  p{
+    @include rem(margin, -5px 0);
+    @include restmp;
+    color: $offblack;
+
+    &.numb {
+        @include rem(font-size, $h4-font-size+8);
+    }
+  }
+
+  a {
+    color: $main-blue;
+  }
+}
+
+
+/* Update Sidebar */
+.sidebar-updates {
+  a {
+    color: $main-blue;
+    font-weight: 500;
+    text-decoration: none;
+  }
+}
+
+
+/* Company SideBars */
+
+.sidebar-company-logo {
+  border-bottom: 2px solid $gray;
+  .fa {
+    color: $main-blue;
+  }
+
+  h4 {
+    @include rem(padding-top, 7px);
+  }
+}
+
+/* Review Rating */
+.sidebar-review-rating{
+  .list-inline {
+    margin-bottom: 0;
+  }
+}
+
+/* sidebar subscription */
+.sidebar-subscription {
+  h4 {
+    padding-top: 0;
+  }
+
+  .border-b {
+    border-bottom: 2px solid $darkgray;
+    @include rem(margin-bottom, 10px);
+  }
+}
+
+/* sidebar my Company */
+
+.sidebar-mycompany  {
+  @extend .sidebar-subscription;
+}

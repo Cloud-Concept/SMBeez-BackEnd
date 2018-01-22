@@ -1,0 +1,23 @@
+/* Project Boxes */
+
+.all-box {
+  @include rem(margin-bottom, 20px);
+
+  h2 {
+    @extend .clearfix;
+    background: $main-blue;
+    color: $white;
+    font-size: $base-font-size;
+
+
+    i {
+      color: $yellow;
+    }
+  }
+
+
+  img {
+    border: 1px solid $darkgray;
+    border-top: 0;
+  }
+}

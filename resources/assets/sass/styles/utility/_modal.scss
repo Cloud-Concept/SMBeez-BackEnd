@@ -1,0 +1,115 @@
+/*
+Modal
+*/
+
+.modal-fullscreen {
+  padding: 0!important;
+  .modal-dialog{
+    width: 100%;
+    height: 100%;
+    max-width: inherit;
+    margin: 0;
+    background: $offgray;
+  }
+  .modal-content{
+    width: 100%;
+    background: $gray;
+    border-radius: 0;
+    box-shadow: none;
+    border: 0;
+  }
+
+  .modal-header {
+    width: 100%;
+    @include rem(padding, 10px 20px);
+    @include rem(margin, 10px 0);
+    border-bottom: 1px solid $darkgray;
+  }
+
+  // Content Styleing
+
+  .modal-title {
+    font-size: $h3-font-size;
+    font-weight: 700;
+    font-family:$fontnu;
+    color: $darkblue;
+    text-transform: uppercase;
+
+  }
+
+  .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 50%;
+    background: $main-blue;
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    text-shadow: none;
+    color: $white;
+    @include transition(all .4s ease);
+
+    &:hover{
+
+      background: $darkblue;
+    }
+  }
+}
+
+/* Express Interest */
+.modal-bg-white {
+  .modal-content {
+    background: $white;
+  }
+}
+
+.gray-title {
+  background: $gray;
+  @include rem(padding, 10px 0);
+  h3 {
+    padding-top: 0;
+  }
+}
+
+
+/* Sign up Model */
+.modal-signup {
+  @extend .modal-fullscreen;
+
+  .modal-content {
+    background: $offgray;
+  }
+  .modal-body {
+    background: $gray;
+  }
+
+  .modal-header {
+    border: 0;
+
+    h3 {
+      text-transform: capitalize;
+      color: $main-blue;
+    }
+  }
+}
+
+
+.line-border {
+  border-top: 2px solid $darkblue;
+  @include rem(padding, 0 40px);
+
+  span {
+    background: $offgray;
+    color: $darkblue;
+    @include rem(padding, 5px 10px);
+    margin-top: -17px;
+    display: block;
+  }
+}
+
+.form-signup  {
+  h5 {
+
+  }
+}

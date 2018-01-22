@@ -1,0 +1,24 @@
+/*
+Company Details Page SideBar
+*/
+
+.rating-sidebar {
+
+    h5 {
+      font-size: 12px;
+    }
+    .rating-sidebar-block{
+      float: left;
+      @include rem(margin-right,10px)
+    }
+
+    @include mq(lg){
+      h5 {
+        font-size: 14px;
+      }
+      .rating-sidebar-block{
+        float: none;
+        @include rem(margin-right,0)
+      }
+    }
+}

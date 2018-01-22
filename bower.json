@@ -1,0 +1,16 @@
+{
+  "name": "repo-new",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "modernizr": "~2.8.1",
+    "sass-rem": "^2.0.0",
+    "animate.css": "^3.5.2",
+    "scrollreveal": "^3.3.6",
+    "jquery-bar-rating": "^1.2.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  }
+}

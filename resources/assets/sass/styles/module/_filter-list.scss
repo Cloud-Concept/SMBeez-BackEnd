@@ -1,0 +1,22 @@
+/*
+  Search  filter
+*/
+
+.search-filter {
+  background: $gray;
+  @include rem(margin-top, 20px);
+  @include rem(padding, 5px 10px);
+  h3 {
+    @include rem(margin, 0 0 10px 0);
+    @include rem(padding, 10px 0);
+    border-bottom: 1px solid $darkgray;
+  }
+
+  .form-control {
+    @include rem(margin-bottom, 10px);
+  }
+
+  .form-group {
+    @include rem(margin-bottom, 5px);
+  }
+}

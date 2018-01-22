@@ -1,0 +1,33 @@
+/*
+vCards Global
+*/
+
+.vcard {
+  h3 {
+    @include rem(margin-bottom, 10px);
+    @include rem(padding-bottom, 5px);
+    border-bottom: 2px solid $gray;
+  }
+}
+
+.vcard-list {
+  li {
+    color: $darkblue;
+    font-weight: 300;
+
+    i{
+      @include rem(margin-right, 10px);
+      color: $main-blue;
+    }
+  }
+}
+
+/*
+vCard Company Details
+*/
+
+.vcard-company{
+  h4 {
+    border-bottom: 1px solid $gray;
+  }
+}

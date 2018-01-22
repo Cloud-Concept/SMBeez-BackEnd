@@ -1,0 +1,146 @@
+button,
+button:active,
+button:focus,
+button:hover,
+.btn,
+.btn:active,
+.btn:focus,
+.btn:hover{
+    outline:none !important;
+    box-shadow: none!important;
+    cursor: pointer;
+    text-decoration: none;
+    border: 0;
+}
+
+
+.btn {
+  position: relative;
+  border-radius: $br01;
+  text-transform: uppercase;
+  @include rem(font-size, $base-font-size);
+  @include rem(padding, 10px 30px);
+  @include transition(all .4s ease);
+}
+
+.btn-dash {
+  position: relative;
+  border-radius: $br02;
+  @include rem(font-size, $base-font-size);
+  @include rem(padding, 10px 30px);
+  @include transition(all .4s ease);
+}
+
+.btn-blank {
+  border: 0;
+  @include rem(font-size, $base-font-size - 2);
+  text-align: left;
+  color: $darkblue;
+  font-weight: 500;
+  @include transition(all .4s ease);
+}
+
+.btn-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  color: $main-blue;
+}
+
+.btn-sm {
+  text-transform: inherit;
+  border-radius: $br01 - 6;
+  @include rem(font-size, $base-font-size);
+  @include rem(padding, 4px 15px);
+
+}
+
+.btn-blue {
+  background: $main-blue;
+  color: $white;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: $darkblue;
+    color: $yellow;
+  }
+}
+
+.btn-trans {
+  border: 1px solid #d5d4d4;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: $main-blue;
+    color: $white;
+  }
+}
+
+.btn-yellow {
+  color: $yellow;
+}
+
+.btn-yellow-2 {
+  background: $yellow;
+  color: $main-blue;
+  &:hover,
+  &:focus,
+  &:active {
+    background: $darkblue;
+    color: $white;
+  }
+}
+
+.btn-list {
+  .btn-sm {
+    @include rem(padding, 4px 30px);
+  }
+}
+
+.btn-lk {
+  background: #3333af;
+  color: $white;
+  text-transform: capitalize;
+  font-size: $base-font-size;
+  i {
+    @include rem(padding-right, 5px);
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    background: $darkblue;
+    color: $white;
+  }
+}
+
+.btn-fb {
+  background: #4141e5;
+  color: $white;
+  text-transform: capitalize;
+  font-size: $base-font-size;
+  i {
+    @include rem(padding-right, 5px);
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    background: $darkblue;
+    color: $white;
+  }
+}
+
+.btn-play {
+  font-family: $fontnu;
+  font-weight: 900;
+  font-size: $h1-font-size - 6;
+  text-transform: capitalize;
+
+  i {
+    font-weight: normal;
+  }
+
+}

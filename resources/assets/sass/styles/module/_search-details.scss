@@ -1,0 +1,65 @@
+/*
+Search Details
+*/
+
+.search-info {
+  font-family: $fontnu;
+  color: $darkblue;
+  font-weight: 700;
+}
+
+.search-title {
+  background: $gray;
+  @include rem(padding, 10px 20px);
+  color: $offblack;
+  font-size: $base-font-size;
+}
+
+
+.search-block {
+  @extend .clearfix;
+  h2 {
+    span{
+      color: $darkblue;
+      font-size: $base-font-size;
+      float: right;
+    }
+    a {
+      color: $main-blue;
+      text-decoration: none;
+    }
+  }
+
+  .tags {
+    > b {
+      color: $main-blue;
+      font-weight: 700;
+    }
+  }
+}
+
+/*
+Search Page
+*/
+
+// tabs
+.list-group {
+  a {
+    position: relative;
+    width: 100%;
+    display: block;
+
+    &.active {
+      color: $darkblue;
+
+      &:before {
+        position: absolute;
+        right: 0;
+        font-family: FontAwesome;
+        content: "\f054";
+        font-size: 16px;
+        color: $darkblue;
+      }
+    }
+  }
+}

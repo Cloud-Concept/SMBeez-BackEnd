@@ -1,0 +1,46 @@
+/*
+Header
+*/
+.no-hero {
+  .cd-main-header{
+    box-shadow: 0 20px 40px rgba(217,216,216,.35);
+  }
+}
+.cd-main-header {
+  position: relative;
+  z-index: 100;
+  height: 50px;
+  background-color: $white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition: -webkit-transform 0.3s;
+  -moz-transition: -moz-transform 0.3s;
+  transition: transform 0.3s;
+
+}
+.cd-main-header.nav-is-visible {
+  -webkit-transform: translateX(-260px);
+  -moz-transform: translateX(-260px);
+  -ms-transform: translateX(-260px);
+  -o-transform: translateX(-260px);
+  transform: translateX(-260px);
+}
+.cd-main-header::before {
+  display: none;
+  content: 'mobile';
+}
+@media only screen and (min-width: 1024px) {
+  .cd-main-header {
+    height: 80px;
+  }
+  .cd-main-header.nav-is-visible {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+  }
+  .cd-main-header::before {
+    content: 'desktop';
+  }
+}

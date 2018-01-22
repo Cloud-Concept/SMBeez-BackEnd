@@ -31,3 +31,15 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - In the terminal run php artisan serve
 - Go to [this page](http://localhost:8000/companies/all)
 - SignIn with superadmin@app.com | password=password
+
+
+
+## Integration Usage
+
+- Run the command npm install
+- Run the command bower install
+- Run the command $ npm run production to produce the new compiled files minified
+- Run the command $ npm run development to produce the new compiled files un-minified
+- Run the command $ npm run watch after php artisan serve (in onother terminal) to watch the website changes.
+- Resources Files can be found at resources/assets/sass/styles & resources/assets/js
+- Files produced can be found at public/css and public js

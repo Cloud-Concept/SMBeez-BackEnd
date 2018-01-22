@@ -1,0 +1,23 @@
+/*
+Tabs Global
+*/
+
+.nav-tabs {
+  position: relative;
+  .nav-link{
+    border-radius: 0;
+    text-decoration: none;
+    color: $main-blue;
+  }
+
+}
+
+/* Tabs Case for Responsive */
+
+@include mqs(md) {
+  .list-project{
+    .nav .btn{
+      @include rem(margin, 10px 0)
+    }
+  }
+}

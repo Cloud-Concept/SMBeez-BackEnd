@@ -1,0 +1,93 @@
+
+// center vertically and/or horizontally an absolute positioned element
+
+
+// antialiasing mode font rendering
+
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Trans */
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+
+@mixin text-replace {
+  color: transparent;
+  text-indent: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.clearfix {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@mixin mq($mq) {
+   @if $mq == xs{
+    @media (min-width: 0) {
+       @content;
+    }
+  }
+  @if $mq == sm {
+     @media (min-width: 576px){
+      @content;
+    }
+  }
+  @if $mq == md {
+     @media (min-width: 768px){
+      @content;
+    }
+  }
+  @if $mq == lg {
+     @media (min-width: 992px){
+      @content;
+    }
+  }
+  @if $mq == xl {
+     @media (min-width: 1200px){
+      @content;
+    }
+  }
+  @if $mq == retina {
+     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and ( min--moz-device-pixel-ratio: 2), only screen and ( -o-min-device-pixel-ratio: 2/1), only screen and ( min-device-pixel-ratio: 2), only screen and ( min-resolution: 192dpi), only screen and ( min-resolution: 2dppx){
+      @content;
+    }
+  }
+}
+
+
+/* Switch Responsive */
+@mixin mqs($mqs) {
+   @if $mqs == xs{
+    @media (max-width: 0) {
+       @content;
+    }
+  }
+  @if $mqs == sm {
+     @media (max-width: 576px){
+      @content;
+    }
+  }
+  @if $mqs == md {
+     @media (max-width: 768px){
+      @content;
+    }
+  }
+}
+
+/* rest values for margin and padding */
+@mixin restmp {
+  margin: 0;
+  padding: 0;
+}

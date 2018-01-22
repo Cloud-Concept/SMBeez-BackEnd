@@ -1,0 +1,32 @@
+/* only About Page Cases independent */
+
+.video-demo {
+  min-height: 590px;
+  background: url(../images/hero/demo-video-bg.jpg) no-repeat center bottom;
+  background-size: cover;
+}
+
+/*
+About Block
+*/
+.find-be-block  {
+  h3 {
+    text-transform: capitalize;
+  }
+}
+
+/*
+Tearms Block
+*/
+
+.terms-block {
+background: $main-blue url(../images/hero/teams-bg.png) no-repeat 90% bottom;
+  h3 {
+    text-transform: capitalize;
+    color: $yellow;
+  }
+
+  p {
+    color: $white;
+  }
+}

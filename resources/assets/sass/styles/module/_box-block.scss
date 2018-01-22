@@ -1,0 +1,77 @@
+/* Box-block Global */
+.box-block {
+  p {
+    font-weight: 300;
+    color: $darkblue;
+
+    &.thumb-title {
+      font-weight: 400;
+      color: $main-blue;
+      @include rem(font-size, $h2-font-size);
+    }
+
+    &.tags {
+      font-style: italic;
+      a {
+        font-weight: 400;
+        color: $main-blue;
+        font-style: normal;
+      }
+    }
+  }
+}
+
+
+/* Gray Box Universal */
+.box-block-gray {
+  background: $gray;
+  @include rem(padding,0 10px 20px);
+
+  h3 {
+    @include rem(padding,10px 0);
+    @include rem(margin-bottom,10px);
+    border-bottom: 1px solid $darkgray;
+  }
+
+  .btn-more {
+    color: $main-blue;
+  }
+
+}
+
+/*
+Download Boxes
+*/
+.download-box {
+  background: $gray;
+  @include rem(padding,20px);
+
+  a {
+    color: $main-blue;
+    text-decoration: none;
+    i {
+      @include rem(margin-right,10px);
+    }
+    &:hover{
+      color: $offblack;
+    }
+  }
+}
+
+/*
+White Box
+*/
+.box-block-white {
+  background: $white;
+  border: 2px solid $gray;
+  @include rem(padding-bottom,30px);
+
+  h4 {
+    @include rem(padding,10px 20px);
+
+    i {
+      color: $main-blue;
+      @include rem(padding-top,12px);
+    }
+  }
+}

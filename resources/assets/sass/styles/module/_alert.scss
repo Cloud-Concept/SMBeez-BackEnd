@@ -1,0 +1,26 @@
+/*
+Alert Boxes
+*/
+
+.alert {
+  border: 0;
+  border-radius: 0;
+
+  h3 {
+    @include rem(padding, 0 0 10px 0);
+    font-weight: 400;
+
+    i {
+      @include rem(padding-right, 5px);
+    }
+  }
+}
+.alert-secondary {
+  background: $gray;
+}
+
+.alert-dismissible {
+  .close{
+    @include rem(padding, 2px 7px);
+  }
+}

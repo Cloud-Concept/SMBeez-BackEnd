@@ -1,0 +1,11 @@
+/* Side Bar */
+
+.sidebar {
+  @include rem(margin, 0px 0 30px);
+  width: 100%;
+
+  @include mq(sm){
+    @include rem(margin, 100px 0 0);
+    width: 75%;
+  }
+}

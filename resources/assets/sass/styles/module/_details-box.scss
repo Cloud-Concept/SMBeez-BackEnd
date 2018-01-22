@@ -1,0 +1,26 @@
+/*
+Details Box Universal
+*/
+
+.details-box {
+
+  > li {
+    @include rem(margin, 5px 0);
+    color: $main-blue;
+    font-weight: 600;
+    @extend .clearfix ;
+
+    .star-rating {
+      @include rem(margin-left, 10px);
+    }
+  }
+
+  a,span {
+    color: $offblack;
+    font-weight: 300;
+  }
+
+  a {
+    color: $main-blue;
+  }
+}

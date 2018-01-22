@@ -1,0 +1,19 @@
+/*
+ Quick Buttons
+*/
+
+.dashbord-quickbtn {
+  .inf {
+    @include rem(margin-top, 2px);
+    display: block;
+  }
+}
+
+.dashbord-quickbtn-single {
+  .btn-dash {
+    width: 100%;
+  }
+  .inf {
+    text-align: center;
+  }
+}
