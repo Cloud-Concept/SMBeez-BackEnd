@@ -60,15 +60,16 @@ class Company extends Model
        if($this->reviews->count() > 0) {  
             //sum of all reviews rates
             $company_overall_rating = DB::table('reviews')
-            ->select(DB::raw("SUM(overall_rate + selection_process_rate + money_value_rate + delivery_quality_rate)"))
+            ->select(DB::raw("SUM(overall_rate + business_repeat + time + cost + quality + procurement + expectations + payments)"))
             ->where('company_id', $id)->get();
+
             //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 4 which means 4 types of rates
+            //reviews count * 5 which means 5 types of rates
             foreach ($company_overall_rating[0] as $key => $value) {
                 $value = (int)$value;
             }
             
-            $company_overall_rating = ceil($value / ( $this->reviews->count() * 4));
+            $company_overall_rating = ceil($value / ( $this->reviews->count() * 5));
             //displaying over all rating of the company
             return $company_overall_rating;
         }

@@ -55,6 +55,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'project_files' => [
+            'driver' => 'local',
+            'root'   => public_path('projects/files'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

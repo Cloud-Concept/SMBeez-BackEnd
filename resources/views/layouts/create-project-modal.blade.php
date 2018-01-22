@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group"><label for="">Project Description</label>
-                                    <textarea name="project_description" id="project_description"></textarea>
+                                    <textarea name="project_description" class="form-control" id="project_description"></textarea>
                                 </div>
                             </div>
                             <div class="col">
@@ -56,8 +56,8 @@
 
                                 <div class="form-group">
                                     <label for="">Supportive Documents</label><label class="custom-file">
-                                        <input type="file" name="supportive_docs" id="supportive_docs" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf">
-                                        <span class="custom-file-control"></span>
+                                        <input type="file" id="supportive_docs" name="supportive_docs" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf"> 
+                                        <span class="custom-file-control" data-label="Supportive Document"></span>
                                     </label>
                                     <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF</p>
                                 </div>
@@ -75,20 +75,15 @@
         </div>
     </div>
 </div>
+
+<style type="text/css" media="screen">
+    .select2-container {
+        width: 100%!important;
+    }
+</style>
 <script type="text/javascript">
 
 jQuery(document).ready(function () {
-    tinymce.init({
-        selector: '#project_description',
-        plugins: [
-          'advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker',
-          'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking',
-          'save table contextmenu directionality emoticons template paste textcolor'
-        ],
-        height: 100,
-        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | print preview media fullpage | forecolor backcolor emoticons'
-    });
-
     $('.multi-select').select2();
 });
 

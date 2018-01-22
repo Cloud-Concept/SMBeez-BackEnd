@@ -34,26 +34,62 @@ class ReviewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store_customer_review(Request $request)
     {
         $review = new Review;
 
-        $review->feedback = $request['feedback'];
+        $review->reviewer_relation = 'customer';
         $review->company_id = $request['company_id'];
         $review->user_id = auth()->id();
+        $review->feedback = $request['feedback'];
         $review->overall_rate = $request['overall_rate'];
-        $review->selection_process_rate = $request['selection_process_rate'];
-        $review->money_value_rate = $request['money_value_rate'];
-        $review->delivery_quality_rate = $request['delivery_quality_rate'];
-        $review->reviewer_relation = $request['reviewer_relation'];
-        $review->question = $request['question'];
+        $review->business_repeat = $request['business_repeat'];
+        $review->is_hired = $request['is_hired'];
         $review->review_privacy = $request['privacy'];
+
+        $review->completness = $request['completness'];
+        $review->why_not = $request['why_not'];
+        $review->why_not_msg = $request['why_not_msg'];
+        $review->quality = $request['quality'];
+        $review->cost = $request['cost'];
+        $review->time = $request['time'];
+        
 
         $review->save();
 
         return back();
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_supplier_review(Request $request)
+    {
+        $review = new Review;
+
+        $review->reviewer_relation = 'supplier';
+        $review->company_id = $request['company_id'];
+        $review->user_id = auth()->id();
+        $review->feedback = $request['feedback'];
+        $review->overall_rate = $request['overall_rate'];
+        $review->business_repeat = $request['business_repeat'];
+        $review->is_hired = $request['is_hired'];
+        $review->review_privacy = $request['privacy'];
+
+        $review->completness = $request['completness'];
+        $review->why_not = $request['why_not'];
+        $review->why_not_msg = $request['why_not_msg'];
+        $review->payments = $request['payments'];
+        $review->expectations = $request['expectations'];
+        $review->procurement = $request['procurement'];
+
+        $review->save();
+
+        return back();
+    }
     /**
      * Display the specified resource.
      *

@@ -130,7 +130,7 @@
                                 @elseif($project->interest_status() == 0)
                                     <td>Interest Rejected</td>
                                 @endif
-                                <td><a href="{{route('front.project.show', $project->slug)}}">{{count($project->interests) > 0 ? count($project->interests) . ' Express Interests' : 'NA'}}</a></td>
+                                <td><a href="{{route('front.project.show', $project->slug)}}">{{count($project->interests) > 0 ? count($project->interests) . ' Interested Supplier(s)' : 'NA'}}</a></td>
                             </tr>
                             @endforeach
 

@@ -2,19 +2,19 @@
 
 @section('content')
 
-<main class="cd-main-content">
+<main class="cd-main-content signup">
     <section class="sign-section">
         <div class="container-fluid">
             <div class="row">
                 <div class="sign-col mrt-auto">
                     <div class="sign-block">
                         <ul class="nav nav-tabs nav-fill" id="tabs-signup" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="Sign In" aria-selected="true">Sign In</a></li>
-                            <li class="nav-item"><a class="nav-link" id="create-account-tab" data-toggle="tab" href="#create-account" role="tab" aria-controls="Create Account" aria-selected="false">Create new account <i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            <li class="nav-item"><a class="nav-link active" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="Sign In" aria-selected="true"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a></li>
+                            <li class="nav-item"><a class="nav-link" id="create-account-tab" data-toggle="tab" href="#create-account" role="tab" aria-controls="Create Account" aria-selected="false"><i class="fa fa-user-o" aria-hidden="true"></i> Create new account</a></li>
                         </ul>
                         <div class="tab-content py-5 px-4" id="tabs-content-signup">
                             <div class="tab-pane fade show active" id="signup" role="tabpanel" aria-labelledby="singup-tab">
-                                <p class="text-center mb-3">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can</p>
+                                <p class="text-center mb-3">Sign in with social media or your email and password. If you don't already have an account, click "Create new account".</p>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-list text-center mt-2"><a class="btn btn-lk" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mt-2" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
@@ -57,7 +57,7 @@
                                     Create your new SMBeez account
                                 </h2>
                                 <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
-                                <p class="text-center my-3">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can</p>
+                                <p class="text-center my-3">Sign in with social media or your email and password. If you don't already have an account, click "Create new account".</p>
                                 <form class="form-signin my-4" method="POST" action="{{ route('register') }}">
                                     {{ csrf_field() }}
                                     <div class="row">
@@ -121,7 +121,12 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col"><input type="file" class="form-control {{$errors->has('profile_pic_url') ? 'is-invalid' : ''}}" name="profile_pic_url"></div>
+                                        <div class="col">
+                                            <label class="custom-file">
+                                                <input type="file" id="profile_pic_url" name="profile_pic_url" class="custom-file-input  {{$errors->has('profile_pic_url') ? 'is-invalid' : ''}}" accept=".png, .jpg, .jpeg, .bmp"> 
+                                                <span class="custom-file-control" data-label="Profile Picture"></span>
+                                            </label>
+                                        </div>
                                         <div class="col">
                                             <select name="user_city" class="form-control custom-select d-block" required>
                                                 <option value="">Select your City</option>

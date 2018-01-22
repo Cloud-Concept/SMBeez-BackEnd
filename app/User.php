@@ -47,6 +47,10 @@ class User extends Authenticatable
     public function reviews() {
         return $this->hasMany(Review::class);
     }
+
+    public function messages() {
+        return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
+    }
     //check for profile completion
     public function profile_completion() {
 

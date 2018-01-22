@@ -43,7 +43,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->where('city', Auth::user()->user_city)->paginate(1);
+            $companies = $company->where('city', Auth::user()->user_city)->latest()->paginate(10);
         }else {
             //this will be changed to the selected country from the menu
 
@@ -53,7 +53,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->paginate(1);
+            $companies = $company->latest()->paginate(10);
         }   
 
         
@@ -149,8 +149,8 @@ class CompaniesController extends Controller
         $project = new Project;
         
         $closed_projects = $project->where('user_id', $company->user_id)
-        ->where('status', 'publish')
-        ->where('awarded_to', '!=', null)->take(8)->get();
+        ->where('status', 'closed')
+        ->take(8)->latest()->get();
         
         $customer_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'customer');
@@ -161,32 +161,32 @@ class CompaniesController extends Controller
         if($company->reviews->count() > 0) {
             //sum of all reviews rates
             $customer_overall = DB::table('reviews')
-            ->select(DB::raw("SUM(overall_rate + selection_process_rate + money_value_rate + delivery_quality_rate)"))
+            ->select(DB::raw("SUM(quality + cost + time + business_repeat + overall_rate)"))
             ->where('company_id', $company->id)
             ->where('reviewer_relation', 'customer')->get();
 
             //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 4 which means 4 types of rates
+            //reviews count * 5 which means 5 types of rates
             foreach ($customer_overall[0] as $key => $value) {
                 $value = (int)$value;
             }
             if($value > 0) {
-                $customer_overall = ceil($value / ($customer_reviews->count() * 4));
+                $customer_overall = ceil($value / ($customer_reviews->count() * 5));
             }   
 
             //sum of all reviews rates
             $suppliers_overall = DB::table('reviews')
-            ->select(DB::raw("SUM(overall_rate + selection_process_rate + money_value_rate + delivery_quality_rate)"))
+            ->select(DB::raw("SUM(overall_rate + business_repeat + procurement + expectations + payments)"))
             ->where('company_id', $company->id)
             ->where('reviewer_relation', 'supplier')->get();
 
             //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 4 which means 4 types of rates
+            //reviews count * 5 which means 5 types of rates
             foreach ($suppliers_overall[0] as $key => $value) {
                 $value = (int)$value;
             }
             if($value > 0) {
-                $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 4));
+                $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 5));
             }
         }
         
@@ -202,9 +202,47 @@ class CompaniesController extends Controller
     public function edit(Company $company)
     {   
         $user = auth()->user();
+
+        $customer_reviews = $company->reviews->where('company_id', $company->id)
+        ->where('reviewer_relation', 'customer');
+
+        $suppliers_reviews = $company->reviews->where('company_id', $company->id)
+        ->where('reviewer_relation', 'supplier');
+
+        if($company->reviews->count() > 0) {
+            //sum of all reviews rates
+            $customer_overall = DB::table('reviews')
+            ->select(DB::raw("SUM(quality + cost + time + business_repeat + overall_rate)"))
+            ->where('company_id', $company->id)
+            ->where('reviewer_relation', 'customer')->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 5 which means 5 types of rates
+            foreach ($customer_overall[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            if($value > 0) {
+                $customer_overall = ceil($value / ($customer_reviews->count() * 5));
+            }   
+
+            //sum of all reviews rates
+            $suppliers_overall = DB::table('reviews')
+            ->select(DB::raw("SUM(overall_rate + business_repeat + procurement + expectations + payments)"))
+            ->where('company_id', $company->id)
+            ->where('reviewer_relation', 'supplier')->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 5 which means 5 types of rates
+            foreach ($suppliers_overall[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            if($value > 0) {
+                $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 5));
+            }
+        }
         //allow edit for company owner only
         if($company->is_owner(auth()->id())) {
-            return view('front.company.edit', compact('company', 'user'));
+            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews', 'customer_overall', 'suppliers_overall'));
         }else {
             return redirect(route('front.company.all'));
         }
@@ -218,10 +256,75 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Company $company)
-    {
-        //
+    {   
+        $company->company_name = $request['company_name'];
+        $company->company_description = $request['company_description'];
+        $company->company_tagline = $request['company_tagline'];
+        $company->company_website = $request['company_website'];
+        $company->company_email = $request['company_email'];
+        $company->company_phone = $request['company_phone'];
+        $company->linkedin_url = $request['linkedin_url'];
+        $company->city = $request['city'];
+        $company->company_size = $request['company_size'];
+        $company->year_founded = $request['year_founded'];
+        $company->company_type = $request['company_type'];
+        $company->reg_number = $request['reg_number'];
+        $company->reg_date = $request['reg_date'];
+        /*$company->location = $request['location'];*/
+
+        $company->update();
+        //make the company sluggable
+        $sluggable = $company->replicate();
+        // redirect to the home page
+        session()->flash('success', 'Your company has been created.');
+
+        return back();
     }
 
+
+    public function update_logo(Request $request, Company $company)
+    {
+        if($request->hasFile('logo_url')) {
+
+            $logo_url     = $request->file('logo_url');
+            $img_name  = time() . '.' . $logo_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/company/';
+            //path of the new image
+            $path       = public_path('images/company/' . $img_name);
+            //save image to the path
+            Image::make($logo_url)->resize(130, 43)->save($path);
+            //get the old image
+            $oldImage = $company->logo_url;
+            //make the field logo_url in the table = to the link of img
+            $company->logo_url = $path_db . $img_name;
+            //delete the old image
+            File::delete(public_path($oldImage));
+        }
+
+        if($request->hasFile('cover_url')) {
+
+            $cover_url     = $request->file('cover_url');
+            $img_name_cover  = time() . '.' . $cover_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db_cover = 'images/company/';
+            //path of the new image
+            $path_cover       = public_path('images/company/' . $img_name_cover);
+            //save image to the path
+            Image::make($cover_url)->resize(346, 213)->save($path_cover);
+            //get the old image
+            $oldCover = $company->cover_url;
+            //make the field cover_url in the table = to the link of img
+            $company->cover_url = $path_db_cover . $img_name_cover;
+            //delete the old image
+            File::delete(public_path($oldCover));
+        }
+
+        $company->update();
+
+        return back();
+
+    }
     /**
      * Remove the specified resource from storage.
      *

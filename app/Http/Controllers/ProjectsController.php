@@ -55,7 +55,6 @@ class ProjectsController extends Controller
             'project_title' => 'required|string|max:255',
             'project_description' => 'required',
             'budget' => 'required',
-            'status' => 'required',
             'slug' => 'unique:projects'
         ]);
 
@@ -80,7 +79,7 @@ class ProjectsController extends Controller
 
             $filename = time() . '.' . $file->getClientOriginalExtension();
             //store in the storage folder
-            $file->storeAs('projects/files', $filename);
+            $file->storeAs('/', $filename, 'project_files');
 
             $project->supportive_docs = $filename;
         }
@@ -168,5 +167,18 @@ class ProjectsController extends Controller
         $project->where('id', $project->id)->update(['status' => 'closed', 'status_on_close' => 'by_owner']);
 
         return redirect(route('front.user.myprojects', $project->user->username));
+    }
+
+    /**
+     * Publish the specified project.
+     *
+     * @param  \App\Project  $project
+     * @return \Illuminate\Http\Response
+     */
+    public function publish(Project $project)
+    {   
+        $project->where('id', $project->id)->update(['status' => 'publish']);
+
+        return back();
     }
 }

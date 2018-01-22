@@ -26,3 +26,7 @@ Route::get('projects/all', function() {
     // this will return a JSON structure. This will be cleaned up later.
     return Project::all();
 });
+
+
+Route::get('/search', 'SearchController@filter_opportunities')->name('filter.opportunities');
+

@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    @include ('layouts.filter-sidebar')
+                    @include ('layouts.filter-sidebar-opportunities')
                 </div>
                 <div class="col-md-8">
                     <div class="row equal">
@@ -34,18 +34,21 @@
                             </div>
                         </div>
                         @endforeach
-                        
-                        @foreach($industry->projects as $project)
-                        <div class="col-md-12 mt-5">
-                            <div class="project-box project-box-side box-block">
-                                <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
-                                <p>{{strip_tags(substr($project->project_description, 0, 150))}}</p> 
-                                <p class="tags">More in: 
-                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
-                                </p>
+                        <div class="row equal infinite-scroll">
+                            @foreach($industry_projects as $project)
+                            <div class="col-md-12 mt-5">
+                                <div class="project-box project-box-side box-block">
+                                    <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
+                                    <p>{{strip_tags(substr($project->project_description, 0, 150))}}...</p> 
+                                    <p class="tags">More in: 
+                                        <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                    </p>
+                                </div>
                             </div>
+                            @endforeach
+
+                            {{$industry_projects->links()}}
                         </div>
-                        @endforeach
                     </div>
                 </div>
             </div>

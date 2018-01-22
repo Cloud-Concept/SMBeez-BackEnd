@@ -47,13 +47,15 @@ Route::prefix('user')->group(function() {
 	//Company Module
 	Route::post('/company/store', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@store'])->name('front.company.store');
 	Route::get('/company/create', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@create'])->name('front.company.create');
-
+	Route::get('/messages/all', 'MessagesController@index')->name('front.messages.index');
 });
 
 Route::prefix('companies')->group(function() {
 	Route::get('/all', 'CompaniesController@index')->name('front.company.all');
 	Route::get('/{company}', 'CompaniesController@show')->name('front.company.show');
 	Route::get('/{company}/edit', 'CompaniesController@edit')->name('front.company.edit');
+	Route::post('/{company}/update', 'CompaniesController@update')->name('front.company.update');
+	Route::post('/updatelogo/{company}', 'CompaniesController@update_logo')->name('front.company.updatelogo');
 	Route::get('/industries/{industry}', 'CompaniesController@show_industry')->name('front.company.showindustry');
 });
 
@@ -67,6 +69,7 @@ Route::prefix('projects')->group(function() {
 	Route::get('/create', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@create'])->name('front.project.create');
 	Route::get('/{project}', 'ProjectsController@show')->name('front.project.show');
 	Route::post('close/{project}', 'ProjectsController@close')->name('front.project.close');
+	Route::post('publish/{project}', 'ProjectsController@publish')->name('front.project.publish');
 });
 
 
@@ -75,4 +78,5 @@ Route::post('/interest/store', ['middleware' => ['role:company|superadmin'], 'us
 Route::delete('/interest/delete/{interest}', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@destroy'])->name('withdraw.interest');
 Route::post('/interest/{interest}/accept', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@accept_interest'])->name('accept.interest');
 Route::post('/interest/{interest}/decline', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@decline_interest'])->name('decline.interest');
-Route::post('/review/store', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store'])->name('add.review');
+Route::post('/review/customer', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store_customer_review'])->name('add.review.customer');
+Route::post('/review/supplier', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store_supplier_review'])->name('add.review.supplier');

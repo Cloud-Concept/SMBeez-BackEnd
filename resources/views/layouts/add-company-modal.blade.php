@@ -76,7 +76,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">What is your company main message? *</label>
-                                    <textarea name="company_description" id="company_description"></textarea>
+                                    <textarea name="company_description" class="form-control" id="company_description"></textarea>
                                 </div>
                             </div>
                             <div class="col">
@@ -117,21 +117,14 @@
         </div>
     </div>
 </div>
-
+<style type="text/css" media="screen">
+    .select2-container {
+        width: 100%!important;
+    }
+</style>
 <script type="text/javascript">
 
 jQuery(document).ready(function () {
-    tinymce.init({
-        selector: '#company_description',
-        plugins: [
-          'advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker',
-          'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking',
-          'save table contextmenu directionality emoticons template paste textcolor'
-        ],
-        height: 50,
-        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | print preview media fullpage | forecolor backcolor emoticons'
-    });
-
     $('.multi-select').select2();
 });
 

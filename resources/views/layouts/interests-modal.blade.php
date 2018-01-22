@@ -38,12 +38,20 @@
                                         </div>
                                         <div class="star-rating mb-3">
                                             <ul class="list-inline">
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">(35 Reviews)</a></li>
+                                                @if($interest->user->company->reviews->count() > 0)
+                                                <div class="star-rating">
+                                                    <ul class="list-inline">
+                                                        <li class="list-inline-item">
+                                                            <select class="star-rating-ro">
+                                                                @for($i = 1; $i <= 5; $i++)
+                                                                <option value="{{$i}}" {{$i == $interest->user->company->company_overall_rating($interest->user->company->id) ? 'selected' : ''}}>{{$i}}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </li>
+                                                        <li class="list-inline-item thumb-review"><a href="">({{$interest->user->company->reviews->count()}} Reviews)</a></li>
+                                                    </ul>
+                                                </div>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -59,8 +67,8 @@
                                             @elseif($interest->is_accepted === 0)
                                                 <p>Declined</p>
                                             @else
-                                                <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); var r = confirm('Are you sure you want to accept this interest ?'); if (r == true) {document.getElementById('accept-interest-{{$interest->id}}').submit();}">Accept</button>                  
-                                                <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); var r = confirm('Are you sure you want to decline this interest ?'); if (r == true) {document.getElementById('decline-interest-{{$interest->id}}').submit();}">Decline</button>
+                                                <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">Accept</button>                  
+                                                <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">Decline</button>
                                             @endif
                                             <form id="accept-interest-{{$interest->id}}" action="{{route('accept.interest', $interest->id)}}" method="post" class="write-review">
                                                 {{csrf_field()}}

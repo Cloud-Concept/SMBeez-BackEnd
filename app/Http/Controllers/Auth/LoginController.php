@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\Welcome;
 
 class LoginController extends Controller
 {
@@ -29,9 +31,9 @@ class LoginController extends Controller
      */
 
     protected function authenticated(Request $request, $user) {
+        Mail::to($user)->send(new Welcome);
         return redirect(route('front.user.dashboard', $user->username));
     }
-    //protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.

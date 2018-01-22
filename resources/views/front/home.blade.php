@@ -8,7 +8,7 @@
                 <div class="col-xl-6 col-md-12 offset-xl-3">
                     <h1 class="text-center">Matchmaking for Small Businesses</h1>
                     <p class="text-center">Find work and source suppliers in your local marketplace...</p>
-                    <div class="btn-hero text-center"><a href="{{route('front.company.all')}}" class="btn btn-blue">Add your company</a> <span>or </span><a href="#" class="btn btn-blue">publish your project</a></div>
+                    <div class="btn-hero text-center"><a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a> <span>or </span><a href="#" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a></div>
                 </div>
             </div>
         </div>
@@ -31,18 +31,18 @@
     </section>
     <section class="featured-companies bg-gray">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row px-4">
                 <div class="col-md-4">
                     <div class="sidebar sidebar-01">
                         <h2>Find Suppliers</h2>
                         <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
-                        <a href="" class="btn btn-blue btn-yellow">Browse Companies</a>
+                        <a href="" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Companies</a>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 class="mb-5">Featured companies <a href="" class="btn btn-trans pull-right">Discover more</a></h3>
+                            <h3 class="mb-5">Featured companies <a href="" class="btn btn-trans pull-right"><i class="fa fa-arrow-right" aria-hidden="true"></i> Discover more</a></h3>
                         </div>
                         <div class="col-md-6">
                             <div class="company-box box-block mb-5">
@@ -97,11 +97,11 @@
     </section>
     <section class="featured-projects box-block">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row px-4">
                 <div class="col-md-8">
                     <div class="row equal">
                         <div class="col-md-12">
-                            <h3 class="mb-5">Featured Projects <a href="" class="btn btn-trans pull-right">Discover more</a></h3>
+                            <h3 class="mb-5">Featured Projects <a href="" class="btn btn-trans pull-right"><i class="fa fa-arrow-right" aria-hidden="true"></i> Discover more</a></h3>
                         </div>
                         <div class="col-md-6 mb-4">
                             <div class="project-box box-block">
@@ -157,13 +157,13 @@
             </div>
         </div>
     </section>
-    <section class="create-intro-sidebar mb-5">
+    <section class="create-intro-sidebar py-5 bg-gray">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 col-xs-12 offset-md-3 text-center">
-                    <h2>Find Work</h2>
+                    <h2><i class="fa fa-folder-o fa-3x mb-3" aria-hidden="true"></i><br>Find Work</h2>
                     <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
-                    <a href="" class="btn btn-blue btn-yellow">Browse Projects</a>
+                    <a href="" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Projects</a>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 col-xs-12 offset-md-3 text-center">
-                    <h2>Be Found</h2>
+                    <h2><i class="fa fa-files-o fa-2x mb-3" aria-hidden="true"></i><br>Be Found</h2>
                     <p class="mt-5 mb-5">Create your company profile and sar thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
                     <a href="" class="btn btn-blue btn-yellow-2">Browse Projects</a>
                 </div>

@@ -1,5 +1,4 @@
 <ul class="cd-main-nav">
-    <li><a href="#">About</a></li>
     <li><a href="{{route('front.company.all')}}">Companies</a></li>
     <li class="nav-item dropdown">
         @if (Auth::guest() || !$hascompany)
@@ -17,7 +16,7 @@
         <a href="#"><span class="flag-icon flag-icon-ae"></span> Dubai</a>
     </li>
     @if (Auth::guest())
-    <li><a href="{{ route('login') }}">Sign in</a></li>
+    <li class="btn-menu"><a href="{{ route('login') }}">Sign in</a></li>
     @else
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} </a>

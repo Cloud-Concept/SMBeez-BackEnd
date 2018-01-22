@@ -14,21 +14,6 @@ use DB;
 
 class IndustriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /*public function index()
-    {   
-        $industries = new Industry;
-        $industries_1 = $industries->skip(0)->take(3)->get();
-        $industries_2 = $industries->skip(3)->take(2)->get();
-        $industries_3 = $industries->skip(5)->take(3)->get();
-        $industries_4 = $industries->skip(8)->take(3)->get();
-        $industries = $industries->pluck('id');
-        return view('front.industry.index', compact('industries','industries_1','industries_2','industries_3','industries_4'));
-    }*/
 
     /**
      * Show the form for creating a new resource.
@@ -56,27 +41,22 @@ class IndustriesController extends Controller
         $industry = new Industry;
 
         $industry->industry_name = $request['industry_name'];
-        $industry->industry_img_url = $request['industry_img_url'];
 
         if($request->hasFile('industry_img_url')) {
 
             $industry_img_url     = $request->file('industry_img_url');
             $img_name  = time() . '.' . $industry_img_url->getClientOriginalExtension();
             //path to year/month folder
-            $date_path = public_path('images/industry/' . date('Y') . '/' . date('m'));
-            $date_path_db = 'images/industry/' . date('Y') . '/' . date('m') . '/';
-            //check if date foler exists if not create it
-            if(!File::exists($date_path)) {
-                File::makeDirectory($date_path, 666, true);
-            }
+            $path_db = 'images/industry/';
+            
             //path of the new image
-            $path       = $date_path . '/' . $img_name;
+            $path       = public_path('images/industry/' . $img_name);
             //save image to the path
             Image::make($industry_img_url)->save($path);
             //get the old image
             $oldImage = $industry->industry_img_url;
             //make the field industry_img_url in the table = to the link of img
-            $industry->industry_img_url = $date_path_db . $img_name;
+            $industry->industry_img_url = $path_db . $img_name;
             //delete the old image
             File::delete(public_path($oldImage));
         }
@@ -125,6 +105,10 @@ class IndustriesController extends Controller
         $specialities = $speciality->all();
 
         if(Auth::user()) {
+
+            $industry_projects = $project->with('industries')->where('status', 'publish')
+            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+
             //show featured projects from the same industry
             $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
                 $q->where('industries.id', $industry->id);
@@ -138,6 +122,9 @@ class IndustriesController extends Controller
 
         }else {
 
+            $industry_projects = $project->with('industries')->where('status', 'publish')
+            ->latest()->paginate(10);
+
             $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
                 $q->where('industries.id', $industry->id);
             })
@@ -150,7 +137,7 @@ class IndustriesController extends Controller
         }
 
 
-        return view('front.industry.show', compact('industries', 'hasCompany', 'industry', 'companies', 'featured_projects', 'specialities'));
+        return view('front.industry.show', compact('industries', 'industry', 'hasCompany', 'industry_projects', 'companies', 'featured_projects', 'specialities'));
     }
 
     /**
