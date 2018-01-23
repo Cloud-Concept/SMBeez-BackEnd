@@ -15,6 +15,7 @@ mix.js('resources/assets/js/main.js', 'public/js');
 mix.sass('resources/assets/sass/styles/main.scss', 'public/css').options({
   processCssUrls: false
 });
+mix.copyDirectory('resources/assets/images', 'public/images');
 mix.browserSync({
 	proxy: 'localhost:8000'
 });
