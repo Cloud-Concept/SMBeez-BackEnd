@@ -80,7 +80,11 @@
                         <tbody>
                             @foreach ($user->projects as $project)
                             <tr>
-                                <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a></td>
+                                <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a>
+                                    @if($project->status != 'closed' && $project->status != 'deleted')
+                                        <div class="btn-list my-1"><a href="{{route('front.project.edit', $project->slug)}}" class="btn-blank">Edit Details</a></div>
+                                    @endif
+                                </td>
                                 @if($project->status == 'draft')
 
                                     <td>Draft</td>

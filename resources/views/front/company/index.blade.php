@@ -87,6 +87,9 @@
                                         </div>
                                         @endif
                                     </div>
+                                    @if(!Auth::guest())
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('bookmark-{{$company->id}}').submit();"><i class="fa fa-bookmark-o"></i></a>
+                                    @endif
                                 </div>
                                 <p>{{strip_tags(substr($company->company_description, 0, 180))}}</p>
                                 <p class="tags">More in:
@@ -98,6 +101,13 @@
                                     @endforeach
                                 </p>
                             </div>
+                            @if(!Auth::guest())
+                            <form id="bookmark-{{$company->id}}" action="{{route('bookmark.add')}}" method="POST">
+                                {{csrf_field()}}
+                                <input type="hidden" name="bookmarked_id" value="{{$company->id}}"/>
+                                <input type="hidden" name="bookmark_type" value="App\Company"/>
+                            </form>
+                            @endif
                         </div>
                         @endforeach
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use DB;
 
+
 class Company extends Model
 {	
 	use Sluggable;
@@ -38,6 +39,10 @@ class Company extends Model
     public function reviews() {
         return $this->hasMany(Review::class);
     }
+    //reviews relationship
+    public function claims() {
+        return $this->hasMany(Claim::class);
+    }
     //check if user is a manager of a company
     public function has_company()
     {
@@ -50,18 +55,30 @@ class Company extends Model
         }
 
     }
+    //check if user created claim request
+    public function requested_claim($user, $company)
+    {
+        $requested_claim = Claim::where('user_id', $user)->where('company_id', $company)->first();
+
+        if($requested_claim) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
     //check if the user is the owner of this company
     public function is_owner($user) {
         return $this->user_id === auth()->id();
     }
 
-    public function company_overall_rating($id)
+    public function company_overall_rating($company_id)
     {   
        if($this->reviews->count() > 0) {  
             //sum of all reviews rates
             $company_overall_rating = DB::table('reviews')
             ->select(DB::raw("SUM(overall_rate + business_repeat + time + cost + quality + procurement + expectations + payments)"))
-            ->where('company_id', $id)->get();
+            ->where('company_id', $company_id)->get();
 
             //the sum of reviews rates divided by the reviews number which is the 
             //reviews count * 5 which means 5 types of rates
@@ -72,6 +89,46 @@ class Company extends Model
             $company_overall_rating = ceil($value / ( $this->reviews->count() * 5));
             //displaying over all rating of the company
             return $company_overall_rating;
+        }
+    }
+    //get customer rating
+    public function customer_rating($company_id, $customer_reviews)
+    {   
+        if($this->reviews->count() > 0) {
+            //sum of all reviews rates
+            $customer_overall = DB::table('reviews')
+            ->select(DB::raw("SUM(quality + cost + time + business_repeat + overall_rate)"))
+            ->where('company_id', $company_id)
+            ->where('reviewer_relation', 'customer')->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 5 which means 5 types of rates
+            foreach ($customer_overall[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            if($value > 0) {
+                return $customer_overall = ceil($value / ($customer_reviews->count() * 5));
+            }
+        } 
+    }
+    //suppliers rating
+    public function suppliers_rating($company_id, $suppliers_reviews)
+    {   
+        if($this->reviews->count() > 0) {
+            //sum of all reviews rates
+            $suppliers_overall = DB::table('reviews')
+            ->select(DB::raw("SUM(overall_rate + business_repeat + procurement + expectations + payments)"))
+            ->where('company_id', $company_id)
+            ->where('reviewer_relation', 'supplier')->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 5 which means 5 types of rates
+            foreach ($suppliers_overall[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            if($value > 0) {
+                return $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 5));
+            }
         }
     }
     //use slug to get company

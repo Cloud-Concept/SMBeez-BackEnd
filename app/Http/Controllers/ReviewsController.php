@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use App\Company;
+use App\ReviewsLikeUnlike;
+use App\ReviewFlags;
 use Illuminate\Http\Request;
+
+use Mail;
+use App\Mail\ReviewSubmitted;
 
 class ReviewsController extends Controller
 {
@@ -57,6 +62,8 @@ class ReviewsController extends Controller
 
         $review->save();
 
+        Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+
         return back();
     }
 
@@ -88,6 +95,8 @@ class ReviewsController extends Controller
 
         $review->save();
 
+        Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+        
         return back();
     }
     /**
@@ -134,4 +143,70 @@ class ReviewsController extends Controller
     {
         //
     }
+
+
+    public function like(Request $request, Review $review)
+    {   
+        $impression = new ReviewsLikeUnlike;
+
+        $impression->user_id = auth()->id();
+        $impression->review_id = $review->id;
+        $impression->company_id = $review->company->id;
+        $impression->type = 1;
+        //delete record if unlike exists
+        $check_like = $impression->where('user_id', $impression->user_id)->where('review_id', $impression->review_id)->first();
+
+        if($check_like) {
+            $check_like->delete();
+        }
+
+        $impression->save();
+
+        return back();
+    }
+
+    public function unlike(Request $request, Review $review)
+    {
+        $impression = new ReviewsLikeUnlike;
+
+        $impression->user_id = auth()->id();
+        $impression->review_id = $review->id;
+        $impression->company_id = $review->company->id;
+        $impression->type = 0;
+        //delete record if like exists
+        $check_like = $impression->where('user_id', $impression->user_id)->where('review_id', $impression->review_id)->first();
+
+        if($check_like) {
+            $check_like->delete();
+        }
+
+        $impression->save();
+
+        return back();
+    }
+
+    public function flag(Request $request, Review $review)
+    {   
+        $flag = new ReviewFlags;
+
+        $flag->user_id = auth()->id();
+        $flag->review_id = $review->id;
+        $flag->company_id = $review->company->id;
+
+        $flag->save();
+
+        return back();
+    }
+
+    public function unflag(Request $request, Review $review)
+    {   
+        $flag = new ReviewFlags;
+
+        $flag = $flag->where('user_id', auth()->id())->where('review_id', $review->id)->first();
+
+        $flag->delete();
+
+        return back();
+    }
+
 }

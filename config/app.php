@@ -183,6 +183,7 @@ return [
         Laratrust\LaratrustServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Torann\GeoIP\GeoIPServiceProvider::class,
     ],
 
     /*
@@ -213,6 +214,7 @@ return [
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
+        'GeoIP' => Torann\GeoIP\GeoIPFacade::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,

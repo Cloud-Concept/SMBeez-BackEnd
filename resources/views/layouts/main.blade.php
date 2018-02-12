@@ -51,10 +51,12 @@
                         <p>SMBeez is your local online marketplace for small and medium companies keen to do business with you. Source project opportunities and find reliable suppliers easily from the comfort of your office. Confidently do business with trusted... <a href="">more</a></p>
                     </div>
                     <div class="col-md-3">
+                        @if(Auth::guest())
                         <h6 class="mb-3">Stay in touch</h6>
                         <form action="" class="newsletter">
                             <div class="input-group"><input type="text" class="form-control" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="button"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
                         </form>
+                        @endif
                     </div>
                     <div class="col-md-3">
                         <h6>Links</h6>

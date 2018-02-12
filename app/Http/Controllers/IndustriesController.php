@@ -15,6 +15,63 @@ use DB;
 class IndustriesController extends Controller
 {
 
+    public function index(Industry $industry)
+    {   
+        $company = new Company;
+        //check if the user has a company
+        $hasCompany = $company->where('user_id', Auth::id())->first();
+
+        //get the current user company if the user already has company
+        if(!Auth::guest() && $hasCompany) {
+
+            $user_company = Auth::user()->company;
+
+            if($user_company->industry->id != $industry->id) {
+                return redirect(route('front.industry.show', $user_company->industry->slug));
+            }
+
+        }
+
+        $industries = $industry->all();
+        
+        $companies = $company->all();
+        
+        $project = new Project;
+
+        $speciality = new Speciality;
+
+        $specialities = $speciality->all();
+
+        if(Auth::user()) {
+
+            $industry_projects = $project->with('industries')->where('status', 'publish')
+            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+
+            //show featured projects from the same industry
+            $featured_projects = $project->where('is_promoted', 1)
+            ->where('status', 'publish')
+            ->where('city', Auth::user()->user_city)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+        }else {
+
+            $industry_projects = $project->with('industries')->where('status', 'publish')
+            ->latest()->paginate(10);
+
+            $featured_projects = $project->where('is_promoted', 1)
+            ->where('status', 'publish')
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+        }
+
+
+        return view('front.industry.show', compact('industries', 'industry', 'hasCompany', 'industry_projects', 'companies', 'featured_projects', 'specialities'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -39,7 +39,6 @@ class Project extends Model
     public function interests() {
         return $this->hasMany(Interest::class);
     }
-
     //check if user has interest to this project
     public function has_interest()
     {

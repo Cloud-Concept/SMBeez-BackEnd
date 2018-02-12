@@ -6,6 +6,11 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Image;
+use Illuminate\Support\Facades\Input;
+use Mail;
+use App\Mail\Welcome;
 
 class RegisterController extends Controller
 {
@@ -75,9 +80,28 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'honeycombs' => 0,
         ]);
+
+        if(Input::hasFile('profile_pic_url')) {
+
+            $profile_pic_url     = Input::file('profile_pic_url');
+            $img_name  = time() . '.' . $profile_pic_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/users/';
+            //path of the new image
+            $path       = public_path('images/users/' . $img_name);
+            //save image to the path
+            Image::make($profile_pic_url)->resize(48, 48)->save($path);
+            //make the field profile_pic_url in the table = to the link of img
+            $user->profile_pic_url = $path_db . $img_name;
+
+        }
         // set user role as user (4) is user role id
         $user->roles()->attach(4);
+
+        event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
         
+        Mail::to($user)->send(new Welcome);
+
         return $user;
 
     }

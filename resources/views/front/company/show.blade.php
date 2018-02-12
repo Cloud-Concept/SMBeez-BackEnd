@@ -28,14 +28,16 @@
                                     @endforeach
                                 </span></li>
                             </ul>
-                            @if (Auth::guest() || Auth::user()->id != $company->user_id)
-                            <div class="text-center my-3"></div>
-                            @elseif(Auth::user()->id == $company->user_id)
-                            <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Edit Company</button></a></div>
-                            @elseif ($company->user_id == '0')
-                            <div class="text-center my-3"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</button></div>
-                            @endif
 
+                            @if (Auth::guest() && $company->user_id == '0' && !$company->requested_claim(Auth::user()->id, $company->id))
+                                <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>
+                            @elseif (Auth::guest() && $company->user_id != '0')
+                                <div></div>
+                            @elseif (!Auth::guest() && $company->user_id == '0' && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id))
+                                <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>    
+                            @elseif(Auth::user()->id == $company->user_id)
+                                <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Edit Company</button></a></div>
+                            @endif
 
                             <h3>Contact info</h3>
                             <ul class="list-unstyled details-box vcard-list">
@@ -115,6 +117,8 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade active show pt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
                            	<p>{{ strip_tags($company->company_description) }}</p>
+                            
+                            @if($closed_projects->count() > 0)
                             <h3 class="mb-4 mt-5">Closed projects</h3>
                             <div class="row equal">
                                 @foreach($closed_projects as $project)
@@ -129,6 +133,7 @@
                                     </div> 
                                 @endforeach   
                             </div>
+                            @endif
                         </div>
                         <div class="tab-pane fade pt-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="review-bar">
@@ -139,7 +144,7 @@
                                             @if($company->reviews->count() > 0)
                                             <select class="star-rating-ro">
                                                 @for($i = 1; $i <= 5; $i++)
-                                                <option value="{{$i}}" {{$i == $customer_overall ? 'selected' : ''}}>{{$i}}</option>
+                                                <option value="{{$i}}" {{$i == $company->customer_rating($company->id, $customer_reviews) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
                                             </select>
                                             @endif
@@ -165,11 +170,37 @@
                                             <p>{{$review->feedback}} <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i></a></p>
                                             @if(!Auth::guest())
                                             <ul class="review-content-social">
-                                                <li><a href=""><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                <li><a href=""><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
-                                                <li><a href="" class="btn btn-blue btn-yellow"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                @if($review->impression($review->id) === 1)
+                                                    <li><a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                @elseif($review->impression($review->id) === 0)
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
+                                                @else
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                @endif
+
+                                                @if($review->is_flagged($review->id) === true)
+                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-unflag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li>
+                                                @else
+                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-flag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                @endif
                                                 <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li>
                                             </ul>
+                                            <form id="review-like-{{$review->id}}" action="{{route('review.like', $review->id)}}" method="post">
+                                                {{csrf_field()}}
+                                            </form>
+                                            <form id="review-unlike-{{$review->id}}" action="{{route('review.unlike', $review->id)}}" method="post">
+                                                {{csrf_field()}}
+                                            </form>
+                                            <form id="review-flag-{{$review->id}}" action="{{route('review.flag', $review->id)}}" method="post">
+                                                {{csrf_field()}}
+                                            </form>
+                                            <form id="review-unflag-{{$review->id}}" action="{{route('review.unflag', $review->id)}}" method="post">
+                                                {{csrf_field()}}
+                                                {{ method_field('DELETE') }}
+                                            </form>
                                             @endif
                                         </div>
                                         <div class="col-lg-3 col-md-12">
@@ -261,7 +292,7 @@
                                             @if($company->reviews->count() > 0)
                                             <select class="star-rating-ro">
                                                 @for($i = 1; $i <= 5; $i++)
-                                                <option value="{{$i}}" {{$i == $suppliers_overall ? 'selected' : ''}}>{{$i}}</option>
+                                                <option value="{{$i}}" {{$i == $company->suppliers_rating($company->id, $suppliers_reviews) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
                                             </select>
                                             @endif
@@ -287,11 +318,31 @@
                                             <p>{{$review->feedback}} <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i></a></p>
                                             @if(!Auth::guest())
                                             <ul class="review-content-social">
-                                                <li><a href=""><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                <li><a href=""><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
-                                                <li><a href="" class="btn btn-blue btn-yellow"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                @if($review->impression($review->id) === 1)
+                                                    <li><a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                @elseif($review->impression($review->id) === 0)
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
+                                                @else
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                @endif
+
+                                                @if($review->is_flagged($review->id) === true)
+                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-unflag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li>
+                                                @else
+                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-flag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                @endif
+
                                                 <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li>
                                             </ul>
+                                            <form id="review-like-{{$review->id}}" action="{{route('review.like', $review->id)}}" method="post">
+                                                {{csrf_field()}}
+                                            </form>
+                                            <form id="review-unlike-{{$review->id}}" action="{{route('review.unlike', $review->id)}}" method="post">
+                                                {{csrf_field()}}
+                                            </form>
                                             @endif
                                         </div>
                                         <div class="col-lg-3 col-md-12">
@@ -403,7 +454,7 @@
                                 <div class="form-group form-bg">
                                     <ul class="nav radio-tabs" role="tablist">
                                         <li><a class="active radio-link" id="form1-tab" data-toggle="tab" href="#form1" role="tab" aria-controls="form1" aria-selected="true"><label class="custom-control custom-radio"><input id="radio1-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">I am a Customer</span></label></a></li>
-                                        <li><a class="radio-link" id="form2-tab" data-toggle="tab" href="#form2" role="tab" aria-controls="form2" aria-selected="false"><label class="custom-control custom-radio"><input id="radio2-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">I am A Supplier</span></label></a></li>
+                                        <li><a class="radio-link" id="form2-tab" data-toggle="tab" href="#form2" role="tab" aria-controls="form2" aria-selected="false"><label class="custom-control custom-radio"><input id="radio2-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">I am a Supplier</span></label></a></li>
                                     </ul>
                                 </div>
                             </div>

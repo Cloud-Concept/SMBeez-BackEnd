@@ -12,6 +12,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+use Mail;
+use App\Mail\ProjectCreated;
+use App\Mail\ProjectPublished;
+
 use File;
 
 class ProjectsController extends Controller
@@ -86,15 +90,34 @@ class ProjectsController extends Controller
         //save it to the database 
         $project->save();
 
+        $specs = explode(',', $request['hidden-speciality_id']);
+        //check for specs that already exists in database
+        $spec_exists = Speciality::with('projects')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
+        //foreach specs add the specialities that is not recorded in the database
+        foreach($specs as $spec) {
+            $speciality = new Speciality;
+            if(!in_array($spec, $spec_exists)) {
+                $speciality->speciality_name = $spec;
+                $speciality->save();
+            }
+        }
+        //get ids of specialities to attach to the project
+        $specs_ids = $speciality->with('projects')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+        
         //sync project industries
         $project->industries()->sync($request['industry_id'], false);
         //sync project specialities
-        $project->specialities()->sync($request['speciality_id'], false);
+        $project->specialities()->sync($specs_ids, false);
         //make the project sluggable
         $sluggable = $project->replicate();
         // redirect to the home page
         session()->flash('success', 'Your project has been created as ' . $project->save_as);
 
+        if(Input::get('publish')) {
+            Mail::to($project->user->email)->send(new ProjectPublished($project));
+        }elseif(Input::get('draft')) {
+            Mail::to($project->user->email)->send(new ProjectCreated($project));
+        }
 
         return redirect(route('front.project.show', $project->slug));
     }
@@ -129,8 +152,23 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Project $project)
-    {
-        //
+    {   
+        if($project->is_owner(auth()->id())) {
+
+            $industries = Industry::with('projects')->orderBy('industry_name', 'asc')->get();
+
+            $current_specialities = array();
+
+            foreach($project->specialities as $speciality) {
+                $current_specialities[] = $speciality->speciality_name;
+            }
+            $project_specialities = implode('","', $current_specialities);
+
+            return view('front.project.edit', compact('project', 'industries', 'project_specialities'));
+        }else {
+            return redirect(route('front.industry.index'));
+        }
+
     }
 
     /**
@@ -142,7 +180,46 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $project->project_title = $request['project_title'];
+        $project->project_description = $request['project_description'];
+        $project->budget = $request['budget'];
+        $project->city = auth()->user()->user_city;
+
+        if($request->hasFile('supportive_docs')) {
+
+            $file = $request->file('supportive_docs');
+
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            //store in the storage folder
+            $file->storeAs('/', $filename, 'project_files');
+            //get the old file
+            $oldFile = $project->supportive_docs;
+            $project->supportive_docs = $filename;
+            //delete the old file
+            File::delete(public_path('projects/files/' . $oldFile));
+        }
+        //update it to the database 
+        $project->update();
+
+        $specs = explode(',', $request['hidden-speciality_id']);
+        //check for specs that already exists in database
+        $spec_exists = Speciality::with('projects')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
+        //foreach specs add the specialities that is not recorded in the database
+        foreach($specs as $spec) {
+            $speciality = new Speciality;
+            if(!in_array($spec, $spec_exists)) {
+                $speciality->speciality_name = $spec;
+                $speciality->save();
+            }
+        }
+        //get ids of specialities to attach to the project
+        $specs_ids = $speciality->with('projects')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+        //sync project industries
+        $project->industries()->sync($request['industry_id'], true);
+        //sync project specialities
+        $project->specialities()->sync($specs_ids, true);
+
+        return back();
     }
 
     /**
@@ -179,6 +256,8 @@ class ProjectsController extends Controller
     {   
         $project->where('id', $project->id)->update(['status' => 'publish']);
 
+        Mail::to($project->user->email)->send(new ProjectPublished($project));
+        
         return back();
     }
 }

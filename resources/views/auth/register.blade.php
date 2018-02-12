@@ -58,7 +58,7 @@
                                 </h2>
                                 <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
                                 <p class="text-center my-3">Sign in with social media or your email and password. If you don't already have an account, click "Create new account".</p>
-                                <form class="form-signin my-4" method="POST" action="{{ route('register') }}">
+                                <form class="form-signin my-4" method="POST" action="{{ route('register') }}" role="form" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col">

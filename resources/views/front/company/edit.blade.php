@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">                
                 <div class="col-md-3">
-                    <div class="sidebar-company-logo d-flex justify-content-between pb-3 mb-3">
+                    <div id="logo" class="sidebar-company-logo d-flex justify-content-between pb-3 mb-3">
                         @if($company->logo_url)
                         <img src="{{asset($company->logo_url)}}" alt="" class="company-logo">
                         @endif
@@ -22,7 +22,7 @@
                         <img class="img-fluid img-full" src="{{asset($company->cover_url)}}" alt="">
                     </div>
                     <br>
-                    <form action="{{route('front.company.updatelogo', $company->slug)}}" method="post" enctype="multipart/form-data">
+                    <form id="img_upload" method="post" role="form" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="form-group">
                            <label class="custom-file">
@@ -37,7 +37,7 @@
                             </label> 
                         </div>                
                         <br>
-                        <button type="submit" class="btn btn-sm btn-yellow-2">Upload</button>
+                        <button type="submit" id="upload" class="btn btn-sm btn-yellow-2">Upload</button>
                     </form>
                     <div class="sidebar-dashboard mb-5">
                         <ul class="dash-info">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form id="update-company" action="{{route('front.company.update', $company->slug)}}" method="post" accept-charset="utf-8">
+                    <form id="update-company" action="{{route('front.company.update', $company->slug)}}" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
@@ -101,7 +101,7 @@
                                 <thead class="thead-blue">
                                     <tr>
                                         <th scope="col">Basic information</th>
-                                        <th scope="col" class="text-right"><a href="">Edit my Details</a></th>
+                                        <th scope="col" class="text-right">Edit my Details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,12 +166,20 @@
                         </div>
                         <div class="dashboard-company-block">
                             <div class="registration-details">
-                                <h5 class="title-blue">Registration details <a href="">Edit</a></h5>
+                                <h5 class="title-blue">Registration details</h5>
                                 <div class="p-3">
                                     <p>Registration Number : <input class="form-control" type="text" name="reg_number" value="{{$company->reg_number}}" id="reg_number"></p>
                                     <br>
                                     <p>Date of Registration : <input class="form-control" type="date" name="reg_date" value="{{$company->reg_date}}" id="reg_date"></p>
-                                    <a href="" class="btn btn-sm btn-yellow-2 mt-3">Upload Document</a>
+                                    <br>
+                                    <div class="form-group">
+                                        <label class="custom-file">
+                                            <input type="file" id="reg_doc" name="reg_doc" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf"> 
+                                            <span class="custom-file-control" data-label="Registration Documents"></span>
+                                        </label>
+                                        <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-yellow-2 mt-3">Upload Document</button>
                                 </div>
                             </div>
                         </div>
@@ -184,6 +192,12 @@
                         <h4>Location</h4>
                         <i class="fa fa-2x fa-pencil-square-o align-self-center" aria-hidden="true"></i>
                     </div>
+                    <form id="update-company" action="{{route('front.company.update_location', $company->slug)}}" method="post">
+                        {{csrf_field()}}
+                        <input class="form-control" type="text" name="location" value="{{$company->location}}" id="location" placeholder="Location">
+                        <br>
+                        <button type="submit" class="btn btn-sm btn-yellow-2">Save</button>
+                    </form>
                     <div class="sidebar-review-rating mt-4">
                         <div class="rating-sidebar-block">
                             <h5 class="mb-3">My reviews</h5>
@@ -194,7 +208,7 @@
                                         @if($company->reviews->count() > 0)
                                         <select class="star-rating-ro">
                                             @for($i = 1; $i <= 5; $i++)
-                                            <option value="{{$i}}" {{$i == $customer_overall ? 'selected' : ''}}>{{$i}}</option>
+                                            <option value="{{$i}}" {{$i == $company->customer_rating($company->id, $customer_reviews) ? 'selected' : ''}}>{{$i}}</option>
                                             @endfor
                                         </select>
                                         @endif
@@ -210,7 +224,7 @@
                                         @if($company->reviews->count() > 0)
                                         <select class="star-rating-ro">
                                             @for($i = 1; $i <= 5; $i++)
-                                            <option value="{{$i}}" {{$i == $suppliers_overall ? 'selected' : ''}}>{{$i}}</option>
+                                            <option value="{{$i}}" {{$i == $company->suppliers_rating($company->id, $suppliers_reviews) ? 'selected' : ''}}>{{$i}}</option>
                                             @endfor
                                         </select>
                                         @endif
@@ -222,14 +236,18 @@
                         </div>
                     </div>
                     <div class="sidebar-updates mt-5">
-                        <h5 class="title-blue">Updates (32)</h5>
+                        <h5 class="title-blue">Updates ({{$user->messages->count()}})</h5>
                         <ul class="list-group">
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item"><a href="">All Messages</a></li>
+                            @foreach($user->messages as $message)
+                                <li class="list-group-item">
+                                    @if($message->interest_id)
+                                        {{$message->created_at->diffForHumans()}} :
+                                        New Express Interest
+                                    @else
+                                        {{$message->subject}}
+                                    @endif
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>  
@@ -237,4 +255,22 @@
         </div>
     </section>
 </main>
+
+<script type="text/javascript">
+$("#upload").click(function(e){
+    e.preventDefault();
+    $.ajax({
+      url:'{{route("front.company.updatelogo", $company->slug)}}',
+      data:new FormData($("#img_upload")[0]),
+      dataType:'json',
+      async:false,
+      type:'post',
+      processData: false,
+      contentType: false,
+      success:function(response){
+        console.log(response);
+      },
+    });
+});
+</script>
 @endsection

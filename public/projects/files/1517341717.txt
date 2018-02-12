@@ -1,0 +1,11 @@
+1.Share with sharethis still there.
+2.Slider img size regeneration of thumbs.
+3.Carousel must be moving auto.
+4.More Button not there anywhere.
+5.Sharing in the small posts not look good.
+6.Event Calender must work with hover and there must be event single page.
+7.Reviews Style not good and the progress bar is aweful.
+8.Video icon is not.
+9.Reviews, Product Page and company page need to have its deisgn.
+10.Single Videos need re design.
+11.Other video points.

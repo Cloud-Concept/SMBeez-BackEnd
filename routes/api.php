@@ -27,6 +27,21 @@ Route::get('projects/all', function() {
     return Project::all();
 });
 
+Route::get('find', function(Illuminate\Http\Request $request){
+    $keyword = $request->input('keyword');
+    Log::info($keyword);
+    $specialities = DB::table('specialities')->where('speciality_name','like','%'.$keyword.'%')
+              ->select('specialities.id','specialities.speciality_name')
+              ->take(10)
+              ->get();
 
-Route::get('/search', 'SearchController@filter_opportunities')->name('filter.opportunities');
+    $data = array();
+
+    foreach($specialities as $spec) {
+        $data[] = $spec->speciality_name;
+    }
+    return json_encode($data);
+})->name('api.specialities');
+
+//Route::get('/search', 'SearchController@filter_opportunities')->name('filter.opportunities');
 

@@ -12,7 +12,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="box-block-gray">
-                        <h3>Project Details <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></h3>
+                        <h3>Project Details <a href="#" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></h3>
                         <ul class="list-unstyled details-box">
                             @if(!Auth::guest() && !$project->is_owner(Auth::user()->id) || Auth::guest())
 

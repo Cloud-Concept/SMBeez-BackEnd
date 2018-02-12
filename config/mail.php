@@ -11,7 +11,8 @@ return array(
     | sending of e-mail. You may specify which one you're using throughout
     | your application here. By default, Laravel is setup for SMTP mail.
     |
-    | Supported: "smtp", "mail", "sendmail"
+    | Supported: "smtp", "sendmail", "mailgun", "mandrill", "ses",
+    |            "sparkpost", "log", "array"
     |
     */
 
@@ -28,7 +29,7 @@ return array(
     |
     */
 
-    'host' => 'smtp.mandrillapp.com',
+    'host' => 'email-smtp.us-east-1.amazonaws.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +55,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'sami@smbeez.net', 'name' => 'SMBeez'),
+    'from' => array('address' => 'admin@dev.smbeez.net', 'name' => 'SMBeez'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +81,7 @@ return array(
     |
     */
 
-    'username' => 'sami@smbeez.net',
+    'username' => 'AKIAJRZ763GIDKJLELLA',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +94,7 @@ return array(
     |
     */
 
-    'password' => 'tTkerb7gJCtY0OfrREmKiQ',
+    'password' => 'AjOoNArgzWDCAvYKcJleYhnhfKszfnXBSFMvtmx4bKQW',
 
     /*
     |--------------------------------------------------------------------------

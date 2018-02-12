@@ -104,23 +104,18 @@ class UserController extends Controller
 
         if($request->hasFile('profile_pic_url')) {
 
-            $profile_img     = $request->file('profile_pic_url');
-            $img_name  = time() . '_' . '.' . $profile_img->getClientOriginalExtension();
+            $profile_pic_url     = $request->file('profile_pic_url');
+            $img_name  = time() . '.' . $profile_pic_url->getClientOriginalExtension();
             //path to year/month folder
-            $date_path = public_path('images/users/' . date('Y') . '/' . date('m'));
-            $date_path_db = 'images/users/' . date('Y') . '/' . date('m') . '/';
-            //check if date foler exists if not create it
-            if(!File::exists($date_path)) {
-                File::makeDirectory($date_path, 666, true);
-            }
+            $path_db = 'images/users/';
             //path of the new image
-            $path       = $date_path . '/' . $img_name;
+            $path       = public_path('images/users/' . $img_name);
             //save image to the path
-            Image::make($profile_img)->save($path);
+            Image::make($profile_pic_url)->resize(48, 48)->save($path);
             //get the old image
             $oldImage = $user->profile_pic_url;
-            //make the field profile_pic_url in the products table = to the link of img
-            $user->profile_pic_url = $date_path_db . $img_name;
+            //make the field profile_pic_url in the table = to the link of img
+            $user->profile_pic_url = $path_db . $img_name;
             //delete the old image
             File::delete(public_path($oldImage));
         }
@@ -192,6 +187,144 @@ class UserController extends Controller
             $specialities = $speciality->all();
 
             return view('front.users.dashboard', compact('user', 'hascompany','interested_projects', 'industries', 'specialities'));
+
+        }
+    }
+
+
+    public function profile(User $user)
+    {   
+        //if trying to access the dashboard 
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            if($user->company) {
+                
+                $customer_reviews = $user->company->reviews->where('company_id', $user->company->id)
+                ->where('reviewer_relation', 'customer');
+
+                $suppliers_reviews = $user->company->reviews->where('company_id', $user->company->id)
+                ->where('reviewer_relation', 'supplier');
+
+            }
+
+            $industries = Industry::all();
+
+            return view('front.users.profile', compact('user', 'customer_reviews', 'suppliers_reviews', 'industries'));
+
+        }
+    }
+
+    public function edit_profile_settings(User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+
+            return view('front.users.settings.basic-info', compact('user'));
+
+        }
+    }
+
+    public function update_basic_info(Request $request, User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+
+            $user->name = $request['name'];
+            $user->email = $request['email'];
+            $user->phone = $request['phone'];
+
+            if($request->hasFile('profile_pic_url')) {
+
+                $profile_pic_url     = $request->file('profile_pic_url');
+                $img_name  = time() . '.' . $profile_pic_url->getClientOriginalExtension();
+                //path to year/month folder
+                $path_db = 'images/users/';
+                //path of the new image
+                $path       = public_path('images/users/' . $img_name);
+                //save image to the path
+                Image::make($profile_pic_url)->resize(48, 48)->save($path);
+                //get the old image
+                $oldImage = $user->profile_pic_url;
+                //make the field profile_pic_url in the table = to the link of img
+                $user->profile_pic_url = $path_db . $img_name;
+                //delete the old image
+                File::delete(public_path($oldImage));
+            }
+
+            //update it to the database
+            if(!empty($request['password'])){
+                $user->password = bcrypt($request['password']);
+            }
+
+            $user->update();
+
+            if($user->update()) {
+                session()->flash('success', 'User has been updated');
+            }else {
+                session()->flash('error', 'Sorry, an error occured while editing the user.');
+            }
+
+            return redirect(route('front.user.profile', $user->username));
+
+        }
+    }
+
+
+    public function edit_location(User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+
+            return view('front.users.settings.location', compact('user'));
+
+        }
+    }
+
+    public function update_location(Request $request, User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+
+            $user->user_city = $request['user_city'];
+
+            $user->update();
+
+            if($user->update()) {
+                session()->flash('success', 'User has been updated');
+            }else {
+                session()->flash('error', 'Sorry, an error occured while editing the user.');
+            }
+
+            return redirect(route('front.user.profile', $user->username));
 
         }
     }

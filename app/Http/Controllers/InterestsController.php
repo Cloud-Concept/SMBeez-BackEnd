@@ -7,6 +7,10 @@ use App\Project;
 use App\Message;
 use Illuminate\Http\Request;
 
+use Mail;
+use App\Mail\SupplierAccepted;
+use App\Mail\SupplierRejected;
+
 class InterestsController extends Controller
 {
     /**
@@ -69,6 +73,7 @@ class InterestsController extends Controller
         $interest->where('id', $interest->id)->update(['is_accepted' => 1]);
 
         //$interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
+        Mail::to($interest->user->email)->send(new SupplierAccepted($interest));
 
         return back();
     }
@@ -77,6 +82,8 @@ class InterestsController extends Controller
     {   
         
         $interest->where('id', $interest->id)->update(['is_accepted' => 0]);
+
+        Mail::to($interest->user->email)->send(new SupplierRejected($interest));
 
         return back();
     }

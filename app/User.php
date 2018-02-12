@@ -47,9 +47,13 @@ class User extends Authenticatable
     public function reviews() {
         return $this->hasMany(Review::class);
     }
-
+    //messages relationship
     public function messages() {
         return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
+    }
+    //bookmarks relationship
+    public function bookmarks() {
+        return $this->hasMany(Bookmark::class);
     }
     //check for profile completion
     public function profile_completion() {
@@ -61,6 +65,20 @@ class User extends Authenticatable
     //check for dashboard owner
     public function dashboard_owner($user) {
         return $this->id === auth()->id();
+    }
+
+    public function getReferrals()
+    {
+        return ReferralProgram::all()->map(function ($program) {
+            return ReferralLink::getReferral($this, $program);
+        });
+    }
+
+    public function addHoneyCombs($amount)
+    {   
+        $current_honeycombs = $this->honeycombs;
+
+        return $this->update(['honeycombs'=> $current_honeycombs + $amount]);
     }
     //use slug to get dashboard
     public function getRouteKeyName() {

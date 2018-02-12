@@ -7,6 +7,6 @@
     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#add-company">Add My company</a></li>
     @endif
     <li class="nav-item"><a class="nav-link" href="{{route('front.messages.index')}}">Messages</a></li>
-    <li class="nav-item"><a class="nav-link" href="">Bookmarks</a></li>
-    <li class="nav-item"><a class="nav-link" href="">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{route('front.bookmarks.list')}}">Bookmarks</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{route('front.user.profile', $user->username)}}">Settings</a></li>
 </ul>

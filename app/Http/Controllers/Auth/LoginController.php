@@ -31,7 +31,6 @@ class LoginController extends Controller
      */
 
     protected function authenticated(Request $request, $user) {
-        Mail::to($user)->send(new Welcome);
         return redirect(route('front.user.dashboard', $user->username));
     }
 

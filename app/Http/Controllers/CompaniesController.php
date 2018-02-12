@@ -9,12 +9,14 @@ use App\Speciality;
 use App\Project;
 use App\Review;
 use App\User;
+use App\Claim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Image;
 use File;
 use Auth;
 use DB;
+use GeoIP;
 
 class CompaniesController extends Controller
 {   
@@ -55,9 +57,7 @@ class CompaniesController extends Controller
 
             $companies = $company->latest()->paginate(10);
         }   
-
         
-
         return view('front.company.index', compact('companies', 'hasCompany', 'specialities', 'industries', 'featured_companies'));
     }
 
@@ -151,46 +151,15 @@ class CompaniesController extends Controller
         $closed_projects = $project->where('user_id', $company->user_id)
         ->where('status', 'closed')
         ->take(8)->latest()->get();
-        
+        //get customer reviews
         $customer_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'customer');
-
+        //get suppliers reviews
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
 
-        if($company->reviews->count() > 0) {
-            //sum of all reviews rates
-            $customer_overall = DB::table('reviews')
-            ->select(DB::raw("SUM(quality + cost + time + business_repeat + overall_rate)"))
-            ->where('company_id', $company->id)
-            ->where('reviewer_relation', 'customer')->get();
-
-            //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 5 which means 5 types of rates
-            foreach ($customer_overall[0] as $key => $value) {
-                $value = (int)$value;
-            }
-            if($value > 0) {
-                $customer_overall = ceil($value / ($customer_reviews->count() * 5));
-            }   
-
-            //sum of all reviews rates
-            $suppliers_overall = DB::table('reviews')
-            ->select(DB::raw("SUM(overall_rate + business_repeat + procurement + expectations + payments)"))
-            ->where('company_id', $company->id)
-            ->where('reviewer_relation', 'supplier')->get();
-
-            //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 5 which means 5 types of rates
-            foreach ($suppliers_overall[0] as $key => $value) {
-                $value = (int)$value;
-            }
-            if($value > 0) {
-                $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 5));
-            }
-        }
         
-        return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews', 'customer_overall', 'suppliers_overall'));
+        return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews'));
     }
 
     /**
@@ -209,40 +178,9 @@ class CompaniesController extends Controller
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
 
-        if($company->reviews->count() > 0) {
-            //sum of all reviews rates
-            $customer_overall = DB::table('reviews')
-            ->select(DB::raw("SUM(quality + cost + time + business_repeat + overall_rate)"))
-            ->where('company_id', $company->id)
-            ->where('reviewer_relation', 'customer')->get();
-
-            //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 5 which means 5 types of rates
-            foreach ($customer_overall[0] as $key => $value) {
-                $value = (int)$value;
-            }
-            if($value > 0) {
-                $customer_overall = ceil($value / ($customer_reviews->count() * 5));
-            }   
-
-            //sum of all reviews rates
-            $suppliers_overall = DB::table('reviews')
-            ->select(DB::raw("SUM(overall_rate + business_repeat + procurement + expectations + payments)"))
-            ->where('company_id', $company->id)
-            ->where('reviewer_relation', 'supplier')->get();
-
-            //the sum of reviews rates divided by the reviews number which is the 
-            //reviews count * 5 which means 5 types of rates
-            foreach ($suppliers_overall[0] as $key => $value) {
-                $value = (int)$value;
-            }
-            if($value > 0) {
-                $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 5));
-            }
-        }
         //allow edit for company owner only
         if($company->is_owner(auth()->id())) {
-            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews', 'customer_overall', 'suppliers_overall'));
+            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews'));
         }else {
             return redirect(route('front.company.all'));
         }
@@ -270,7 +208,23 @@ class CompaniesController extends Controller
         $company->company_type = $request['company_type'];
         $company->reg_number = $request['reg_number'];
         $company->reg_date = $request['reg_date'];
-        /*$company->location = $request['location'];*/
+
+
+        if($request->hasFile('reg_doc')) {
+
+            $file = $request->file('reg_doc');
+
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            //store in the storage folder
+            $file->storeAs('/', $filename, 'company_files');
+            //get the old image
+            $oldFile = $company->reg_doc;
+
+            $company->reg_doc = $filename;
+
+            //delete the old image
+            File::delete(public_path('companies/files/' . $oldFile));
+        }
 
         $company->update();
         //make the company sluggable
@@ -320,10 +274,70 @@ class CompaniesController extends Controller
             File::delete(public_path($oldCover));
         }
 
+        return $company->update();
+    }
+
+    public function update_location(Request $request, Company $company)
+    {
+        $company->location = $request['location'];
+
         $company->update();
 
         return back();
+    }
+    //Stage 1 for claim company
+    public function claim_notification(Company $company)
+    {   if($company->has_company() == true) {
+            return redirect(route('front.company.all'));
+        }else {
+            return view('front.company.claim-notification', compact('company'));
+        }
+    }
+    //Stage 2 for claim company
+    public function claim_application(Company $company)
+    {
+        return view('front.company.claim-application', compact('company'));
+    }
+    //Stage 3 for claim company
+    public function claim(Request $request, Company $company)
+    {
+        $claim = new Claim;
 
+        if($company->has_company() == true) {
+            return redirect(route('front.company.all'));
+        }else {
+
+            $this->validate($request, [
+                'role' => 'required|string|max:255',
+                'comments' => 'required'
+            ]);
+
+            $claim->user_id = auth()->id();
+            $claim->company_id = $company->id;
+            $claim->role = $request['role'];
+            $claim->comments = $request['comments'];
+
+            if($request->hasFile('document')) {
+
+                $file = $request->file('document');
+
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                //store in the storage folder
+                $file->storeAs('/', $filename, 'company_files');
+
+                $claim->document = $filename;
+            }
+
+
+            $claim->save();
+
+            return redirect(route('front.company.claim-thanks', $company->slug));
+        }
+    }
+    //Stage 4 for claim company
+    public function claim_thanks(Company $company)
+    {
+        return view('front.company.claim-thanks', compact('company'));
     }
     /**
      * Remove the specified resource from storage.

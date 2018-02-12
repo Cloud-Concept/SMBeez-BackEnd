@@ -20,7 +20,11 @@
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <script src="{{ asset('js/vendor/modernizr.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABsCTZNfAFh0fwNrBB213BX8ROnGLUVYQ&libraries=places"></script>
-        
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-tagsinput.css') }}">
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
         <!--Start of Zendesk Chat Script-->
         <script type="text/javascript">
         window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
@@ -51,10 +55,12 @@
                         <p>SMBeez is your local online marketplace for small and medium companies keen to do business with you. Source project opportunities and find reliable suppliers easily from the comfort of your office. Confidently do business with trusted... <a href="">more</a></p>
                     </div>
                     <div class="col-md-3">
+                        @if(Auth::guest())
                         <h6 class="mb-3">Stay in touch</h6>
                         <form action="" class="newsletter">
                             <div class="input-group"><input type="text" class="form-control" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="button"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
                         </form>
+                        @endif
                     </div>
                     <div class="col-md-3">
                         <h6>Links</h6>
@@ -110,6 +116,9 @@
         <script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
         <script src="{{ asset('js/jquery.jscroll.js') }}"></script>
+        <script src="{{ asset('js/bootstrap-tagsinput.js') }}"></script>
+        <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+        <script src="{{ asset('js/bloodhound.min.js') }}"></script>
 
         <script type="text/javascript">
             google.maps.event.addDomListener(window, 'load', function () {
@@ -135,5 +144,12 @@
                 });
             });
         </script>
+
+        <script type="text/javascript">
+        jQuery(document).ready(function () {
+            $('.multi-select').select2();
+        });
+        </script>
+
     </body>
 </html>

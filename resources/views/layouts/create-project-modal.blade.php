@@ -40,12 +40,8 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Speciality</label>
-                                    <select name="speciality_id[]" id="speciality_id" class="multi-select form-control custom-select d-block" multiple>
-                                        @foreach($specialities as $speciality)
-                                        <option value="{{$speciality->id}}">{{$speciality->speciality_name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="speciality_id">Specialities</label>
+                                    <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">Write your keywords separated with commas</p>
                                 </div>
 
@@ -75,16 +71,25 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+var tagApi = $(".tm-input").tagsManager();
 
+jQuery(".typeahead").typeahead({
+  name: 'speciality_id',
+  displayKey: 'speciality_name',
+  source: function (query, process) {
+    return $.get('{!!url("/")!!}' + '/api/find', { keyword: query }, function (data) {
+      data = $.parseJSON(data);
+      return process(data);
+    });
+  },
+  afterSelect :function (item){
+    tagApi.tagsManager("pushTag", item);
+  }
+});
+</script>
 <style type="text/css" media="screen">
     .select2-container {
         width: 100%!important;
     }
 </style>
-<script type="text/javascript">
-
-jQuery(document).ready(function () {
-    $('.multi-select').select2();
-});
-
-</script>
