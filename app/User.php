@@ -55,6 +55,10 @@ class User extends Authenticatable
     public function bookmarks() {
         return $this->hasMany(Bookmark::class);
     }
+    //claims relationship
+    public function claims() {
+        return $this->hasMany(Claim::class);
+    }
     //check for profile completion
     public function profile_completion() {
 

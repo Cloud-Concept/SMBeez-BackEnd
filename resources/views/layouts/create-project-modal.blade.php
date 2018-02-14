@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group"><label for="">Project Description</label>
-                                    <textarea name="project_description" class="form-control" id="project_description"></textarea>
+                                    <textarea name="project_description" class="form-control" id="project_description" required></textarea>
                                 </div>
                             </div>
                             <div class="col">
@@ -88,8 +88,3 @@ jQuery(".typeahead").typeahead({
   }
 });
 </script>
-<style type="text/css" media="screen">
-    .select2-container {
-        width: 100%!important;
-    }
-</style>

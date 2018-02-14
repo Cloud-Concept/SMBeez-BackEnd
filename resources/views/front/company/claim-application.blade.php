@@ -22,21 +22,21 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="role" placeholder="Your Company Role" />
+                                            <input type="text" class="form-control" name="role" placeholder="Your Company Role" required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label class="form-control custom-file"><input type="file" id="document" name="document" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf"> <span class="custom-file-control" data-label="Registration Document"></span></label>
+                                            <label class="form-control custom-file"><input type="file" id="document" name="document" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf" required> <span class="custom-file-control" data-label="Registration Document"></span></label>
                                             <p class="form-guide">Upload your company registration documents to get a verified badge on your company profile</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="form-group"><textarea class="form-control" name="comments" placeholder="Additional Comments"></textarea></div>
+                                        <div class="form-group"><textarea class="form-control" name="comments" placeholder="Additional Comments" required></textarea></div>
                                     </div>
                                 </div>
                                 <div class="text-center mt-4"><button type="submit" class="btn btn-blue btn-yellow">Claim Company</button></div>

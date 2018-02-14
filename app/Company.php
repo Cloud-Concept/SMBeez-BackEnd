@@ -39,7 +39,7 @@ class Company extends Model
     public function reviews() {
         return $this->hasMany(Review::class);
     }
-    //reviews relationship
+    //claims relationship
     public function claims() {
         return $this->hasMany(Claim::class);
     }
@@ -54,6 +54,16 @@ class Company extends Model
             return false;
         }
 
+    }
+    public function exist($field, $company)
+    {   
+        $exist = Company::where($field, $company)->first();
+
+        if($exist) {
+            return true;
+        }else {
+            return false;
+        }
     }
     //check if user created claim request
     public function requested_claim($user, $company)

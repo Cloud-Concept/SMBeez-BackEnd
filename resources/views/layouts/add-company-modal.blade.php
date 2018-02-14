@@ -41,12 +41,8 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Speciality</label>
-                                    <select name="speciality_id[]" id="speciality_id" class="multi-select form-control custom-select d-block" multiple>
-                                        @foreach($specialities as $speciality)
-                                        <option value="{{$speciality->id}}">{{$speciality->speciality_name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="speciality_id">Specialities</label>
+                                    <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">Write your keywords separated with commas</p>
                                 </div>
                             </div>
@@ -76,7 +72,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">What is your company main message? *</label>
-                                    <textarea name="company_description" class="form-control" id="company_description"></textarea>
+                                    <textarea name="company_description" class="form-control" id="company_description" required></textarea>
                                 </div>
                             </div>
                             <div class="col">
@@ -117,15 +113,31 @@
         </div>
     </div>
 </div>
-<style type="text/css" media="screen">
-    .select2-container {
-        width: 100%!important;
-    }
-</style>
 <script type="text/javascript">
+var tagApi = $(".tm-input").tagsManager();
 
-jQuery(document).ready(function () {
-    $('.multi-select').select2();
+jQuery(".typeahead").typeahead({
+  name: 'speciality_id',
+  displayKey: 'speciality_name',
+  source: function (query, process) {
+    return $.get('{!!url("/")!!}' + '/api/find', { keyword: query }, function (data) {
+      data = $.parseJSON(data);
+      return process(data);
+    });
+  },
+  afterSelect :function (item){
+    tagApi.tagsManager("pushTag", item);
+  }
 });
-
+//check for existing companies
+jQuery("#company_name").typeahead({
+  name: 'company_name',
+  displayKey: 'company_name',
+  source: function (query, process) {
+    return $.get('{!!url("/")!!}' + '/api/company-suggest', { keyword: query }, function (data) {
+      data = $.parseJSON(data);
+      return process(data);
+    });
+  },
+});
 </script>
