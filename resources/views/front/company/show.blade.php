@@ -29,7 +29,7 @@
                                 </span></li>
                             </ul>
 
-                            @if (Auth::guest() && $company->is_verified == null && !$company->requested_claim(Auth::user()->id, $company->id))
+                            @if (Auth::guest() && $company->is_verified == null)
                                 <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>
                             @elseif (Auth::guest() && $company->is_verified == 1)
                                 <div></div>
