@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-
+use Auth;
+use DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // register a composer for filter sidebar
-        view()->composer('layouts.filter-sidebar-companies', function ($view) {
+        view()->composer(['layouts.filter-sidebar-companies', 'layouts.footer', 'front.home', 'admin.company.create', 'admin.company.edit', 'admin.project.edit'], function ($view) {
             // set the view industries from industries method
             $view->with('specialities', \App\Speciality::with('companies')->get());
             $view->with('industries', \App\Industry::with('companies')
@@ -55,6 +56,46 @@ class AppServiceProvider extends ServiceProvider
             $company = new \App\Company;
             $view->with('hascompany',   $company->has_company());
             $view->with('user', auth()->user());
+        });
+        //for homepage
+        view()->composer('front.home', function ($view) {
+            // set the view industries from industries method
+            if(Auth::user()) {
+                $view->with('industry_projects', \App\Project::with('industries')->where('status', 'publish')
+                ->where('city', auth()->user()->user_city)->latest()->take(2)->get());
+
+                $view->with('featured_projects', \App\Project::where('is_promoted', 1)
+                ->where('status', 'publish')
+                ->where('city', auth()->user()->user_city)
+                ->orderBy(DB::raw('RAND()'))
+                ->take(4)
+                ->get());
+
+                $view->with('featured_companies', \App\Company::where('is_promoted', 1)
+                ->where('status', '!=', '0')
+                ->where('city', auth()->user()->user_city)
+                ->orderBy(DB::raw('RAND()'))
+                ->take(2)
+                ->get());
+
+            }else {
+                $view->with('industry_projects', \App\Project::with('industries')->where('status', 'publish')
+                ->latest()->take(2)->get());
+
+                $view->with('featured_projects', \App\Project::where('is_promoted', 1)
+                ->where('status', 'publish')
+                ->orderBy(DB::raw('RAND()'))
+                ->take(4)
+                ->get());
+
+                $view->with('featured_companies', \App\Company::where('is_promoted', 1)
+                ->where('status', '!=', '0')
+                ->orderBy(DB::raw('RAND()'))
+                ->take(2)
+                ->get());
+
+            }
+
         });
 
     }

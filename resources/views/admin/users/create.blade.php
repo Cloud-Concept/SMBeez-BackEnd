@@ -1,36 +1,47 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Create New User</div>
-
-                <div class="panel-body">
+<main class="cd-main-content">
+    <section class="dashboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    @include('layouts.superadmin-sidebar')
+                </div>
+                <div class="col-md-9">
+                    <nav aria-label="breadcrumb" role="navigation">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                        </ol>
+                    </nav>
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
                         </div>
                     @endif
-
-                    <form action="{{route('admin.user.store')}}" method="post">
+                    <form action="{{route('admin.user.store')}}" class="user-setting" method="post">
                         {{csrf_field()}}
                         <div class="field">
-                            <p class="group-control">
-                                <input class="input-control" type="text" name="name" placeholder="Name" id="name">
+                            <p class="form-group">
+                                <input class="form-control" type="text" name="name" placeholder="Name" id="name">
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="text" name="username" placeholder="username" id="username">
+                            <p class="form-group">
+                                <input class="form-control" type="text" name="username" placeholder="username" id="username">
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="email" name="email" placeholder="email" id="email">
+                            <p class="form-group">
+                                <input class="form-control" type="email" name="email" placeholder="email" id="email">
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="password" name="password" placeholder="password" id="password">
+                            <p class="form-group">
+                                <input class="form-control" type="password" name="password" placeholder="password" id="password">
                             </p>
-                            <p class="group-control">
-                                <select name="role">
+                            <p class="form-group">
+                                <select name="user_city" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                </select>
+                            </p>
+                            <p class="form-group">
+                                <select name="role" class="form-control">
                                     @foreach ($roles as $role)
                                         <option value="{{$role->id}}">{{$role->display_name}}</option>
                                     @endforeach
@@ -43,6 +54,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container">
@@ -55,19 +55,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-
-jQuery(document).ready(function () {
-    tinymce.init({
-        selector: '#project_description',
-        plugins: [
-          'advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker',
-          'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking',
-          'save table contextmenu directionality emoticons template paste textcolor'
-        ],
-        height: 300,
-        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | print preview media fullpage | forecolor backcolor emoticons'
-    });
-});
-</script>
 @endsection

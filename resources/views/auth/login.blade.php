@@ -17,7 +17,7 @@
                                 <p class="text-center mb-3">Sign in with social media or your email and password. If you don't already have an account, click "Create new account".</p>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="btn-list text-center mt-2"><a class="btn btn-lk" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mt-2" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
+                                        <!-- <div class="btn-list text-center mt-2"><a class="btn btn-lk" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mt-2" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div> -->
                                     </div>
                                     <div class="col-md-6">
                                         <form class="form-signin my-4" method="POST" action="{{ route('login') }}">
@@ -56,7 +56,7 @@
                                 <h2 class="py-2 text-center">
                                     Create your new SMBeez account
                                 </h2>
-                                <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
+                                <!-- <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href=""><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href=""><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div> -->
                                 <p class="text-center my-3">Sign in with social media or your email and password. If you don't already have an account, click "Create new account".</p>
                                 <form class="form-signin my-4" method="POST" action="{{ route('register') }}" role="form" enctype="multipart/form-data">
                                     {{ csrf_field() }}

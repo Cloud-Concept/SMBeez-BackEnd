@@ -8,7 +8,23 @@
                 <div class="col-xl-6 col-md-12 offset-xl-3">
                     <h1 class="text-center">Matchmaking for Small Businesses</h1>
                     <p class="text-center">Find work and source suppliers in your local marketplace...</p>
-                    <div class="btn-hero text-center"><a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a> <span>or </span><a href="#" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a></div>
+                    <div class="btn-hero text-center">
+                        @if (!Auth::guest() && \Laratrust::hasRole('company|superadmin'))
+                        <a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
+                        @elseif (!Auth::guest() && \Laratrust::hasRole('user|superadmin'))
+                        <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                        @elseif(Auth::guest())
+                        <a href="{{route('login')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                        @endif
+                        <span>or </span>
+                        @if (!Auth::guest() && \Laratrust::hasRole('user|superadmin'))
+                        <a href="{{route('front.industry.index')}}" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Browse Opportunities</a>
+                        @elseif (!Auth::guest() && \Laratrust::hasRole('company|superadmin'))
+                        <a href="#" data-toggle="modal" data-target="#add-project" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a>
+                        @elseif(Auth::guest())
+                        <a href="{{route('login')}}" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,60 +52,52 @@
                     <div class="sidebar sidebar-01">
                         <h2>Find Suppliers</h2>
                         <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
-                        <a href="" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Companies</a>
+                        <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Companies</a>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 class="mb-5">Featured companies <a href="" class="btn btn-trans pull-right"><i class="fa fa-arrow-right" aria-hidden="true"></i> Discover more</a></h3>
+                            <h3 class="mb-5">Featured companies <a href="{{route('front.company.all')}}" class="btn btn-trans pull-right"><i class="fa fa-arrow-right" aria-hidden="true"></i> Discover more</a></h3>
                         </div>
+                        @foreach($featured_companies as $company)
                         <div class="col-md-6">
                             <div class="company-box box-block mb-5">
-                                <img class="img-responsive" src="images/media/media-01.jpg" alt="tile here">
+                                @if($company->cover_url)
+                                <img class="img-responsive" src="{{asset($company->cover_url)}}" alt="{{$company->company_name}}">
+                                @endif
                                 <div class="company-box-header media mt-4">
-                                    <a href="#" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
+                                    <a href="{{route('front.company.show', $company->slug)}}" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
                                     <div class="media-body">
-                                        <p class="thumb-title mt-1 mb-1">A Good Autoresponder</p>
+                                        <a href="{{route('front.company.show', $company->slug)}}"><p class="thumb-title mt-1 mb-1">{{$company->company_name}}</p></a>
+                                        @if($company->reviews->count() > 0)
                                         <div class="star-rating">
                                             <ul class="list-inline">
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">(35 Reviews)</a></li>
+                                                <li class="list-inline-item">
+                                                    <select class="star-rating-ro">
+                                                        @for($i = 1; $i <= 5; $i++)
+                                                        <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
+                                                        @endfor
+                                                    </select>
+                                                </li>
+                                                <li class="list-inline-item thumb-review"><a href="{{route('front.company.show', $company->slug)}}">({{$company->reviews->count()}} Reviews)</a></li>
                                             </ul>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
-                                <p>With easy access to Broadband and DSL the number of people using the Internet has skyrocket in recent years. Email, instant messaging and file</p>
-                                <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
+                                <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
+                                <p class="tags">More in: 
+                                    <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                </p>
+                                <p class="tags"><b>Specialities:</b>
+                                    @foreach($company->specialities as $speciality)
+                                        {{$speciality->speciality_name . ','}} 
+                                    @endforeach
+                                </p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="company-box box-block mb-5">
-                                <img class="img-responsive" src="images/media/media-01.jpg" alt="tile here">
-                                <div class="company-box-header media mt-4">
-                                    <a href="#" class="mr-3"><i class="fa fa-circle fa-4x" aria-hidden="true"></i></a>
-                                    <div class="media-body">
-                                        <p class="thumb-title mt-1 mb-1">A Good Autoresponder</p>
-                                        <div class="star-rating">
-                                            <ul class="list-inline">
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="active list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></li>
-                                                <li class="list-inline-item thumb-review"><a href="">(35 Reviews)</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>With easy access to Broadband and DSL the number of people using the Internet has skyrocket in recent years. Email, instant messaging and file</p>
-                                <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -101,57 +109,37 @@
                 <div class="col-md-8">
                     <div class="row equal">
                         <div class="col-md-12">
-                            <h3 class="mb-5">Featured Projects <a href="" class="btn btn-trans pull-right"><i class="fa fa-arrow-right" aria-hidden="true"></i> Discover more</a></h3>
+                            <h3 class="mb-5">Featured Opportunities <a href="{{route('front.industry.index')}}" class="btn btn-trans pull-right"><i class="fa fa-arrow-right" aria-hidden="true"></i> Discover more</a></h3>
                         </div>
+                        @foreach($featured_projects as $project)
                         <div class="col-md-6 mb-4">
                             <div class="project-box box-block">
-                                <p class="thumb-title mt-1 mb-1">Enlightenment Is Not Just</p>
-                                <p>Over time, even the most sophisticated, memory packed computer can begin to run slow if we don’t do something to prevent it.</p>
-                                <p class="tags">More in: <a href="">Construction and Real Estate</a></p>
+                                <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
+                                <p>{{strip_tags(substr($project->project_description, 0, 100))}}</p>
+                                <p class="tags">More in: 
+                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                </p>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="project-box box-block">
-                                <p class="thumb-title mt-1 mb-1">Low Cost Advertising</p>
-                                <p>There are many ways chocolate makes people happy and one of the worthiest is a tour that has been described a</p>
-                                <p class="tags">More in: <a href="">Trade, Wholesale and Retail</a></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="project-box box-block">
-                                <p class="thumb-title mt-1 mb-1">Promotional Advertising</p>
-                                <p>According to the research firm Frost & Sullivan, the estimated size of the North American used test and measurement...</p>
-                                <p class="tags">More in: <a href="">Finance and Insurance</a></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="project-box box-block border-0">
-                                <p class="thumb-title mt-1 mb-1">Promotional Advertising</p>
-                                <p>Audio player software is used to play back sound recordings in one of the many formats available for computers today...</p>
-                                <p class="tags">More in: <a href="">Oil, Gas and Mining</a></p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="row equal">
                         <div class="col-md-12">
-                            <h3 class="mb-5">Featured Projects</h3>
+                            <h3 class="mb-5">Latest Opportunities</h3>
                         </div>
+                        @foreach($industry_projects as $project)
                         <div class="col-md-12 mb-4">
                             <div class="project-box project-box-side box-block">
-                                <p class="thumb-title mt-1 mb-1">Direct Mail Advertising</p>
-                                <p>Over time, even the most sophisticated, memory packed computer can begin to run slow if we don’t do something to prevent it.</p>
-                                <p class="tags">More in: <a href="">Finance and Insurance</a></p>
+                                <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
+                                <p>{{strip_tags(substr($project->project_description, 0, 100))}}...</p>
+                                <p class="tags">More in: 
+                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                </p>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-4">
-                            <div class="project-box project-box-side box-block border-0">
-                                <p class="thumb-title mt-1 mb-1">Promotional Advertising</p>
-                                <p>Audio player software is used to play back sound recordings in one of the many formats available for computers today...</p>
-                                <p class="tags">More in: <a href="">Oil, Gas and Mining</a></p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -163,7 +151,7 @@
                 <div class="col-md-6 col-xs-12 offset-md-3 text-center">
                     <h2><i class="fa fa-folder-o fa-3x mb-3" aria-hidden="true"></i><br>Find Work</h2>
                     <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
-                    <a href="" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Projects</a>
+                    <a href="{{route('front.industry.index')}}" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Opportunities</a>
                 </div>
             </div>
         </div>
@@ -174,10 +162,20 @@
                 <div class="col-md-6 col-xs-12 offset-md-3 text-center">
                     <h2><i class="fa fa-files-o fa-2x mb-3" aria-hidden="true"></i><br>Be Found</h2>
                     <p class="mt-5 mb-5">Create your company profile and sar thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
-                    <a href="" class="btn btn-blue btn-yellow-2">Browse Projects</a>
+                    @if (!Auth::guest() && \Laratrust::hasRole('company|superadmin'))
+                    <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
+                    @elseif (!Auth::guest() && \Laratrust::hasRole('user|superadmin'))
+                    <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                    @elseif(Auth::guest())
+                    <a href="{{route('login')}}" class="btn btn-blue btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                    @endif
                 </div>
             </div>
         </div>
     </section>
 </main>
+
+@include ('layouts.add-company-modal')
+@include ('layouts.create-project-modal')
+
 @endsection

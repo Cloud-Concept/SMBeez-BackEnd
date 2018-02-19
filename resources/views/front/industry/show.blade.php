@@ -10,6 +10,8 @@
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && $hasCompany && \Laratrust::hasRole('company|superadmin'))
                     <div class="btn-hero text-center"><button class="btn btn-yellow-2" data-toggle="modal" data-target="#add-project">Publish New Project</button></div>
+                    @elseif(Auth::guest())
+                    <div class="btn-hero text-center"><a href="{{route('login')}}" class="btn btn-yellow-2">Publish New Project</a></div>
                     @endif
                 </div>
             </div>
@@ -31,6 +33,11 @@
                                 <p class="tags">More in: 
                                     <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
                                 </p>
+                                <p class="tags"><b>Specialities:</b> 
+                                    @foreach($project->specialities as $speciality)
+                                        {{$speciality->speciality_name . ','}} 
+                                    @endforeach
+                                </p>
                             </div>
                         </div>
                         @endforeach
@@ -42,6 +49,11 @@
                                     <p>{{strip_tags(substr($project->project_description, 0, 150))}}...</p> 
                                     <p class="tags">More in: 
                                         <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                    </p>
+                                    <p class="tags"><b>Specialities:</b> 
+                                        @foreach($project->specialities as $speciality)
+                                            {{$speciality->speciality_name . ','}} 
+                                        @endforeach
                                     </p>
                                 </div>
                             </div>

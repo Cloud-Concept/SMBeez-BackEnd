@@ -41,10 +41,10 @@
                                     @foreach ($users as $user)
                                     <tr>
                                         <td>{{$user->id}}</td>
-                                        <td scope="row"><a href="{{route('admin.user.edit', $user->id)}}">{{$user->name}}</a></td>
+                                        <td scope="row"><a href="{{route('admin.user.edit', $user->username)}}">{{$user->name}}</a></td>
                                         <td>{{$user->user_city}}</td>
                                         <td>{{$user->company ? $user->company->company_name : '-'}}</td>
-                                        <td><a href="{{route('admin.user.edit', $user->id)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                        <td><a href="{{route('admin.user.edit', $user->username)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

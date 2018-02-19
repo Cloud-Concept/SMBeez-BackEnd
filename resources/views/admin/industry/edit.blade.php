@@ -12,7 +12,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Create Industry</li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit Industry "{{$industry->industry_name}}"</li>
                         </ol>
                     </nav>
                     @if (session('success'))
@@ -20,11 +20,11 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    <form class="user-setting" action="{{route('admin.industry.store')}}" method="post" enctype="multipart/form-data">
+                    <form class="user-setting" action="{{route('admin.industry.update', $industry->slug)}}" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <p class="form-group">
                             <label for="">Industry Name</label>
-                            <input class="form-control" type="text" name="industry_name" placeholder="Industry Name" id="industry_name">
+                            <input class="form-control" type="text" value="{{$industry->industry_name}}" name="industry_name" placeholder="Industry Name" id="industry_name">
                         </p>
                         <p class="form-group">
                             <label for="">Industry Image</label>
@@ -34,6 +34,13 @@
                                 <span class="custom-file-control" data-label="Industry Image"></span>
                             </label>
                         </p>
+                        <br>
+                        @if($industry->industry_img_url)
+                        <div class="media">
+                            <img src="{{asset($industry->industry_img_url)}}" alt="">
+                        </div>
+                        @endif
+                        <br>
                         <input type="submit" class="btn btn-primary" value="Submit">
                     </form>
                 </div>

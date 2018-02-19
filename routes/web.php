@@ -35,14 +35,36 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 	Route::get('/manage/industries', 'AdminController@industries')->name('admin.industries');
 	Route::get('/manage/industries/create', 'IndustriesController@create')->name('admin.industry.create');
 	Route::post('/manage/industries/store', 'IndustriesController@store')->name('admin.industry.store');
+	Route::get('/manage/industries/{industry}/edit', 'IndustriesController@edit')->name('admin.industry.edit');
+	Route::post('/manage/industries/{industry}/update', 'IndustriesController@update')->name('admin.industry.update');
 	//Specialities Module
 	Route::get('/manage/specialities', 'AdminController@specialities')->name('admin.specialities');
 	Route::get('/manage/specialities/create', 'SpecialitiesController@create')->name('admin.speciality.create');
 	Route::post('/manage/specialities/store', 'SpecialitiesController@store')->name('admin.speciality.store');
+	Route::get('/manage/specialities/{speciality}/edit', 'SpecialitiesController@edit')->name('admin.speciality.edit');
+	Route::post('/manage/specialities/{speciality}/update', 'SpecialitiesController@update')->name('admin.speciality.update');
 	//Projects Module
 	Route::get('/manage/projects', 'AdminController@projects')->name('admin.projects');
+	Route::get('/manage/projects/{project}/edit', 'ProjectsController@admin_edit')->name('admin.project.edit');
+	Route::post('/manage/projects/{project}/update', 'ProjectsController@admin_update')->name('admin.project.update');
+	Route::post('/promote-project/{project}', 'ProjectsController@promote')->name('admin.project.promote');
+	Route::post('/unpromote-project/{project}', 'ProjectsController@unpromote')->name('admin.project.unpromote');
 	//Companies Module
 	Route::get('/manage/companies', 'AdminController@companies')->name('admin.companies');
+	Route::get('/manage/companies/create', 'CompaniesController@admin_create')->name('admin.company.create');
+	Route::post('/manage/companies/store', 'CompaniesController@admin_store')->name('admin.company.store');
+	Route::get('/manage/companies/{company}/edit', 'CompaniesController@admin_edit')->name('admin.company.edit');
+	Route::post('/manage/companies/{company}/update', 'CompaniesController@admin_update')->name('admin.company.update');
+	Route::post('/promote-company/{company}', 'CompaniesController@promote')->name('admin.company.promote');
+	Route::post('/unpromote-company/{company}', 'CompaniesController@unpromote')->name('admin.company.unpromote');
+	Route::post('/verify/{company}', 'CompaniesController@verify')->name('admin.company.verify');
+	Route::post('/unverify/{company}', 'CompaniesController@unverify')->name('admin.company.unverify');
+	//Flagged Reviews
+	//Route::get('/manage/reviews', 'AdminController@reviews')->name('admin.reviews');
+	//Export / Import CSV
+	Route::get('import-export-view', 'ExcelController@importExportView')->name('import.export.view');
+	Route::post('import-file', 'ExcelController@importFile')->name('import.file');
+	Route::get('export-file/{type}', 'ExcelController@exportFile')->name('export.file');
 });
 
 Route::prefix('user')->group(function() {

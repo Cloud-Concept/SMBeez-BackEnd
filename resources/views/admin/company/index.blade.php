@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item active" aria-current="page">Companies</li>
                         </ol>
                     </nav>
-                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.company.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                     <div class="row">
                         <div class="col-md-12">
                             <form action="" class="search-company">
@@ -38,7 +38,11 @@
                                         <td scope="row">{{$company->company_name}}</td>
                                         <td>{{$company->industry->industry_name}}</td>
                                         <td>
-                                            <div class="d-flex"><a href="" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a href="" class="px-2 disable"><i class="fa fa-bullhorn" aria-hidden="true"></i></a> <a href="" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+                                            <div class="d-flex">
+                                                <a href="{{route('admin.company.edit', $company->slug)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                <a href="{{route('admin.company.edit', $company->slug)}}" class="px-2 {{$company->is_promoted == 1 ? 'active' : 'disable'}}" alt="Featured"><i class="fa fa-bullhorn" aria-hidden="true"></i></a>
+                                                <a href="{{route('front.company.show', $company->slug)}}" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach

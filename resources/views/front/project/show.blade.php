@@ -41,11 +41,13 @@
                             @endif
                             <li>Budget: <span>{{$project->budget}} AED</span></li>
                             <li>Industry: <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
+                            @if($project->specialities->count() > 0)
                             <li>Speciality: <span>
                                 @foreach($project->specialities as $speciality)
                                     {{$speciality->speciality_name . ','}} 
                                 @endforeach
                             </span></li>
+                            @endif
                             <li>Status: 
 
                                 @if($project->status == 'draft')
@@ -124,7 +126,7 @@
                         @endif
                     </div>
                     @endif
-                    <h2 class="mb-4 mt-5">Similar Projects</h2>
+                    <h2 class="mb-4 mt-5">Similar Opportunities</h2>
                     <div class="row equal">
                         @foreach($relatedprojects as $project)
                         <div class="col-md-6">

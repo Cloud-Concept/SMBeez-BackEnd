@@ -135,8 +135,10 @@ class CompaniesController extends Controller
                 foreach($specs as $spec) {
                     $speciality = new Speciality;
                     if(!in_array($spec, $spec_exists)) {
-                        $speciality->speciality_name = $spec;
-                        $speciality->save();
+                        if(!empty($spec)) {
+                            $speciality->speciality_name = $spec;
+                            $speciality->save();
+                        }
                     }
                 }
                 //get ids of specialities to attach to the project
@@ -203,9 +205,16 @@ class CompaniesController extends Controller
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
 
+        $current_specialities = array();
+
+        foreach($company->specialities as $speciality) {
+            $current_specialities[] = $speciality->speciality_name;
+        }
+        $company_specialities = implode('","', $current_specialities);
+
         //allow edit for company owner only
         if($company->is_owner(auth()->id())) {
-            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews'));
+            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews', 'company_specialities'));
         }else {
             return redirect(route('front.company.all'));
         }
@@ -260,8 +269,10 @@ class CompaniesController extends Controller
         foreach($specs as $spec) {
             $speciality = new Speciality;
             if(!in_array($spec, $spec_exists)) {
-                $speciality->speciality_name = $spec;
-                $speciality->save();
+                if(!empty($spec)) {
+                    $speciality->speciality_name = $spec;
+                    $speciality->save();
+                }
             }
         }
         //get ids of specialities to attach to the project
@@ -271,7 +282,7 @@ class CompaniesController extends Controller
         //make the company sluggable
         $sluggable = $company->replicate();
         // redirect to the home page
-        session()->flash('success', 'Your company has been created.');
+        session()->flash('success', 'Your company has been updated.');
 
         return back();
     }
@@ -282,7 +293,7 @@ class CompaniesController extends Controller
         if($request->hasFile('logo_url')) {
 
             $logo_url     = $request->file('logo_url');
-            $img_name  = time() . '.' . $logo_url->getClientOriginalExtension();
+            $img_name  = time() . $logo_url->getClientOriginalName() . '.' . $logo_url->getClientOriginalExtension();
             //path to year/month folder
             $path_db = 'images/company/';
             //path of the new image
@@ -300,7 +311,7 @@ class CompaniesController extends Controller
         if($request->hasFile('cover_url')) {
 
             $cover_url     = $request->file('cover_url');
-            $img_name_cover  = time() . '.' . $cover_url->getClientOriginalExtension();
+            $img_name_cover  = time() . $cover_url->getClientOriginalName() . '.' . $cover_url->getClientOriginalExtension();
             //path to year/month folder
             $path_db_cover = 'images/company/';
             //path of the new image
@@ -315,7 +326,9 @@ class CompaniesController extends Controller
             File::delete(public_path($oldCover));
         }
 
-        return $company->update();
+        $company->update();
+
+        return back();
     }
 
     public function update_location(Request $request, Company $company)
@@ -342,6 +355,10 @@ class CompaniesController extends Controller
     //Stage 2 for claim company
     public function claim_application(Company $company)
     {   
+        //check if user is not logged in
+        if(Auth::guest()) {
+            return redirect(route('login')); 
+        }
         //if user already sent a claim request
         //if user trying to access a company that is already owned and verified
         //if user trying to access his company
@@ -406,7 +423,259 @@ class CompaniesController extends Controller
     {
         //
     }
+    //create company for superadmins
+    public function admin_create()
+    {
+        return view('admin.company.create');
+    }
 
+    public function admin_store(Request $request)
+    {
+        $company = new Company;
+
+        //check if the company already exists then move to claim company
+        if($company->exist('company_name', $request['company_name'])) {
+            //get the slug
+            $slug = $company->where('company_name', $request['company_name'])->first();
+            //go to claim this company page
+            return redirect(route('admin.company.edit', $slug->slug));
+
+        }else {
+
+            $this->validate($request, [
+                'company_name' => 'required|string|max:255',
+                'company_description' => 'required',
+                'company_phone' => 'required',
+                'city' => 'required',
+                'company_size' => 'required',
+                'industry_id' => 'required',
+                'slug' => 'unique:companies'
+            ]);
+
+            $company->company_name = $request['company_name'];
+            $company->user_id = 0;
+            $company->industry_id = $request['industry_id'];
+            $company->company_description = $request['company_description'];
+            $company->company_tagline = $request['company_tagline'];
+            $company->company_website = $request['company_website'];
+            $company->company_email = $request['company_email'];
+            $company->company_phone = $request['company_phone'];
+            $company->linkedin_url = $request['linkedin_url'];
+            $company->city = $request['city'];
+            $company->company_size = $request['company_size'];
+            $company->year_founded = $request['year_founded'];
+            $company->company_type = $request['company_type'];
+            $company->reg_number = $request['reg_number'];
+            $company->reg_date = $request['reg_date'];
+            $company->location = $request['location'];
+            $company->status = 1;
+
+
+            if($request->hasFile('logo_url')) {
+
+                $logo_url     = $request->file('logo_url');
+                $img_name  = time() . $logo_url->getClientOriginalName() . '.' . $logo_url->getClientOriginalExtension();
+                //path to year/month folder
+                $path_db = 'images/company/';
+                //path of the new image
+                $path       = public_path('images/company/' . $img_name);
+                //save image to the path
+                Image::make($logo_url)->resize(130, 43)->save($path);
+                //make the field logo_url in the table = to the link of img
+                $company->logo_url = $path_db . $img_name;
+            }
+
+            if($request->hasFile('cover_url')) {
+
+                $cover_url     = $request->file('cover_url');
+                $img_name_cover  = time() . $cover_url->getClientOriginalName() . '.' . $cover_url->getClientOriginalExtension();
+                //path to year/month folder
+                $path_db_cover = 'images/company/';
+                //path of the new image
+                $path_cover       = public_path('images/company/' . $img_name_cover);
+                //save image to the path
+                Image::make($cover_url)->resize(346, 213)->save($path_cover);
+                //make the field cover_url in the table = to the link of img
+                $company->cover_url = $path_db_cover . $img_name_cover;
+            }
+
+            if($request->hasFile('reg_doc')) {
+
+                $file = $request->file('reg_doc');
+
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                //store in the storage folder
+                $file->storeAs('/', $filename, 'company_files');
+
+                $company->reg_doc = $filename;
+            }
+            //save it to the database 
+            $company->save();
+            //explode all specifications
+            $specs = explode(',', $request['hidden-speciality_id']);
+            //check for specs that already exists in database
+            $spec_exists = Speciality::with('companies')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
+            //foreach specs add the specialities that is not recorded in the database
+            foreach($specs as $spec) {
+                $speciality = new Speciality;
+                if(!in_array($spec, $spec_exists)) {
+                    $speciality->speciality_name = $spec;
+                    $speciality->save();
+                }
+            }
+            //get ids of specialities to attach to the project
+            $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+            //sync project specialities
+            $company->specialities()->sync($specs_ids, false);
+
+            //change current user to company role
+            $roles = new Role;
+            $role = $roles->where('name', 'company')->pluck('id');
+            $user = Auth::User();
+            $user->roles()->sync($role, true);
+            //make the company sluggable
+            $sluggable = $company->replicate();
+            // redirect to the home page
+            session()->flash('success', 'Your company has been created.');
+            //if save go to company page, if continue go to edit page
+            return redirect(route('admin.company.edit', $company->slug));
+        }
+    }
+    //Edit company for superadmins
+    public function admin_edit(Company $company)
+    {
+        return view('admin.company.edit', compact('company'));
+    }
+    public function admin_update(Request $request, Company $company)
+    {
+        $company->company_name = $request['company_name'];
+        $company->company_description = $request['company_description'];
+        $company->company_tagline = $request['company_tagline'];
+        $company->company_website = $request['company_website'];
+        $company->company_email = $request['company_email'];
+        $company->company_phone = $request['company_phone'];
+        $company->linkedin_url = $request['linkedin_url'];
+        $company->location = $request['location'];
+        $company->city = $request['city'];
+        $company->company_size = $request['company_size'];
+        $company->year_founded = $request['year_founded'];
+        $company->company_type = $request['company_type'];
+        $company->reg_number = $request['reg_number'];
+        $company->reg_date = $request['reg_date'];
+
+
+        if($request->hasFile('logo_url')) {
+
+            $logo_url     = $request->file('logo_url');
+            $img_name  = time() . $logo_url->getClientOriginalName() . '.' . $logo_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/company/';
+            //path of the new image
+            $path       = public_path('images/company/' . $img_name);
+            //save image to the path
+            Image::make($logo_url)->resize(130, 43)->save($path);
+            //get the old image
+            $oldImage = $company->logo_url;
+            //make the field logo_url in the table = to the link of img
+            $company->logo_url = $path_db . $img_name;
+            //delete the old image
+            File::delete(public_path($oldImage));
+        }
+
+        if($request->hasFile('cover_url')) {
+
+            $cover_url     = $request->file('cover_url');
+            $img_name_cover  = time() . $cover_url->getClientOriginalName() . '.' . $cover_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db_cover = 'images/company/';
+            //path of the new image
+            $path_cover       = public_path('images/company/' . $img_name_cover);
+            //save image to the path
+            Image::make($cover_url)->resize(346, 213)->save($path_cover);
+            //get the old image
+            $oldCover = $company->cover_url;
+            //make the field cover_url in the table = to the link of img
+            $company->cover_url = $path_db_cover . $img_name_cover;
+            //delete the old image
+            File::delete(public_path($oldCover));
+        }
+
+        if($request->hasFile('reg_doc')) {
+
+            $file = $request->file('reg_doc');
+
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            //store in the storage folder
+            $file->storeAs('/', $filename, 'company_files');
+            //get the old image
+            $oldFile = $company->reg_doc;
+
+            $company->reg_doc = $filename;
+
+            //delete the old image
+            File::delete(public_path('companies/files/' . $oldFile));
+        }
+
+        $company->update();
+
+        $specs = explode(',', $request['hidden-speciality_id']);
+        //check for specs that already exists in database
+        $spec_exists = Speciality::with('companies')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
+        //foreach specs add the specialities that is not recorded in the database
+        foreach($specs as $spec) {
+            $speciality = new Speciality;
+            if(!in_array($spec, $spec_exists)) {
+                $speciality->speciality_name = $spec;
+                $speciality->save();
+            }
+        }
+        //get ids of specialities to attach to the project
+        $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+        //sync project specialities
+        $company->specialities()->sync($specs_ids, true);
+        //make the company sluggable
+        $sluggable = $company->replicate();
+        // redirect to the home page
+        session()->flash('success', 'Your company has been updated.');
+
+        return back();
+    }
+    //promote company to make featured
+    public function promote(Company $company)
+    {   
+        $company->is_promoted = 1;
+
+        $company->update();
+
+        return back();
+    }
+
+    public function unpromote(Company $company)
+    {
+        $company->is_promoted = 0;
+        
+        $company->update();
+
+        return back();
+    }
+    //verify company
+    public function verify(Company $company)
+    {   
+        $company->is_verified = 1;
+
+        $company->update();
+
+        return back();
+    }
+
+    public function unverify(Company $company)
+    {
+        $company->is_verified = 0;
+        
+        $company->update();
+
+        return back();
+    }
     /**
      * Display a listing of the resource.
      *

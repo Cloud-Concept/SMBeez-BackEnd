@@ -52,10 +52,10 @@
 
                                 <div class="form-group">
                                     <label for="">Supportive Documents</label><label class="custom-file">
-                                        <input type="file" id="supportive_docs" name="supportive_docs" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf"> 
+                                        <input type="file" id="supportive_docs" name="supportive_docs" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar"> 
                                         <span class="custom-file-control" data-label="Supportive Document"></span>
                                     </label>
-                                    <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF</p>
+                                    <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF, Zip, .rar</p>
                                 </div>
                             </div>
                         </div>

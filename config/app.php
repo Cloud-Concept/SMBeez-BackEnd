@@ -183,6 +183,7 @@ return [
         Laratrust\LaratrustServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
     ],
 
@@ -212,6 +213,7 @@ return [
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'GeoIP' => Torann\GeoIP\GeoIPFacade::class,

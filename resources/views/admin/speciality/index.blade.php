@@ -28,7 +28,7 @@
                             <h3 class="border-title mb-3 mt-4 pb-2 text-capitalize">List of Specialities</h3>
                             <ul class="list-group-split">
                                 @foreach($specialities as $speciality)
-                                <li><a href="">{{$speciality->speciality_name}}</a></li>
+                                <li><a href="{{route('admin.speciality.edit', $speciality->slug)}}">{{$speciality->speciality_name}}</a></li>
                                 @endforeach
                             </ul>
 

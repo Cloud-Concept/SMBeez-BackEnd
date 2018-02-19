@@ -3,7 +3,7 @@
         <div class="col-md-12">
             @if(Auth::guest() || !$hasCompany)
             <select name="industry" class="custom-select mb-2 mr-sm-2 mb-sm-0 w-100 multi-select">
-                <option value="all">All Industries</option>
+                <option value="">All Industries</option>
 
                 @foreach($industries as $key => $getindustry)
                 <option value="{{$getindustry->id}}" {{$getindustry->id == $industry->id ? 'selected' : ''}} {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>

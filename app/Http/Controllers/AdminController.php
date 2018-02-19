@@ -62,4 +62,5 @@ class AdminController extends Controller
 
         return view('admin.company.index', compact('companies', 'claims'));
     }
+
 }

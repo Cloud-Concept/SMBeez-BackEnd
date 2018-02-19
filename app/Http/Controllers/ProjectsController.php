@@ -89,7 +89,7 @@ class ProjectsController extends Controller
         }
         //save it to the database 
         $project->save();
-
+        
         $specs = explode(',', $request['hidden-speciality_id']);
         //check for specs that already exists in database
         $spec_exists = Speciality::with('projects')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
@@ -97,8 +97,10 @@ class ProjectsController extends Controller
         foreach($specs as $spec) {
             $speciality = new Speciality;
             if(!in_array($spec, $spec_exists)) {
-                $speciality->speciality_name = $spec;
-                $speciality->save();
+                if(!empty($spec)) {
+                    $speciality->speciality_name = $spec;
+                    $speciality->save();
+                }
             }
         }
         //get ids of specialities to attach to the project
@@ -208,8 +210,10 @@ class ProjectsController extends Controller
         foreach($specs as $spec) {
             $speciality = new Speciality;
             if(!in_array($spec, $spec_exists)) {
-                $speciality->speciality_name = $spec;
-                $speciality->save();
+                if(!empty($spec)) {
+                    $speciality->speciality_name = $spec;
+                    $speciality->save();
+                }
             }
         }
         //get ids of specialities to attach to the project
@@ -258,6 +262,80 @@ class ProjectsController extends Controller
 
         Mail::to($project->user->email)->send(new ProjectPublished($project));
         
+        return back();
+    }
+
+    public function admin_edit(Project $project)
+    {   
+        $current_specialities = array();
+
+        foreach($project->specialities as $speciality) {
+            $current_specialities[] = $speciality->speciality_name;
+        }
+        $project_specialities = implode('","', $current_specialities);
+
+        return view('admin.project.edit', compact('project', 'project_specialities'));
+    }
+
+    public function admin_update(Request $request, Project $project)
+    {
+        $project->project_title = $request['project_title'];
+        $project->project_description = $request['project_description'];
+        $project->budget = $request['budget'];
+
+        if($request->hasFile('supportive_docs')) {
+
+            $file = $request->file('supportive_docs');
+
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            //store in the storage folder
+            $file->storeAs('/', $filename, 'project_files');
+            //get the old file
+            $oldFile = $project->supportive_docs;
+            $project->supportive_docs = $filename;
+            //delete the old file
+            File::delete(public_path('projects/files/' . $oldFile));
+        }
+        //update it to the database 
+        $project->update();
+
+        $specs = explode(',', $request['hidden-speciality_id']);
+        //check for specs that already exists in database
+        $spec_exists = Speciality::with('projects')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
+        //foreach specs add the specialities that is not recorded in the database
+        foreach($specs as $spec) {
+            $speciality = new Speciality;
+            if(!in_array($spec, $spec_exists)) {
+                $speciality->speciality_name = $spec;
+                $speciality->save();
+            }
+        }
+        //get ids of specialities to attach to the project
+        $specs_ids = $speciality->with('projects')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+        //sync project industries
+        $project->industries()->sync($request['industry_id'], true);
+        //sync project specialities
+        $project->specialities()->sync($specs_ids, true);
+
+        return back();
+    }
+
+    //promote company to make featured
+    public function promote(Project $project)
+    {   
+        $project->is_promoted = 1;
+
+        $project->update();
+
+        return back();
+    }
+
+    public function unpromote(Project $project)
+    {
+        $project->is_promoted = 0;
+        
+        $project->update();
+
         return back();
     }
 }

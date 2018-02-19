@@ -59,6 +59,7 @@ class UserController extends Controller
         $user->username = $request['username'];
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
+        $user->user_city = $request['user_city'];
         $user->honeycombs = 0;
 
         $user->save();
@@ -67,7 +68,7 @@ class UserController extends Controller
 
         if($user->save()) {
             session()->flash('success', 'User has been added');
-            return redirect()->route('admin.user.edit', $user->id);
+            return redirect()->route('admin.user.edit', $user->username);
         }else {
             session()->flash('error', 'Sorry, an error occured while creating the user.');
             return redirect()->route('admin.user.create');

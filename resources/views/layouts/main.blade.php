@@ -42,68 +42,7 @@
         </header>
         
         @yield('content')
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row px-4">
-                    <div class="col-md-9">
-                        <h6 class="mb-3">What is SMBeez</h6>
-                        <p>SMBeez is your local online marketplace for small and medium companies keen to do business with you. Source project opportunities and find reliable suppliers easily from the comfort of your office. Confidently do business with trusted... <a href="">more</a></p>
-                    </div>
-                    <div class="col-md-3">
-                        @if(Auth::guest())
-                        <h6 class="mb-3">Stay in touch</h6>
-                        <form action="" class="newsletter">
-                            <div class="input-group"><input type="text" class="form-control" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="button"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
-                        </form>
-                        @endif
-                    </div>
-                    <div class="col-md-3">
-                        <h6>Links</h6>
-                        <ul>
-                            <li><a href="">About</a></li>
-                            <li><a href="">Sign Up</a></li>
-                            <li><a href="">Add your company</a></li>
-                            <li><a href="">Publish your project</a></li>
-                            <li><a href="">Terms & Conditions</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <h6>Listing</h6>
-                        <ul>
-                            <li><a href="">Companies</a></li>
-                            <li><a href="">Projects</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <h6>Projects</h6>
-                        <ul>
-                            <li><a href="">Agriculture, Fishing,</a></li>
-                            <li><a href="">and Food Services</a></li>
-                            <li><a href="">Oil, Gas, and Mining</a></li>
-                            <li><a href="">Utilities and Waste</a></li>
-                            <li><a href="">Management</a></li>
-                            <li><a href="">All Industries</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <h6>Locations</h6>
-                        <ul>
-                            <li><a href="">Dubai</a></li>
-                            <li><a href="">Abu Dhabi</a></li>
-                            <li><a href="">Cairo</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-12">
-                        <p>Made by Cloud Concept © 2018 - All Rights Reserved</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <div id="search" class="cd-main-search">
-            <form><input type="search" placeholder="Search..."></form>
-            <a href="#" class="close cd-text-replace">Close Form</a>
-        </div>
+        @include('layouts.footer')
         <!-- Scripts -->
         <script src="{{ asset('js/vendor.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item active" aria-current="page">Projects</li>
                         </ol>
                     </nav>
-                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>Publush New Project</a></div>
+                    <!-- <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>Publish New Project</a></div> -->
                     <div class="row sd-project">
                         <div class="col-md-12">
                             <form action="" class="search-company">
@@ -38,7 +38,7 @@
                             </div>
                             @foreach($projects as $project)
                             <div class="project-box-side box-block my-3 {{$project->status === 'deleted' ? 'disable' : ''}}">
-                                <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
+                                <a href="{{route('admin.project.edit', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
                                 <p>{{strip_tags(substr($project->project_description, 0, 150))}}...</p>
                             	<p class="tags">More in: 
 	                                <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>

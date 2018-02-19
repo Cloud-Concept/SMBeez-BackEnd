@@ -95,11 +95,13 @@
                                 <p class="tags">More in:
                                     <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
+                                @if($company->specialities->count() > 0)
                                 <p class="tags"><b>Specialities:</b> 
                                     @foreach($company->specialities as $speciality)
                                         {{$speciality->speciality_name . ','}} 
                                     @endforeach
                                 </p>
+                                @endif
                             </div>
                             @if(!Auth::guest())
                             <form id="bookmark-{{$company->id}}" action="{{route('bookmark.add')}}" method="POST">

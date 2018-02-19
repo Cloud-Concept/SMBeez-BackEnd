@@ -1,44 +1,61 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Edit User {{$user->name}}</div>
-
-                <div class="panel-body">
+<main class="cd-main-content">
+    <section class="dashboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    @include('layouts.superadmin-sidebar')
+                </div>
+                <div class="col-md-9">
+                    <nav aria-label="breadcrumb" role="navigation">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit User {{$user->name}}</li>
+                        </ol>
+                    </nav>
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
                         </div>
                     @endif
-                    <a href="{{route('admin.user.delete', $user->id)}}" class="btn btn-danger" onclick="event.preventDefault(); var r = confirm('Are you sure you want to delete this user ?'); if (r == true) {document.getElementById('delete-form-{{$user->id}}').submit();}">Delete User</a>
-                    <a href="{{route('admin.user.create')}}" class="btn btn-primary">Add New User</a>
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.user.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add New User</a></div>
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); var r = confirm('Are you sure you want to delete this user ?'); if (r == true) {document.getElementById('delete-form-{{$user->id}}').submit();}"><i class="fa fa-minus-circle fa-3x" aria-hidden="true"></i> Delete This User</a></div>
                     <br>
-                    <form action="{{route('admin.user.update', $user->id)}}" method="post" enctype="multipart/form-data">
+                    @if($user->profile_pic_url)
+                        <img src="{{asset($user->profile_pic_url)}}" />
+                        <br>
+                    @endif
+                    <br>
+                    <p>This user have {{$user->honeycombs ? $user->honeycombs : 0}} Honycombs points</p>
+                    <br>
+                    <form action="{{route('admin.user.update', $user->username)}}" class="user-setting" role="form" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="field">
-                            <p class="group-control">
-                                <input class="input-control" type="text" name="name" placeholder="Name" id="name" value="{{$user->name}}" />
+                            <p class="form-group">
+                                <input class="form-control" type="text" name="name" placeholder="Name" id="name" value="{{$user->name}}" />
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="text" name="username" placeholder="username" id="username" value="{{$user->username}}" />
+                            <p class="form-group">
+                                <input class="form-control" type="text" name="username" placeholder="username" id="username" value="{{$user->username}}" />
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="email" name="email" placeholder="email" id="email" value="{{$user->email}}" />
+                            <p class="form-group">
+                                <input class="form-control" type="email" name="email" placeholder="email" id="email" value="{{$user->email}}" />
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="password" name="password" placeholder="password" id="password" />
+                            <p class="form-group">
+                                <input class="form-control" type="password" name="password" placeholder="password" id="password" />
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="text" name="phone" placeholder="phone" id="phone" value="{{$user->phone}}" />
+                            <p class="form-group">
+                                <input class="form-control" type="text" name="phone" placeholder="phone" id="phone" value="{{$user->phone}}" />
                             </p>
-                            <p class="group-control">
-                                <input class="input-control" type="file" name="profile_pic_url" />
+                            <p class="form-group">
+                                <label class="custom-file">
+                                    <input type="file" id="profile_pic_url" name="profile_pic_url" class="form-control custom-file-input" accept=".jpg, .png, .jpeg"> 
+                                    <span class="custom-file-control" data-label="Profile Picture"></span>
+                                </label>
                             </p>
-                            <p class="group-control">
-                                <select name="role">
+                            <p class="form-group">
+                                <select name="role" class="form-control">
                                     @foreach ($roles as $role)
                                         @foreach ($user->roles as $user_role)
                                             <option value="{{$role->id}}" {{$user_role->id == $role->id ? 'selected' : ''}}>{{$role->display_name}}</option>
@@ -50,19 +67,13 @@
                         </div>
                         
                     </form>
-                    @if($user->profile_pic_url)
-                        <img src="{{asset($user->profile_pic_url)}}" />
-                        <br>
-                    @endif
-                    This user have {{$user->honeycombs ? $user->honeycombs : 0}} Honycombs points
-
-                    <form id="delete-form-{{$user->id}}" action="{{route('admin.user.delete', $user->id)}}" method="POST" style="display: none;">
+                    <form id="delete-form-{{$user->id}}" action="{{route('admin.user.delete', $user->username)}}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 @endsection

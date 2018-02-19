@@ -25,7 +25,7 @@
                                     <tr>
                                         <td scope="row">{{$industry->industry_name}}</td>
                                         <td width="10%">
-                                            <div class="d-flex"><a href="" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a href="" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+                                            <div class="d-flex"><a href="{{route('admin.industry.edit', $industry->slug)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></div>
                                         </td>
                                     </tr>
                                     @endforeach

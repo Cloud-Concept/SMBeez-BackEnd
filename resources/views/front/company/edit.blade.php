@@ -18,11 +18,13 @@
                         @endif
                         <i class="fa fa-2x fa-pencil-square-o align-self-center" aria-hidden="true"></i>
                     </div>
+                    @if($company->cover_url)
                     <div class="media">
                         <img class="img-fluid img-full" src="{{asset($company->cover_url)}}" alt="">
                     </div>
+                    @endif
                     <br>
-                    <form id="img_upload" method="post" role="form" enctype="multipart/form-data">
+                    <form id="img_upload" action="{{route('front.company.updatelogo', $company->slug)}}" method="post" role="form" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="form-group">
                            <label class="custom-file">
@@ -137,7 +139,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row"><b>Company Size</b></td>
-                                        <td><select name="company_size" id="company_size">
+                                        <td><select name="company_size" id="company_size" class="form-control">
                                             <option value="0-1 Employees">0-1 Employees</option>
                                             <option value="2-10 Employees">2-10 Employees</option>
                                             <option value="11-50 Employees">11-50 Employees</option>
@@ -161,6 +163,10 @@
                                             <option value="Private Joint-Stock Company (PrJSC)">Private Joint-Stock Company (PrJSC)</option>
                                         </select></td>
                                     </tr>
+                                    <tr>
+                                        <td scope="row"><b>Specialities</b></td>
+                                        <td><input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -174,11 +180,15 @@
                                     <br>
                                     <div class="form-group">
                                         <label class="custom-file">
-                                            <input type="file" id="reg_doc" name="reg_doc" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf"> 
+                                            <input type="file" id="reg_doc" name="reg_doc" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar"> 
                                             <span class="custom-file-control" data-label="Registration Documents"></span>
                                         </label>
-                                        <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF</p>
+                                        <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF, ZIP, RAR</p>
                                     </div>
+                                    @if($company->reg_doc)
+                                        <a href="{{asset('companies/files/' . $company->reg_doc)}}"><i class="fa fa-download" aria-hidden="true"></i> Download Company Documents</a> 
+                                    @endif
+                                    <br>
                                     <button type="submit" class="btn btn-sm btn-yellow-2 mt-3">Upload Document</button>
                                 </div>
                             </div>
@@ -257,7 +267,7 @@
 </main>
 
 <script type="text/javascript">
-$("#upload").click(function(e){
+/*$("#upload").click(function(e){
     e.preventDefault();
     $.ajax({
       url:'{{route("front.company.updatelogo", $company->slug)}}',
@@ -268,9 +278,28 @@ $("#upload").click(function(e){
       processData: false,
       contentType: false,
       success:function(response){
-        console.log(response);
+        location.reload();
       },
     });
+});*/
+
+var tagApi = $(".tm-input").tagsManager({
+    prefilled: ["{!!$company_specialities!!}"]
+});
+
+jQuery(".typeahead").typeahead({
+  name: 'speciality_id',
+  displayKey: 'speciality_name',
+  source: function (query, process) {
+    return $.get('{!!url("/")!!}' + '/api/find', { keyword: query }, function (data) {
+      data = $.parseJSON(data);
+      return process(data);
+    });
+  },
+  afterSelect :function (item){
+    tagApi.tagsManager("pushTag", item);
+  }
 });
 </script>
+
 @endsection

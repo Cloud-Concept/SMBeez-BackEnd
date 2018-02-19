@@ -22,11 +22,13 @@
                             <h2 class="mt-2"><i class="fa fa-address-card" aria-hidden="true"></i> {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
                                 <li>Industry: <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
+                                @if($company->specialities->count() > 0)
                                 <li>Speciality: <span>
                                     @foreach($company->specialities as $speciality)
                                         {{$speciality->speciality_name . ','}} 
                                     @endforeach
                                 </span></li>
+                                @endif
                             </ul>
 
                             @if (Auth::guest() && $company->is_verified == null)
@@ -81,7 +83,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="hero-company-details">
+                    <div class="hero-company-details" style="background: url({{asset($company->industry->industry_img_url)}}) no-repeat 100% 100%;">
                         <h1>{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">

@@ -26,19 +26,20 @@ class SpecialitiesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'speciality_name' => 'required|string|max:255',
-            'slug' => 'unique:specialities'
-        ]);
 
-        $speciality = new Speciality;
-
-        $speciality->speciality_name = $request['speciality_name'];
-
-        //save it to the database 
-        $speciality->save();
-        //make the speciality sluggable
-        $sluggable = $speciality->replicate();
+        $specs = explode(',', $request['hidden-speciality_id']);
+        //check for specs that already exists in database
+        $spec_exists = Speciality::with('projects')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
+        //foreach specs add the specialities that is not recorded in the database
+        foreach($specs as $spec) {
+            $speciality = new Speciality;
+            if(!in_array($spec, $spec_exists)) {
+                $speciality->speciality_name = $spec;
+                $speciality->save();
+                //make the speciality sluggable
+                $sluggable = $speciality->replicate();
+            }
+        }
         // redirect to the home page
         session()->flash('success', 'Your speciality has been created.');
 
@@ -53,7 +54,7 @@ class SpecialitiesController extends Controller
      */
     public function edit(Speciality $speciality)
     {
-        //
+        return view('admin.speciality.edit', compact('speciality'));
     }
 
     /**
@@ -64,8 +65,24 @@ class SpecialitiesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Speciality $speciality)
-    {
-        //
+    {   
+
+        $spec_exists = Speciality::with('projects')->where('speciality_name', $request['speciality_name'])->pluck('speciality_name')->toArray();
+
+        if(!in_array($request['speciality_name'], $spec_exists)) {
+
+            $speciality->speciality_name = $request['speciality_name'];
+
+            $speciality->update();
+
+            // redirect to the home page
+            session()->flash('success', 'Your speciality has been updated.');
+
+        }else {
+            session()->flash('success', 'Sepciality already exists.');
+        }
+
+        return back();
     }
 
     /**

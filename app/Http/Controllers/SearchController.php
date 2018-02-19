@@ -22,7 +22,7 @@ class SearchController extends Controller
         $specialities = $speciality->all();
         $filter_industry = $request['industry'];
         //if selected all industries go to all opportunities page
-        if($request['industry'] == 'all') {
+        if($request['industry'] == '' && !$request->has('specialities')) {
 
             return redirect(route('front.industry.index'));
 
