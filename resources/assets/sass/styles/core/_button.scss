@@ -40,6 +40,10 @@ button:hover,
   @include transition(all .4s ease);
 }
 
+.btn-blue-text {
+  color: $main-blue;
+}
+
 .btn-link {
   background: none;
   border: 0;
@@ -54,7 +58,6 @@ button:hover,
   border-radius: $br01 - 6;
   @include rem(font-size, $base-font-size);
   @include rem(padding, 4px 15px);
-
 }
 
 .btn-blue {
@@ -142,5 +145,25 @@ button:hover,
   i {
     font-weight: normal;
   }
+}
 
+.btn-alert {
+  padding: 0;
+
+  .fa {
+    vertical-align: middle;
+    margin-bottom: 0px;
+    margin-right: 5px;
+  }
+}
+
+
+.disable {
+  opacity: 0.4;
+  cursor: default;
+  &:hover,
+  &:focus,
+  &:active{
+    pointer-events: none;
+  }
 }

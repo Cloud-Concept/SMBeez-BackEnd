@@ -7,7 +7,13 @@ DashBoard Tables
   td {
     vertical-align: middle;
   }
+
+  label.custom-control {
+    margin: 0;
+    margin-bottom: -5px;
+  }
 }
+
 
 .sm-info {
   display: block;

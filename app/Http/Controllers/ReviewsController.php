@@ -146,7 +146,7 @@ class ReviewsController extends Controller
 
 
     public function like(Request $request, Review $review)
-    {   
+    {  
         $impression = new ReviewsLikeUnlike;
 
         $impression->user_id = auth()->id();
@@ -160,9 +160,9 @@ class ReviewsController extends Controller
             $check_like->delete();
         }
 
-        $impression->save();
+        return json_encode($impression->save());
 
-        return back();
+        //return back();
     }
 
     public function unlike(Request $request, Review $review)
@@ -180,9 +180,9 @@ class ReviewsController extends Controller
             $check_like->delete();
         }
 
-        $impression->save();
+        return json_encode($impression->save());
 
-        return back();
+        //return back();
     }
 
     public function flag(Request $request, Review $review)
@@ -193,9 +193,9 @@ class ReviewsController extends Controller
         $flag->review_id = $review->id;
         $flag->company_id = $review->company->id;
 
-        $flag->save();
+        return json_encode($flag->save());
 
-        return back();
+        //return back();
     }
 
     public function unflag(Request $request, Review $review)
@@ -204,9 +204,9 @@ class ReviewsController extends Controller
 
         $flag = $flag->where('user_id', auth()->id())->where('review_id', $review->id)->first();
 
-        $flag->delete();
+        return json_encode($flag->delete());
 
-        return back();
+        //return back();
     }
 
 }

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Role;
+use App\Review;
+use App\Interest;
+use App\Claim;
+use App\Bookmark;
 use App\Project;
 use App\Company;
 use App\Industry;
@@ -50,13 +54,12 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'username' => 'unique:users'
         ]);
 
         $user = new User;
 
-        $user->name = $request['name'];
-        $user->username = $request['username'];
+        $user->first_name = $request['first_name'];
+        $user->last_name = $request['last_name'];
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
         $user->user_city = $request['user_city'];
@@ -65,6 +68,8 @@ class UserController extends Controller
         $user->save();
 
         $user->roles()->sync(request('role'), false);
+
+        $sluggable = $user->replicate();
 
         if($user->save()) {
             session()->flash('success', 'User has been added');
@@ -98,8 +103,8 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
-        $user->name = $request['name'];
-        $user->username = $request['username'];
+        $user->first_name = $request['first_name'];
+        $user->last_name = $request['last_name'];
         $user->email = $request['email'];
         $user->phone = $request['phone'];
 
@@ -152,6 +157,55 @@ class UserController extends Controller
         $user->roles()->detach();
         //remove the attached image from the folder
         File::delete(public_path($user->profile_pic_url));
+
+        $hasCompany = Company::where('user_id', $user->id)->first();
+        if($hasCompany) {
+            //delete company
+            $user->company->delete();
+            //delete specialities
+            $user->company->specialities()->detach();
+            //delete reviews
+            $company_reviews = Review::where('company_id', $user->company->id)->get();
+            foreach($company_reviews as $review) {
+                $review->delete();
+            }
+            
+            //delete claims
+            $company_claims = Claim::where('company_id', $user->company->id)->get();
+            foreach($company_claims as $claim){
+                $claim->delete();
+            }
+            //delete bookmarks
+            $company_bookmarks = Bookmark::where('bookmarked_id', $user->company->id)
+            ->where('bookmark_type', 'App\Company')->get();
+            foreach($company_bookmarks as $bookmark) {
+                $bookmark->delete();
+            }
+            //delete company projects
+            //get projects ids
+            $company_projects_ids = Project::where('company_id', $user->company->id)->pluck('id');
+            $company_projects_bookmarks = Bookmark::whereIn('bookmarked_id', $company_projects_ids)
+            ->where('bookmark_type', 'App\Project')->get();
+            foreach($company_projects_bookmarks as $project_bookmark) {
+                $project_bookmark->delete();
+            }
+            //delete interests
+            $company_projects_interests = Interest::where('user_id', $company->user->id)->get();
+
+            foreach($company_projects_interests as $interest) {
+                $interest->delete();
+            }
+            $company_projects = Project::where('company_id', $user->company->id)->get();
+            foreach($company_projects as $project) {
+                $project->delete();
+                $project->specialities()->detach();
+            }
+
+            //remove the attached image from the folder
+            File::delete(public_path($user->company->logo_url));
+            File::delete(public_path($user->company->cover_url));
+            File::delete(public_path($user->company->reg_doc));
+        }
 
         session()->flash('success', 'User has been deleted');
 
@@ -247,7 +301,8 @@ class UserController extends Controller
 
         }else {
 
-            $user->name = $request['name'];
+            $user->first_name = $request['first_name'];
+            $user->last_name = $request['last_name'];
             $user->email = $request['email'];
             $user->phone = $request['phone'];
 
@@ -330,6 +385,30 @@ class UserController extends Controller
         }
     }
 
+    public function update_logo(Request $request, User $user)
+    {
+        if($request->hasFile('profile_pic_url')) {
+
+            $profile_pic_url     = $request->file('profile_pic_url');
+            $img_name  = time() . '.' . $profile_pic_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/users/';
+            //path of the new image
+            $path       = public_path('images/users/' . $img_name);
+            //save image to the path
+            Image::make($profile_pic_url)->resize(48, 48)->save($path);
+            //get the old image
+            $oldImage = $user->profile_pic_url;
+            //make the field profile_pic_url in the table = to the link of img
+            $user->profile_pic_url = $path_db . $img_name;
+            //delete the old image
+            File::delete(public_path($oldImage));
+        }
+
+        $user->update();
+
+        return back();
+    }
     public function myprojects(User $user)
     {
         //if trying to access the dashboard 
@@ -346,6 +425,10 @@ class UserController extends Controller
             $suggested_projects = $project->whereHas('industries', function ($q) use ($industry) {
                 $user_company = auth()->user()->company;
                 $q->where('industries.id', $user_company->industry->id);
+            })
+            ->whereDoesntHave('interests', function ($query) {
+                $user = auth()->user();
+                $query->where('user_id', $user->id);
             })
             ->where('is_promoted', 1)
             ->where('status', 'publish')
@@ -379,6 +462,10 @@ class UserController extends Controller
             $suggested_projects = $project->whereHas('industries', function ($q) use ($industry) {
                 $user_company = auth()->user()->company;
                 $q->where('industries.id', $user_company->industry->id);
+            })
+            ->whereDoesntHave('interests', function ($query) {
+                $user = auth()->user();
+                $query->where('user_id', $user->id);
             })
             ->where('is_promoted', 1)
             ->where('status', 'publish')

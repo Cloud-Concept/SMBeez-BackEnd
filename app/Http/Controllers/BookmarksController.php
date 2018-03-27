@@ -23,16 +23,18 @@ class BookmarksController extends Controller
 
     public function addBookmark(Bookmark $bookmark, Request $request)
     { 
+        if (!$bookmark->exist($request['bookmarked_id'], $request['bookmark_type'])) {
+            $bookmark->user_id = auth()->id();
+            $bookmark->bookmarked_id = $request['bookmarked_id'];
+            $bookmark->bookmark_type = $request['bookmark_type'];
+            return json_encode($bookmark->save());
+        }
 
-    	$bookmark->firstOrCreate(['user_id' => auth()->id()], ['bookmarked_id' => $request['bookmarked_id']], ['bookmark_type' => $request['bookmark_type']]);
+    }
 
-    	$bookmark->user_id = auth()->id();
-    	$bookmark->bookmarked_id = $request['bookmarked_id'];
-    	$bookmark->bookmark_type = $request['bookmark_type'];
-
-    	$bookmark->save();
-
-    	return back();
+    public function removeBookmark(Bookmark $bookmark, Request $request)
+    { 
+        return json_encode($bookmark->delete());
 
     }
 

@@ -193,6 +193,62 @@ class IndustriesController extends Controller
         return view('front.industry.show', compact('industries', 'industry', 'hasCompany', 'industry_projects', 'companies', 'featured_projects', 'specialities'));
     }
 
+    public function showCompanies(Industry $industry)
+    {   
+        $company = new Company;
+        //check if the user has a company
+        $hasCompany = $company->where('user_id', Auth::id())->first();
+
+        //get the current user company if the user already has company
+        if(!Auth::guest() && $hasCompany) {
+
+            $user_company = Auth::user()->company;
+
+            if($user_company->industry->id != $industry->id) {
+                return redirect(route('front.industry.companies', $user_company->industry->slug));
+            }
+
+        }
+
+        $industries = $industry->all();
+                
+        $company = new Company;
+
+        $speciality = new Speciality;
+
+        $specialities = $speciality->all();
+
+        if(Auth::user()) {
+
+            $companies = $company->where('industry_id', $industry->id)->where('status', 1)
+            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+
+            //show featured projects from the same industry
+            $featured_companies = $company->where('industry_id', $industry->id)
+            ->where('is_promoted', 1)
+            ->where('status', 1)
+            ->where('city', Auth::user()->user_city)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+        }else {
+
+            $companies = $company->where('industry_id', $industry->id)->where('status', 1)
+            ->latest()->paginate(10);
+
+            $featured_companies = $company->where('industry_id', $industry->id)
+            ->where('is_promoted', 1)
+            ->where('status', 1)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+        }
+
+
+        return view('front.company.index', compact('industries', 'industry', 'hasCompany', 'companies', 'featured_companies', 'specialities'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -41,6 +41,11 @@ h3 {
       @include rem(margin-top, -12px);
     }
   }
+
+  span {
+    color: $darkgray;
+    font-weight: 400;
+  }
 }
 
 h4 {
@@ -81,4 +86,15 @@ h6 {
 
 p {
   font-weight: 300;
+
+
+  &.info {
+    color: $deepgray;
+    font-size: $base-font-size - 2px;
+    margin-bottom: 2px;
+  }
+}
+
+.border-title{
+  border-bottom: 1px solid $gray;
 }

@@ -12,7 +12,7 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Edit User {{$user->name}}</li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit User {{$user->first_name . " " . $user->last_name}}</li>
                         </ol>
                     </nav>
                     @if (session('success'))
@@ -34,10 +34,10 @@
                         {{csrf_field()}}
                         <div class="field">
                             <p class="form-group">
-                                <input class="form-control" type="text" name="name" placeholder="Name" id="name" value="{{$user->name}}" />
+                                <input class="form-control" type="text" name="first_name" placeholder="First Name" id="fname" value="{{$user->first_name}}" required/>
                             </p>
                             <p class="form-group">
-                                <input class="form-control" type="text" name="username" placeholder="username" id="username" value="{{$user->username}}" />
+                                <input class="form-control" type="text" name="last_name" placeholder="Last Name" id="lname" value="{{$user->last_name}}" required/>
                             </p>
                             <p class="form-group">
                                 <input class="form-control" type="email" name="email" placeholder="email" id="email" value="{{$user->email}}" />

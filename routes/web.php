@@ -59,6 +59,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 	Route::post('/unpromote-company/{company}', 'CompaniesController@unpromote')->name('admin.company.unpromote');
 	Route::post('/verify/{company}', 'CompaniesController@verify')->name('admin.company.verify');
 	Route::post('/unverify/{company}', 'CompaniesController@unverify')->name('admin.company.unverify');
+	Route::delete('/{company}/delete', 'CompaniesController@destroy')->name('admin.company.delete');
+	Route::delete('/{company}/delete-reviews', 'CompaniesController@clear_reviews')->name('admin.company.delete-reviews');
 	//Flagged Reviews
 	//Route::get('/manage/reviews', 'AdminController@reviews')->name('admin.reviews');
 	//Export / Import CSV
@@ -82,6 +84,7 @@ Route::prefix('user')->group(function() {
 	Route::post('/profile/{user}/update_basic', 'UserController@update_basic_info')->name('front.user.update_basic');
 	Route::get('/profile/{user}/edit_location', 'UserController@edit_location')->name('front.user.editlocation');
 	Route::post('/profile/{user}/update_location', 'UserController@update_location')->name('front.user.update_location');
+	Route::post('/profile/{user}/update_logo', 'UserController@update_logo')->name('front.user.update_logo');
 });	
 
 Route::prefix('companies')->group(function() {
@@ -90,7 +93,6 @@ Route::prefix('companies')->group(function() {
 	Route::get('/{company}/edit', 'CompaniesController@edit')->name('front.company.edit');
 	Route::post('/{company}/update', 'CompaniesController@update')->name('front.company.update');
 	Route::post('/updatelogo/{company}', 'CompaniesController@update_logo')->name('front.company.updatelogo');
-	Route::post('/updatelocation/{company}', 'CompaniesController@update_location')->name('front.company.update_location');
 	Route::get('/industries/{industry}', 'CompaniesController@show_industry')->name('front.company.showindustry');
 	Route::get('/claim/{company}', 'CompaniesController@claim_notification')->name('front.company.claim_notification');
 	Route::get('/claim/form/{company}', 'CompaniesController@claim_application')->name('front.company.claim_application');
@@ -102,6 +104,7 @@ Route::prefix('companies')->group(function() {
 Route::prefix('industries')->group(function() {
 	Route::get('/opportunities', 'IndustriesController@index')->name('front.industry.index');
 	Route::get('/{industry}', 'IndustriesController@show')->name('front.industry.show');
+	Route::get('/companies/{industry}', 'IndustriesController@showCompanies')->name('front.industry.companies');
 });
 
 Route::prefix('projects')->group(function() {
@@ -126,5 +129,16 @@ Route::post('/review/{review}/like', ['middleware' => ['role:user|company|supera
 Route::post('/review/{review}/unlike', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@unlike'])->name('review.unlike');
 Route::post('/review/{review}/flag', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@flag'])->name('review.flag');
 Route::delete('/review/{review}/unflag', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@unflag'])->name('review.unflag');
-Route::get('/search', 'SearchController@filter_opportunities')->name('filter.opportunities');
+Route::get('/search-opportunities', 'SearchController@filter_opportunities')->name('filter.opportunities');
+Route::get('/search-companies', 'SearchController@filter_companies')->name('filter.companies');
+Route::get('/search', 'SearchController@search')->name('search.all');
 Route::post('/bookmark/add', 'BookmarksController@addBookmark')->name('bookmark.add');
+Route::delete('/bookmark/remove/{bookmark}', 'BookmarksController@removeBookmark')->name('bookmark.remove');
+Route::delete('/delete/{file}', ['middleware' => ['role:company|superadmin'], 'uses' => 'MyFilesController@destroy'])->name('front.file.delete');
+Route::get('/about', 'HomeController@about')->name('about');
+
+//Social Connect
+
+Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','facebook|linkedin')->name('socialLogin');
+
+Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','facebook|linkedin')->name('socialCallback');

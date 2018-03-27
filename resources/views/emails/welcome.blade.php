@@ -1,18 +1,45 @@
-<p>
+@component('mail::layout')
+    {{-- Header --}}
+    @slot('header')
+        @component('mail::header', ['url' => config('app.url')])
+            {{ config('app.name') }}
+        @endcomponent
+    @endslot
 
-Hello!
+    <table class="panel" width="100%" cellpadding="0" cellspacing="0">
+	    <tr>
+	        <td class="panel-content">
+	            <table width="100%" cellpadding="0" cellspacing="0">
+	                <tr>
+	                    <td class="panel-item">
+	                        <h1>Hello!</h1>
 
-Congratulations! You created a new account on SMBeez.net. Please click the below link to verify your email address. 
+							<p>Congratulations! You created a new account on SMBeez.net.<!--  Please click the below link to verify your email address. --> </p>
 
-What next? 
+							<p>What next? </p>
 
-Here is how you can make most of your SMBeez account:
+							<h3>Here is how you can make most of your SMBeez account:</h3>
+							<ul>
+								<li>Browse business opportunities in your industry</li>
+								<li>Create and publish a new project and earn [number] honeycombs!</li>
+								<li>Submit a company review and earn [number] honeycombs!</li>
+								<li>Claim your company and update your company details</li>
+							</ul>
 
-Browse business opportunities in your industry
-Create and publish a new project and earn [number] honeycombs!
-Submit a company review and earn [number] honeycombs!
-Claim your company and update your company details
+							<p>
+							Your friends at SMBeez 
+							</p>
+	                    </td>
+	                </tr>
+	            </table>
+	        </td>
+	    </tr>
+	</table>
 
-
-Your friends at SMBeez 
-</p>
+    {{-- Footer --}}
+    @slot('footer')
+        @component('mail::footer')
+            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+        @endcomponent
+    @endslot
+@endcomponent

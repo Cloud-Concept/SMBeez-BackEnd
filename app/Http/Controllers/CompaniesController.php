@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Role;
 use App\Industry;
+use App\Interest;
 use App\Speciality;
 use App\Project;
 use App\Review;
+use App\Bookmark;
+use App\MyFile;
 use App\User;
 use App\Claim;
 use Illuminate\Http\Request;
@@ -123,6 +126,7 @@ class CompaniesController extends Controller
                 $company->city = $request['city'];
                 $company->company_size = $request['company_size'];
                 $company->company_type = $request['company_type'];
+                $company->role = $request['role'];
                 $company->status = 1;
 
                 //save it to the database 
@@ -212,9 +216,11 @@ class CompaniesController extends Controller
         }
         $company_specialities = implode('","', $current_specialities);
 
+        $company_size_array = array('0-1 Employees', '2-10 Employees', '11-50 Employees', '51-200 Employees', '201-500 Employees', '501+ Employees');
+        $company_type_array = array('Sole Ownership', 'Limited Liability Company (LLC)', 'Free Zone Sole Ownership', 'Free Zone LLC', 'Public Joint-Stock Company (PJSC)', 'Private Joint-Stock Company (PrJSC)');
         //allow edit for company owner only
         if($company->is_owner(auth()->id())) {
-            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews', 'company_specialities'));
+            return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews', 'company_specialities', 'company_size_array', 'company_type_array'));
         }else {
             return redirect(route('front.company.all'));
         }
@@ -229,13 +235,14 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, Company $company)
     {   
-        $company->company_name = $request['company_name'];
+        $company->company_name = $company->company_name;
         $company->company_description = $request['company_description'];
         $company->company_tagline = $request['company_tagline'];
         $company->company_website = $request['company_website'];
         $company->company_email = $request['company_email'];
         $company->company_phone = $request['company_phone'];
         $company->linkedin_url = $request['linkedin_url'];
+        $company->location = $request['location'];
         $company->city = $request['city'];
         $company->company_size = $request['company_size'];
         $company->year_founded = $request['year_founded'];
@@ -243,23 +250,28 @@ class CompaniesController extends Controller
         $company->reg_number = $request['reg_number'];
         $company->reg_date = $request['reg_date'];
 
-
         if($request->hasFile('reg_doc')) {
 
             $file = $request->file('reg_doc');
 
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            //store in the storage folder
-            $file->storeAs('/', $filename, 'company_files');
-            //get the old image
-            $oldFile = $company->reg_doc;
+            foreach($file as $f) {
+                $filefullname = $f->getClientOriginalName();
+                $filename = time() . '-' . str_slug($f->getClientOriginalName()) . '.' . $f->getClientOriginalExtension();
+                //store in the storage folder
+                $f->storeAs('/', $filename, 'company_files');
 
-            $company->reg_doc = $filename;
+                $company_files = new MyFile;
 
-            //delete the old image
-            File::delete(public_path('companies/files/' . $oldFile));
+                $company_files->user_id = $company->user_id;
+                $company_files->company_id = $company->id;
+                $company_files->file_name = $filefullname;
+                $company_files->file_path = $filename;
+
+                $company_files->save();
+
+            }
+
         }
-
         $company->update();
 
         $specs = explode(',', $request['hidden-speciality_id']);
@@ -293,13 +305,15 @@ class CompaniesController extends Controller
         if($request->hasFile('logo_url')) {
 
             $logo_url     = $request->file('logo_url');
-            $img_name  = time() . $logo_url->getClientOriginalName() . '.' . $logo_url->getClientOriginalExtension();
+            $img_name  = time() . uniqid() . '.' . $logo_url->getClientOriginalExtension();
             //path to year/month folder
             $path_db = 'images/company/';
             //path of the new image
             $path       = public_path('images/company/' . $img_name);
             //save image to the path
-            Image::make($logo_url)->resize(130, 43)->save($path);
+            Image::make($logo_url)->resize(null, 42, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
             //get the old image
             $oldImage = $company->logo_url;
             //make the field logo_url in the table = to the link of img
@@ -311,13 +325,13 @@ class CompaniesController extends Controller
         if($request->hasFile('cover_url')) {
 
             $cover_url     = $request->file('cover_url');
-            $img_name_cover  = time() . $cover_url->getClientOriginalName() . '.' . $cover_url->getClientOriginalExtension();
+            $img_name_cover  = time() . uniqid() . '.' . $cover_url->getClientOriginalExtension();
             //path to year/month folder
             $path_db_cover = 'images/company/';
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(346, 213)->save($path_cover);
+            Image::make($cover_url)->resize(350, 215)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img
@@ -330,15 +344,7 @@ class CompaniesController extends Controller
 
         return back();
     }
-
-    public function update_location(Request $request, Company $company)
-    {
-        $company->location = $request['location'];
-
-        $company->update();
-
-        return back();
-    }
+    
     //Stage 1 for claim company
     public function claim_notification(Company $company)
     {   
@@ -347,6 +353,8 @@ class CompaniesController extends Controller
         //if user trying to access his company
         //if user already have company assigned to him
         if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+            return redirect(route('front.company.all'));
+        }elseif(count(auth()->user()->claims) > 0) {
             return redirect(route('front.company.all'));
         }else {
             return view('front.company.claim-notification', compact('company'));
@@ -365,6 +373,8 @@ class CompaniesController extends Controller
         //if user already have company assigned to him
         if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
             return redirect(route('front.company.all'));
+        }elseif(count(auth()->user()->claims) > 0) {
+            return redirect(route('front.company.all'));
         }else {
             return view('front.company.claim-application', compact('company'));
         }
@@ -382,8 +392,7 @@ class CompaniesController extends Controller
         }else {
 
             $this->validate($request, [
-                'role' => 'required|string|max:255',
-                'comments' => 'required'
+                'role' => 'required|string|max:255'
             ]);
 
             $claim->user_id = auth()->id();
@@ -394,14 +403,17 @@ class CompaniesController extends Controller
             if($request->hasFile('document')) {
 
                 $file = $request->file('document');
+                $files = [];
+                foreach($file as $f) {
+                    $filename = time() . '-' . str_slug($f->getClientOriginalName()) . '.' . $f->getClientOriginalExtension();
+                    //store in the storage folder
+                    $f->storeAs('/', $filename, 'company_files');
+                    $files[] = $filename;
 
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                //store in the storage folder
-                $file->storeAs('/', $filename, 'company_files');
+                }
+                $claim->document = implode(',', $files);
 
-                $claim->document = $filename;
             }
-
 
             $claim->save();
 
@@ -420,8 +432,59 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Company $company)
-    {
-        //
+    {   
+        //delete company
+        $company->delete();
+        //delete specialities
+        $company->specialities()->detach();
+        //delete reviews
+        $company_reviews = Review::where('company_id', $company->id)->get();
+        foreach($company_reviews as $review) {
+            $review->delete();
+        }
+        
+        //delete claims
+        $company_claims = Claim::where('company_id', $company->id)->get();
+        foreach($company_claims as $claim){
+            $claim->delete();
+        }
+        //delete bookmarks
+        $company_bookmarks = Bookmark::where('bookmarked_id', $company->id)
+        ->where('bookmark_type', 'App\Company')->get();
+        foreach($company_bookmarks as $bookmark) {
+            $bookmark->delete();
+        }
+
+        //set the company user to normal user
+        $company->user->roles()->detach();
+        $company->user->roles()->attach(4);
+        //delete company projects
+        //get projects ids
+        $company_projects_ids = Project::where('company_id', $company->id)->pluck('id');
+        $company_projects_bookmarks = Bookmark::whereIn('bookmarked_id', $company_projects_ids)
+        ->where('bookmark_type', 'App\Project')->get();
+        foreach($company_projects_bookmarks as $project_bookmark) {
+            $project_bookmark->delete();
+        }
+        //delete interests
+        $company_projects_interests = Interest::where('user_id', $company->user->id)->get();
+
+        foreach($company_projects_interests as $interest) {
+            $interest->delete();
+        }
+        $company_projects = Project::where('company_id', $company->id)->get();
+        foreach($company_projects as $project) {
+            $project->delete();
+            $project->specialities()->detach();
+        }
+
+        //remove the attached image from the folder
+        File::delete(public_path($company->logo_url));
+        File::delete(public_path($company->cover_url));
+        File::delete(public_path($company->reg_doc));
+
+        return redirect(route('admin.companies'));
+
     }
     //create company for superadmins
     public function admin_create()
@@ -474,7 +537,7 @@ class CompaniesController extends Controller
             if($request->hasFile('logo_url')) {
 
                 $logo_url     = $request->file('logo_url');
-                $img_name  = time() . $logo_url->getClientOriginalName() . '.' . $logo_url->getClientOriginalExtension();
+                $img_name  = time() . uniqid() . '.' . $logo_url->getClientOriginalExtension();
                 //path to year/month folder
                 $path_db = 'images/company/';
                 //path of the new image
@@ -488,13 +551,15 @@ class CompaniesController extends Controller
             if($request->hasFile('cover_url')) {
 
                 $cover_url     = $request->file('cover_url');
-                $img_name_cover  = time() . $cover_url->getClientOriginalName() . '.' . $cover_url->getClientOriginalExtension();
+                $img_name_cover  = time() . uniqid() . '.' . $cover_url->getClientOriginalExtension();
                 //path to year/month folder
                 $path_db_cover = 'images/company/';
                 //path of the new image
                 $path_cover       = public_path('images/company/' . $img_name_cover);
                 //save image to the path
-                Image::make($cover_url)->resize(346, 213)->save($path_cover);
+                Image::make($cover_url)->resize(null, 215, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path_cover);
                 //make the field cover_url in the table = to the link of img
                 $company->cover_url = $path_db_cover . $img_name_cover;
             }
@@ -543,8 +608,15 @@ class CompaniesController extends Controller
     }
     //Edit company for superadmins
     public function admin_edit(Company $company)
-    {
-        return view('admin.company.edit', compact('company'));
+    {   
+        $current_specialities = array();
+
+        foreach($company->specialities as $speciality) {
+            $current_specialities[] = $speciality->speciality_name;
+        }
+        $company_specialities = implode('","', $current_specialities);
+
+        return view('admin.company.edit', compact('company', 'company_specialities'));
     }
     public function admin_update(Request $request, Company $company)
     {
@@ -567,13 +639,15 @@ class CompaniesController extends Controller
         if($request->hasFile('logo_url')) {
 
             $logo_url     = $request->file('logo_url');
-            $img_name  = time() . $logo_url->getClientOriginalName() . '.' . $logo_url->getClientOriginalExtension();
+            $img_name  = time() . uniqid() . '.' . $logo_url->getClientOriginalExtension();
             //path to year/month folder
             $path_db = 'images/company/';
             //path of the new image
             $path       = public_path('images/company/' . $img_name);
             //save image to the path
-            Image::make($logo_url)->resize(130, 43)->save($path);
+            Image::make($logo_url)->resize(null, 42, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
             //get the old image
             $oldImage = $company->logo_url;
             //make the field logo_url in the table = to the link of img
@@ -585,7 +659,7 @@ class CompaniesController extends Controller
         if($request->hasFile('cover_url')) {
 
             $cover_url     = $request->file('cover_url');
-            $img_name_cover  = time() . $cover_url->getClientOriginalName() . '.' . $cover_url->getClientOriginalExtension();
+            $img_name_cover  = time() . uniqid() . '.' . $cover_url->getClientOriginalExtension();
             //path to year/month folder
             $path_db_cover = 'images/company/';
             //path of the new image
@@ -625,8 +699,10 @@ class CompaniesController extends Controller
         foreach($specs as $spec) {
             $speciality = new Speciality;
             if(!in_array($spec, $spec_exists)) {
-                $speciality->speciality_name = $spec;
-                $speciality->save();
+                if(!empty($spec)) {
+                    $speciality->speciality_name = $spec;
+                    $speciality->save();
+                }
             }
         }
         //get ids of specialities to attach to the project
@@ -692,5 +768,15 @@ class CompaniesController extends Controller
         ->get();
 
         return view('front.company.showindustry', compact('hasCompany', 'featured_companies', 'industry'));
+    }
+
+    public function clear_reviews(Company $company)
+    {
+        $company_reviews = Review::where('company_id', $company->id)->get();
+        foreach($company_reviews as $review) {
+            $review->delete();
+        }
+
+        return back();
     }
 }

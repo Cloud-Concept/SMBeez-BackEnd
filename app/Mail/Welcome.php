@@ -28,6 +28,6 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome to SMBeez!')->view('emails.welcome');
+        return $this->subject('Welcome to SMBeez!')->markdown('emails.welcome');
     }
 }

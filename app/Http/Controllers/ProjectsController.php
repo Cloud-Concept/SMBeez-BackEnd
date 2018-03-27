@@ -8,6 +8,7 @@ use App\Company;
 use App\Speciality;
 use App\Interest;
 use App\User;
+use App\MyFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -76,19 +77,31 @@ class ProjectsController extends Controller
         $project->close_date = Carbon::now('Asia/Dubai')->addDays(60);
         $project->company_id = Company::where('user_id', auth()->id())->pluck('id')->first();
         
+        //save it to the database 
+        $project->save();
 
         if($request->hasFile('supportive_docs')) {
 
             $file = $request->file('supportive_docs');
 
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            //store in the storage folder
-            $file->storeAs('/', $filename, 'project_files');
+            foreach($file as $f) {
+                $filefullname = $f->getClientOriginalName();
+                $filename = time() . '-' . str_slug($f->getClientOriginalName()) . '.' . $f->getClientOriginalExtension();
+                //store in the storage folder
+                $f->storeAs('/', $filename, 'project_files');
 
-            $project->supportive_docs = $filename;
+                $project_files = new MyFile;
+
+                $project_files->user_id = $project->user_id;
+                $project_files->project_id = $project->id;
+                $project_files->file_name = $filefullname;
+                $project_files->file_path = $filename;
+
+                $project_files->save();
+
+            }
+
         }
-        //save it to the database 
-        $project->save();
         
         $specs = explode(',', $request['hidden-speciality_id']);
         //check for specs that already exists in database
@@ -166,7 +179,10 @@ class ProjectsController extends Controller
             }
             $project_specialities = implode('","', $current_specialities);
 
-            return view('front.project.edit', compact('project', 'industries', 'project_specialities'));
+            $project_files = explode(',', $project->supportive_docs);
+
+            
+            return view('front.project.edit', compact('project', 'industries', 'project_specialities', 'project_files'));
         }else {
             return redirect(route('front.industry.index'));
         }
@@ -181,7 +197,8 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Project $project)
-    {
+    {   
+
         $project->project_title = $request['project_title'];
         $project->project_description = $request['project_description'];
         $project->budget = $request['budget'];
@@ -191,14 +208,23 @@ class ProjectsController extends Controller
 
             $file = $request->file('supportive_docs');
 
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            //store in the storage folder
-            $file->storeAs('/', $filename, 'project_files');
-            //get the old file
-            $oldFile = $project->supportive_docs;
-            $project->supportive_docs = $filename;
-            //delete the old file
-            File::delete(public_path('projects/files/' . $oldFile));
+            foreach($file as $f) {
+                $filefullname = $f->getClientOriginalName();
+                $filename = time() . '-' . str_slug($f->getClientOriginalName()) . '.' . $f->getClientOriginalExtension();
+                //store in the storage folder
+                $f->storeAs('/', $filename, 'project_files');
+
+                $project_files = new MyFile;
+
+                $project_files->user_id = $project->user_id;
+                $project_files->project_id = $project->id;
+                $project_files->file_name = $filefullname;
+                $project_files->file_path = $filename;
+
+                $project_files->save();
+
+            }
+
         }
         //update it to the database 
         $project->update();

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 use App\Role;
 use App\Company;
 
@@ -13,13 +14,15 @@ class User extends Authenticatable
     use Notifiable;
     use LaratrustUserTrait;
 
+    use Sluggable;
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'user_city', 'phone', 'honeycombs', 'profile_pic_url'
+        'first_name', 'last_name', 'email', 'password', 'user_city', 'phone', 'honeycombs', 'profile_pic_url'
     ];
 
     /**
@@ -30,6 +33,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+    * Return the sluggable configuration array for this model.
+    *
+    * @return array
+    */
+    public function sluggable() {
+        return [
+            'username' => [
+                'source' => 'first_name'
+            ]
+        ];
+    }
     //company relationship
     public function company() {
         return $this->hasOne(Company::class);
@@ -47,6 +63,10 @@ class User extends Authenticatable
     public function reviews() {
         return $this->hasMany(Review::class);
     }
+    //files relationship
+    public function files() {
+        return $this->hasMany(MyFile::class);
+    }
     //messages relationship
     public function messages() {
         return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
@@ -57,7 +77,7 @@ class User extends Authenticatable
     }
     //claims relationship
     public function claims() {
-        return $this->hasMany(Claim::class);
+        return $this->hasOne(Claim::class);
     }
     //check for profile completion
     public function profile_completion() {

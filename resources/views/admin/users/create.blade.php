@@ -24,10 +24,10 @@
                         {{csrf_field()}}
                         <div class="field">
                             <p class="form-group">
-                                <input class="form-control" type="text" name="name" placeholder="Name" id="name">
+                                <input class="form-control" type="text" name="first_name" placeholder="First Name" id="fname" required>
                             </p>
                             <p class="form-group">
-                                <input class="form-control" type="text" name="username" placeholder="username" id="username">
+                                <input class="form-control" type="text" name="last_name" placeholder="Last Name" id="lname" required>
                             </p>
                             <p class="form-group">
                                 <input class="form-control" type="email" name="email" placeholder="email" id="email">

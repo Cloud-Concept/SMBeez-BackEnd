@@ -30,7 +30,7 @@ class ProjectCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('You have a project!')->view('emails.project-created')
+        return $this->subject('You have a project!')->markdown('emails.project-created')
         ->with([
             'project' => $this->project,
         ]);

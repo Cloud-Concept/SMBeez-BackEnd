@@ -16,7 +16,7 @@
             <div class="col-md-3">
                 <h6>Links</h6>
                 <ul>
-                    <li><a href="#">About</a></li>
+                    <li><a href="{{route('about')}}">About</a></li>
                     <li><a href="{{route('login')}}">Sign Up</a></li>
                     <li><a href="#">Terms & Conditions</a></li>
                 </ul>
@@ -39,7 +39,7 @@
             <div class="col-md-3">
                 <h6>Locations</h6>
                 <ul>
-                    <li><a href="{{route('front.industry.index')}}">Dubai</a></li>
+                    <li class="no-effect"><a href="#">Dubai</a></li>
                 </ul>
             </div>
             <div class="col-md-12">
@@ -48,10 +48,7 @@
         </div>
     </div>
 </footer>
-<div id="search" class="cd-main-search">
-    <form><input type="search" placeholder="Search..."></form>
-    <a href="#" class="close cd-text-replace">Close Form</a>
-</div>
+@include('layouts.search-form')
 <style>
 .pagination span {
     padding: 5px 10px;

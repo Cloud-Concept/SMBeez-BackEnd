@@ -3,3 +3,12 @@
 .dashboard {
   @extend .list-project;
 }
+
+
+/* more info icons */
+.more-inf {
+  color: $deepgray;
+  i {
+  text-decoration: none;
+  }
+}

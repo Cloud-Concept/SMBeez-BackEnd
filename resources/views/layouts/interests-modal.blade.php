@@ -43,7 +43,7 @@
                                                     <ul class="list-inline">
                                                         <li class="list-inline-item">
                                                             <select class="star-rating-ro">
-                                                                @for($i = 1; $i <= 5; $i++)
+                                                                @for($i = 0; $i <= 5; $i++)
                                                                 <option value="{{$i}}" {{$i == $interest->user->company->company_overall_rating($interest->user->company->id) ? 'selected' : ''}}>{{$i}}</option>
                                                                 @endfor
                                                             </select>

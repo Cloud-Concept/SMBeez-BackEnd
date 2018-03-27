@@ -19,6 +19,7 @@
 @import 'core/typography';
 @import 'core/anchor';
 @import 'core/button';
+@import 'core/dropdown';
 @import 'core/blockquote';
 @import 'core/code';
 @import 'core/definition-list';
@@ -31,6 +32,7 @@
 @import 'core/list';
 @import 'core/table';
 @import 'core/flag';
+@import 'core/thumbs';
 
 // MODULE
 // simple combinations of cores and reusable components not tied to a specific section
@@ -90,6 +92,11 @@
 @import 'pages/all-projects';
 @import 'pages/dashboard';
 @import 'pages/about';
+@import 'pages/claim';
+@import 'pages/overview';
+@import 'pages/sdprojects';
+@import 'pages/sdreviews';
+
 
 // OVERRIDING UTILITIES
 // any aditional utilities that should have more important than other CSS

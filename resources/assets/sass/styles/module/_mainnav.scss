@@ -944,3 +944,8 @@ JavaScript Disabled
     }
   }
 }
+.cd-main-nav {
+    .no-effect a {
+      pointer-events: none;
+  }
+}

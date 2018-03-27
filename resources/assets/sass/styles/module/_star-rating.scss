@@ -62,3 +62,19 @@
     }
   }
 }
+
+/* case for Review customer Star rating alert */
+.star-rating-3x {
+  .br-widget {
+    a {
+      font-size: 28px;
+    }
+  }
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    vertical-align: middle;
+  }
+}

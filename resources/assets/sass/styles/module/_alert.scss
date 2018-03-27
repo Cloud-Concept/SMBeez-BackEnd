@@ -24,3 +24,29 @@ Alert Boxes
     @include rem(padding, 2px 7px);
   }
 }
+
+.alert-yellow {
+  background: $yellow;
+
+  p {
+    color: $main-blue;
+  }
+}
+
+.alert-dark {
+  p {
+    color: $deepgray;
+  }
+}
+
+.claim-company-request {
+  .alert {
+    p {
+      font-weight: 500;
+      line-height: 30px;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+}

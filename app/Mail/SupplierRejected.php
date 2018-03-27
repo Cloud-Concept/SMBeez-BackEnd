@@ -30,7 +30,7 @@ class SupplierRejected extends Mailable
      */
     public function build()
     {
-        return $this->subject('You have been declined for ' . $this->interest->project->project_title)->view('emails.supplier-rejected')
+        return $this->subject('You have been declined for ' . $this->interest->project->project_title)->markdown('emails.supplier-rejected')
         ->with([
             'interest' => $this->interest,
         ]);

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use DB;
+use App\Bookmark;
 
 
 class Company extends Model
@@ -39,9 +40,13 @@ class Company extends Model
     public function reviews() {
         return $this->hasMany(Review::class);
     }
+    //files relationship
+    public function files() {
+        return $this->hasMany(MyFile::class);
+    }
     //claims relationship
     public function claims() {
-        return $this->hasMany(Claim::class);
+        return $this->hasOne(Claim::class);
     }
     //check if user is a manager of a company
     public function has_company()
@@ -140,6 +145,53 @@ class Company extends Model
                 return $suppliers_overall = ceil($value / ($suppliers_reviews->count() * 5));
             }
         }
+    }
+    public function bookmarked($company_id) {
+        $bookmarked = Bookmark::exist($company_id, 'App\Company');
+
+        if($bookmarked) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public function bookmark($bookmarked_id)
+    {
+        return Bookmark::where('user_id', auth()->id())
+        ->where('bookmarked_id', $bookmarked_id)
+        ->where('bookmark_type', 'App\Company')
+        ->pluck('id')
+        ->first();
+    }
+    //relevance scroring
+    public function RelevanceScore() {   
+        $profile_completion = array($this->company_description, $this->linkedin_url, $this->company_website,
+        $this->company_phone, $this->location, $this->company_email, $this->company_size,
+        $this->company_tagline, $this->year_founded, $this->reg_number, $this->reg_doc);
+        //get project count if user id is not 0
+        $scores = array();
+        if($this->user_id != 0) {
+            $projects_count = $this->user->projects->whereIn('status', array('publish', 'closed'))->count();
+            $company_reviews_count = $this->reviews->count();
+            $rating = $this->company_overall_rating($this->id);
+            
+            $scores[] = $projects_count;
+        
+
+        $i = 0;
+
+        foreach ($scores as $score) {
+            if($score != null) {
+                $i++;
+            }
+        }
+
+        }
+
+        return $i;
+        
+        
     }
     //use slug to get company
     public function getRouteKeyName() {

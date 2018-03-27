@@ -12,7 +12,7 @@
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">SuperAdmin</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Companies</li>
                         </ol>
                     </nav>
@@ -64,7 +64,7 @@
                                     @foreach($claims as $claim)
                                     <tr>
                                         <td scope="row">{{$claim->company->company_name}}</td>
-                                        <td>{{$claim->user->name}}</td>
+                                        <td>{{$claim->user->first_name . " " . $claim->user->last_name}}</td>
                                         <td>
                                             <div class="d-flex"><a href="" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="" class="px-2"><i class="fa fa-check" aria-hidden="true"></i></a> <a href="" class="px-2"><i class="fa fa-times" aria-hidden="true"></i></a></div>
                                         </td>

@@ -1,0 +1,18 @@
+/* only overview Page Cases independent */
+
+.overview-blocks {
+  p {
+    &.thumb-title {
+      font-size: $h1-font-size;
+      font-weight: 700;
+    }
+    &:not([class]){
+      margin-bottom: 0;
+    }
+
+    a {
+      text-decoration: none;
+
+    }
+  }
+}

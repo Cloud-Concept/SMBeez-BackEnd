@@ -30,7 +30,7 @@ class ReviewSubmitted extends Mailable
      */
     public function build()
     {
-        return $this->subject('Thank you for your review of: ' . $this->review->company->company_name)->view('emails.review-submitted')
+        return $this->subject('Thank you for your review of: ' . $this->review->company->company_name)->markdown('emails.review-submitted')
         ->with([
             'review' => $this->review,
         ]);

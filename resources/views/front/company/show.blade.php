@@ -2,6 +2,8 @@
 
 @section('content')
 <main class="cd-main-content">
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ab221b2378ad19d"></script>
     <section class="list-project">
         <div class="container">
             <div class="row">
@@ -11,7 +13,7 @@
                             @if($company->logo_url)
                             <img src="{{ asset($company->logo_url) }}" alt="{{$company->company_name}} Logo">
                             @endif
-                            <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+                            <!-- <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> -->
                         </h4>
                         <div class="media">
                             @if($company->cover_url)
@@ -19,23 +21,24 @@
                             @endif
                         </div>
                         <div class="p-3">
-                            <h2 class="mt-2"><i class="fa fa-address-card" aria-hidden="true"></i> {{$company->company_name}}</h2>
+                            <h2 class="mt-2">@if($company->is_verified == 1) <i class="fa fa-check" aria-hidden="true" style="color:#00c875"></i> @endif {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
                                 <li>Industry: <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
                                 @if($company->specialities->count() > 0)
                                 <li>Speciality: <span>
                                     @foreach($company->specialities as $speciality)
-                                        {{$speciality->speciality_name . ','}} 
+                                        {{ $loop->first ? '' : ', ' }}
+                                        {{$speciality->speciality_name}} 
                                     @endforeach
                                 </span></li>
                                 @endif
                             </ul>
 
                             @if (Auth::guest() && $company->is_verified == null)
-                                <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>
+                                <div class="text-center my-3"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>
                             @elseif (Auth::guest() && $company->is_verified == 1)
                                 <div></div>
-                            @elseif (!Auth::guest() && $company->is_verified == null && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id))
+                            @elseif (!Auth::guest() && $company->is_verified == null && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id) && count(Auth::user()->claims) == 0)
                                 <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>    
                             @elseif(Auth::user()->id == $company->user_id)
                                 <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Edit Company</button></a></div>
@@ -45,12 +48,11 @@
                             <ul class="list-unstyled details-box vcard-list">
                                 @if($company->location)
                                 <li>
-                                    <span class="pull-left"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                                    <div class="pull-left">{{$company->location}}</div>
+                                    <div class="pull-left"><i class="fa fa-map-marker" aria-hidden="true"></i>{{$company->location}}</div>
                                 </li>
                                 @endif
 
-                                @if($company->company_phone)
+                                @if($company->company_phone && $company->company_phone != '-')
                                 <li>
                                     <span class="pull-left"><i class="fa fa-phone" aria-hidden="true"></i></span>
                                     <div class="pull-left"><a href="tel:{{$company->company_phone}}">{{$company->company_phone}}</a></div>
@@ -59,8 +61,13 @@
 
                                 @if($company->company_website)
                                 <li>
-                                    <span class="pull-left"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                                    <div class="pull-left"><a href="{{$company->company_website}}" target="_blank">Website</a></div>
+                                    <?php function addhttp($url) {
+                                        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+                                            $url = "http://" . $url;
+                                        }
+                                        return $url;
+                                    } ?>
+                                    <div class="pull-left"><i class="fa fa-globe" aria-hidden="true"></i><a href="{{addhttp($company->company_website)}}" target="_blank">{{$company->company_website}}</a></div>
                                 </li>
                                 @endif
 
@@ -84,25 +91,83 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="hero-company-details" style="background: url({{asset($company->industry->industry_img_url)}}) no-repeat 100% 100%;">
-                        <h1>{{$company->company_name}}</h1>
+                        <h1 class="w-50">{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">
                             <ul class="list-inline">
-                                @if($company->reviews->count() > 0)
                                 <div class="star-rating">
                                     <ul class="list-inline">
                                         <li class="list-inline-item">
                                             <select class="star-rating-ro">
-                                                @for($i = 1; $i <= 5; $i++)
+                                                @for($i = 0; $i <= 5; $i++)
                                                 <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
                                             </select>
                                         </li>
-                                        <li class="list-inline-item thumb-review"><a href="">({{$company->reviews->count()}} Reviews)</a></li>
+                                        <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} Reviews)</p></li>
+                                        <li class="list-item"> 
+                                            @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))
+                                                @if(!$company->bookmarked($company->id))
+                                                    <a href="#" id="bookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
+                                                @else
+                                                    <a href="#" id="unbookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
+                                                @endif
+                                            @endif
+                                        </li>
                                     </ul>
                                 </div>
-                                @endif
                             </ul>
+                            @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))
+                            <form id="bookmark-{{$company->id}}" action="#">
+                                <input id="token-bookmark-{{$company->id}}" value="{{csrf_token()}}" type="hidden">
+                                <input type="hidden" id="bookmarked_id-{{$company->id}}" name="bookmarked_id" value="{{$company->id}}"/>
+                                <input type="hidden" id="bookmark_type-{{$company->id}}" name="bookmark_type" value="App\Company"/>
+                            </form>
+                            <form id="unbookmark-{{$company->id}}" action="#">
+                                <input id="token-unbookmark-{{$company->id}}" value="{{csrf_token()}}" type="hidden">
+                                {{method_field('DELETE')}}
+                                <input type="hidden" id="unbookmarked_id-{{$company->id}}" name="bookmarked_id" value="{{$company->id}}"/>
+                                <input type="hidden" id="unbookmark_type-{{$company->id}}" name="bookmark_type" value="App\Company"/>
+                            </form>
+                            <script>
+                                $(document).ready(function(){
+                                    $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        }
+                                    });
+                                    //bookmark company
+                                    $('#bookmark-b-{{$company->id}}').on('click', function(e){
+                                        e.preventDefault();
+                                        var token = $('#token-bookmark-{{$company->id}}').val();
+                                        var bookmark_type = $('#bookmark_type-{{$company->id}}').val();
+                                        var bookmark_id = $('#bookmarked_id-{{$company->id}}').val();
+                                        $.ajax({
+                                            type: "POST",
+                                            data: "bookmarked_id=" + bookmark_id + "&bookmark_type=" + bookmark_type + "&_token=" + token,
+                                            url: "{{route('bookmark.add')}}",
+                                            success: function(data) {
+                                                $('#bookmark-b-{{$company->id}} i').removeClass('fa-bookmark-o').addClass('fa-bookmark');
+                                            }
+                                        });
+                                    });
+                                    
+                                    $('#unbookmark-b-{{$company->id}}').on('click', function(e){
+                                        e.preventDefault();
+                                        var token = $('#token-unbookmark-{{$company->id}}').val();
+                                        $.ajax({
+                                            type: "DELETE",
+                                            data: "_token=" + token,
+                                            url: "{{route('bookmark.remove', $company->bookmark($company->id))}}",
+                                            success: function(data) {
+                                                $('#unbookmark-b-{{$company->id}} i').removeClass('fa-bookmark').addClass('fa-bookmark-o');
+                                                $('#unbookmark-b-{{$company->id}}').attr('id', 'bookmark-b-{{$company->id}}');
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                            @endif
                         </div>
                         <div class="hero-shadow"></div>
                     </div>
@@ -111,14 +176,18 @@
                             <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a></li>
                             <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews from Customers</a></li>
                             <li class="nav-item mr-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Reviews from Suppliers</a></li>
-                            @if(!Auth::guest() && !$company->is_owner(Auth::user()->id))
-                            <li><button class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write a Review</button></li>
+                            @if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
+                            <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write a Review</button></li>
+                            @elseif(Auth::guest())
+                            <li><a href="{{route('login')}}?action=write-review&name={{$company->slug}}" class="btn btn-blue btn-yellow pull-right btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write a Review</a></li>
                             @endif
                         </ul>
                     </div>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade active show pt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
-                           	<p>{{ strip_tags($company->company_description) }}</p>
+                           	@if($company->company_description)
+                            <p>{{ strip_tags($company->company_description) }}</p>
+                            @endif
                             
                             @if($closed_projects->count() > 0)
                             <h3 class="mb-4 mt-5">Closed projects</h3>
@@ -141,19 +210,15 @@
                             <div class="review-bar">
                                 <div class="star-rating">
                                     <ul class="list-inline">
-                                        @if($customer_reviews->count() > 0)
                                         <li class="list-inline-item">
-                                            @if($company->reviews->count() > 0)
                                             <select class="star-rating-ro">
-                                                @for($i = 1; $i <= 5; $i++)
+                                                @for($i = 0; $i <= 5; $i++)
                                                 <option value="{{$i}}" {{$i == $company->customer_rating($company->id, $customer_reviews) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
                                             </select>
-                                            @endif
                                         </li>
-                                        @endif
-                                        <li class="list-inline-item thumb-review"><a href="">(Customers Overall Rating)</a></li>
-                                        <li class="list-inline-item thumb-review"><a href="">({{$customer_reviews->count()}} Reviews from Customers)</a></li>
+                                        <li class="list-inline-item thumb-review">(Customers Overall Rating)</li>
+                                        <li class="list-inline-item thumb-review">({{$customer_reviews->count()}} Reviews from Customers)</li>
                                     </ul>
                                 </div>
                             </div>
@@ -162,47 +227,123 @@
                                     @foreach($company->reviews as $review)
                                     @if($review->reviewer_relation == 'customer')
                                     <div class="media br-btm mb-4 d-flex row equal">
-                                        <div class="col-md-2"><img class="img-fluid img-full mb-3" src="../images/media/placeholder.png" alt="Generic placeholder image"></div>
+                                        <div class="col-md-2 company-box-header media">
+                                            @if($review->review_privacy === 'public')
+                                            <a href="{{route('front.company.show', $review->user->company->slug)}}" class="mr-3 thumb-int"> {{substr($review->user->company->company_name, 0, 1)}} </a>
+                                            @elseif($review->review_privacy === 'private')
+                                            <a href="#" class="mr-3 thumb-int"> ? </a>
+                                            @endif
+                                        </div>
                                         <div class="col-lg-7 col-md-10 mb-4">
                                             @if($review->review_privacy === 'public')
                                             <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
                                             @elseif($review->review_privacy === 'private')
                                             <h5 class="mt-0">Anonymous</h5>
                                             @endif
-                                            <p>{{$review->feedback}} <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i></a></p>
+                                            <p>{{$review->feedback}} <!-- <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i> --></a></p>
                                             @if(!Auth::guest())
                                             <ul class="review-content-social">
                                                 @if($review->impression($review->id) === 1)
-                                                    <li><a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-like-b-{{$review->id}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
                                                 @elseif($review->impression($review->id) === 0)
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
+                                                    <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
                                                 @else
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
                                                 @endif
 
                                                 @if($review->is_flagged($review->id) === true)
-                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-unflag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li>
+                                                    <!-- <li><a href="#" id="review-unflag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li> -->
                                                 @else
-                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-flag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                    <!-- <li><a href="#" id="review-flag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li> -->
                                                 @endif
-                                                <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li>
+                                                <!-- <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li> -->
                                             </ul>
-                                            <form id="review-like-{{$review->id}}" action="{{route('review.like', $review->id)}}" method="post">
-                                                {{csrf_field()}}
+                                            <form id="review-like-{{$review->id}}" action="#">
+                                                <input id="token-like-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
                                             </form>
-                                            <form id="review-unlike-{{$review->id}}" action="{{route('review.unlike', $review->id)}}" method="post">
-                                                {{csrf_field()}}
+                                            <form id="review-unlike-{{$review->id}}" action="#">
+                                                <input id="token-unlike-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
                                             </form>
-                                            <form id="review-flag-{{$review->id}}" action="{{route('review.flag', $review->id)}}" method="post">
-                                                {{csrf_field()}}
+                                            <!-- <form id="review-flag-{{$review->id}}" action="#">
+                                                <input id="token-flag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
                                             </form>
-                                            <form id="review-unflag-{{$review->id}}" action="{{route('review.unflag', $review->id)}}" method="post">
-                                                {{csrf_field()}}
+                                            <form id="review-unflag-{{$review->id}}" action="#">
+                                                <input id="token-unflag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
                                                 {{ method_field('DELETE') }}
-                                            </form>
+                                            </form> -->
+                                            <script>
+                                                $(document).ready(function(){
+                                                    $.ajaxSetup({
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        }
+                                                    });
+                                                    //Like review
+                                                    $('#review-like-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-like-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            data: "_token=" + token,
+                                                            url: "{{route('review.like', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-o-up').addClass('fa-thumbs-up');
+                                                                $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-down').addClass('fa-thumbs-o-down');
+                                                            }
+                                                        });
+                                                    });
+
+                                                    //unlike review
+                                                    $('#review-unlike-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-unlike-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            data: "_token=" + token,
+                                                            url: "{{route('review.unlike', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-up').addClass('fa-thumbs-o-up');
+                                                                $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-o-down').addClass('fa-thumbs-down');
+                                                            }
+                                                        });
+                                                    });
+                                                    //flag review
+                                                    /*$('#review-flag-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-flag-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            data: "_token=" + token,
+                                                            url: "{{route('review.flag', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-flag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag');
+                                                                $('#review-flag-b-{{$review->id}}').attr('id', 'review-unflag-b-{{$review->id}}');
+                                                            }
+                                                        });
+                                                    }); */
+                                                    //unflag review -- need to refresh to unflag
+                                                    /*$('#review-unflag-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-unflag-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "DELETE",
+                                                            data: "_token=" + token + "method=DELETE",
+                                                            url: "{{route('review.unflag', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-unflag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> Flag');
+                                                                $('#review-unflag-b-{{$review->id}}').attr('id', 'review-flag-b-{{$review->id}}');
+                                                            }
+                                                        });
+                                                    }); */ 
+                                                });
+                                            </script>
                                             @endif
                                         </div>
                                         <div class="col-lg-3 col-md-12">
@@ -213,7 +354,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->quality ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -227,7 +368,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->time ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -241,7 +382,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->cost ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -255,7 +396,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->business_repeat ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -269,7 +410,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->overall_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -289,19 +430,15 @@
                             <div class="review-bar">
                                 <div class="star-rating">
                                     <ul class="list-inline">
-                                        @if($suppliers_reviews->count() > 0)
                                         <li class="list-inline-item">
-                                            @if($company->reviews->count() > 0)
                                             <select class="star-rating-ro">
-                                                @for($i = 1; $i <= 5; $i++)
+                                                @for($i = 0; $i <= 5; $i++)
                                                 <option value="{{$i}}" {{$i == $company->suppliers_rating($company->id, $suppliers_reviews) ? 'selected' : ''}}>{{$i}}</option>
                                                 @endfor
                                             </select>
-                                            @endif
                                         </li>
-                                        @endif
-                                        <li class="list-inline-item thumb-review"><a href="">(Suppliers Overall Rating)</a></li>
-                                        <li class="list-inline-item thumb-review"><a href="">({{$suppliers_reviews->count()}} Reviews from Suppliers)</a></li>
+                                        <li class="list-inline-item thumb-review">(Suppliers Overall Rating)</li>
+                                        <li class="list-inline-item thumb-review">({{$suppliers_reviews->count()}} Reviews from Suppliers)</li>
                                     </ul>
                                 </div>
                             </div>
@@ -310,41 +447,123 @@
                                     @foreach($company->reviews as $review)
                                     @if($review->reviewer_relation == 'supplier')
                                     <div class="media br-btm mb-4 d-flex row equal">
-                                        <div class="col-md-2"><img class="img-fluid img-full mb-3" src="../images/media/placeholder.png" alt="Generic placeholder image"></div>
+                                        <div class="col-md-2 company-box-header media">
+                                            @if($review->review_privacy === 'public')
+                                            <a href="{{route('front.company.show', $review->user->company->slug)}}" class="mr-3 thumb-int"> {{substr($review->user->company->company_name, 0, 1)}} </a>
+                                            @elseif($review->review_privacy === 'private')
+                                            <a href="#" class="mr-3 thumb-int"> ? </a>
+                                            @endif
+                                        </div>
                                         <div class="col-lg-7 col-md-10 mb-4">
                                             @if($review->review_privacy === 'public')
                                             <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
                                             @elseif($review->review_privacy === 'private')
                                             <h5 class="mt-0">Anonymous</h5>
                                             @endif
-                                            <p>{{$review->feedback}} <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i></a></p>
+                                            <p>{{$review->feedback}} <!-- <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i> --></a></p>
                                             @if(!Auth::guest())
                                             <ul class="review-content-social">
                                                 @if($review->impression($review->id) === 1)
-                                                    <li><a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-like-b-{{$review->id}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
                                                 @elseif($review->impression($review->id) === 0)
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
+                                                    <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
                                                 @else
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-like-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('review-unlike-{{$review->id}}').submit();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
                                                 @endif
 
                                                 @if($review->is_flagged($review->id) === true)
-                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-unflag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li>
+                                                    <!-- <li><a href="#" id="review-unflag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li> -->
                                                 @else
-                                                    <li><a href="#" class="btn btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('review-flag-{{$review->id}}').submit();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                    <!-- <li><a href="#" id="review-flag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li> -->
                                                 @endif
-
-                                                <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li>
+                                                <!-- <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li> -->
                                             </ul>
-                                            <form id="review-like-{{$review->id}}" action="{{route('review.like', $review->id)}}" method="post">
-                                                {{csrf_field()}}
+                                            <form id="review-like-{{$review->id}}" action="#">
+                                                <input id="token-like-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
                                             </form>
-                                            <form id="review-unlike-{{$review->id}}" action="{{route('review.unlike', $review->id)}}" method="post">
-                                                {{csrf_field()}}
+                                            <form id="review-unlike-{{$review->id}}" action="#">
+                                                <input id="token-unlike-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
                                             </form>
+                                            <!-- <form id="review-flag-{{$review->id}}" action="#">
+                                                <input id="token-flag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
+                                            </form>
+                                            <form id="review-unflag-{{$review->id}}" action="#">
+                                                <input id="token-unflag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
+                                                {{ method_field('DELETE') }}
+                                            </form> -->
+                                            <script>
+                                                $(document).ready(function(){
+                                                    $.ajaxSetup({
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        }
+                                                    });
+                                                    //Like review
+                                                    $('#review-like-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-like-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            data: "_token=" + token,
+                                                            url: "{{route('review.like', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-o-up').addClass('fa-thumbs-up');
+                                                                $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-down').addClass('fa-thumbs-o-down');
+                                                            }
+                                                        });
+                                                    });
+
+                                                    //unlike review
+                                                    $('#review-unlike-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-unlike-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            data: "_token=" + token,
+                                                            url: "{{route('review.unlike', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-up').addClass('fa-thumbs-o-up');
+                                                                $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-o-down').addClass('fa-thumbs-down');
+                                                            }
+                                                        });
+                                                    });
+                                                    //flag review
+                                                    /*$('#review-flag-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-flag-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            data: "_token=" + token,
+                                                            url: "{{route('review.flag', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-flag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag');
+                                                                $('#review-flag-b-{{$review->id}}').attr('id', 'review-unflag-b-{{$review->id}}');
+                                                            }
+                                                        });
+                                                    }); */
+                                                    //unflag review -- need to refresh to unflag
+                                                    /*$('#review-unflag-b-{{$review->id}}').click(function(e){
+                                                        e.preventDefault();
+                                                        var token = $('#token-unflag-{{$review->id}}').val();
+
+                                                        $.ajax({
+                                                            type: "DELETE",
+                                                            data: "_token=" + token + "method=DELETE",
+                                                            url: "{{route('review.unflag', $review->id)}}",
+                                                            success: function(data) {
+                                                                $('#review-unflag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> Flag');
+                                                                $('#review-unflag-b-{{$review->id}}').attr('id', 'review-flag-b-{{$review->id}}');
+                                                            }
+                                                        });
+                                                    }); */ 
+                                                });
+                                            </script>
                                             @endif
                                         </div>
                                         <div class="col-lg-3 col-md-12">
@@ -355,7 +574,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->procurement ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -369,7 +588,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->expectations ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -383,7 +602,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->payments ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -397,7 +616,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->business_repeat ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -411,7 +630,7 @@
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
                                                                 <select class="star-rating-ro">
-                                                                    @for($i = 1; $i <= 5; $i++)
+                                                                    @for($i = 0; $i <= 5; $i++)
                                                                     <option value="{{$i}}" {{$i == $review->overall_rate ? 'selected' : ''}}>{{$i}}</option>
                                                                     @endfor
                                                                 </select>
@@ -434,6 +653,7 @@
         </div>
     </section>
 </main>
+@if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
 <div class="modal fade modal-fullscreen" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -501,7 +721,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}}</label><textarea class="form-control" id="feedback" name="feedback" placeholder="Write your text here..."></textarea></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}}</label><textarea class="form-control" id="feedback" name="feedback" placeholder="Write your text here..." required></textarea></div>
                                         </div>
                                         <div class="col-md-6 casepushup">
                                             <div class="form-group">
@@ -587,7 +807,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review</label><label class="custom-control custom-radio"><input id="radio2" name="privacy" value="public" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="radio2" name="privacy" value="private" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review</label><label class="custom-control custom-radio"><input id="privacy1" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy2" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
                                             <input type="hidden" name="company_id" value="{{$company->id}}">
                                             <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Review</button></div>
                                         </div>
@@ -601,7 +821,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group"><label for="recipient-name" class="col-form-label">Was your company hired by {{$company->company_name}} to do some work?</label></div>
                                             <div class="radio-cases" id="first-level">
-                                                <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired3" name="is_hired" value="1" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired4" value="0" name="is_hired" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
+                                                <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired3" name="is_hired" value="1" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired4" value="0" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
                                             </div>
                                             <div id="second-level">
                                                 <div class="yes-case-info">
@@ -633,7 +853,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}}</label><textarea class="form-control" id="feedback1" name="feedback" placeholder="Write your text here..."></textarea></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}}</label><textarea class="form-control" id="feedback1" name="feedback" placeholder="Write your text here..." required></textarea></div>
                                         </div>
                                         <div class="col-md-6 casepushup">
                                             <div class="form-group">
@@ -719,7 +939,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review</label><label class="custom-control custom-radio"><input id="radio2" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="radio2" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review</label><label class="custom-control custom-radio"><input id="privacy3" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy4" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
                                             <input type="hidden" name="company_id" value="{{$company->id}}">
                                             <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Review</button></div>
                                         </div>
@@ -733,4 +953,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection

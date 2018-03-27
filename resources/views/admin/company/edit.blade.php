@@ -50,6 +50,7 @@
                         {{csrf_field()}}                        
                     </form>
 
+
                     <form action="{{route('admin.company.update', $company->slug)}}" class="user-setting" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="field">
@@ -180,9 +181,43 @@
                         </div>
                         
                     </form>
+                    <h1>DON'T EVER USE THIS CUZ ALL COMPANY OWNER PROJECTS, INTERESTS, REVIEWS, CLAIMS, BOOKMARKS WILL BE DELETED PERMENTANTLY.</h1>
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('delete').submit();"><i class="fa fa-trash fa-3x" aria-hidden="true"></i> DELETE COMPANY</a></div>
+                    
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('delete-reviews').submit();"><i class="fa fa-trash fa-3x" aria-hidden="true"></i> Clear Reviews</a></div>
+                    
+                    <form id="delete" action="{{route('admin.company.delete', $company->slug)}}" method="post">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}                        
+                    </form>
+
+                    <form id="delete-reviews" action="{{route('admin.company.delete-reviews', $company->slug)}}" method="post">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}                        
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 </main>
+
+<script>
+var tagApi = $(".tm-input").tagsManager({
+    prefilled: ["{!!$company_specialities!!}"]
+});
+
+jQuery(".typeahead").typeahead({
+  name: 'speciality_id',
+  displayKey: 'speciality_name',
+  source: function (query, process) {
+    return $.get('{!!url("/")!!}' + '/api/find', { keyword: query }, function (data) {
+      data = $.parseJSON(data);
+      return process(data);
+    });
+  },
+  afterSelect :function (item){
+    tagApi.tagsManager("pushTag", item);
+  }
+});
+</script>
 @endsection

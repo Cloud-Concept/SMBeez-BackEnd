@@ -1,0 +1,41 @@
+/*
+Pagination
+*/
+
+.pagination {
+
+  li,
+  a {
+    border: 0;
+    border-radius: 0;
+    font-weight: bold;
+    text-decoration: none;
+    background: $main-blue;
+    color: $yellow;
+  }
+
+  a {
+    @include rem(padding, 5px 10px);
+
+    &:hover{
+      background: $darkblue;
+      color: $white;
+    }
+  }
+
+  li{
+    padding: 0;
+    @include rem(margin, 0 3px);
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active{
+      a{
+      background: $darkblue;
+      color: $white;
+      }
+    }
+  }
+}

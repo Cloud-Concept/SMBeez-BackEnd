@@ -35,6 +35,10 @@ class Project extends Model
     public function user() {
     	return $this->belongsTo(User::class);
     }
+    //files relationship
+    public function files() {
+        return $this->hasMany(MyFile::class);
+    }
     //interests relationship
     public function interests() {
         return $this->hasMany(Interest::class);
@@ -73,6 +77,25 @@ class Project extends Model
     //check if the user is the owner of this project
     public function is_owner($user) {
         return $this->user_id === auth()->id();
+    }
+
+    public function bookmarked($project_id) {
+        $bookmarked = Bookmark::exist($project_id, 'App\Project');
+
+        if($bookmarked) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public function bookmark($bookmarked_id)
+    {
+        return Bookmark::where('user_id', auth()->id())
+        ->where('bookmarked_id', $bookmarked_id)
+        ->where('bookmark_type', 'App\Project')
+        ->pluck('id')
+        ->first();
     }
 
     //use slug to get project

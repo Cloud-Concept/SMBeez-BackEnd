@@ -2,17 +2,19 @@
 
 @section('content')
 <main class="cd-main-content">
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ab221b2378ad19d"></script>
     <section class="list-project">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                    <!-- <div class="alert alert-secondary alert-dismissible fade show" role="alert">
                         <h3><i class="fa fa-thumb-tack fa-rotate-45" aria-hidden="true"></i> Tips</h3>
                         <p>always be concerned about our dear Mother Earth. If you think about it, you travel across her face, and She is the host to your journey</p>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
+                    </div> -->
                     <div class="box-block-gray">
-                        <h3>Project Details <a href="#" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></h3>
+                        <h3>Project Details <!-- <a href="#" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> --></h3>
                         <ul class="list-unstyled details-box">
                             @if(!Auth::guest() && !$project->is_owner(Auth::user()->id) || Auth::guest())
 
@@ -29,7 +31,7 @@
                                         <ul class="list-inline">                                            
                                             <li class="list-inline-item">
                                                 <select class="star-rating-ro">
-                                                    @for($i = 1; $i <= 5; $i++)
+                                                    @for($i = 0; $i <= 5; $i++)
                                                     <option value="{{$i}}" {{$i == $project->user->company->company_overall_rating($project->user->company->id) ? 'selected' : ''}}>{{$i}}</option>
                                                     @endfor
                                                 </select>
@@ -44,7 +46,8 @@
                             @if($project->specialities->count() > 0)
                             <li>Speciality: <span>
                                 @foreach($project->specialities as $speciality)
-                                    {{$speciality->speciality_name . ','}} 
+                                    {{ $loop->first ? '' : ', ' }}
+                                    {{$speciality->speciality_name}} 
                                 @endforeach
                             </span></li>
                             @endif
@@ -100,16 +103,85 @@
                 <div class="col-md-8">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">All industries</a></li>
                             <li class="breadcrumb-item"><a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{$project->project_title}}</li>
                         </ol>
                     </nav>
-                    <h2 class="mb-3 mt-3">{{$project->project_title}}</h2>
+                    <h2 class="mb-3 mt-3">{{$project->project_title}} 
+                        @if(!Auth::guest() && !$project->is_owner(Auth::user()->id))
+                            @if(!$project->bookmarked($project->id))
+                                <a href="#" id="bookmark-b-{{$project->id}}" class="pull-right" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
+                                <a href="#" id="unbookmark-b-{{$project->id}}" class="pull-right hidden" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
+                            @else
+                                <a href="#" id="unbookmark-b-{{$project->id}}" class="pull-right" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
+                                <a href="#" id="bookmark-b-{{$project->id}}" class="pull-right hidden" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
+                            @endif
+                        @endif
+                    </h2>
+                    @if(!Auth::guest() && !$project->is_owner(Auth::user()->id))
+                        <form id="bookmark-{{$project->id}}" action="#">
+                            <input id="token-bookmark-{{$project->id}}" value="{{csrf_token()}}" type="hidden">
+                            <input type="hidden" id="bookmarked_id-{{$project->id}}" name="bookmarked_id" value="{{$project->id}}"/>
+                            <input type="hidden" id="bookmark_type-{{$project->id}}" name="bookmark_type" value="App\Project"/>
+                        </form>
+                        <form id="unbookmark-{{$project->id}}" action="#">
+                            <input id="token-unbookmark-{{$project->id}}" value="{{csrf_token()}}" type="hidden">
+                            {{method_field('DELETE')}}
+                        </form>
+                        <script>
+                            $(document).ready(function(){
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                                //bookmark company
+                                $('#bookmark-b-{{$project->id}}').on('click', function(e){
+                                    e.preventDefault();
+                                    var token = $('#token-bookmark-{{$project->id}}').val();
+                                    var bookmark_type = $('#bookmark_type-{{$project->id}}').val();
+                                    var bookmark_id = $('#bookmarked_id-{{$project->id}}').val();
+                                    $.ajax({
+                                        type: "POST",
+                                        data: "bookmarked_id=" + bookmark_id + "&bookmark_type=" + bookmark_type + "&_token=" + token,
+                                        url: "{{route('bookmark.add')}}",
+                                        success: function(data) {
+                                            $('#unbookmark-b-{{$project->id}}').removeClass('hidden');
+                                            $('#bookmark-b-{{$project->id}}').addClass('hidden');
+                                        }
+                                    });
+                                });
+                                
+                                $('#unbookmark-b-{{$project->id}}').on('click', function(e){
+                                    e.preventDefault();
+                                    var token = $('#token-unbookmark-{{$project->id}}').val();
+                                    $.ajax({
+                                        type: "DELETE",
+                                        data: "_token=" + token,
+                                        url: "{{route('bookmark.remove', $project->bookmark($project->id))}}",
+                                        success: function(data) {
+                                            $('#unbookmark-b-{{$project->id}}').addClass('hidden');;
+                                            $('#bookmark-b-{{$project->id}}').removeClass('hidden');
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                        <style>
+                            .hidden {
+                                display: none!important;
+                            }
+                        </style>
+                    @endif
                     <p>{{ strip_tags($project->project_description) }}</p>
 
-                    @if($project->supportive_docs)
-                    <div class="download-box d-flex justify-content-between align-items-center"><a href="{{asset('projects/files/' . $project->supportive_docs)}}"><i class="fa fa-download" aria-hidden="true"></i> Download Project Documents</a> 
+                    @if($project->files->count() > 0)
+                    <div class="download-box d-flex justify-content-between align-items-center">
+                        <div>
+                        @foreach($project->files as $file)
+                            <p class="list-item more-inf"><a href="{{asset('projects/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
+                        @endforeach
+                        </div>
                         @if(\Laratrust::hasRole('company|superadmin') && !$project->has_interest() && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
@@ -126,13 +198,15 @@
                         @endif
                     </div>
                     @endif
+
+                    @if($relatedprojects->count() > 0)
                     <h2 class="mb-4 mt-5">Similar Opportunities</h2>
                     <div class="row equal">
                         @foreach($relatedprojects as $project)
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1"><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></p>
-                                {{strip_tags($project->project_description)}}
+                                {{strip_tags(substr($project->project_description, 0, 100))}}...
                                 <p class="tags">More in: 
                                     <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
                                 </p>
@@ -140,6 +214,7 @@
                         </div>
                         @endforeach
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
         <script src="https://use.fontawesome.com/7305a65f5a.js"></script>
@@ -19,16 +20,16 @@
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <script src="{{ asset('js/vendor/modernizr.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABsCTZNfAFh0fwNrBB213BX8ROnGLUVYQ&libraries=places"></script>
-    
-        <!--Start of Zendesk Chat Script-->
-        <script type="text/javascript">
-        window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-        _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-        $.src="https://v2.zopim.com/?5Mjk89MR6gceGG9ydjLh1DPMMqDW6aT4";z.t=+new Date;$.
-        type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-        </script>
-        <!--End of Zendesk Chat Script-->
+        
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-tagsinput.css') }}">
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+        <!-- Start of smbeez Zendesk Widget script -->
+        <script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","e18d3a93-b688-450b-b2d9-7a9c303f912f");/*]]>*/</script>
+        <!-- End of smbeez Zendesk Widget script -->
+
         
     </head>
     <body class="home">
@@ -49,6 +50,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         <script src="{{ asset('js/main.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script src="{{ asset('js/bootstrap-tagsinput.js') }}"></script>
+        <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+        <script src="{{ asset('js/bloodhound.min.js') }}"></script>
 
         <script type="text/javascript">
             google.maps.event.addDomListener(window, 'load', function () {
@@ -57,6 +61,7 @@
 
                 });
             });
+            
         </script>
     </body>
 </html>

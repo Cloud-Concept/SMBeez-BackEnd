@@ -11,7 +11,7 @@
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">SuperAdmin</a></li>
                             <li class="breadcrumb-item active" aria-current="page">User</li>
                         </ol>
                     </nav>
@@ -41,7 +41,7 @@
                                     @foreach ($users as $user)
                                     <tr>
                                         <td>{{$user->id}}</td>
-                                        <td scope="row"><a href="{{route('admin.user.edit', $user->username)}}">{{$user->name}}</a></td>
+                                        <td scope="row"><a href="{{route('admin.user.edit', $user->username)}}">{{$user->first_name . " " . $user->last_name}}</a></td>
                                         <td>{{$user->user_city}}</td>
                                         <td>{{$user->company ? $user->company->company_name : '-'}}</td>
                                         <td><a href="{{route('admin.user.edit', $user->username)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>

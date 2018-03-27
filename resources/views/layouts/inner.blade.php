@@ -7,7 +7,9 @@
         <link rel="icon" href="{{asset('favicon.ico')}}" type="image/x-icon" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
+        <meta property="og:title" content="" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="" />
         <title>{{ config('app.name', 'SMBeez') }}</title>
 
         <!-- Styles -->
@@ -25,15 +27,10 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.css">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-        <!--Start of Zendesk Chat Script-->
-        <script type="text/javascript">
-        window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-        _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-        $.src="https://v2.zopim.com/?5Mjk89MR6gceGG9ydjLh1DPMMqDW6aT4";z.t=+new Date;$.
-        type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-        </script>
-        <!--End of Zendesk Chat Script-->
+        <!-- Start of smbeez Zendesk Widget script -->
+        <script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","e18d3a93-b688-450b-b2d9-7a9c303f912f");/*]]>*/</script>
+        <!-- End of smbeez Zendesk Widget script -->
+
     </head>
     <body class="no-hero">
         <header class="cd-main-header animate-search">
@@ -73,12 +70,43 @@
             $(function() {
                 $('.infinite-scroll').jscroll({
                     autoTrigger: true,
-                    loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+                    loadingHtml: '<div class="text-center"><img class="center-block" width="70" src="/images/loading.gif" alt="Loading..." /></div>',
                     padding: 0,
                     nextSelector: '.pagination li.active + li a',
                     contentSelector: 'div.infinite-scroll',
                     callback: function() {
-                        $('ul.pagination').remove();
+                        $('.infinite-scroll ul.pagination').remove();
+                        $(".star-rating-fn").barrating({
+                            theme: "fontawesome-stars",
+                            emptyValue: 0
+                        });
+                        $(".star-rating-ro").barrating({
+                            readonly: !0,
+                            hoverState: !1,
+                            emptyValue: 0,
+                            theme: "fontawesome-stars"
+                        });
+                    }
+                });
+                //in case of two infinite scrolls in same page
+                $('.infinite-scroll-2').jscroll({
+                    autoTrigger: true,
+                    loadingHtml: '<div class="text-center"><img class="center-block" width="70" src="/images/loading.gif" alt="Loading..." /></div>',
+                    padding: 0,
+                    nextSelector: '.pagination li.active + li a',
+                    contentSelector: 'div.infinite-scroll-2',
+                    callback: function() {
+                        $('.infinite-scroll-2 ul.pagination').remove();
+                        $(".star-rating-fn").barrating({
+                            theme: "fontawesome-stars",
+                            emptyValue: 0
+                        });
+                        $(".star-rating-ro").barrating({
+                            readonly: !0,
+                            hoverState: !1,
+                            emptyValue: 0,
+                            theme: "fontawesome-stars"
+                        });
                     }
                 });
             });
@@ -87,6 +115,49 @@
         <script type="text/javascript">
         jQuery(document).ready(function () {
             $('.multi-select').select2();
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        var action = getParameterByName('action');
+        var tab = getParameterByName('tab');
+
+        $("document").ready(function() {
+            if(action == 'add-company') {
+                setTimeout(function() {
+                    $("#company-add").trigger('click');
+                },3);
+            }
+            if(action == 'add-project') {
+                setTimeout(function() {
+                    $("#project-add").trigger('click');
+                },3);
+            }
+
+            if(action == 'write-review') {
+                setTimeout(function() {
+                    $("#write-review-modal").trigger('click');
+                },3);
+            }
+
+            if(tab == 'customers') {
+                setTimeout(function() {
+                    $("#profile-tab").trigger('click');
+                },3);
+            }
+            if(tab == 'suppliers') {
+                setTimeout(function() {
+                    $("#contact-tab").trigger('click');
+                },3);
+            }
         });
         </script>
 

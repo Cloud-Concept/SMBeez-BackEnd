@@ -1,0 +1,16 @@
+/*
+DropDown global
+*/
+
+.dropdown-toggle {
+  text-decoration: none!important;
+}
+
+.dropdown-gray {
+  background: $gray;
+
+  a {
+    color: $main-blue;
+    text-decoration: none;
+  }
+}

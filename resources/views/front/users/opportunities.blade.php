@@ -13,26 +13,26 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="sidebar-dashboard mb-3">
-                        @if(\Laratrust::hasRole('company|superadmin'))
-                            <div class="dashbord-quickbtn dashbord-quickbtn-single"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">Publish New Project</button> <span class="inf">(900 <i>Honeycombs</i>)</span></div>
+                        @if($hascompany)
+                            <div class="dashbord-quickbtn dashbord-quickbtn-single"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">Publish New Project</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></div>
                         @endif
                     </div>
                     <div class="sidebar-dashboard mb-5">
                         <ul class="dash-info">
-                            <li>
+                            <!-- <li>
                                 <i class="fa fa-cubes fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
                                     <p class="numb">{{$user->honeycombs ? $user->honeycombs : 0}}</p>
                                     <p><i><b>Honeycombs</b></i> Earned</p>
                                     <a href="">My Achievements</a>
                                 </div>
-                            </li>
+                            </li> -->
                             <li>
                                 <i class="fa fa-pie-chart fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
                                     <p class="numb">87%</p>
                                     <p><i><b>Profile</b></i> Completion</p>
-                                    <a href="">Edit Profile</a>
+                                    <a href="{{route('front.user.editprofile', $user->username)}}">Edit Profile</a>
                                 </div>
                             </li>
                             <li>
@@ -40,25 +40,30 @@
                                 <div class="pull-right">
                                     <p class="numb">{{count($user->projects)}}</p>
                                     <p>Published <i><b>Projects</b></i></p>
-                                    <a href="">My Projects</a>
+                                    <a href="{{route('front.user.myprojects', $user->username)}}">My Projects</a>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                    <!-- <div class="alert alert-secondary alert-dismissible fade show" role="alert">
                         <h3><i class="fa fa-thumb-tack fa-rotate-45" aria-hidden="true"></i> Tips</h3>
                         <p>s conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you</p>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
+                    </div> -->
                     <div class="sidebar-updates mt-5">
-                        <h5 class="title-blue">Updates (32)</h5>
+                        <h5 class="title-blue">Updates ({{$user->messages->count()}})</h5>
                         <ul class="list-group">
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item">As conscious traveling Paupers we must always be concerned</li>
-                            <li class="list-group-item"><a href="">All Messages</a></li>
+                            @foreach($user->messages as $message)
+                                <li class="list-group-item">
+                                  @if($message->interest_id)
+                                      {{$message->created_at->diffForHumans()}} :
+                                      New Express Interest
+                                  @else
+                                      {{$message->subject}}
+                                  @endif
+                                </li>
+                            @endforeach                       
+                            <li class="list-group-item"><a href="{{route('front.messages.index')}}">All Messages</a></li>
                         </ul>
                     </div>
                 </div>
@@ -69,13 +74,16 @@
                             <li class="breadcrumb-item active" aria-current="page">Opportunities Applied</li>
                         </ol>
                     </nav>
+                    @if(count($user->interests) == 0)
+                        <p>You have not expressed interest to any opportunity yet.</p>
+                    @endif
+                    @if(count($user->interests) > 0)
                     <h4>My Opportunities ({{count($user->interests)}})</h4>
                     <table class="table table-striped">
                         <thead class="thead-blue">
                             <tr>
                                 <th scope="col">Opportunity name</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Interests</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,13 +101,14 @@
                                 @elseif($project->interest_status() == 0)
                                     <td>Interest Rejected</td>
                                 @endif
-                                <td><a href="{{route('front.project.show', $project->slug)}}">{{count($project->interests) > 0 ? count($project->interests) . ' Interested Supplier(s)' : 'NA'}}</a></td>
                             </tr>
                             @endforeach
 
                             @endif
                         </tbody>
                     </table>
+                    @endif
+                    @if($suggested_projects->count() > 0)
                     <div class="dashboard-update mt-5">
                         <h5 class="title-blue">Suggested Opportunities</h5>
                         <ul class="list-group">
@@ -108,13 +117,13 @@
                                 
                                 <li class="list-group-item">
 
-                                    @if(\Laratrust::hasRole('company|superadmin') && !$project->has_interest() && !$project->is_owner($user->id))
+                                    @if($hascompany && !$project->has_interest() && !$project->is_owner($user->id))
                                         <form action="{{route('express.interest')}}" method="post">
                                             {{csrf_field()}}
                                             <input type="hidden" value="{{$project->id}}" name="project_id">
                                             <button class="btn btn-sm btn-yellow-2 pull-right" type="submit" data-toggle="modal" data-target="#expressInterestModal">Express Interest</button>
                                         </form>
-                                    @elseif($project->has_interest() && \Laratrust::hasRole('company|superadmin') && !$project->is_owner($user->id))
+                                    @elseif($project->has_interest() && $hascompany && !$project->is_owner($user->id))
                                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
                                             {{csrf_field()}}
                                             {{ method_field('DELETE') }}
@@ -131,14 +140,17 @@
                             @endforeach
                         </ul>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-@if(\Laratrust::hasRole('company|superadmin'))
+@if($hascompany)
     @include ('layouts.create-project-modal')
+@else
+    @include ('layouts.add-company-modal')
 @endif
 
 @endsection

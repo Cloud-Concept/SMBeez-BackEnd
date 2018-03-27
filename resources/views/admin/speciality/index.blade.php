@@ -12,7 +12,7 @@
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">SuperAdmin</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">SuperAdmin</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Specialites</li>
                         </ol>
                     </nav>

@@ -1,13 +1,41 @@
-<p>
-Hello!
+@component('mail::layout')
+    {{-- Header --}}
+    @slot('header')
+        @component('mail::header', ['url' => config('app.url')])
+            {{ config('app.name') }}
+        @endcomponent
+    @endslot
 
-Unfortunately you have been declined for "{{$interest->project->project_title}}". You need not despair: a declined response might be due to several reasons: 
+    <table class="panel" width="100%" cellpadding="0" cellspacing="0">
+	    <tr>
+	        <td class="panel-content">
+	            <table width="100%" cellpadding="0" cellspacing="0">
+	                <tr>
+	                    <td class="panel-item">
+	                        <h1>Hello!</h1>
 
-* Your company profile might be incomplete. Complete your profile here and get more honeycombs that you can redeem for valuable things later! 
-* Your reviews might be too few or not high enough. Ask your customers and suppliers to submit reviews about your company here. 
-* The opportunity might be unrelated to your expertise. Update your industry and specialities here. 
+							<p>Unfortunately you have been declined for "{{$interest->project->project_title}}". You need not despair: a declined response might be due to several reasons: </p>
 
-Good luck!
+							<p>* Your company profile might be incomplete. Complete your profile here and get more honeycombs that you can redeem for valuable things later! </p>
+							<p>* Your reviews might be too few or not high enough. Ask your customers and suppliers to submit reviews about your company here. </p>
+							<p>* The opportunity might be unrelated to your expertise. Update your industry and specialities here. </p>
 
-Your friends at SMBeez
-</p>
+							<p>Good luck!</p>
+
+							<p>
+							Your friends at SMBeez 
+							</p>
+	                    </td>
+	                </tr>
+	            </table>
+	        </td>
+	    </tr>
+	</table>
+
+    {{-- Footer --}}
+    @slot('footer')
+        @component('mail::footer')
+            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+        @endcomponent
+    @endslot
+@endcomponent

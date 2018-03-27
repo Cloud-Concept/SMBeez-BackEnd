@@ -30,7 +30,7 @@ class SupplierAccepted extends Mailable
      */
     public function build()
     {
-        return $this->subject('You have been accepted for ' . $this->interest->project->project_title . '! What\'s next... ?')->view('emails.supplier-accepted')
+        return $this->subject('You have been accepted for ' . $this->interest->project->project_title . '! What\'s next... ?')->markdown('emails.supplier-accepted')
         ->with([
             'interest' => $this->interest,
         ]);

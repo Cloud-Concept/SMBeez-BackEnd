@@ -53,11 +53,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'username' => 'required|min:3|unique:users',
             'user_city' => 'required',
-            'phone' => 'required|min:5',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -72,37 +71,45 @@ class RegisterController extends Controller
     {   
 
         $user = User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'username' => $data['username'],
             'user_city' => $data['user_city'],
             'phone' => $data['phone'],
             'honeycombs' => 0,
         ]);
 
-        if(Input::hasFile('profile_pic_url')) {
-
-            $profile_pic_url     = Input::file('profile_pic_url');
-            $img_name  = time() . '.' . $profile_pic_url->getClientOriginalExtension();
-            //path to year/month folder
-            $path_db = 'images/users/';
-            //path of the new image
-            $path       = public_path('images/users/' . $img_name);
-            //save image to the path
-            Image::make($profile_pic_url)->resize(48, 48)->save($path);
-            //make the field profile_pic_url in the table = to the link of img
-            $user->profile_pic_url = $path_db . $img_name;
-
-        }
         // set user role as user (4) is user role id
         $user->roles()->attach(4);
-
+        $sluggable = $user->replicate();
         event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
         
         Mail::to($user)->send(new Welcome);
 
         return $user;
+    }
 
+
+    public function registered(Request $request, $user)
+    {
+        if($request['action'] === 'add-company') { 
+            //if unlogged user clicked on add company
+            return redirect(route('front.user.dashboard', $user->username) . '?action=add-company');
+        }elseif($request['action'] === 'add-project' && $user->company ) { 
+            //if unlogged user clicked on add project and he have a company
+            return redirect(route('front.user.dashboard', $user->username) . '?action=add-project');
+        }elseif($request['action'] === 'add-project' && !$user->company ) { 
+            //if unlogged user clicked on add project and he dont have a company
+            return redirect(route('front.user.dashboard', $user->username) . '?action=add-company');
+        }elseif($request['action'] === 'claim-company' ) { 
+            //if unlogged user clicked on claim company
+            return redirect(route('front.company.claim_application', $request['claim']));
+        }elseif($request['action'] === 'write-review' ) {
+            //if unlogged user clicked on write review
+            return redirect(route('front.company.show', $request['claim'])  . '?action=write-review');
+        }else {
+            return redirect(route('front.user.dashboard', $user->username));
+        }
     }
 }

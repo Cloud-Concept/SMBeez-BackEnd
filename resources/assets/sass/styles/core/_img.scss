@@ -5,3 +5,10 @@ Images
 .img-full {
   width: 100%;
 }
+
+.img-thumb-contact {
+  border-radius: 50%;
+  max-width: 35px;
+  border: 1px solid $yellow;
+  @include rem(margin-right, 5px);
+}

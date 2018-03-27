@@ -17,14 +17,14 @@
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Settings</li>
                         </ol>
                     </nav>
-                    <div class="alert alert-secondary alert-dismissible fade show my-4" role="alert">
-                        <h3>You are subscribed to our free plan <a href="" class="pull-right text-capitalize">upgrade</a></h3>
+                    <!-- <div class="alert alert-secondary alert-dismissible fade show my-4" role="alert">
+                        <h3>You are subscribed to our free plan <a href="" class="pull-right text-capitalize disable">upgrade</a></h3>
                         <p>Upgrade your plan before 26/9/2018 and enjoy lots of amazing features</p>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-md-7">
                             <form action="{{route('front.user.update_location', $user->username)}}" method="POST"  class="user-setting" role="form" enctype="multipart/form-data">
@@ -44,5 +44,11 @@
         </div>
     </section>
 </main>
+
+@if($hascompany)
+    @include ('layouts.create-project-modal')
+@else
+    @include ('layouts.add-company-modal')
+@endif
 
 @endsection

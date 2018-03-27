@@ -36,7 +36,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Website</label>
-                                    <input class="form-control" type="url" name="company_website" placeholder="Company Website" id="company_website">
+                                    <input class="form-control" type="text" name="company_website" placeholder="Company Website" id="company_website">
                                 </div>
                             </div>
                             <div class="col">
@@ -51,7 +51,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Linkedin Profile</label>
-                                    <input class="form-control" type="url" name="linkedin_url" placeholder="Linkedin URL" id="linkedin_url">
+                                    <input class="form-control" type="text" name="linkedin_url" placeholder="Linkedin URL" id="linkedin_url">
                                 </div>
                             </div>
                             <div class="col">
@@ -71,8 +71,17 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">What is your company main message? *</label>
+                                    <label for="">Write a brief about your company *</label>
                                     <textarea name="company_description" class="form-control" id="company_description" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">What's your company role? *</label>
+                                    <select name="role" class="form-control custom-select d-block" required>
+                                        <option value="Company Owner">Company Owner</option>
+                                        <option value="General Manager">General Manager</option>
+                                        <option value="Sales and/or Marketing Director">Sales and/or Marketing Director</option>
+                                        <option value="Account Manager">Other</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col">

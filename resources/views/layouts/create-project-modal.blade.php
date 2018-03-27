@@ -17,14 +17,14 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <div class="form-group"><label for="">Project Title</label>
-                                    <input class="form-control" type="text" name="project_title" placeholder="Project Title" id="project_title" required>
+                                <div class="form-group"><label for="">Project Title *</label>
+                                    <input class="form-control" type="text" name="project_title" id="project_title" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Industry</label>
-                                    <select name="industry_id" class="form-control" id="industry_id" required>
+                                    <label for="">Industry *</label>
+                                    <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
                                         @foreach($industries as $industry)
                                         <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
                                         @endforeach
@@ -34,26 +34,26 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="form-group"><label for="">Project Description</label>
+                                <div class="form-group"><label for="">Project Description *</label>
                                     <textarea name="project_description" class="form-control" id="project_description" required></textarea>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="speciality_id">Specialities</label>
-                                    <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
+                                    <input type="text" name="speciality_id" placeholder="Insert tags that best describe your project" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">Write your keywords separated with commas</p>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="">Estimated Budget</label>
-                                    <input class="form-control" type="number" min="1" name="budget" placeholder="Estimated Budget" id="budget" required>
+                                    <label for="">Estimated Budget *</label>
+                                    <input class="form-control" type="number" min="1" name="budget" placeholder="Insert your budget in AED" id="budget" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="">Supportive Documents</label><label class="custom-file">
-                                        <input type="file" id="supportive_docs" name="supportive_docs" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar"> 
-                                        <span class="custom-file-control" data-label="Supportive Document"></span>
+                                        <input type="file" id="supportive_docs" name="supportive_docs[]" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar" multiple> 
+                                        <span class="custom-file-control" data-label="Upload Project Documents"></span>
                                     </label>
                                     <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF, Zip, .rar</p>
                                 </div>

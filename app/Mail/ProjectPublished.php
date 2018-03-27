@@ -31,7 +31,7 @@ class ProjectPublished extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your project is now live: ' . $this->project->project_title)->view('emails.project-published')
+        return $this->subject('Your project is now live: ' . $this->project->project_title)->markdown('emails.project-published')
         ->with([
             'project' => $this->project,
         ]);
