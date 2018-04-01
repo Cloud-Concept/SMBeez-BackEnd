@@ -165,7 +165,7 @@ class Company extends Model
         ->first();
     }
     //relevance scroring
-    public function RelevanceScore() {   
+    /*public function RelevanceScore() {   
         $profile_completion = array($this->company_description, $this->linkedin_url, $this->company_website,
         $this->company_phone, $this->location, $this->company_email, $this->company_size,
         $this->company_tagline, $this->year_founded, $this->reg_number, $this->reg_doc);
@@ -192,7 +192,7 @@ class Company extends Model
         return $i;
         
         
-    }
+    }*/
     //use slug to get company
     public function getRouteKeyName() {
         return 'slug';

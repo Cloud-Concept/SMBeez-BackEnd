@@ -162,12 +162,11 @@ class SearchController extends Controller
     {   
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
-        $relevance_score = $company->RelevanceScore();
 
         if(Auth::user()) {
             //if user signed in so find the user's company industry and get use it with request
             $companies = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->where('city', auth()->user()->user_city)->orderBy($relevance_score, 'asc')->paginate(10);
+            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
             if($hasCompany) {
                 $companies->where('industry_id', Auth::user()->company->industry->id);
             }
@@ -189,7 +188,7 @@ class SearchController extends Controller
 
         }else {
             $companies = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->orderBy($relevance_score, 'asc')->paginate(10);
+            ->latest()->paginate(10);
 
             $projects = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
             ->latest()->paginate(10);
