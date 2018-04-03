@@ -41,11 +41,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => 'testsmbeez.cbexrmhnuocd.us-east-2.rds.amazonaws.com',
+            'host' => 'localhost',
             'port' => env('DB_PORT', '3306'),
-            'database' => 'testsmbeez',
-            'username' => 'testsmbeez',
-            'password' => 'smbeez_database',
+            'database' => 'smbeez_database',
+            'username' => 'root',
+            'password' => '',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
