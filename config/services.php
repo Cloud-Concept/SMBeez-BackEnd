@@ -41,12 +41,12 @@ return [
     'facebook' => [
         'client_id' => '466484733745449',         // Your GitHub Client ID
         'client_secret' => '0fa69582112db80c7d8579f4cf11a59d', // Your GitHub Client Secret
-        'redirect' => 'http://localhost:8000/login/facebook/callback',
+        'redirect' => 'http://dev.smbeez.net/login/facebook/callback',
     ],
     'linkedin' => [
         'client_id' => '78nuo18v8z5hyp',         // Your GitHub Client ID
         'client_secret' => '8fFFfDnYBPL7cBbn', // Your GitHub Client Secret
-        'redirect' => 'http://localhost:8000/login/linkedin/callback',
+        'redirect' => 'http://dev.smbeez.net/login/linkedin/callback',
     ],
 
 ];
