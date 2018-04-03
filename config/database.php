@@ -38,7 +38,7 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
-
+        //local master conncection
         'mysql' => [
             'driver' => 'mysql',
             'host' => 'localhost',
