@@ -38,24 +38,14 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
-<<<<<<< HEAD
         //dev
-=======
-        //local master conncection
->>>>>>> master
         'mysql' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
+            'host' => 'testsmbeez.cbexrmhnuocd.us-east-2.rds.amazonaws.com',
             'port' => env('DB_PORT', '3306'),
-<<<<<<< HEAD
-            'database' => 'test_smbeez',
+            'database' => 'testsmbeez',
             'username' => 'testsmbeez',
             'password' => 'smbeez_database',
-=======
-            'database' => 'smbeez_database',
-            'username' => 'root',
-            'password' => '',
->>>>>>> master
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
