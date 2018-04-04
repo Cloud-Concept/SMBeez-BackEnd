@@ -85,6 +85,9 @@ Route::prefix('user')->group(function() {
 	Route::get('/profile/{user}/edit_location', 'UserController@edit_location')->name('front.user.editlocation');
 	Route::post('/profile/{user}/update_location', 'UserController@update_location')->name('front.user.update_location');
 	Route::post('/profile/{user}/update_logo', 'UserController@update_logo')->name('front.user.update_logo');
+	Route::get('/profile/{user}/reviews', 'UserController@reviews')->name('front.user.reviews');
+	Route::post('/profile/{user}/{review}/update', 'UserController@review_update')->name('front.user.review_update');
+	Route::delete('/profile/{user}/{review}/delete', 'UserController@review_delete')->name('front.user.review_delete');
 });	
 
 Route::prefix('companies')->group(function() {
