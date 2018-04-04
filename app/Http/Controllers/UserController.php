@@ -385,6 +385,65 @@ class UserController extends Controller
         }
     }
 
+    public function reviews(User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            $user_reviews = $user->reviews()->paginate(3);
+            return view('front.users.settings.reviews', compact('user', 'user_reviews'));
+
+        }
+    }
+
+
+    public function review_update(Request $request, User $user, Review $review)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            $review->feedback = $request['feedback'];
+            $review->update();
+
+            if($review->update()) {
+                session()->flash('success', 'Feedback has been updated');
+            }else {
+                session()->flash('error', 'Sorry, an error occured while editing the review.');
+            }
+
+            return back();
+
+        }
+    }
+
+
+    public function review_delete(Request $request, User $user, Review $review)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            $review->delete();
+
+            return back();
+
+        }
+    }
+
     public function update_logo(Request $request, User $user)
     {
         if($request->hasFile('profile_pic_url')) {
