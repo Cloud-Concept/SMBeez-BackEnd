@@ -43,7 +43,7 @@ return [
             'driver' => 'mysql',
             'host' => 'testsmbeez.cbexrmhnuocd.us-east-2.rds.amazonaws.com',
             'port' => env('DB_PORT', '3306'),
-            'database' => 'testsmbeez',
+            'database' => 'test_smbeez',
             'username' => 'testsmbeez',
             'password' => 'smbeez_database',
             'unix_socket' => env('DB_SOCKET', ''),
