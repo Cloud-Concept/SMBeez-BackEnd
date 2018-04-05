@@ -1,9 +1,20 @@
 @extends('layouts.inner')
 
 @section('content')
+@section('title')
+    {{$company->company_name}}
+@endsection
+@section('description')
+    {{strip_tags(substr($company->company_description, 0, 250))}}
+@endsection
+@if($company->logo_url)
+    @section('image')
+        {{$company->logo_url}}
+    @endsection
+@endif
 <main class="cd-main-content">
     <!-- Go to www.addthis.com/dashboard to customize your tools -->
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ab221b2378ad19d"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ab221b2378ad19d"></script>
     <section class="list-project">
         <div class="container">
             <div class="row">
