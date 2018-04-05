@@ -106,6 +106,26 @@ class Company extends Model
             return $company_overall_rating;
         }
     }
+    //used to get fraction
+    public function company_overall_exact_rating($company_id)
+    {   
+       if($this->reviews->count() > 0) {  
+            //sum of all reviews rates
+            $company_overall_rating = DB::table('reviews')
+            ->select(DB::raw("SUM(overall_rate + business_repeat + time + cost + quality + procurement + expectations + payments)"))
+            ->where('company_id', $company_id)->get();
+
+            //the sum of reviews rates divided by the reviews number which is the 
+            //reviews count * 5 which means 5 types of rates
+            foreach ($company_overall_rating[0] as $key => $value) {
+                $value = (int)$value;
+            }
+            
+            $company_overall_rating = $value / ( $this->reviews->count() * 5);
+            //displaying over all rating of the company
+            return $company_overall_rating;
+        }
+    }
     //get customer rating
     public function customer_rating($company_id, $customer_reviews)
     {   
@@ -193,6 +213,11 @@ class Company extends Model
         
         
     }*/
+    public static function addRelevanceScore($score, $company_id) {
+        $company = Company::where('id', $company_id);
+        $current = $company->pluck('relevance_score')->first();
+        return $company->update(array('relevance_score' => $current + $score));
+    }
     //use slug to get company
     public function getRouteKeyName() {
         return 'slug';

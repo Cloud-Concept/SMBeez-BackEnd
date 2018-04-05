@@ -1,6 +1,13 @@
 @extends('layouts.inner')
 
 @section('content')
+@section('title')
+    {{$project->project_title}}
+@endsection
+@section('description')
+    {{strip_tags(substr($project->project_description, 0, 250))}}
+@endsection
+
 <main class="cd-main-content">
     <!-- Go to www.addthis.com/dashboard to customize your tools -->
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ab221b2378ad19d"></script>

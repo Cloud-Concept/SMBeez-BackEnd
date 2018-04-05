@@ -62,6 +62,19 @@ class ReviewsController extends Controller
 
         $review->save();
 
+        //relevance scoring
+        $company = Company::with('reviews')->where('id', $review->company_id)->first();
+        $customer_reviews = $company->reviews->where('company_id', $review->company_id)
+        ->where('reviewer_relation', 'customer');
+
+        if($customer_reviews->count() == 1) {
+            Company::addRelevanceScore(5, $review->company_id);
+        }
+
+        if($company->company_overall_exact_rating($review->company_id) >= 4.5) {
+            Company::addRelevanceScore(5, $review->company_id);
+        }
+
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
 
         return back();
@@ -94,6 +107,18 @@ class ReviewsController extends Controller
         $review->procurement = $request['procurement'];
 
         $review->save();
+        //relevance scoring
+        $company = Company::with('reviews')->where('id', $review->company_id)->first();
+        $suppliers_reviews = $company->reviews->where('company_id', $review->company_id)
+        ->where('reviewer_relation', 'supplier');
+
+        if($suppliers_reviews->count() == 1) {
+            Company::addRelevanceScore(5, $review->company_id);
+        }
+
+        if($company->company_overall_exact_rating($review->company_id) >= 4.5) {
+            Company::addRelevanceScore(5, $review->company_id);
+        }
 
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
         

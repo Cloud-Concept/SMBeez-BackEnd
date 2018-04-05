@@ -250,6 +250,7 @@ class CompaniesController extends Controller
         $company->reg_number = $request['reg_number'];
         $company->reg_date = $request['reg_date'];
 
+
         if($request->hasFile('reg_doc')) {
 
             $file = $request->file('reg_doc');
@@ -293,6 +294,15 @@ class CompaniesController extends Controller
         $company->specialities()->sync($specs_ids, true);
         //make the company sluggable
         $sluggable = $company->replicate();
+        //relevance scoring
+        /*$profile_completion = array($company->company_description, $company->linkedin_url, $company->company_website,
+        $company->company_phone, $company->location, $company->company_email, $company->company_size,
+        $company->company_tagline, $company->year_founded, $company->reg_number, $company->reg_doc);
+
+        if($company->user_id != 0) {
+            $current = count(array_filter($profile_completion));
+            dd($old);
+        }*/
         // redirect to the home page
         session()->flash('success', 'Your company has been updated.');
 

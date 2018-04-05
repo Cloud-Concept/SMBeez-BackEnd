@@ -7,10 +7,11 @@
         <link rel="icon" href="{{asset('favicon.ico')}}" type="image/x-icon" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta property="og:title" content="" />
-        <meta property="og:description" content="" />
-        <meta property="og:image" content="" />
-        <title>{{ config('app.name', 'SMBeez') }}</title>
+        <meta property="og:title" content="@yield('title')" />
+        <meta property="og:description" content="@yield('description')" />
+        <meta property="og:image" content="@yield('image')" />
+        <meta property="og:url" content="{{url()->current()}}" />
+        <title>{{ config('app.name', 'SMBeez') }} - @yield('title')</title>
 
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">

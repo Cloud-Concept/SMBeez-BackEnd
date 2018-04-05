@@ -125,6 +125,11 @@ class ProjectsController extends Controller
         $project->specialities()->sync($specs_ids, false);
         //make the project sluggable
         $sluggable = $project->replicate();
+        //relevance scoring
+        $user = auth()->user();
+        if($project->count() == 1) {
+            Company::addRelevanceScore(1, $user->company->id);
+        }
         // redirect to the home page
         session()->flash('success', 'Your project has been created as ' . $project->save_as);
 
