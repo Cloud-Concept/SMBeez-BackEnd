@@ -177,11 +177,13 @@ class SearchController extends Controller
 
             $projects = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
             ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
-            
-            $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->where('city', auth()->user()->user_city)->get()->count();
+        
             if($hasCompany) {
-                $companies_count->where('industry_id', Auth::user()->company->industry->id);
+                $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
+                ->where('city', auth()->user()->user_city)->where('industry_id', Auth::user()->company->industry->id)->get()->count();
+            }else {
+                $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
+                ->where('city', auth()->user()->user_city)->get()->count();
             }
             $projects_count = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
             ->where('city', auth()->user()->user_city)->get()->count();
