@@ -48,7 +48,7 @@
                     <div class="row equal infinite-scroll">
                         @if($industry_projects->count() == 0)
                         <div class="col-md-12 mt-5">
-                            <p>No opportunities yet.</p>
+                            <p>No opportunities found.</p>
                         </div>
                         @endif
                         @foreach($industry_projects as $project)

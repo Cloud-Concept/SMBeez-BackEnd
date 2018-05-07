@@ -27,6 +27,9 @@
             @if($hascompany)
             <a class="dropdown-item" href="{{ route('front.company.show', $mycompany->slug) }}">My Company</a>
             @endif
+            @if(Auth::user()->reviews->count() > 0)
+            <a class="dropdown-item" href="{{route('front.user.reviews', Auth::user()->username)}}">My Reviews</a>
+            @endif
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
         </div>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

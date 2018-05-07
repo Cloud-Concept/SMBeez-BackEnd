@@ -145,7 +145,7 @@
                     <div class="row equal infinite-scroll">
                         @if($companies->count() == 0)
                         <div class="col-md-12 mt-5">
-                            <p>No companies yet.</p>
+                            <p>No companies found.</p>
                         </div>
                         @endif
                         @foreach($companies as $company)

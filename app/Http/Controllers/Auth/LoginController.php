@@ -51,6 +51,8 @@ class LoginController extends Controller
         }elseif($request['action'] === 'write-review' ) {
             //if unlogged user clicked on write review
             return redirect(route('front.company.show', $request['claim'])  . '?action=write-review');
+        }elseif(\Laratrust::hasRole('superadmin')){
+            return redirect(route('admin.dashboard'));
         }else {
             return redirect(route('front.user.dashboard', $user->username));
         }
@@ -151,7 +153,7 @@ class LoginController extends Controller
           $sluggable = $user->replicate();
           event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
           
-          Mail::to($user)->send(new Welcome);
+          //Mail::to($user)->send(new Welcome);
 
           Auth::login($user);
 

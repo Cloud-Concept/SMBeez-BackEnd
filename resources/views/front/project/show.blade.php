@@ -99,11 +99,15 @@
                             {{csrf_field()}}
                             <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Close Project</button></div>
                         </form>
+                        <br>
+                        <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">Edit Project</a></div>
                         @elseif(!Auth::guest() && $project->is_owner(Auth::user()->id) && $project->status === 'draft')
                         <form action="{{route('front.project.publish', $project->slug)}}" method="post">
                             {{csrf_field()}}
                             <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Publish Project</button></div>
                         </form>
+                        <br>
+                        <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">Edit Project</a></div>
                         @endif
                     </div>
                 </div>
@@ -180,8 +184,9 @@
                             }
                         </style>
                     @endif
-                    <p>{{ strip_tags($project->project_description) }}</p>
-
+                    <p>
+                        {!!str_replace("\n","<p>",$project->project_description)!!}
+                    </p>
                     @if($project->files->count() > 0)
                     <div class="download-box d-flex justify-content-between align-items-center">
                         <div>

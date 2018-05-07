@@ -66,7 +66,7 @@
                                 @endif
                             </div>
                             <h4>Company Brief</h4>
-                            <textarea class="form-control mb-3" name="company_description" id="company_description" required>{{$company->company_description}}</textarea>
+                            <textarea class="form-control mb-3" name="company_description" id="company_description" required>{!! strip_tags($company->company_description) !!}</textarea>
                             <button type="submit" class="btn btn-sm btn-yellow-2">Save</button>
                         </div>
                         <div class="dashboard-company-block my-3">

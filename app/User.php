@@ -63,6 +63,10 @@ class User extends Authenticatable
     public function reviews() {
         return $this->hasMany(Review::class)->latest();
     }
+
+    public function replies() {
+        return $this->hasMany(Reply::class);
+    }
     //files relationship
     public function files() {
         return $this->hasMany(MyFile::class);

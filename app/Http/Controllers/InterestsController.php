@@ -36,6 +36,17 @@ class InterestsController extends Controller
         $interest->user_id = auth()->id();
         $interest->project_id = $request['project_id'];
 
+        //no. of express interests
+        $project = Project::where('id', $interest->project_id)->first();
+        
+        if($project->interests->count() == 2) {
+            $project->addRelevanceScore(5, $project->id);
+        }
+
+        if($project->interests->count() == 11) {
+            $project->addRelevanceScore(15, $project->id);
+        }
+
         $interest->save();
 
         $message = new Message;
@@ -69,7 +80,7 @@ class InterestsController extends Controller
         $interest->where('id', $interest->id)->update(['is_accepted' => 1]);
 
         //$interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
-        Mail::to($interest->user->email)->send(new SupplierAccepted($interest));
+        //Mail::to($interest->user->email)->send(new SupplierAccepted($interest));
 
         return back();
     }
@@ -79,7 +90,7 @@ class InterestsController extends Controller
         
         $interest->where('id', $interest->id)->update(['is_accepted' => 0]);
 
-        Mail::to($interest->user->email)->send(new SupplierRejected($interest));
+        //Mail::to($interest->user->email)->send(new SupplierRejected($interest));
 
         return back();
     }

@@ -45,7 +45,7 @@ class IndustriesController extends Controller
         if(Auth::user()) {
 
             $industry_projects = $project->with('industries')->where('status', 'publish')
-            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
 
             //show featured projects from the same industry
             $featured_projects = $project->where('is_promoted', 1)
@@ -58,7 +58,7 @@ class IndustriesController extends Controller
         }else {
 
             $industry_projects = $project->with('industries')->where('status', 'publish')
-            ->latest()->paginate(10);
+            ->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
 
             $featured_projects = $project->where('is_promoted', 1)
             ->where('status', 'publish')
