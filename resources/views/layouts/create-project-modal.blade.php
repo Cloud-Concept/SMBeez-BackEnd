@@ -25,9 +25,10 @@
                                 <div class="form-group">
                                     <label for="">Industry *</label>
                                     <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
-                                        @foreach($industries as $industry)
+                                        <!-- @foreach($industries as $industry)
                                         <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
-                                        @endforeach
+                                        @endforeach -->
+                                        <option value="1">IT and Communication</option>
                                     </select>
                                 </div>
                             </div>
