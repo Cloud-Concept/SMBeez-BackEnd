@@ -86,6 +86,8 @@ Route::prefix('user')->group(function() {
 	Route::post('/profile/{user}/update_location', 'UserController@update_location')->name('front.user.update_location');
 	Route::post('/profile/{user}/update_logo', 'UserController@update_logo')->name('front.user.update_logo');
 	Route::get('/profile/{user}/reviews', 'UserController@reviews')->name('front.user.reviews');
+	Route::get('/profile/{user}/supplierreviews', 'UserController@supplier_reviews')->name('front.user.supplierreviews');
+	Route::get('/profile/{user}/customerreviews', 'UserController@customer_reviews')->name('front.user.customerreviews');
 	Route::post('/profile/{user}/{review}/update', 'UserController@review_update')->name('front.user.review_update');
 	Route::delete('/profile/{user}/{review}/delete', 'UserController@review_delete')->name('front.user.review_delete');
 });	
@@ -140,6 +142,7 @@ Route::delete('/bookmark/remove/{bookmark}', 'BookmarksController@removeBookmark
 Route::delete('/delete/{file}', ['middleware' => ['role:company|superadmin'], 'uses' => 'MyFilesController@destroy'])->name('front.file.delete');
 Route::get('/about', 'HomeController@about')->name('about');
 
+Route::post('/reply', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'RepliesController@store'])->name('add.reply.toreview');
 //Social Connect
 
 Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','facebook|linkedin')->name('socialLogin');

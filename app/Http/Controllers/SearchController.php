@@ -50,7 +50,7 @@ class SearchController extends Controller
             }
 
             $industry_projects = $project->where('status', 'publish')
-            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
 
 
             $featured_projects = $project->whereHas('industries', function ($q) use ($industry, $request) {
@@ -74,7 +74,7 @@ class SearchController extends Controller
                 $project->where('project_title', 'like', '%' . $request['s'] . '%');
             }
 
-            $industry_projects = $project->where('status', 'publish')->latest()->paginate(10);
+            $industry_projects = $project->where('status', 'publish')->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
 
 
             $featured_projects = $project->whereHas('industries', function ($q) use ($industry, $request) {
@@ -123,7 +123,7 @@ class SearchController extends Controller
                 $company->where('company_name', 'like', '%' . $request['s'] . '%');
             }
             $companies = $company->where('status', 1)
-            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
 
 
             $featured_companies = $company->where('industry_id', $hasCompany ? Auth::user()->company->industry->id : $request['industry'])
@@ -144,7 +144,7 @@ class SearchController extends Controller
             }
 
             $companies = $company->where('status', 1)
-            ->latest()->paginate(10);
+            ->orderBy('relevance_score', 'desc')->paginate(10);
 
 
             $featured_companies = $company->where('industry_id', $request['industry'])
@@ -166,7 +166,7 @@ class SearchController extends Controller
         if(Auth::user()) {
             //if user signed in so find the user's company industry and get use it with request
             $companies = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
             if($hasCompany) {
                 $companies->where('industry_id', Auth::user()->company->industry->id);
             }
@@ -176,7 +176,7 @@ class SearchController extends Controller
             });
 
             $projects = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
-            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
+            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
             
             $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
             ->where('city', auth()->user()->user_city)->get()->count();
@@ -188,10 +188,10 @@ class SearchController extends Controller
 
         }else {
             $companies = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->latest()->paginate(10);
+            ->orderBy('relevance_score', 'desc')->paginate(10);
 
             $projects = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
-            ->latest()->paginate(10);
+            ->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
 
             $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
             ->get()->count();

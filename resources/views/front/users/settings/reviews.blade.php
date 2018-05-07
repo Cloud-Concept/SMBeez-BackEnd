@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
-
+<nav class="dashboard-nav navbar navbar-expand-lg">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent2">
+        @include ('layouts.dashboard-menu')
+    </div>
+</nav>
 <main class="cd-main-content">
     <section class="dashboard">
         <div class="container">
@@ -10,8 +15,8 @@
                     <div class="sidebar-updates">
                         <h5 class="title-blue">Reviews</h5>
                         <ul class="list-group">
-                            <li class="list-group-item"><a href="">Reviews from Customers</a></li>
-                            <li class="list-group-item"><a href="">Reviews from Suppliers</a></li>
+                            <li class="list-group-item"><a href="{{route('front.user.customerreviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/customerreviews') ? 'active' : 'no' }}">Reviews from Customers</a></li>
+                            <li class="list-group-item"><a href="{{route('front.user.supplierreviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/supplierreviews') ? 'active' : 'no' }}">Reviews from Suppliers</a></li>
                             <li class="list-group-item"><a href="{{route('front.user.reviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/reviews') ? 'active' : 'no' }}">My Reviews</a></li>
                         </ul>
                     </div>
@@ -51,7 +56,7 @@
                                         	{{$review->created_at->toFormattedDateString()}}
                                         </td>
                                         <td width="10%">
-                                            <div class="d-flex"><a href="" data-toggle="modal" data-target="#edit-review-{{$review->id}}" class="px-2"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a> <a href="#" onclick="event.preventDefault(); document.getElementById('delete-{{$review->id}}').submit();" class="px-2"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a></div>
+                                            <div class="d-flex"><a href="" data-toggle="modal" data-target="#edit-review-{{$review->id}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a href="#" onclick="event.preventDefault(); document.getElementById('delete-{{$review->id}}').submit();" class="px-2"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
                                         	<form id="delete-{{$review->id}}" action="{{route('front.user.review_delete', [$user->username, $review->id])}}" method="post">
                 								{{csrf_field()}}
                 								{{ method_field('DELETE') }}

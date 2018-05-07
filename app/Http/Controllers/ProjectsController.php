@@ -101,6 +101,8 @@ class ProjectsController extends Controller
 
             }
 
+            Project::addRelevanceScore(6, $project->id);
+
         }
         
         $specs = explode(',', $request['hidden-speciality_id']);
@@ -127,17 +129,49 @@ class ProjectsController extends Controller
         $sluggable = $project->replicate();
         //relevance scoring
         $user = auth()->user();
-        if($project->count() == 1) {
+
+        //if have published projects
+        if($user->projects->count() == 1) {
             Company::addRelevanceScore(1, $user->company->id);
         }
+
+        //if user have 2 closed projects
+        $projects_count = $user->projects->where('status', 'closed')->count();
+
+        if($projects_count == 2) {
+            Project::addRelevanceScore(5, $project->id);
+        }
+
+        if($projects_count == 11) {
+            Project::addRelevanceScore(15, $project->id);
+        }
+        //if rating 4+
+        $company = Company::with('reviews')->where('id', $project->company_id)->first();
+
+        if($company->company_overall_exact_rating($project->company_id) >= 4.5) {
+            Project::addRelevanceScore(5, $project->id);
+        }
+        //according to company profile completion
+        $profile_completion = array($company->company_description, $company->linkedin_url, $company->company_website,
+        $company->company_phone, $company->location, $company->company_email, $company->company_size,
+        $company->company_tagline, $company->year_founded, $company->reg_number, $company->reg_doc);
+
+        $current = count(array_filter($profile_completion));
+
+        Project::addRelevanceScore($current, $project->id);
+        //owner is verified company?
+        if($company->is_verified == 1) {
+            Project::addRelevanceScore(30, $project->id);
+        }
+
         // redirect to the home page
         session()->flash('success', 'Your project has been created as ' . $project->save_as);
 
-        if(Input::get('publish')) {
+        /*if(Input::get('publish')) {
             Mail::to($project->user->email)->send(new ProjectPublished($project));
         }elseif(Input::get('draft')) {
             Mail::to($project->user->email)->send(new ProjectCreated($project));
-        }
+        }*/
 
         return redirect(route('front.project.show', $project->slug));
     }
@@ -230,6 +264,8 @@ class ProjectsController extends Controller
 
             }
 
+            Project::addRelevanceScore(6, $project->id);
+
         }
         //update it to the database 
         $project->update();
@@ -278,6 +314,16 @@ class ProjectsController extends Controller
     {   
         $project->where('id', $project->id)->update(['status' => 'closed', 'status_on_close' => 'by_owner']);
 
+        //if user have 2 closed projects
+        $projects_count = $project->user->projects->where('status', 'closed')->count();
+        
+        if($projects_count == 2) {
+            Company::addRelevanceScore(5, $project->user->company->id);
+        }
+
+        if($projects_count == 11) {
+            Company::addRelevanceScore(15, $project->user->company->id);
+        }
         return redirect(route('front.user.myprojects', $project->user->username));
     }
 
@@ -291,7 +337,7 @@ class ProjectsController extends Controller
     {   
         $project->where('id', $project->id)->update(['status' => 'publish']);
 
-        Mail::to($project->user->email)->send(new ProjectPublished($project));
+        //Mail::to($project->user->email)->send(new ProjectPublished($project));
         
         return back();
     }
@@ -356,6 +402,8 @@ class ProjectsController extends Controller
     {   
         $project->is_promoted = 1;
 
+        Project::addRelevanceScore(8, $project->id);
+
         $project->update();
 
         return back();
@@ -365,6 +413,8 @@ class ProjectsController extends Controller
     {
         $project->is_promoted = 0;
         
+        Project::addRelevanceScore(-8, $project->id);
+
         $project->update();
 
         return back();

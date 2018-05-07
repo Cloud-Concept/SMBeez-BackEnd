@@ -197,7 +197,7 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade active show pt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
                            	@if($company->company_description)
-                            <p>{{ strip_tags($company->company_description) }}</p>
+                            <p>{!!str_replace("\n","<p>",$company->company_description)!!}</p>
                             @endif
                             
                             @if($closed_projects->count() > 0)
@@ -238,123 +238,161 @@
                                     @foreach($company->reviews as $review)
                                     @if($review->reviewer_relation == 'customer')
                                     <div class="media br-btm mb-4 d-flex row equal">
-                                        <div class="col-md-2 company-box-header media">
-                                            @if($review->review_privacy === 'public')
-                                            <a href="{{route('front.company.show', $review->user->company->slug)}}" class="mr-3 thumb-int"> {{substr($review->user->company->company_name, 0, 1)}} </a>
-                                            @elseif($review->review_privacy === 'private')
-                                            <a href="#" class="mr-3 thumb-int"> ? </a>
-                                            @endif
-                                        </div>
-                                        <div class="col-lg-7 col-md-10 mb-4">
-                                            @if($review->review_privacy === 'public')
-                                            <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
-                                            @elseif($review->review_privacy === 'private')
-                                            <h5 class="mt-0">Anonymous</h5>
-                                            @endif
-                                            <p>{{$review->feedback}} <!-- <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i> --></a></p>
-                                            @if(!Auth::guest())
-                                            <ul class="review-content-social">
-                                                @if($review->impression($review->id) === 1)
-                                                    <li><a href="#" id="review-like-b-{{$review->id}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
-                                                @elseif($review->impression($review->id) === 0)
-                                                    <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
-                                                @else
-                                                    <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                        <div class="col-lg-9 col-md-10 mb-4">
+                                            <div class="media">
+                                                @if($review->review_privacy === 'public')
+                                                <a href="{{route('front.company.show', $review->user->company->slug)}}" class="mr-3 thumb-int"> {{substr($review->user->company->company_name, 0, 1)}} </a>
+                                                @elseif($review->review_privacy === 'private')
+                                                <a href="#" class="mr-3 thumb-int"> ? </a>
                                                 @endif
+                                                
+                                                <div class="media-body">
+                                                    @if($review->review_privacy === 'public')
+                                                    <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
+                                                    @elseif($review->review_privacy === 'private')
+                                                    <h5 class="mt-0">Anonymous</h5>
+                                                    @endif
+                                                    <p>{{$review->feedback}} <!-- <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i> --></a></p>
+                                                
+                                                    @if(!Auth::guest())
+                                                    <ul class="review-content-social">
+                                                        @if($review->impression($review->id) === 1)
+                                                            <li><a href="#" id="review-like-b-{{$review->id}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
+                                                            <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                        @elseif($review->impression($review->id) === 0)
+                                                            <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                            <li><a href="#" id="review-unlike-b-{{$review->id}}"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></li> 
+                                                        @else
+                                                            <li><a href="#" id="review-like-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                            <li><a href="#" id="review-unlike-b-{{$review->id}}" onclick="event.preventDefault();"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                        @endif
 
-                                                @if($review->is_flagged($review->id) === true)
-                                                    <!-- <li><a href="#" id="review-unflag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li> -->
-                                                @else
-                                                    <!-- <li><a href="#" id="review-flag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li> -->
-                                                @endif
-                                                <!-- <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li> -->
-                                            </ul>
-                                            <form id="review-like-{{$review->id}}" action="#">
-                                                <input id="token-like-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
-                                            </form>
-                                            <form id="review-unlike-{{$review->id}}" action="#">
-                                                <input id="token-unlike-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
-                                            </form>
-                                            <!-- <form id="review-flag-{{$review->id}}" action="#">
-                                                <input id="token-flag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
-                                            </form>
-                                            <form id="review-unflag-{{$review->id}}" action="#">
-                                                <input id="token-unflag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
-                                                {{ method_field('DELETE') }}
-                                            </form> -->
-                                            <script>
-                                                $(document).ready(function(){
-                                                    $.ajaxSetup({
-                                                        headers: {
-                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                                        }
-                                                    });
-                                                    //Like review
-                                                    $('#review-like-b-{{$review->id}}').click(function(e){
-                                                        e.preventDefault();
-                                                        var token = $('#token-like-{{$review->id}}').val();
+                                                        @if($review->is_flagged($review->id) === true)
+                                                            <!-- <li><a href="#" id="review-unflag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag</a></li> -->
+                                                        @else
+                                                            <!-- <li><a href="#" id="review-flag-b-{{$review->id}}" class="btn btn-blue btn-yellow" onclick="event.preventDefault();"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li> -->
+                                                        @endif
+                                                        <!-- <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li> -->
+                                                        
+                                                        @if($company->user_id == Auth::user()->id || $review->user_id == Auth::user()->id)
+                                                            <li class="review-info"><a href="#" data-toggle="modal" id="review-reply-{{$review->id}}" class="add-reply" data-target="#add-reply"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                                                                <input type="hidden" class="info-id" rev-id="{{$review->id}}">
+                                                                @if($review->review_privacy === 'public')
+                                                                <input type="hidden" class="info-user" rev-user="{{$review->user->company->company_name}}">
+                                                                @elseif($review->review_privacy === 'private')
+                                                                <input type="hidden" class="info-user" rev-user="Anonymous">
+                                                                @endif
+                                                            </li>
+                                                        @endif
+                                                    </ul>
+                                                    <form id="review-like-{{$review->id}}" action="#">
+                                                        <input id="token-like-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
+                                                    </form>
+                                                    <form id="review-unlike-{{$review->id}}" action="#">
+                                                        <input id="token-unlike-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
+                                                    </form>
+                                                    <!-- <form id="review-flag-{{$review->id}}" action="#">
+                                                        <input id="token-flag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
+                                                    </form>
+                                                    <form id="review-unflag-{{$review->id}}" action="#">
+                                                        <input id="token-unflag-{{$review->id}}" value="{{csrf_token()}}" type="hidden">
+                                                        {{ method_field('DELETE') }}
+                                                    </form> -->
+                                                    <script>
+                                                        $(document).ready(function(){
+                                                            $.ajaxSetup({
+                                                                headers: {
+                                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                }
+                                                            });
+                                                            //Like review
+                                                            $('#review-like-b-{{$review->id}}').click(function(e){
+                                                                e.preventDefault();
+                                                                var token = $('#token-like-{{$review->id}}').val();
 
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            data: "_token=" + token,
-                                                            url: "{{route('review.like', $review->id)}}",
-                                                            success: function(data) {
-                                                                $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-o-up').addClass('fa-thumbs-up');
-                                                                $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-down').addClass('fa-thumbs-o-down');
-                                                            }
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    data: "_token=" + token,
+                                                                    url: "{{route('review.like', $review->id)}}",
+                                                                    success: function(data) {
+                                                                        $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-o-up').addClass('fa-thumbs-up');
+                                                                        $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-down').addClass('fa-thumbs-o-down');
+                                                                    }
+                                                                });
+                                                            });
+
+                                                            //unlike review
+                                                            $('#review-unlike-b-{{$review->id}}').click(function(e){
+                                                                e.preventDefault();
+                                                                var token = $('#token-unlike-{{$review->id}}').val();
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    data: "_token=" + token,
+                                                                    url: "{{route('review.unlike', $review->id)}}",
+                                                                    success: function(data) {
+                                                                        $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-up').addClass('fa-thumbs-o-up');
+                                                                        $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-o-down').addClass('fa-thumbs-down');
+                                                                    }
+                                                                });
+                                                            });
+                                                            //flag review
+                                                            /*$('#review-flag-b-{{$review->id}}').click(function(e){
+                                                                e.preventDefault();
+                                                                var token = $('#token-flag-{{$review->id}}').val();
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    data: "_token=" + token,
+                                                                    url: "{{route('review.flag', $review->id)}}",
+                                                                    success: function(data) {
+                                                                        $('#review-flag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag');
+                                                                        $('#review-flag-b-{{$review->id}}').attr('id', 'review-unflag-b-{{$review->id}}');
+                                                                    }
+                                                                });
+                                                            }); */
+                                                            //unflag review -- need to refresh to unflag
+                                                            /*$('#review-unflag-b-{{$review->id}}').click(function(e){
+                                                                e.preventDefault();
+                                                                var token = $('#token-unflag-{{$review->id}}').val();
+
+                                                                $.ajax({
+                                                                    type: "DELETE",
+                                                                    data: "_token=" + token + "method=DELETE",
+                                                                    url: "{{route('review.unflag', $review->id)}}",
+                                                                    success: function(data) {
+                                                                        $('#review-unflag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> Flag');
+                                                                        $('#review-unflag-b-{{$review->id}}').attr('id', 'review-flag-b-{{$review->id}}');
+                                                                    }
+                                                                });
+                                                            }); */ 
                                                         });
-                                                    });
-
-                                                    //unlike review
-                                                    $('#review-unlike-b-{{$review->id}}').click(function(e){
-                                                        e.preventDefault();
-                                                        var token = $('#token-unlike-{{$review->id}}').val();
-
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            data: "_token=" + token,
-                                                            url: "{{route('review.unlike', $review->id)}}",
-                                                            success: function(data) {
-                                                                $('#review-like-b-{{$review->id}} i').removeClass('fa-thumbs-up').addClass('fa-thumbs-o-up');
-                                                                $('#review-unlike-b-{{$review->id}} i').removeClass('fa-thumbs-o-down').addClass('fa-thumbs-down');
-                                                            }
-                                                        });
-                                                    });
-                                                    //flag review
-                                                    /*$('#review-flag-b-{{$review->id}}').click(function(e){
-                                                        e.preventDefault();
-                                                        var token = $('#token-flag-{{$review->id}}').val();
-
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            data: "_token=" + token,
-                                                            url: "{{route('review.flag', $review->id)}}",
-                                                            success: function(data) {
-                                                                $('#review-flag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> UnFlag');
-                                                                $('#review-flag-b-{{$review->id}}').attr('id', 'review-unflag-b-{{$review->id}}');
-                                                            }
-                                                        });
-                                                    }); */
-                                                    //unflag review -- need to refresh to unflag
-                                                    /*$('#review-unflag-b-{{$review->id}}').click(function(e){
-                                                        e.preventDefault();
-                                                        var token = $('#token-unflag-{{$review->id}}').val();
-
-                                                        $.ajax({
-                                                            type: "DELETE",
-                                                            data: "_token=" + token + "method=DELETE",
-                                                            url: "{{route('review.unflag', $review->id)}}",
-                                                            success: function(data) {
-                                                                $('#review-unflag-b-{{$review->id}}').html('<i class="fa fa-flag-o" aria-hidden="true"></i> Flag');
-                                                                $('#review-unflag-b-{{$review->id}}').attr('id', 'review-flag-b-{{$review->id}}');
-                                                            }
-                                                        });
-                                                    }); */ 
-                                                });
-                                            </script>
+                                                    </script>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            @if($review->replies->count() > 0)
+                                                <h3 class="mt-4 mb-3 underline">Replies</h3>
+                                                @foreach($review->replies as $reply)
+                                                <div class="media mt-5">
+                                                    <div class="media-body push-left">
+                                                        @if($review->review_privacy === 'public' && $reply->user->id != $company->user_id)
+                                                        <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
+                                                        @elseif($review->review_privacy === 'private' && $reply->user->id != $company->user_id)
+                                                        <h5 class="mt-0">Anonymous</h5>
+                                                        @elseif($reply->user->id == $company->user_id)
+                                                        <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
+                                                        @endif
+                                                        <p>{{$reply->content}}</p>
+                                                        <ul class="review-content-social">
+                                                          <li><a href=""><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+                                                          <li><a href=""><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a></li>
+                                                          <li><a href="#" class="btn btn-blue btn-yellow"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
+                                                          <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                @endforeach
                                             @endif
                                         </div>
                                         <div class="col-lg-3 col-md-12">
@@ -965,4 +1003,48 @@
     </div>
 </div>
 @endif
+
+<div class="modal fade modal-fullscreen modal-add-reply" id="add-reply" tabindex="-1" role="dialog" aria-labelledby="add-reply" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="modal-title">Reply to <span class="company-name"></span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('add.reply.toreview')}}" method="POST" class="form-signin my-4" enctype="multipart/form-data">
+                    {{csrf_field()}}
+                    <div class="row">
+                        <div class="col">
+                            <label>Reply Content:</label>
+                            <div class="form-group">
+                                <textarea class="form-control" name="reply" placeholder="Reply Content"></textarea>
+                                <input type="hidden" class="rev_id" name="rev_id" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4"><button type="submit" class="btn btn-blue btn-yellow">Reply to review</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.add-reply').on('click', function(){
+        var rev_id = $(this).closest('.review-info').find('.info-id').attr('rev-id');
+        var rev_user = $(this).closest('.review-info').find('.info-user').attr('rev-user');
+
+        $('.modal-add-reply').find('.modal-title span').text(rev_user);
+        $('.modal-add-reply').find('.modal-body .rev_id').val(rev_id);
+    });
+});
+</script>
 @endsection

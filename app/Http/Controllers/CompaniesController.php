@@ -13,6 +13,7 @@ use App\Bookmark;
 use App\MyFile;
 use App\User;
 use App\Claim;
+use App\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Image;
@@ -23,7 +24,8 @@ use GeoIP;
 
 class CompaniesController extends Controller
 {   
-
+    public $old_profile_relevance_score = 0;
+    public $specialities_count_before = 0;
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +50,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->where('city', Auth::user()->user_city)->latest()->paginate(10);
+            $companies = $company->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
         }else {
             //this will be changed to the selected country from the menu
 
@@ -58,7 +60,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->latest()->paginate(10);
+            $companies = $company->orderBy('relevance_score', 'desc')->paginate(10);
         }   
         
         return view('front.company.index', compact('companies', 'hasCompany', 'specialities', 'industries', 'featured_companies'));
@@ -150,6 +152,10 @@ class CompaniesController extends Controller
                 //sync project specialities
                 $company->specialities()->sync($specs_ids, false);
 
+                //if company have specialities
+                if($company->specialities()->count() > 0) {
+                    $company->addRelevanceScore(5, $company->id);
+                }
                 //change current user to company role
                 $roles = new Role;
                 $role = $roles->where('name', 'company')->pluck('id');
@@ -188,7 +194,6 @@ class CompaniesController extends Controller
         //get suppliers reviews
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
-
         
         return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews'));
     }
@@ -235,6 +240,14 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, Company $company)
     {   
+        $old_profile_relevance_score = $this->old_profile_relevance_score;
+
+        $old_profile_completion = array($company->company_description, $company->linkedin_url, $company->company_website,
+        $company->company_phone, $company->location, $company->company_email, $company->company_size,
+        $company->company_tagline, $company->year_founded, $company->reg_number, $company->reg_doc);
+
+        $old_profile_relevance_score += count(array_filter($old_profile_completion));
+
         $company->company_name = $company->company_name;
         $company->company_description = $request['company_description'];
         $company->company_tagline = $request['company_tagline'];
@@ -273,6 +286,9 @@ class CompaniesController extends Controller
             }
 
         }
+        $specialities_count_before = $this->specialities_count_before;
+        $specialities_count_before += $company->specialities()->count();
+
         $company->update();
 
         $specs = explode(',', $request['hidden-speciality_id']);
@@ -292,17 +308,25 @@ class CompaniesController extends Controller
         $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
         //sync project specialities
         $company->specialities()->sync($specs_ids, true);
+        //if company have specialities
+        if($specialities_count_before == 0 && $company->specialities()->count() > 0) {
+            $company->addRelevanceScore(5, $company->id);
+        }
         //make the company sluggable
         $sluggable = $company->replicate();
         //relevance scoring
-        /*$profile_completion = array($company->company_description, $company->linkedin_url, $company->company_website,
+
+        $profile_completion = array($company->company_description, $company->linkedin_url, $company->company_website,
         $company->company_phone, $company->location, $company->company_email, $company->company_size,
         $company->company_tagline, $company->year_founded, $company->reg_number, $company->reg_doc);
 
+        $current = count(array_filter($profile_completion));
+        $current_score = $company->relevance_score;        
         if($company->user_id != 0) {
-            $current = count(array_filter($profile_completion));
-            dd($old);
-        }*/
+            $value = $current_score + ($current - $old_profile_relevance_score);
+            $company->update(['relevance_score' => $value]);
+        }
+
         // redirect to the home page
         session()->flash('success', 'Your company has been updated.');
 
@@ -451,6 +475,9 @@ class CompaniesController extends Controller
         $company_reviews = Review::where('company_id', $company->id)->get();
         foreach($company_reviews as $review) {
             $review->delete();
+            foreach($review->replies as $reply) {
+                $reply->delete();
+            }
         }
         
         //delete claims
@@ -731,6 +758,8 @@ class CompaniesController extends Controller
     {   
         $company->is_promoted = 1;
 
+        $company->addRelevanceScore(8, $company->id);
+
         $company->update();
 
         return back();
@@ -739,6 +768,8 @@ class CompaniesController extends Controller
     public function unpromote(Company $company)
     {
         $company->is_promoted = 0;
+
+        $company->addRelevanceScore(-8, $company->id);
         
         $company->update();
 
@@ -749,6 +780,8 @@ class CompaniesController extends Controller
     {   
         $company->is_verified = 1;
 
+        $company->addRelevanceScore(30, $company->id);
+
         $company->update();
 
         return back();
@@ -757,6 +790,8 @@ class CompaniesController extends Controller
     public function unverify(Company $company)
     {
         $company->is_verified = 0;
+
+        $company->addRelevanceScore(-30, $company->id);
         
         $company->update();
 

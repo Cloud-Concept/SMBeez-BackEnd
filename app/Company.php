@@ -11,6 +11,9 @@ use App\Bookmark;
 class Company extends Model
 {	
 	use Sluggable;
+
+    protected $fillable = ['relevance_score'];
+
     /**
     * Return the sluggable configuration array for this model.
     *
@@ -184,35 +187,7 @@ class Company extends Model
         ->pluck('id')
         ->first();
     }
-    //relevance scroring
-    /*public function RelevanceScore() {   
-        $profile_completion = array($this->company_description, $this->linkedin_url, $this->company_website,
-        $this->company_phone, $this->location, $this->company_email, $this->company_size,
-        $this->company_tagline, $this->year_founded, $this->reg_number, $this->reg_doc);
-        //get project count if user id is not 0
-        $scores = array();
-        if($this->user_id != 0) {
-            $projects_count = $this->user->projects->whereIn('status', array('publish', 'closed'))->count();
-            $company_reviews_count = $this->reviews->count();
-            $rating = $this->company_overall_rating($this->id);
-            
-            $scores[] = $projects_count;
-        
 
-        $i = 0;
-
-        foreach ($scores as $score) {
-            if($score != null) {
-                $i++;
-            }
-        }
-
-        }
-
-        return $i;
-        
-        
-    }*/
     public static function addRelevanceScore($score, $company_id) {
         $company = Company::where('id', $company_id);
         $current = $company->pluck('relevance_score')->first();

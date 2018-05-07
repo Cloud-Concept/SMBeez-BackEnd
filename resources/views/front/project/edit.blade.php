@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group">
                                 <h4>Project Description:</h4>
-                                <textarea name="project_description" class="form-control" id="project_description" required>{{ strip_tags($project->project_description) }}</textarea>
+                                <textarea name="project_description" class="form-control" id="project_description" required>{!! strip_tags($project->project_description) !!}</textarea>
                             </div>
                         </div>
                         <br>

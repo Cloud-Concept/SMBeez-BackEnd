@@ -75,7 +75,8 @@ class ReviewsController extends Controller
             Company::addRelevanceScore(5, $review->company_id);
         }
 
-        Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+        //Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+
 
         return back();
     }
@@ -120,7 +121,7 @@ class ReviewsController extends Controller
             Company::addRelevanceScore(5, $review->company_id);
         }
 
-        Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+        //Mail::to($review->user->email)->send(new ReviewSubmitted($review));
         
         return back();
     }

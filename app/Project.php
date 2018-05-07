@@ -9,6 +9,7 @@ use App\Interest;
 class Project extends Model
 {
     protected $dates = ['close_date'];
+    protected $fillable = ['relevance_score'];
 
     use Sluggable;
     /**
@@ -96,6 +97,12 @@ class Project extends Model
         ->where('bookmark_type', 'App\Project')
         ->pluck('id')
         ->first();
+    }
+
+    public static function addRelevanceScore($score, $project_id) {
+        $project = Project::where('id', $project_id);
+        $current = $project->pluck('relevance_score')->first();
+        return $project->update(array('relevance_score' => $current + $score));
     }
 
     //use slug to get project

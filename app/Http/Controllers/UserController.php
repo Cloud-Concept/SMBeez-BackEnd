@@ -168,6 +168,9 @@ class UserController extends Controller
             $company_reviews = Review::where('company_id', $user->company->id)->get();
             foreach($company_reviews as $review) {
                 $review->delete();
+                foreach($review->replies as $reply) {
+                    $reply->delete();
+                }
             }
             
             //delete claims
@@ -401,6 +404,37 @@ class UserController extends Controller
         }
     }
 
+    public function supplier_reviews(User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            $user_reviews = $user->reviews()->where('reviewer_relation', 'supplier')->paginate(3);
+            return view('front.users.settings.reviews', compact('user', 'user_reviews'));
+
+        }
+    }
+
+    public function customer_reviews(User $user)
+    {   
+        //if trying to access the edit profile
+        //and you are not the owner redirect to home
+
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+
+        }else {
+            $user_reviews = $user->reviews()->where('reviewer_relation', 'customer')->paginate(3);
+            return view('front.users.settings.reviews', compact('user', 'user_reviews'));
+
+        }
+    }
 
     public function review_update(Request $request, User $user, Review $review)
     {   
@@ -438,6 +472,10 @@ class UserController extends Controller
 
         }else {
             $review->delete();
+
+            foreach($review->replies as $reply) {
+                $reply->delete();
+            }
 
             return back();
 

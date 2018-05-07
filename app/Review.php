@@ -24,6 +24,10 @@ class Review extends Model
         return $this->hasMany(ReviewFlags::class);
     }
 
+    public function replies() {
+        return $this->hasMany(Reply::class);
+    }
+
     //Review Impression Like or Unlike
     public function impression($review_id)
     {   
