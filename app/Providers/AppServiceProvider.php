@@ -19,30 +19,36 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         // Register a composer with the name of the view when it's loaded in our case the view is layouts.main-menu
-        view()->composer(['layouts.main-menu', 'front.home', 'front.users.myprojects', 'front.users.opportunities', 'front.users.messages', 'front.users.bookmarks', 'front.users.settings.basic-info', 'front.users.settings.location', 'front.users.profile', 'layouts.about'], function ($view) {
+        view()->composer(['layouts.main-menu', 'front.home', 'layouts.footer', 'front.users.myprojects', 'front.users.opportunities', 'front.users.messages', 'front.users.show-message', 'front.users.bookmarks', 'front.users.companies-bookmarks', 'front.users.opportunities-bookmarks', 'front.users.settings.basic-info', 'front.users.settings.location', 'front.users.profile', 'layouts.about'], function ($view) {
             // set the view industries from industries method
             $company = new \App\Company;
-            $view->with('industries', \App\Industry::with('projects')->orderBy('industry_name', 'asc')->get());
+            if($company->has_company()) {
+                $view->with('industries', \App\Industry::with('projects')->whereIn('display', ['projects', 'both'])->orderBy('industry_name', 'asc')->get());
+            }else{
+                $view->with('industries', \App\Industry::with('companies')->whereIn('display', ['companies', 'both'])->orderBy('industry_name', 'asc')->get());
+            }
             $view->with('hascompany',   $company->has_company());
             $view->with('mycompany', $company->where('user_id', auth()->id())->first());
         });
 
         // register a composer for filter sidebar
-        view()->composer('layouts.filter-sidebar-opportunities', function ($view) {
+        view()->composer(['layouts.filter-sidebar-opportunities', 'admin.project.edit'], function ($view) {
             // set the view industries from industries method
+            $view->with('industry', new \App\Industry);
             $view->with('specialities', \App\Speciality::with('projects')->get());
             $view->with('industries', \App\Industry::with('projects')
+                ->whereIn('display', ['projects', 'both'])
                 ->orderBy('industry_name', 'asc')
                 ->get()
             );
         });
-
-        // register a composer for filter sidebar
-        view()->composer(['layouts.filter-sidebar-companies', 'layouts.footer', 'front.home', 'admin.company.create', 'admin.company.edit', 'admin.project.edit'], function ($view) {
+        //things related to companies
+        view()->composer(['layouts.filter-sidebar-companies', 'admin.company.create', 'admin.company.edit'], function ($view) {
             // set the view industries from industries method
             $view->with('industry', new \App\Industry);
             $view->with('specialities', \App\Speciality::with('companies')->get());
             $view->with('industries', \App\Industry::with('companies')
+                ->whereIn('display', ['companies', 'both'])
                 ->orderBy('industry_name', 'asc')
                 ->get()
             );

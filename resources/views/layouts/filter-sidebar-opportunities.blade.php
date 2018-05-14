@@ -9,13 +9,12 @@
             </div>
             <br>
             @if(Auth::guest() || !$hasCompany)
-            <select name="industry" class="custom-select mb-2 mr-sm-2 mb-sm-0 w-100 multi-select">
+            <select name="industry" class="custom-select mb-2 mr-sm-2 mb-sm-0 w-100">
                 <option value="">All Industries</option>
 
-                <!-- @foreach($industries as $key => $getindustry)
+                @foreach($industries as $key => $getindustry)
                 <option value="{{$getindustry->id}}" {{$getindustry->id == $industry->id ? 'selected' : ''}} {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>
-                @endforeach -->
-                <option value="1">IT and Communication</option>
+                @endforeach
             </select>
             @elseif(!Auth::guest() || $hasCompany)
                 <div class="search-filter mb-4">

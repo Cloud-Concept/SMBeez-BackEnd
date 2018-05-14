@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 use Mail;
+use Auth;
 use App\Mail\ProjectCreated;
 use App\Mail\ProjectPublished;
 
@@ -182,6 +183,8 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {   
+        $company = new Company;
+        $hasCompany = $company->where('user_id', Auth::id())->first();
         //if access deleted project redirect home
         if($project->status == 'deleted') return redirect(route('home'));
         //get projects within the same industry
@@ -194,7 +197,7 @@ class ProjectsController extends Controller
         ->where('user_id', '!=', auth()->id())
         ->take(4)->get();
 
-        return view('front.project.show', compact('project', 'relatedprojects'));
+        return view('front.project.show', compact('project', 'relatedprojects', 'hasCompany'));
     }
 
     /**

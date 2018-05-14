@@ -37,7 +37,7 @@ class CompaniesController extends Controller
         $user = Auth::user();
 
         $hasCompany = $company->where('user_id', Auth::id())->first();
-        $industries = Industry::all();
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
         $speciality = new Speciality;
         $specialities = $speciality->all();
         //if user logged in so get companies from his profile city
@@ -78,7 +78,7 @@ class CompaniesController extends Controller
             return redirect(route('front.company.all'));
         }else {
             $industries = new Industry;
-            $industries = $industries->orderBy('industry_name')->get();
+            $industries = $industries->whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
             $speciality = new Speciality;
             $specialities = $speciality->all();
             return view('front.company.create', compact('industries', 'specialities'));
@@ -375,6 +375,8 @@ class CompaniesController extends Controller
         $company->update();
 
         return back();
+
+        //return json_encode($company->update());
     }
     
     //Stage 1 for claim company
@@ -803,14 +805,37 @@ class CompaniesController extends Controller
     public function show_industry(Industry $industry)
     {   
         $company = new Company;
-        $hasCompany = $company->where('user_id', Auth::id())->first();
-        $featured_companies = $company->where('is_promoted', 1)
-        ->where('status', '!=', '0')
-        ->orderBy(DB::raw('RAND()'))
-        ->take(2)
-        ->get();
+        $user = Auth::user();
 
-        return view('front.company.showindustry', compact('hasCompany', 'featured_companies', 'industry'));
+        $hasCompany = $company->where('user_id', Auth::id())->first();
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
+        $speciality = new Speciality;
+        $specialities = $speciality->all();
+        //if user logged in so get companies from his profile city
+        if($user) {
+            
+            $featured_companies = $company->where('is_promoted', 1)
+            ->where('industry_id', $industry->id)
+            ->where('status', '!=', '0')
+            ->where('city', Auth::user()->user_city)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+            $companies = $company->where('industry_id', $industry->id)->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
+        }else {
+            //this will be changed to the selected country from the menu
+
+            $featured_companies = $company->where('is_promoted', 1)
+            ->where('status', '!=', '0')
+            ->orderBy(DB::raw('RAND()'))
+            ->take(2)
+            ->get();
+
+            $companies = $company->where('industry_id', $industry->id)->orderBy('relevance_score', 'desc')->paginate(10);
+        }   
+        
+        return view('front.company.index', compact('companies', 'hasCompany', 'specialities', 'industries', 'featured_companies'));
     }
 
     public function clear_reviews(Company $company)

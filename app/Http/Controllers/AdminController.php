@@ -15,12 +15,24 @@ class AdminController extends Controller
 {
 	//redirect to admin dashboard
     public function index()
-    {
+    {   
+        $user = auth()->user();
+
+        if(!$user->hasRole(['superadmin', 'administrator'])) {
+            return redirect()->route('home');
+        }
+
         return redirect()->route('admin.dashboard');
     }
     //view admin dashboard
     public function dashboard()
     {   
+        $user = auth()->user();
+
+        if(!$user->hasRole(['superadmin', 'administrator'])) {
+            return redirect()->route('home');
+        }
+
         $users = User::count();
         $companies = Company::with('users')->count();
         $customer_reviews = Review::with('companies')->where('reviewer_relation', 'customer')->count();

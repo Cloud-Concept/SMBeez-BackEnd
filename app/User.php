@@ -53,11 +53,11 @@ class User extends Authenticatable
 
     //project relationship
     public function projects() {
-        return $this->hasMany(Project::class)->where('status', '!=', 'deleted');
+        return $this->hasMany(Project::class)->where('status', '!=', 'deleted')->latest();
     }
     //interests relationship
     public function interests() {
-        return $this->hasMany(Interest::class);
+        return $this->hasMany(Interest::class)->latest();
     }
     //reviews relationship
     public function reviews() {
@@ -73,7 +73,7 @@ class User extends Authenticatable
     }
     //messages relationship
     public function messages() {
-        return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Message::class)->latest();
     }
     //bookmarks relationship
     public function bookmarks() {

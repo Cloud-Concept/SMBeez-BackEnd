@@ -25,10 +25,9 @@
                                 <div class="form-group">
                                     <label for="">Industry *</label>
                                     <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
-                                        <!-- @foreach($industries as $industry)
+                                        @foreach($industries as $industry)
                                         <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
-                                        @endforeach -->
-                                        <option value="1">IT and Communication</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -56,6 +55,7 @@
                                         <input type="file" id="supportive_docs" name="supportive_docs[]" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar" multiple> 
                                         <span class="custom-file-control" data-label="Upload Project Documents"></span>
                                     </label>
+                                    <p class="form-guide">Hold the CTRL button to select multiple files.</p>
                                     <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF, Zip, .rar</p>
                                 </div>
                             </div>

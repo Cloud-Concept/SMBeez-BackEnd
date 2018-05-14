@@ -35,9 +35,19 @@
                             </label>
                         </p>
                         <br>
-                        @if($industry->industry_img_url)
-                        <div class="media">
-                            <img src="{{asset($industry->industry_img_url)}}" alt="">
+                        <p class="form-group">
+                            <label for="">Display In</label>
+                            <select name="display" class="form-control custom-select d-block">
+                                <option value="">Choose Display</option>
+                                @foreach($display as $key => $value)
+                                <option value="{{$key}}" {{$industry->display == $key ? 'selected' : ''}}>{{$value}}</option>
+                                @endforeach
+                            </select>
+                        </p>
+                        <br>
+                        @if(file_exists(public_path($industry->industry_img_url)))
+                        <div class="media clearfix">
+                            <img width="100%" src="{{asset($industry->industry_img_url)}}" alt="">
                         </div>
                         @endif
                         <br>

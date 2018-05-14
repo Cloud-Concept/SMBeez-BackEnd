@@ -21,10 +21,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <div class="alert alert-secondary alert-dismissible fade show my-4 text-center" role="alert">
-                        <h2>You have <b>(132)</b> pedding support tickets</h2>
-                        <a href="" class="btn btn-blue btn-yellow text-capitalize mt-3">Resolve Tickets</a>
-                    </div>
                     <div class="row equal overview-blocks">
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
@@ -35,7 +31,7 @@
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$companies}}</p>
-                                <p><a href="">Companies</a></p>
+                                <p><a href="{{route('admin.companies')}}">Companies</a></p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -53,25 +49,25 @@
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$projects}}</p>
-                                <p><a href="">Published Projects</a></p>
+                                <p><a href="{{route('admin.projects')}}">Published Projects</a></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$completed_projects}}</p>
-                                <p><a href="">Completed Projects</a></p>
+                                <p><a href="{{route('admin.projects')}}">Completed Projects</a></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$industries}}</p>
-                                <p><a href="">Industries</a></p>
+                                <p><a href="{{route('admin.industries')}}">Industries</a></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$specialities}}</p>
-                                <p><a href="">Specialities</a></p>
+                                <p><a href="{{route('admin.specialities')}}">Specialities</a></p>
                             </div>
                         </div>
                     </div>
