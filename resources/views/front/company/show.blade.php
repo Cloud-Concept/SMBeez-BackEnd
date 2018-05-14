@@ -21,20 +21,20 @@
                 <div class="col-lg-4">
                     <div class="box-block-white vcard vcard-company">
                         <h4>
-                            @if($company->logo_url)
+                            @if($company->logo_url && file_exists(public_path('/') . $company->logo_url))
                             <img src="{{ asset($company->logo_url) }}" alt="{{$company->company_name}} Logo">
                             @endif
                             <!-- <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> -->
                         </h4>
                         <div class="media">
-                            @if($company->cover_url)
+                            @if($company->cover_url  && file_exists(public_path('/') . $company->cover_url))
                             <img class="img-fluid img-full" src="{{ asset($company->cover_url) }}" alt="">
                             @endif
                         </div>
                         <div class="p-3">
                             <h2 class="mt-2">@if($company->is_verified == 1) <i class="fa fa-check" aria-hidden="true" style="color:#00c875"></i> @endif {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
-                                <li>Industry: <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
+                                <li>Industry: <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
                                 @if($company->specialities->count() > 0)
                                 <li>Speciality: <span>
                                     @foreach($company->specialities as $speciality)
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="hero-company-details" style="background: url({{asset($company->industry->industry_img_url)}}) no-repeat 100% 100%;">
+                    <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url)) ? asset($company->industry->industry_img_url) : ''}}) no-repeat 100% 100%;">
                         <h1 class="w-50">{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">

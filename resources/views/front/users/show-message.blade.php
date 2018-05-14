@@ -46,47 +46,36 @@
                             <li class="breadcrumb-item active" aria-current="page">Messages</li>
                         </ol>
                     </nav>
-                    <div class="row equal infinite-scroll">
-                    @if($user->messages->count() > 0)
-                        @foreach($user_messages as $message)
-                            @if($message->message_company_exists($message->sender_id))
-                                <div id="message-{{$message->interest_id}}" class="message-block">
-                                    <div class="message-intro my-3">
-                                        <p class="tags"><b><i>Subject</i>:</b> {!!$message->subject!!}</p>
-                                        <p class="tags"><b><i>Date</i>:</b> <span>{{$message->created_at->diffForHumans()}}</span></p>
-                                        @if(!is_null($message->interest_id))
-                                            <div class="btn-list mt-3 mb-4">
-                                                @if($message->interest_status($message->interest_id) === 1)
-                                                    <p>Accepted</p>
-                                                @elseif($message->interest_status($message->interest_id) === 0)
-                                                    <p>Declined</p>
-                                                @elseif($message->interest_status($message->interest_id) === false)
-                                                    <p>Interest withdrawn by the supplier.</p>
-                                                @else
-                                                    <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$message->interest_id}}').submit();">Accept</button>
-                                                    <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$message->interest_id}}').submit();">Decline</button>
-                                                    <form id="accept-interest-{{$message->interest_id}}" action="{{route('accept.interest', $message->interest_id)}}" method="post" class="write-review">
-                                                        {{csrf_field()}}
-                                                    </form> 
-                                                    <form id="decline-interest-{{$message->interest_id}}" action="{{route('decline.interest', $message->interest_id)}}" method="post" class="write-review">
-                                                        {{csrf_field()}}
-                                                    </form>
-                                                @endif
-                                            </div>
-                                        @endif
-                                        
-                                    </div>
-                                    <div class="message-interest mb-5">
-                                        {!!$message->message!!}
-                                    </div>
+                    
+                    <div id="message-{{$message->interest_id}}" class="message-block">
+                        <div class="message-intro my-3">
+                            <p class="tags"><b><i>Subject</i>:</b> {!!$id->subject!!}</p>
+                            <p class="tags"><b><i>Date</i>:</b> <span>{{$id->created_at->diffForHumans()}}</span></p>
+                            @if(!is_null($id->interest_id))
+                                <div class="btn-list mt-3 mb-4">
+                                    @if($id->interest_status($id->interest_id) === 1)
+                                        <p>Accepted</p>
+                                    @elseif($id->interest_status($id->interest_id) === 0)
+                                        <p>Declined</p>
+                                    @elseif($id->interest_status($id->interest_id) === false)
+                                        <p>Interest withdrawn by the supplier.</p>
+                                    @else
+                                        <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$id->interest_id}}').submit();">Accept</button>
+                                        <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$id->interest_id}}').submit();">Decline</button>
+                                        <form id="accept-interest-{{$id->interest_id}}" action="{{route('accept.interest', $id->interest_id)}}" method="post" class="write-review">
+                                            {{csrf_field()}}
+                                        </form> 
+                                        <form id="decline-interest-{{$id->interest_id}}" action="{{route('decline.interest', $id->interest_id)}}" method="post" class="write-review">
+                                            {{csrf_field()}}
+                                        </form>
+                                    @endif
                                 </div>
-                                <hr>
                             @endif
-                        @endforeach
-                        {{$user_messages->links()}}
-                    @else
-                        <p>You don’t have any messages yet</p>
-                    @endif
+                            
+                        </div>
+                        <div class="message-interest mb-5">
+                            {!!$id->message!!}
+                        </div>
                     </div>
                     <!-- <div class="alert alert-secondary alert-dismissible fade show" role="alert">
                         <h3><i class="fa fa-thumb-tack fa-rotate-45" aria-hidden="true"></i> Tips</h3>

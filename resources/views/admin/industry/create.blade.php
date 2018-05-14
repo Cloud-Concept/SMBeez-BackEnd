@@ -34,6 +34,15 @@
                                 <span class="custom-file-control" data-label="Industry Image"></span>
                             </label>
                         </p>
+                        <p class="form-group">
+                            <label for="">Display In</label>
+                            <select name="display" class="form-control custom-select d-block">
+                                <option value="">Choose Display</option>
+                                <option value="both">Companies & Projects</option>
+                                <option value="companies">Companies Only</option>
+                                <option value="projects">Projects Only</option>
+                            </select>
+                        </p>
                         <input type="submit" class="btn btn-primary" value="Submit">
                     </form>
                 </div>

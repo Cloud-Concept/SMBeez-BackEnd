@@ -35,6 +35,8 @@
                                         <option value="Dubai">Dubai</option>
                                     </select>
                                 </div>
+                                <p class="form-guide">“SMBeez is now covering Dubai city only, we will be adding more cities very soon. Stay Tuned!”</p>
+                                <br>
                                 <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize">Save Changes</button></div>
                             </form>
                         </div>

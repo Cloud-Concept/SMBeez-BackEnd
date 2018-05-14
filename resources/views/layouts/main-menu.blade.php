@@ -11,7 +11,7 @@
     @else
     <li class="nav-item dropdown usernav">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @if(Auth::user()->profile_pic_url)
+            @if(Auth::user()->profile_pic_url && file_exists(public_path('/') . Auth::user()->profile_pic_url))
                 <img src="{{asset(Auth::user()->profile_pic_url)}}">
             @else
                 <img width="48" height="48" src="{{asset('images/common/user.svg')}}">

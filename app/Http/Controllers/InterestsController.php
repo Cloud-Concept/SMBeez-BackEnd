@@ -53,12 +53,11 @@ class InterestsController extends Controller
         $user = auth()->user();
         $user_company = route('front.company.show', $user->company->slug);
         $project_url = route('front.project.show', $interest->project->slug);
-        $project_edit_url = route('front.project.edit', $interest->project->slug);
         $subject = $user->first_name . ' from <a href='.$user_company.' target="_blank">' . $user->company->company_name . '</a> expressed interest on your project <a href='.$project_url.' target="_blank">' . $interest->project->project_title . '</a>';
         
         $message_content = '<div class="btn-list mt-3 mb-4">
         <h5 class="mb-2 mt-4">What else would you like to do? ...</h5>
-        <div class="btn-list mt-3 mb-4"><a href="'.$user_company.'" target="_blank" class="btn btn-sm btn-yellow-2 mr-3">View Supplier Info</a> <a href="'.$project_edit_url.'" class="btn btn-sm btn-blue btn-yellow">Update Project Details</a></div>';
+        <div class="btn-list mt-3 mb-4"><a href="'.$user_company.'" target="_blank" class="btn btn-sm btn-yellow-2 mr-3">View Supplier Info</a></div>';
 
         $message->message = $message_content;
         $message->subject = $subject;

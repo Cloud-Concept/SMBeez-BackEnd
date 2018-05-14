@@ -23,7 +23,7 @@
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.user.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add New User</a></div>
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); var r = confirm('Are you sure you want to delete this user ?'); if (r == true) {document.getElementById('delete-form-{{$user->id}}').submit();}"><i class="fa fa-minus-circle fa-3x" aria-hidden="true"></i> Delete This User</a></div>
                     <br>
-                    @if($user->profile_pic_url)
+                    @if($user->profile_pic_url && file_exists(public_path('/') . $user->profile_pic_url))
                         <img src="{{asset($user->profile_pic_url)}}" />
                         <br>
                     @endif

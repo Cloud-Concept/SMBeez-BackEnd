@@ -81,13 +81,13 @@
 
                             </li>
                         </ul>
-                        @if(\Laratrust::hasRole('company|superadmin') && !$project->has_interest() && !$project->is_owner(Auth::user()->id))
+                        @if($hasCompany && !$project->has_interest() && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
                             <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Express Interest</button></div>
                         </form>
-                        @elseif($project->has_interest() && \Laratrust::hasRole('company|superadmin') && !$project->is_owner(Auth::user()->id))
+                        @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
                             {{csrf_field()}}
                             {{ method_field('DELETE') }}
@@ -191,16 +191,18 @@
                     <div class="download-box d-flex justify-content-between align-items-center">
                         <div>
                         @foreach($project->files as $file)
-                            <p class="list-item more-inf"><a href="{{asset('projects/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
+                            @if(file_exists(public_path('/projects/files/'. $file->file_path)))
+                                <p class="list-item more-inf"><a href="{{asset('projects/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
+                            @endif
                         @endforeach
                         </div>
-                        @if(\Laratrust::hasRole('company|superadmin') && !$project->has_interest() && !$project->is_owner(Auth::user()->id))
+                        @if($hasCompany && !$project->has_interest() && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
                             <button type="submit" class="btn btn-blue btn-yellow">Express Interest</button>
                         </form>
-                        @elseif($project->has_interest() && \Laratrust::hasRole('company|superadmin') && !$project->is_owner(Auth::user()->id))
+                        @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
                             {{csrf_field()}}
                             {{ method_field('DELETE') }}

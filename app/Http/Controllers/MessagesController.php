@@ -16,7 +16,9 @@ class MessagesController extends Controller
     {
         $user = auth()->user();
 
-        return view('front.users.messages', compact('user'));
+        $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->paginate(10);
+
+        return view('front.users.messages', compact('user', 'user_messages'));
     }
 
     /**
@@ -46,9 +48,17 @@ class MessagesController extends Controller
      * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $message)
-    {
-        //
+    public function show(Message $id)
+    {   
+        $user = auth()->user();
+
+        $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->paginate(15);
+
+        if($id->user_id === $user->id) {
+            return view('front.users.show-message', compact('id', 'user', 'user_messages'));
+        }else {
+            return redirect(route('front.messages.index'));
+        }
     }
 
     /**

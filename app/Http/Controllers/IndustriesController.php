@@ -98,6 +98,7 @@ class IndustriesController extends Controller
         $industry = new Industry;
 
         $industry->industry_name = $request['industry_name'];
+        $industry->display = $request['display'];
 
         if($request->hasFile('industry_img_url')) {
 
@@ -147,7 +148,7 @@ class IndustriesController extends Controller
 
         }
 
-        $industries = $industry->all();
+        $industries = $industry->whereIn('display', ['projects', 'both'])->orderBy('industry_name')->get();
         
         $companies = $company->all();
         
@@ -159,7 +160,10 @@ class IndustriesController extends Controller
 
         if(Auth::user()) {
 
-            $industry_projects = $project->with('industries')->where('status', 'publish')
+            $industry_projects = $project->with('industries')->whereHas('industries', function ($q) use ($industry) {
+                $q->where('industries.id', $industry->id);
+            })
+            ->where('status', 'publish')
             ->where('city', auth()->user()->user_city)->latest()->paginate(10);
 
             //show featured projects from the same industry
@@ -175,7 +179,10 @@ class IndustriesController extends Controller
 
         }else {
 
-            $industry_projects = $project->with('industries')->where('status', 'publish')
+            $industry_projects = $project->with('industries')->whereHas('industries', function ($q) use ($industry) {
+                $q->where('industries.id', $industry->id);
+            })
+            ->where('status', 'publish')
             ->latest()->paginate(10);
 
             $featured_projects = $project->whereHas('industries', function ($q) use ($industry) {
@@ -192,63 +199,6 @@ class IndustriesController extends Controller
 
         return view('front.industry.show', compact('industries', 'industry', 'hasCompany', 'industry_projects', 'companies', 'featured_projects', 'specialities'));
     }
-
-    public function showCompanies(Industry $industry)
-    {   
-        $company = new Company;
-        //check if the user has a company
-        $hasCompany = $company->where('user_id', Auth::id())->first();
-
-        //get the current user company if the user already has company
-        if(!Auth::guest() && $hasCompany) {
-
-            $user_company = Auth::user()->company;
-
-            if($user_company->industry->id != $industry->id) {
-                return redirect(route('front.industry.companies', $user_company->industry->slug));
-            }
-
-        }
-
-        $industries = $industry->all();
-                
-        $company = new Company;
-
-        $speciality = new Speciality;
-
-        $specialities = $speciality->all();
-
-        if(Auth::user()) {
-
-            $companies = $company->where('industry_id', $industry->id)->where('status', 1)
-            ->where('city', auth()->user()->user_city)->latest()->paginate(10);
-
-            //show featured projects from the same industry
-            $featured_companies = $company->where('industry_id', $industry->id)
-            ->where('is_promoted', 1)
-            ->where('status', 1)
-            ->where('city', Auth::user()->user_city)
-            ->orderBy(DB::raw('RAND()'))
-            ->take(2)
-            ->get();
-
-        }else {
-
-            $companies = $company->where('industry_id', $industry->id)->where('status', 1)
-            ->latest()->paginate(10);
-
-            $featured_companies = $company->where('industry_id', $industry->id)
-            ->where('is_promoted', 1)
-            ->where('status', 1)
-            ->orderBy(DB::raw('RAND()'))
-            ->take(2)
-            ->get();
-
-        }
-
-
-        return view('front.company.index', compact('industries', 'industry', 'hasCompany', 'companies', 'featured_companies', 'specialities'));
-    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -256,8 +206,9 @@ class IndustriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Industry $industry)
-    {
-        return view('admin.industry.edit', compact('industry'));
+    {   
+        $display = array('both' => 'Companies & Projects', 'companies' => 'Companies Only', 'projects' => 'Projects Only');
+        return view('admin.industry.edit', compact('industry', 'display'));
     }
 
     /**
@@ -270,6 +221,7 @@ class IndustriesController extends Controller
     public function update(Request $request, Industry $industry)
     {
         $industry->industry_name = $request['industry_name'];
+        $industry->display = $request['display'];
 
         if($request->hasFile('industry_img_url')) {
 

@@ -30,7 +30,7 @@
                         @foreach($featured_companies as $company)
                         <div class="col-md-6">
                             <div class="company-box box-block mb-5">
-                                @if($company->cover_url)
+                                @if($company->cover_url && file_exists(public_path('/') . $company->cover_url))
                                 <div>
                                 <img class="img-responsive" src="{{asset($company->cover_url)}}" alt="{{$company->company_name}}">
                                 </div>
@@ -77,7 +77,7 @@
                                 </div>
                                 <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
                                 <p class="tags">More in: 
-                                    <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
                                 @if($company->specialities->count() > 0)
                                 <p class="tags"><b>Specialities:</b>
@@ -184,7 +184,7 @@
                                 {{strip_tags(substr($company->location, 0, 55))}}
                                 </p>
                                 <p class="tags">More in:
-                                    <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
                                 @if($company->specialities->count() > 0)
                                 <p class="tags"><b>Specialities:</b> 

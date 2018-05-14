@@ -12,13 +12,39 @@ class BookmarksController extends Controller
     { 
     	$user = auth()->user();
 
-    	$bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company');
+    	$bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company')->take(4);
     	
-    	$bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project');
+    	$bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project')->take(4);
 
 
 
         return view('front.users.bookmarks', compact('bookmarked_companies', 'bookmarked_projects'));
+    }
+
+    public function companiesBookmarks()
+    { 
+        $user = auth()->user();
+
+        $bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company');
+        
+        $bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project');
+
+
+
+        return view('front.users.companies-bookmarks', compact('bookmarked_companies', 'bookmarked_projects'));
+    }
+
+    public function opportunitiesBookmarks()
+    { 
+        $user = auth()->user();
+
+        $bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company');
+        
+        $bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project');
+
+
+
+        return view('front.users.opportunities-bookmarks', compact('bookmarked_companies', 'bookmarked_projects'));
     }
 
     public function addBookmark(Bookmark $bookmark, Request $request)

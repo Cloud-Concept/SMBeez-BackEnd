@@ -57,7 +57,7 @@
                             <div class="edit-thumb-upload">
                                 <form id="update_logo" action="{{route('front.user.update_logo', $user->username)}}" method="POST" role="form" enctype="multipart/form-data">
                                     {{csrf_field()}}
-                                    @if($user->profile_pic_url)
+                                    @if($user->profile_pic_url && file_exists(public_path('/') . $user->profile_pic_url))
                                         <img src="{{asset($user->profile_pic_url)}}">
                                     @else
                                         <img src="{{asset('images/common/user.svg')}}">

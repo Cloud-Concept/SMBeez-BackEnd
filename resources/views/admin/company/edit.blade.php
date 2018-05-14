@@ -145,7 +145,7 @@
                                 </label>
                             </p>
                             <br>
-                            @if($company->logo_url)
+                            @if($company->logo_url && file_exists(public_path('/') . $company->logo_url))
                                 <img src="{{asset($company->logo_url)}}" alt="" class="company-logo">
                             @endif
                             <br>
@@ -158,11 +158,11 @@
                                 </label>
                             </p>
                             <br>
-                            @if($company->cover_url)
                             <div class="media">
-                                <img src="{{asset($company->cover_url)}}" alt="">
+                                @if($company->cover_url  && file_exists(public_path('/') . $company->cover_url))
+                                    <img class="img-fluid img-full" src="{{asset($company->cover_url)}}" alt="">
+                                @endif
                             </div>
-                            @endif
                             <br>
                             <p class="form-group">
                                 <label for="">Registration Documents</label>
@@ -173,7 +173,21 @@
                                 <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF, ZIP, RAR</p>
                             </p>
                             @if($company->reg_doc)
-                                <a href="{{asset('companies/files/' . $company->reg_doc)}}"><i class="fa fa-download" aria-hidden="true"></i> Download Company Documents</a> 
+                                @if($company->files->count() > 0)
+                                    <div class="download-box d-flex justify-content-between align-items-center">
+                                        <label>Uploaded Documents:</label>
+                                        <div>
+                                        @foreach($company->files as $file)
+                                            @if(file_exists(public_path('/companies/files/'. $file->file_path)))
+                                                <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('companies/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
+                                            @else
+                                                <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('companies/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> <strike>{{$file->file_name}}</strike> <i>(File Damaged Re-upload)</i></a></p>
+                                            @endif
+                                        @endforeach
+                                        </div>
+                                    
+                                    </div>
+                                @endif
                             @endif
                             <br>
                             <br>

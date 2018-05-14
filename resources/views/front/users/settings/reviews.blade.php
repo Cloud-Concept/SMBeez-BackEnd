@@ -40,33 +40,37 @@
 		                            {{ session('error') }}
 		                        </div>
 		                    @endif
-                            <table class="table table-striped my-4">
-                                <thead class="thead-blue">
-                                    <tr>
-                                        <th scope="col">Company Name</th>
-                                        <th colspan="2">Feedback <i class="fa fa-caret-down" aria-hidden="true"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                	@foreach($user_reviews as $review)
-                                    <tr>
-                                        <td scope="row">{{$review->company->company_name}}</td>
-                                        <td>{{substr($review->feedback, 0, 60)}}
-                                        	<br>
-                                        	{{$review->created_at->toFormattedDateString()}}
-                                        </td>
-                                        <td width="10%">
-                                            <div class="d-flex"><a href="" data-toggle="modal" data-target="#edit-review-{{$review->id}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a href="#" onclick="event.preventDefault(); document.getElementById('delete-{{$review->id}}').submit();" class="px-2"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
-                                        	<form id="delete-{{$review->id}}" action="{{route('front.user.review_delete', [$user->username, $review->id])}}" method="post">
-                								{{csrf_field()}}
-                								{{ method_field('DELETE') }}
-                							</form>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            {{$user_reviews->links()}}
+                                @if($user_reviews->count() > 0)
+                                <table class="table table-striped my-4">
+                                    <thead class="thead-blue">
+                                        <tr>
+                                            <th scope="col">Company Name</th>
+                                            <th colspan="2">Feedback <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	@foreach($user_reviews as $review)
+                                        <tr>
+                                            <td scope="row">{{$review->company->company_name}}</td>
+                                            <td>{{substr($review->feedback, 0, 60)}}
+                                            	<br>
+                                            	{{$review->created_at->toFormattedDateString()}}
+                                            </td>
+                                            <td width="10%">
+                                                <div class="d-flex"><a href="" data-toggle="modal" data-target="#edit-review-{{$review->id}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a href="#" onclick="event.preventDefault(); document.getElementById('delete-{{$review->id}}').submit();" class="px-2"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                                            	<form id="delete-{{$review->id}}" action="{{route('front.user.review_delete', [$user->username, $review->id])}}" method="post">
+                    								{{csrf_field()}}
+                    								{{ method_field('DELETE') }}
+                    							</form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                {{$user_reviews->links()}}
+                            @else
+                                <p>You don’t have any reviews yet.</p>
+                            @endif
                         </div>
                     </div>
                 </div>

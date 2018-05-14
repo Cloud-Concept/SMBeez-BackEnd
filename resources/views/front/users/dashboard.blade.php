@@ -48,16 +48,26 @@
                     <div class="sidebar-updates mt-5">
                         <h5 class="title-blue">Updates ({{$user->messages->count()}})</h5>
                         <ul class="list-group">
-                            @foreach($user->messages as $message)
-                                <li class="list-group-item">
-                                  @if($message->interest_id)
-                                      {{$message->created_at->diffForHumans()}} :
-                                      New Express Interest
-                                  @else
-                                      {{$message->subject}}
-                                  @endif
-                                </li>
-                            @endforeach                       
+                            @if($user->messages->count() > 0)
+                                @foreach($user_messages as $message)
+                                    <li class="list-group-item">
+                                        @if($message->interest_id)
+                                            @if($message->message_company_exists($message->sender_id))
+                                            <a href="{{route('front.messages.show', $message->id)}}">
+                                                {{$message->created_at->diffForHumans()}} :
+                                                {{strip_tags($message->subject, '')}}
+                                            </a>
+                                            @else
+                                            <p>Sender doesn't exist anymore</p>
+                                            @endif
+                                        @else
+                                            {{strip_tags($message->subject, '')}}
+                                        @endif
+                                    </li>
+                                @endforeach
+                            @else
+                                <li class="list-group-item">You don’t have any messages yet</li>
+                            @endif                       
                             <li class="list-group-item"><a href="{{route('front.messages.index')}}">All Messages</a></li>
                         </ul>
                     </div>

@@ -77,7 +77,10 @@ Route::prefix('user')->group(function() {
 	Route::post('/company/store', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@store'])->name('front.company.store');
 	Route::get('/company/create', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@create'])->name('front.company.create');
 	Route::get('/messages/all', 'MessagesController@index')->name('front.messages.index');
+	Route::get('/messages/{id}', 'MessagesController@show')->name('front.messages.show');
 	Route::get('/bookmarks', 'BookmarksController@listBookmarks')->name('front.bookmarks.list');
+	Route::get('/bookmarks/companies', 'BookmarksController@companiesBookmarks')->name('front.bookmarks.listcompanies');
+	Route::get('/bookmarks/opportunities', 'BookmarksController@opportunitiesBookmarks')->name('front.bookmarks.listopportunities');
 	//User Profile
 	Route::get('/profile/{user}', 'UserController@profile')->name('front.user.profile');
 	Route::get('/profile/{user}/edit', 'UserController@edit_profile_settings')->name('front.user.editprofile');
@@ -109,7 +112,6 @@ Route::prefix('companies')->group(function() {
 Route::prefix('industries')->group(function() {
 	Route::get('/opportunities', 'IndustriesController@index')->name('front.industry.index');
 	Route::get('/{industry}', 'IndustriesController@show')->name('front.industry.show');
-	Route::get('/companies/{industry}', 'IndustriesController@showCompanies')->name('front.industry.companies');
 });
 
 Route::prefix('projects')->group(function() {
@@ -124,7 +126,7 @@ Route::prefix('projects')->group(function() {
 
 
 //Send Express Interest Request
-Route::post('/interest/store', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@store'])->name('express.interest');
+Route::post('/interest/store', ['uses' => 'InterestsController@store'])->name('express.interest');
 Route::delete('/interest/delete/{interest}', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@destroy'])->name('withdraw.interest');
 Route::post('/interest/{interest}/accept', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@accept_interest'])->name('accept.interest');
 Route::post('/interest/{interest}/decline', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@decline_interest'])->name('decline.interest');

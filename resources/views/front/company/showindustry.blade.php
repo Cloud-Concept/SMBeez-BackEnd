@@ -8,8 +8,12 @@
                 <div class="col-xl-6 col-md-12 offset-xl-3">
                     <h1 class="text-center">Browse hundreds of SMBeez</h1>
                     <p class="text-center">In your local marketplace</p>
-                    @if (!Auth::guest() && !$hasCompany && \Laratrust::hasRole('user|superadmin'))
-                    <div class="btn-hero text-center"><a href="{{route('front.company.create')}}" class="btn btn-blue">Add your company</a></div>
+                    @if (!Auth::guest() && !$hasCompany && !count(Auth::user()->claims) > 0)
+                    <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">Add your company</a></div>
+                    @elseif(Auth::guest())
+                    <div class="btn-hero text-center"><a href="{{route('login')}}?action=add-company" class="btn btn-blue">Add your company</a></div>
+                    @elseif (!Auth::guest() && $hasCompany || count(Auth::user()->claims) > 0)
+                    <div class="btn-hero text-center"><a href="{{route('front.user.dashboard', Auth::user()->username)}}" class="btn btn-blue">Go to my dashboard</a></div>
                     @endif
                 </div>
             </div>
@@ -19,7 +23,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    @include ('layouts.filter-sidebar')
+                    @include ('layouts.filter-sidebar-companies')
                 </div>
                 <div class="col-md-8">
                     <div class="row equal">
@@ -83,9 +87,7 @@
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>
                                 <p class="tags">More in:
-                                    @foreach($company->industries as $industry)
-                                        <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
-                                    @endforeach
+                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
                                 <p class="tags"><b>Specialities:</b> 
                                     @foreach($company->specialities as $speciality)

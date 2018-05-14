@@ -12,10 +12,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
+                    <!-- <div class="progress">
+                        <div class="bar"></div >
+                        <div class="percent">0%</div >
+                    </div>
+
+                    <div id="status"></div> -->
+
                     <form id="img_upload" action="{{route('front.company.updatelogo', $company->slug)}}" method="post" role="form" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="sidebar-company-logo border-0 d-flex justify-content-between pb-2">
-                        @if($company->logo_url)
+                        @if($company->logo_url && file_exists(public_path('/') . $company->logo_url))
                             <img src="{{asset($company->logo_url)}}" alt="" class="company-logo">
                         @endif
                         </div>
@@ -27,7 +34,7 @@
                         </div>
                         <div class="sidebar-dashboard mt-5">
                             <div class="sidebar-company-logo border-0 d-flex justify-content-between pb-2">
-                                @if($company->cover_url)
+                                @if($company->cover_url  && file_exists(public_path('/') . $company->cover_url))
                                     <img class="img-fluid img-full" src="{{asset($company->cover_url)}}" alt="">
                                 @endif
                             </div>
@@ -41,6 +48,7 @@
                         <button type="submit" id="upload" class="btn btn-sm btn-yellow-2 mt-3">Save</button>
                     </form>
                 </div>
+
                 <div class="col-md-6">
                     <form id="update-company" action="{{route('front.company.update', $company->slug)}}" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
@@ -54,7 +62,7 @@
                         <div class="dashboard-company-block">
                             <div class="media-body">
                                 <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $company->slug)}}">{{$company->company_name}}</a></h5>
-                                <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></p>
+                                <p class="tags"><b>Industry</b>:<a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></p>
                                 @if($company->specialities->count() > 0)
                                 <p class="tags"><b>Specialities:</b> <span>
                                     
@@ -167,7 +175,11 @@
                             <label>Uploaded Documents:</label>
                             <div>
                             @foreach($company->files as $file)
-                                <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('companies/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
+                                @if(file_exists(public_path('/companies/files/'. $file->file_path)))
+                                    <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('companies/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
+                                @else
+                                    <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('companies/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> <strike>{{$file->file_name}}</strike> <i>(File Damaged Re-upload)</i></a></p>
+                                @endif
                             @endforeach
                             </div>
                         
@@ -220,6 +232,11 @@
 <script type="text/javascript">
 /*$("#upload").click(function(e){
     e.preventDefault();
+
+    var bar = $('.bar');
+    var percent = $('.percent');
+    var status = $('#status');
+    
     $.ajax({
       url:'{{route("front.company.updatelogo", $company->slug)}}',
       data:new FormData($("#img_upload")[0]),
@@ -228,8 +245,22 @@
       type:'post',
       processData: false,
       contentType: false,
+      beforeSend: function() {
+            status.empty();
+            var percentVal = '0%';
+            bar.width(percentVal);
+            percent.html(percentVal);
+        },
+        uploadProgress: function(event, position, total, percentComplete) {
+            var percentVal = percentComplete + '%';
+            bar.width(percentVal);
+            percent.html(percentVal);
+        },
+        complete: function(xhr) {
+            status.html(xhr.responseText);
+        },
       success:function(response){
-        location.reload();
+        alert('asdsa');
       },
     });
 });*/

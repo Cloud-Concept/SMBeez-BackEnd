@@ -14,6 +14,7 @@ use App\Project;
 use App\Company;
 use App\Industry;
 use App\Speciality;
+use App\Message;
 use Image;
 use File;
 use DB;
@@ -228,6 +229,10 @@ class UserController extends Controller
             return redirect(route('home'));
 
         }else {
+
+            $user = auth()->user();
+
+            $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->take(3)->get();
             //get the user interests
             $interests = $user->interests->modelKeys();
             $company = new Company;
@@ -240,11 +245,15 @@ class UserController extends Controller
             })->where('id', '<>', $user->id)->get();
 
             $industries = new Industry;
-            $industries = $industries->orderBy('industry_name')->get();
+            if ($hascompany) {
+                $industries = $industries->whereIn('display', ['projects', 'both'])->orderBy('industry_name')->get();
+            }else{
+                $industries = $industries->whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
+            }
             $speciality = new Speciality;
             $specialities = $speciality->all();
-
-            return view('front.users.dashboard', compact('user', 'hascompany','interested_projects', 'industries', 'specialities'));
+            
+            return view('front.users.dashboard', compact('user_messages','user', 'hascompany','interested_projects', 'industries', 'specialities'));
 
         }
     }
@@ -260,6 +269,7 @@ class UserController extends Controller
             return redirect(route('home'));
 
         }else {
+
             if($user->company) {
                 
                 $customer_reviews = $user->company->reviews->where('company_id', $user->company->id)
@@ -270,9 +280,7 @@ class UserController extends Controller
 
             }
 
-            $industries = Industry::all();
-
-            return view('front.users.profile', compact('user', 'customer_reviews', 'suppliers_reviews', 'industries'));
+            return view('front.users.profile', compact('user', 'customer_reviews', 'suppliers_reviews'));
 
         }
     }
@@ -516,6 +524,10 @@ class UserController extends Controller
             
         }else {
 
+            $user = auth()->user();
+
+            $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->take(3)->get();
+
             $project = new Project;
             $industry = new Industry;
 
@@ -539,7 +551,7 @@ class UserController extends Controller
             $speciality = new Speciality;
             $specialities = $speciality->all();
 
-            return view('front.users.myprojects', compact('user', 'suggested_projects', 'industries', 'specialities'));
+            return view('front.users.myprojects', compact('user_messages','user', 'suggested_projects', 'industries', 'specialities'));
         }
     }
 
@@ -552,6 +564,10 @@ class UserController extends Controller
             return redirect(route('home'));
             
         }else {
+
+            $user = auth()->user();
+
+            $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->take(3)->get();
 
             $project = new Project;
             $industry = new Industry;
@@ -583,7 +599,7 @@ class UserController extends Controller
             $speciality = new Speciality;
             $specialities = $speciality->all();
 
-            return view('front.users.opportunities', compact('user', 'suggested_projects', 'interested_projects', 'industries', 'specialities'));
+            return view('front.users.opportunities', compact('user_messages','user', 'suggested_projects', 'interested_projects', 'industries', 'specialities'));
         }
     }
 }
