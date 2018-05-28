@@ -42,9 +42,21 @@ class ReviewsController extends Controller
     public function store_customer_review(Request $request)
     {
         $review = new Review;
+        $company = new Company;
 
         $review->reviewer_relation = 'customer';
-        $review->company_id = $request['company_id'];
+
+        if(!$request['company_id']) {
+            if($company->exist('company_name', $request['company_name'])) {
+                //get the slug
+                $slug = $company->where('company_name', $request['company_name'])->first();
+                //go to claim this company page
+                $review->company_id = $slug->id;
+            } 
+        }else{
+            $review->company_id = $request['company_id'];
+        }
+             
         $review->user_id = auth()->id();
         $review->feedback = $request['feedback'];
         $review->overall_rate = $request['overall_rate'];
@@ -89,9 +101,19 @@ class ReviewsController extends Controller
     public function store_supplier_review(Request $request)
     {
         $review = new Review;
+        $company = new Company;
 
         $review->reviewer_relation = 'supplier';
-        $review->company_id = $request['company_id'];
+        if(!$request['company_id']) {
+            if($company->exist('company_name', $request['company_name'])) {
+                //get the slug
+                $slug = $company->where('company_name', $request['company_name'])->first();
+                //go to claim this company page
+                $review->company_id = $slug->id;
+            } 
+        }else{
+            $review->company_id = $request['company_id'];
+        }
         $review->user_id = auth()->id();
         $review->feedback = $request['feedback'];
         $review->overall_rate = $request['overall_rate'];

@@ -115,8 +115,8 @@ Route::prefix('industries')->group(function() {
 });
 
 Route::prefix('projects')->group(function() {
-	Route::post('/store', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@store'])->name('front.project.store');
-	Route::get('/create', ['middleware' => ['permission:create-project', 'role:company|superadmin'], 'uses' => 'ProjectsController@create'])->name('front.project.create');
+	Route::post('/store', ['uses' => 'ProjectsController@store'])->name('front.project.store');
+	Route::get('/create', ['uses' => 'ProjectsController@create'])->name('front.project.create');
 	Route::get('/{project}', 'ProjectsController@show')->name('front.project.show');
 	Route::post('close/{project}', 'ProjectsController@close')->name('front.project.close');
 	Route::post('publish/{project}', 'ProjectsController@publish')->name('front.project.publish');
@@ -127,21 +127,24 @@ Route::prefix('projects')->group(function() {
 
 //Send Express Interest Request
 Route::post('/interest/store', ['uses' => 'InterestsController@store'])->name('express.interest');
-Route::delete('/interest/delete/{interest}', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@destroy'])->name('withdraw.interest');
-Route::post('/interest/{interest}/accept', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@accept_interest'])->name('accept.interest');
-Route::post('/interest/{interest}/decline', ['middleware' => ['role:company|superadmin'], 'uses' => 'InterestsController@decline_interest'])->name('decline.interest');
+Route::delete('/interest/delete/{interest}', ['uses' => 'InterestsController@destroy'])->name('withdraw.interest');
+Route::post('/interest/{interest}/accept', ['uses' => 'InterestsController@accept_interest'])->name('accept.interest');
+Route::post('/interest/{interest}/decline', ['uses' => 'InterestsController@decline_interest'])->name('decline.interest');
 Route::post('/review/customer', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store_customer_review'])->name('add.review.customer');
 Route::post('/review/supplier', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store_supplier_review'])->name('add.review.supplier');
 Route::post('/review/{review}/like', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@like'])->name('review.like');
 Route::post('/review/{review}/unlike', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@unlike'])->name('review.unlike');
 Route::post('/review/{review}/flag', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@flag'])->name('review.flag');
 Route::delete('/review/{review}/unflag', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@unflag'])->name('review.unflag');
+Route::post('/reply/{reply}/like', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'RepliesController@like'])->name('reply.like');
+Route::post('/reply/{reply}/unlike', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'RepliesController@unlike'])->name('reply.unlike');
+
 Route::get('/search-opportunities', 'SearchController@filter_opportunities')->name('filter.opportunities');
 Route::get('/search-companies', 'SearchController@filter_companies')->name('filter.companies');
 Route::get('/search', 'SearchController@search')->name('search.all');
 Route::post('/bookmark/add', 'BookmarksController@addBookmark')->name('bookmark.add');
-Route::delete('/bookmark/remove/{bookmark}', 'BookmarksController@removeBookmark')->name('bookmark.remove');
-Route::delete('/delete/{file}', ['middleware' => ['role:company|superadmin'], 'uses' => 'MyFilesController@destroy'])->name('front.file.delete');
+Route::post('/bookmark/remove/{bookmark}', 'BookmarksController@removeBookmark')->name('bookmark.remove');
+Route::post('/delete/{file}', ['uses' => 'MyFilesController@destroy'])->name('front.file.delete');
 Route::get('/about', 'HomeController@about')->name('about');
 
 Route::post('/reply', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'RepliesController@store'])->name('add.reply.toreview');

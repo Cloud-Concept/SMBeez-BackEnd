@@ -79,7 +79,7 @@
                         @elseif(!$hascompany && !count($user->claims) > 0)
                             <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">Add Your Company</button></a></li>
                         @endif
-                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow disable">Submit a Review</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
+                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#reviewModal">Submit a Review</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
                         <li class="nav-item"><button class="btn-dash btn-blue btn-yellow disable"><i class="fa fa-cubes mr-1" aria-hidden="true"></i> Redeem Honeycombs</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
                     </ul>
                     @if(count($user->claims) > 0)
@@ -175,6 +175,7 @@
 @if($hascompany)
     @include ('layouts.create-project-modal')
     @include ('layouts.interests-modal')
+    @include ('layouts.dashboard-review-modal')
 @else
     @include ('layouts.add-company-modal')
 @endif

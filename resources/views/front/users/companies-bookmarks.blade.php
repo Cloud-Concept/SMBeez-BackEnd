@@ -60,7 +60,6 @@
                             </div>
                             <form id="unbookmark-{{$bookmark->id}}" action="#">
                                 <input id="token-unbookmark-{{$bookmark->id}}" value="{{csrf_token()}}" type="hidden">
-                                {{method_field('DELETE')}}
                             </form>
                             <script>
                                 $(document).ready(function(){
@@ -74,7 +73,7 @@
                                         e.preventDefault();
                                         var token = $('#token-unbookmark-{{$bookmark->id}}').val();
                                         $.ajax({
-                                            type: "DELETE",
+                                            type: "POST",
                                             data: "_token=" + token,
                                             url: "{{route('bookmark.remove', $bookmark->id)}}",
                                             success: function(data) {

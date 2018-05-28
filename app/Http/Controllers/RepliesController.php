@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reply;
 use Illuminate\Http\Request;
+use App\RepliesLikeUnlike;
 
 class RepliesController extends Controller
 {
@@ -89,5 +90,41 @@ class RepliesController extends Controller
     public function destroy(Reply $reply)
     {
         //
+    }
+
+    public function like(Request $request, Reply $reply)
+    {  
+        $impression = new RepliesLikeUnlike;
+
+        $impression->user_id = auth()->id();
+        $impression->reply_id = $reply->id;
+        $impression->type = 1;
+        //delete record if unlike exists
+        $check_like = $impression->where('user_id', $impression->user_id)->where('reply_id', $impression->reply_id)->first();
+
+        if($check_like) {
+            $check_like->delete();
+        }
+
+        return json_encode($impression->save());
+
+    }
+
+    public function unlike(Request $request, Reply $reply)
+    {
+        $impression = new RepliesLikeUnlike;
+
+        $impression->user_id = auth()->id();
+        $impression->reply_id = $reply->id;
+        $impression->type = 0;
+        //delete record if like exists
+        $check_like = $impression->where('user_id', $impression->user_id)->where('reply_id', $impression->reply_id)->first();
+
+        if($check_like) {
+            $check_like->delete();
+        }
+
+        return json_encode($impression->save());
+
     }
 }
