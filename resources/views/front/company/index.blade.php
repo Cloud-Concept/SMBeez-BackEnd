@@ -70,8 +70,10 @@
                                     @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))
                                         @if(!$company->bookmarked($company->id))
                                             <a href="#" id="bookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
+                                            <a href="#" id="unbookmark-b-{{$company->id}}" class="more-inf" style="display:none" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
                                         @else
                                             <a href="#" id="unbookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
+                                            <a href="#" id="bookmark-b-{{$company->id}}" class="more-inf" style="display:none" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
                                         @endif
                                     @endif
                                 </div>
@@ -96,7 +98,6 @@
                             </form>
                             <form id="unbookmark-{{$company->id}}" action="#">
                                 <input id="token-unbookmark-{{$company->id}}" value="{{csrf_token()}}" type="hidden">
-                                {{method_field('DELETE')}}
                                 <input type="hidden" id="unbookmarked_id-{{$company->id}}" name="bookmarked_id" value="{{$company->id}}"/>
                                 <input type="hidden" id="unbookmark_type-{{$company->id}}" name="bookmark_type" value="App\Company"/>
                             </form>
@@ -107,6 +108,7 @@
                                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                         }
                                     });
+                                    var new_bookmarkid = '{{$company->bookmark($company->id)}}';
                                     //bookmark company
                                     $('#bookmark-b-{{$company->id}}').on('click', function(e){
                                         e.preventDefault();
@@ -116,9 +118,12 @@
                                         $.ajax({
                                             type: "POST",
                                             data: "bookmarked_id=" + bookmark_id + "&bookmark_type=" + bookmark_type + "&_token=" + token,
+                                            dataType: 'json',
                                             url: "{{route('bookmark.add')}}",
                                             success: function(data) {
-                                                $('#bookmark-b-{{$company->id}} i').removeClass('fa-bookmark-o').addClass('fa-bookmark');
+                                                $('#unbookmark-b-{{$company->id}}').show();
+                                                $('#bookmark-b-{{$company->id}}').hide();
+                                                new_bookmarkid = data.id;
                                             }
                                         });
                                     });
@@ -126,13 +131,14 @@
                                     $('#unbookmark-b-{{$company->id}}').on('click', function(e){
                                         e.preventDefault();
                                         var token = $('#token-unbookmark-{{$company->id}}').val();
+                                        var url = '{{ route("bookmark.remove", ":new_bookmarkid") }}';
                                         $.ajax({
-                                            type: "DELETE",
+                                            type: "POST",
                                             data: "_token=" + token,
-                                            url: "{{route('bookmark.remove', $company->bookmark($company->id))}}",
+                                            url: url.replace(':new_bookmarkid', new_bookmarkid),
                                             success: function(data) {
-                                                $('#unbookmark-b-{{$company->id}} i').removeClass('fa-bookmark').addClass('fa-bookmark-o');
-                                                $('#unbookmark-b-{{$company->id}}').attr('id', 'bookmark-b-{{$company->id}}');
+                                                $('#unbookmark-b-{{$company->id}}').hide();
+                                                $('#bookmark-b-{{$company->id}}').show();
                                             }
                                         });
                                     });
@@ -171,8 +177,10 @@
                                     @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))
                                         @if(!$company->bookmarked($company->id))
                                             <a href="#" id="bookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
+                                            <a href="#" id="unbookmark-b-{{$company->id}}" class="more-inf" style="display:none" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
                                         @else
                                             <a href="#" id="unbookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
+                                            <a href="#" id="bookmark-b-{{$company->id}}" class="more-inf" style="display:none" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
                                         @endif
                                     @endif
                                 </div>
@@ -203,7 +211,6 @@
                             </form>
                             <form id="unbookmark-{{$company->id}}" action="#">
                                 <input id="token-unbookmark-{{$company->id}}" value="{{csrf_token()}}" type="hidden">
-                                {{method_field('DELETE')}}
                                 <input type="hidden" id="unbookmarked_id-{{$company->id}}" name="bookmarked_id" value="{{$company->id}}"/>
                                 <input type="hidden" id="unbookmark_type-{{$company->id}}" name="bookmark_type" value="App\Company"/>
                             </form>
@@ -214,6 +221,7 @@
                                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                         }
                                     });
+                                    var new_bookmarkid = '{{$company->bookmark($company->id)}}';
                                     //bookmark company
                                     $('#bookmark-b-{{$company->id}}').on('click', function(e){
                                         e.preventDefault();
@@ -223,9 +231,12 @@
                                         $.ajax({
                                             type: "POST",
                                             data: "bookmarked_id=" + bookmark_id + "&bookmark_type=" + bookmark_type + "&_token=" + token,
+                                            dataType: 'json',
                                             url: "{{route('bookmark.add')}}",
                                             success: function(data) {
-                                                $('#bookmark-b-{{$company->id}} i').removeClass('fa-bookmark-o').addClass('fa-bookmark');
+                                                $('#unbookmark-b-{{$company->id}}').show();
+                                                $('#bookmark-b-{{$company->id}}').hide();
+                                                new_bookmarkid = data.id;
                                             }
                                         });
                                     });
@@ -233,13 +244,14 @@
                                     $('#unbookmark-b-{{$company->id}}').on('click', function(e){
                                         e.preventDefault();
                                         var token = $('#token-unbookmark-{{$company->id}}').val();
+                                        var url = '{{ route("bookmark.remove", ":new_bookmarkid") }}';
                                         $.ajax({
-                                            type: "DELETE",
+                                            type: "POST",
                                             data: "_token=" + token,
-                                            url: "{{route('bookmark.remove', $company->bookmark($company->id))}}",
+                                            url: url.replace(':new_bookmarkid', new_bookmarkid),
                                             success: function(data) {
-                                                $('#unbookmark-b-{{$company->id}} i').removeClass('fa-bookmark').addClass('fa-bookmark-o');
-                                                $('#unbookmark-b-{{$company->id}}').attr('id', 'bookmark-b-{{$company->id}}');
+                                                $('#unbookmark-b-{{$company->id}}').hide();
+                                                $('#bookmark-b-{{$company->id}}').show();
                                             }
                                         });
                                     });

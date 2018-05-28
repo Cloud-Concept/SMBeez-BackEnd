@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Phone *</label>
-                                    <input class="form-control" type="text" name="company_phone" placeholder="Company Phone" id="company_phone">
+                                    <input class="form-control" type="text" name="company_phone" placeholder="Company Phone" id="company_phone" required>
                                 </div>   
                             </div>
                         </div>

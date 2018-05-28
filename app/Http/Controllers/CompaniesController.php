@@ -827,7 +827,6 @@ class CompaniesController extends Controller
             $companies = $company->where('industry_id', $industry->id)->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
         }else {
             //this will be changed to the selected country from the menu
-
             $featured_companies = $company->where('is_promoted', 1)
             ->where('status', '!=', '0')
             ->orderBy(DB::raw('RAND()'))

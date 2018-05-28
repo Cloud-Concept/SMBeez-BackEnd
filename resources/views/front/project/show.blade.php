@@ -122,10 +122,10 @@
                         @if(!Auth::guest() && !$project->is_owner(Auth::user()->id))
                             @if(!$project->bookmarked($project->id))
                                 <a href="#" id="bookmark-b-{{$project->id}}" class="pull-right" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
-                                <a href="#" id="unbookmark-b-{{$project->id}}" class="pull-right hidden" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
+                                <a href="#" id="unbookmark-b-{{$project->id}}" class="pull-right" style="display:none;" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
                             @else
                                 <a href="#" id="unbookmark-b-{{$project->id}}" class="pull-right" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
-                                <a href="#" id="bookmark-b-{{$project->id}}" class="pull-right hidden" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
+                                <a href="#" id="bookmark-b-{{$project->id}}" class="pull-right" style="display:none;" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
                             @endif
                         @endif
                     </h2>
@@ -137,7 +137,8 @@
                         </form>
                         <form id="unbookmark-{{$project->id}}" action="#">
                             <input id="token-unbookmark-{{$project->id}}" value="{{csrf_token()}}" type="hidden">
-                            {{method_field('DELETE')}}
+                            <input type="hidden" id="bookmarked_id-{{$project->id}}" name="bookmarked_id" value="{{$project->id}}"/>
+                            <input type="hidden" id="bookmark_type-{{$project->id}}" name="bookmark_type" value="App\Project"/>
                         </form>
                         <script>
                             $(document).ready(function(){
@@ -146,6 +147,7 @@
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     }
                                 });
+                                var new_bookmarkid = '{{$project->bookmark($project->id)}}';
                                 //bookmark company
                                 $('#bookmark-b-{{$project->id}}').on('click', function(e){
                                     e.preventDefault();
@@ -155,10 +157,12 @@
                                     $.ajax({
                                         type: "POST",
                                         data: "bookmarked_id=" + bookmark_id + "&bookmark_type=" + bookmark_type + "&_token=" + token,
+                                        dataType: 'json',
                                         url: "{{route('bookmark.add')}}",
                                         success: function(data) {
-                                            $('#unbookmark-b-{{$project->id}}').removeClass('hidden');
-                                            $('#bookmark-b-{{$project->id}}').addClass('hidden');
+                                            $('#unbookmark-b-{{$project->id}}').show();
+                                            $('#bookmark-b-{{$project->id}}').hide();
+                                            new_bookmarkid = data.id;
                                         }
                                     });
                                 });
@@ -166,13 +170,14 @@
                                 $('#unbookmark-b-{{$project->id}}').on('click', function(e){
                                     e.preventDefault();
                                     var token = $('#token-unbookmark-{{$project->id}}').val();
+                                    var url = '{{ route("bookmark.remove", ":new_bookmarkid") }}';
                                     $.ajax({
-                                        type: "DELETE",
+                                        type: "POST",
                                         data: "_token=" + token,
-                                        url: "{{route('bookmark.remove', $project->bookmark($project->id))}}",
+                                        url: url.replace(':new_bookmarkid', new_bookmarkid),
                                         success: function(data) {
-                                            $('#unbookmark-b-{{$project->id}}').addClass('hidden');;
-                                            $('#bookmark-b-{{$project->id}}').removeClass('hidden');
+                                            $('#unbookmark-b-{{$project->id}}').hide();
+                                                $('#bookmark-b-{{$project->id}}').show();
                                         }
                                     });
                                 });
