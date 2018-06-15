@@ -404,16 +404,18 @@
                                                             @endif
                                                             <!-- <li><a href="#" class="btn btn-blue btn-yellow"><i class="fa fa-flag-o" aria-hidden="true"></i> Flag</a></li>
                                                             <li><a href=""><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></li> -->
-                                                            @if($company->user_id == Auth::user()->id || $review->user_id == Auth::user()->id)
-                                                                <li class="review-info">
-                                                                    <a href="#" data-toggle="modal" id="review-reply-{{$review->id}}" class="add-reply" data-target="#add-reply"><i class="fa fa-reply" aria-hidden="true"></i></a>
-                                                                    <input type="hidden" class="info-id" rev-id="{{$review->id}}">
-                                                                    @if($review->review_privacy === 'public')
-                                                                    <input type="hidden" class="info-user" rev-user="{{$review->user->company->company_name}}">
-                                                                    @elseif($review->review_privacy === 'private')
-                                                                    <input type="hidden" class="info-user" rev-user="Anonymous">
-                                                                    @endif
-                                                                </li>
+                                                            @if(!Auth::guest())
+                                                                @if($company->user_id == Auth::user()->id || $review->user_id == Auth::user()->id)
+                                                                    <li class="review-info">
+                                                                        <a href="#" data-toggle="modal" id="review-reply-{{$review->id}}" class="add-reply" data-target="#add-reply"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                                                                        <input type="hidden" class="info-id" rev-id="{{$review->id}}">
+                                                                        @if($review->review_privacy === 'public')
+                                                                        <input type="hidden" class="info-user" rev-user="{{$review->user->company->company_name}}">
+                                                                        @elseif($review->review_privacy === 'private')
+                                                                        <input type="hidden" class="info-user" rev-user="Anonymous">
+                                                                        @endif
+                                                                    </li>
+                                                                @endif
                                                             @endif
                                                         </ul>
                                                     </div>
@@ -896,7 +898,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group"><label for="recipient-name" class="col-form-label">What is your relation to {{$company->company_name}}</label></div>
+                                <div class="form-group"><label for="recipient-name" class="col-form-label">What is your relation to {{$company->company_name}}? *</label></div>
                                 <div class="form-group form-bg">
                                     <ul class="nav radio-tabs" role="tablist">
                                         <li><a class="active radio-link" id="form1-tab" data-toggle="tab" href="#form1" role="tab" aria-controls="form1" aria-selected="true"><label class="custom-control custom-radio"><input id="radio1-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">I am a Customer</span></label></a></li>
@@ -911,7 +913,7 @@
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group"><label for="recipient-name" class="col-form-label">Did your company hire {{$company->company_name}} to do some work?</label></div>
+                                            <div class="form-group"><label for="recipient-name" class="col-form-label">Did your company hire {{$company->company_name}} to do some work? *</label></div>
                                             <div class="radio-cases" id="first-level">
                                                 <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired1" value="1" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired2" name="is_hired" value="0" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
                                             </div>
@@ -939,17 +941,17 @@
                                             </div>
                                             <div id="four-level">
                                                 <div class="no-case-info">
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Please elaborate</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Please elaborate *</label></div>
                                                     <div class="form-group case-04 form-bg">
                                                         <textarea class="form-control" id="why_not_msg" name="why_not_msg" placeholder="Write your text here..."></textarea>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}}</label><textarea class="form-control" id="feedback" name="feedback" placeholder="Write your text here..." required></textarea></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}} *</label><textarea class="form-control" id="feedback" name="feedback" placeholder="Write your text here..." required></textarea></div>
                                         </div>
                                         <div class="col-md-6 casepushup">
                                             <div class="form-group">
-                                                <label for="message-text" class="col-form-label">How would you rate "{{$company->company_name}}"</label>
+                                                <label for="message-text" class="col-form-label">How would you rate "{{$company->company_name}}"? *</label>
                                                 <div class="d-flex mt-4">
                                                     <h5>Quality</h5>
                                                     <div class="star-rating">
@@ -1031,7 +1033,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review</label><label class="custom-control custom-radio"><input id="privacy1" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy2" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review *</label><label class="custom-control custom-radio"><input id="privacy1" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy2" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
                                             <input type="hidden" name="company_id" value="{{$company->id}}">
                                             <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Review</button></div>
                                         </div>
@@ -1043,19 +1045,19 @@
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group"><label for="recipient-name" class="col-form-label">Was your company hired by {{$company->company_name}} to do some work?</label></div>
+                                            <div class="form-group"><label for="recipient-name" class="col-form-label">Was your company hired by {{$company->company_name}} to do some work? *</label></div>
                                             <div class="radio-cases" id="first-level">
                                                 <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired3" name="is_hired" value="1" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired4" value="0" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
                                             </div>
                                             <div id="second-level">
                                                 <div class="yes-case-info">
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Did you complete the work successfully?</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Did you complete the work successfully? *</label></div>
                                                     <div class="form-group case-02 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="completness3" value="1" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="completness4" name="completness" value="0" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
                                                 </div>
                                             </div>
                                             <div id="third-level">
                                                 <div class="no-case-info">                                                
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Why not?</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Why not? *</label></div>
                                                     <div class="form-group case-03 form-bg">
                                                         <select name="why_not" class="form-control">
                                                             <option value="">Select Reason</option>
@@ -1077,11 +1079,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}}</label><textarea class="form-control" id="feedback1" name="feedback" placeholder="Write your text here..." required></textarea></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}} *</label><textarea class="form-control" id="feedback1" name="feedback" placeholder="Write your text here..." required></textarea></div>
                                         </div>
                                         <div class="col-md-6 casepushup">
                                             <div class="form-group">
-                                                <label for="message-text" class="col-form-label">How would you rate "{{$company->company_name}}"</label>
+                                                <label for="message-text" class="col-form-label">How would you rate "{{$company->company_name}}"? *</label>
                                                 <div class="d-flex mt-4">
                                                     <h5>Procurement</h5>
                                                     <div class="star-rating">
@@ -1163,7 +1165,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review</label><label class="custom-control custom-radio"><input id="privacy3" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy4" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review *</label><label class="custom-control custom-radio"><input id="privacy3" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy4" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
                                             <input type="hidden" name="company_id" value="{{$company->id}}">
                                             <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Review</button></div>
                                         </div>

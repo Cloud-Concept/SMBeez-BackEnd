@@ -20,28 +20,29 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    
                     <form action="{{route('admin.user.store')}}" class="user-setting" method="post">
                         {{csrf_field()}}
                         <div class="field">
                             <p class="form-group">
-                                <input class="form-control" type="text" name="first_name" placeholder="First Name" id="fname" required>
+                                <input class="form-control" type="text" name="first_name" placeholder="First Name *" id="fname" required>
                             </p>
                             <p class="form-group">
-                                <input class="form-control" type="text" name="last_name" placeholder="Last Name" id="lname" required>
+                                <input class="form-control" type="text" name="last_name" placeholder="Last Name *" id="lname" required>
                             </p>
                             <p class="form-group">
-                                <input class="form-control" type="email" name="email" placeholder="email" id="email">
+                                <input class="form-control" type="email" name="email" placeholder="Email *" id="email" required>
                             </p>
                             <p class="form-group">
-                                <input class="form-control" type="password" name="password" placeholder="password" id="password">
+                                <input class="form-control" type="password" name="password" placeholder="Password *" id="password" required>
                             </p>
                             <p class="form-group">
-                                <select name="user_city" class="form-control">
+                                <select name="user_city" class="form-control" required>
                                     <option value="Dubai">Dubai</option>
                                 </select>
                             </p>
                             <p class="form-group">
-                                <select name="role" class="form-control">
+                                <select name="role" class="form-control custom-select d-block" required>
                                     @foreach ($roles as $role)
                                         <option value="{{$role->id}}">{{$role->display_name}}</option>
                                     @endforeach

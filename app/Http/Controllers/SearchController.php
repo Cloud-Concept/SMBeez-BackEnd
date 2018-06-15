@@ -204,4 +204,42 @@ class SearchController extends Controller
 
         return view('front.search.index', compact('companies', 'projects', 'companies_count', 'projects_count', 'scores'));
     }
+
+    //Moderator Dashboard
+
+    public function moderator_filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
+    {   
+
+        $industries = $industry->all();
+        $filter_industry = $request['industry'];
+        //if selected all industries go to all opportunities page
+        if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
+
+            return redirect(route('moderator.companies.dashboard'));
+
+        }
+
+        $company = $company->newQuery();
+
+        /*if ($request->has('status')) {
+            if($request['status'] == 'In Queue') {
+               $company->with('mod_report')->whereHas('mod_report', function ($q) use ($request) {
+                    $q->where('mod_company_reports.company_id', '!=', 'companies.id');
+                }); 
+            }else {
+                $company->with('mod_report')->whereHas('mod_report', function ($q) use ($request) {
+                    $q->where('mod_company_reports.status', $request['status']);
+                });
+            }
+        }*/
+        if ($request->has('industry')) {
+            $company->where('industry_id', $request['industry']);
+        }
+        if ($request->has('s')) {
+            $company->where('company_name', 'like', '%' . $request['s'] . '%');
+        }
+        $companies = $company->where('city', $request['city'])->paginate(10);
+
+        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry')); 
+    }
 }

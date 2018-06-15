@@ -9,6 +9,8 @@
         <li class="list-group-item"><a href="{{route('admin.industries')}}" class="{{ Request::is('admin/manage/industries') ? 'active' : 'no' }}">Industries</a></li>
         <li class="list-group-item"><a href="{{route('admin.specialities')}}" class="{{ Request::is('admin/manage/specialities') ? 'active' : 'no' }}">Specialites</a></li>
         <li class="list-group-item"><a href="{{route('import.export.view')}}" class="{{ Request::is('admin/import-export-view') ? 'active' : 'no' }}">Import/Export</a></li>
+        <li class="list-group-item"><a href="{{route('callcenter.reports')}}" class="{{ Request::is('admin/callcenter-reports') ? 'active' : 'no' }}">Call Center Reports</a></li>
+        <li class="list-group-item"><a href="{{route('callcenter.reports.details')}}" class="{{ Request::is('admin/callcenter-details') ? 'active' : 'no' }}">Call Center Details</a></li>
         <!-- <li class="list-group-item"><a href="">Gamification & Rewards</a></li>
         <li class="list-group-item"><a href="">Support Tickets (123)</a></li>
         <li class="list-group-item"><a href="">Settings</a></li> -->

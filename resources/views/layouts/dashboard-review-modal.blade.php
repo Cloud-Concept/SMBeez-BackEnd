@@ -310,7 +310,7 @@ jQuery("#company_name").typeahead({
   source: function (query, process) {
     return $.get('{!!url("/")!!}' + '/api/company-suggest', { keyword: query }, function (data) {
       data = $.parseJSON(data);
-      console.log(data);
+
       return process(data);
     });
   },

@@ -51,8 +51,10 @@ class LoginController extends Controller
         }elseif($request['action'] === 'write-review' ) {
             //if unlogged user clicked on write review
             return redirect(route('front.company.show', $request['claim'])  . '?action=write-review');
-        }elseif(\Laratrust::hasRole('superadmin')){
+        }elseif(\Laratrust::hasRole('administrator|superadmin')){
             return redirect(route('admin.dashboard'));
+        }elseif(\Laratrust::hasRole('moderator')){
+            return redirect(route('moderator.companies.dashboard'));
         }else {
             return redirect(route('front.user.dashboard', $user->username));
         }

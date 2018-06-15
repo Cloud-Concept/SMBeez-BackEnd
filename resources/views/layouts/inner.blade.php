@@ -18,10 +18,12 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/dropzone.css') }}">
         <script src="https://use.fontawesome.com/7305a65f5a.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <script src="{{ asset('js/vendor/modernizr.js') }}"></script>
+        <script src="{{ asset('js/dropzone.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABsCTZNfAFh0fwNrBB213BX8ROnGLUVYQ&libraries=places"></script>
         <link rel="stylesheet" href="{{ asset('css/bootstrap-tagsinput.css') }}">
 

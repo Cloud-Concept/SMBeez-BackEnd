@@ -55,7 +55,7 @@
                                 </label>
                             </p>
                             <p class="form-group">
-                                <select name="role" class="form-control">
+                                <select name="role" class="form-control custom-select d-block">
                                     @foreach ($roles as $role)
                                         @foreach ($user->roles as $user_role)
                                             <option value="{{$role->id}}" {{$user_role->id == $role->id ? 'selected' : ''}}>{{$role->display_name}}</option>
