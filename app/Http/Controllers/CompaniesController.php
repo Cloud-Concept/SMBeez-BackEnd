@@ -379,6 +379,50 @@ class CompaniesController extends Controller
         //return json_encode($company->update());
     }
     
+    public function update_logo_cover(Request $request, Company $company) {
+
+        if($request->hasFile('logo_url')) {
+
+            $logo_url     = $request->file('logo_url');
+            $img_name  = time() . uniqid() . '.' . $logo_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/company/';
+            //path of the new image
+            $path       = public_path('images/company/' . $img_name);
+            //save image to the path
+            Image::make($logo_url)->resize(null, 42, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+            //get the old image
+            $oldImage = $company->logo_url;
+            //make the field logo_url in the table = to the link of img
+            $company->logo_url = $path_db . $img_name;
+            //delete the old image
+            File::delete(public_path($oldImage));
+        }
+
+        /*if($request->hasFile('cover_url')) {
+
+            $cover_url     = $request->file('cover_url');
+            $img_name_cover  = time() . uniqid() . '.' . $cover_url->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db_cover = 'images/company/';
+            //path of the new image
+            $path_cover       = public_path('images/company/' . $img_name_cover);
+            //save image to the path
+            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            //get the old image
+            $oldCover = $company->cover_url;
+            //make the field cover_url in the table = to the link of img
+            $company->cover_url = $path_db_cover . $img_name_cover;
+            //delete the old image
+            File::delete(public_path($oldCover));
+        }*/
+
+        $company->update();
+
+        return response()->json($company);
+    }
     //Stage 1 for claim company
     public function claim_notification(Company $company)
     {   

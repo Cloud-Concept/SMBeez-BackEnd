@@ -51,14 +51,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
+    {   
+        /*$this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-        ]);
+        ]);*/
 
         $user = new User;
-
+        
         $user->first_name = $request['first_name'];
         $user->last_name = $request['last_name'];
         $user->email = $request['email'];
@@ -77,7 +77,7 @@ class UserController extends Controller
             return redirect()->route('admin.user.edit', $user->username);
         }else {
             session()->flash('error', 'Sorry, an error occured while creating the user.');
-            return redirect()->route('admin.user.create');
+            return redirect()->withErrors($request->getErrors())->route('admin.user.create');
         }
         
     }

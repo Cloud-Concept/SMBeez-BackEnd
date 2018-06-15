@@ -63,5 +63,14 @@ Route::get('company-suggest', function(Illuminate\Http\Request $request){
     return json_encode($data);
 })->name('api.companies.suggest');
 
+//Moderator
+Route::get('get-company/{company}', 'AdminController@get_company')->name('get-company-ajax');
+Route::post('update-company/{company}', 'AdminController@update_company')->name('update-company-ajax');
+Route::post('assign-company-to-user/{company}', 'AdminController@assign_company_to_user')->name('assign-company-ajax');
+Route::post('create-user-to-company/{company}', 'AdminController@create_user_to_company')->name('user-company-ajax');
+Route::get('get-company-report/{company}', 'AdminController@get_company_report')->name('get-company-report-ajax');
+Route::post('create-update-company-report/{company}', 'AdminController@create_update_company_report')->name('create-update-company-report-ajax');
+Route::post('send-mod-msg/{company}', 'AdminController@send_mod_message')->name('send-mod-msg-ajax');
+Route::post('upload-company-imgs/{company}', 'CompaniesController@update_logo_cover')->name('update-company-imgs');
 //Route::get('/search', 'SearchController@filter_opportunities')->name('filter.opportunities');
 

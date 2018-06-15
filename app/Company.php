@@ -51,6 +51,16 @@ class Company extends Model
     public function claims() {
         return $this->hasOne(Claim::class);
     }
+    public function mod_report() {
+
+        return $this->hasOne(ModCompanyReport::class);
+
+    }
+    public function mod_logs() {
+
+        return $this->hasMany(ModLog::class);
+
+    }
     //check if user is a manager of a company
     public function has_company()
     {

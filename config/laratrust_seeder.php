@@ -15,6 +15,12 @@ return [
             'company' => 'c,r,u,d',
             'project' => 'c,r,u,d'
         ],
+        'moderator' => [
+            'users' => 'c,r,u,d',
+            'profile' => 'r,u',
+            'company' => 'c,r,u,d',
+            'project' => 'c,r,u,d'
+        ],
         'company' => [
             'profile' => 'r,u',
             'company' => 'r,u',

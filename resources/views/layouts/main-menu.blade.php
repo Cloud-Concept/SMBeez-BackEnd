@@ -18,8 +18,10 @@
             @endif 
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            @if(\Laratrust::hasRole('admin|superadmin'))
+            @if(\Laratrust::hasRole('administrator|superadmin'))
             <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+            @elseif(\Laratrust::hasRole('moderator'))
+            <a class="dropdown-item" href="{{ route('moderator.companies.dashboard') }}">Dashboard</a>
             @else
             <a class="dropdown-item" href="{{ route('front.user.dashboard', Auth::user()->username) }}">Dashboard</a>
             @endif

@@ -18,8 +18,8 @@
                     </div>
 
                     <div id="status"></div> -->
-
-                    <form id="img_upload" action="{{route('front.company.updatelogo', $company->slug)}}" method="post" role="form" enctype="multipart/form-data">
+                    <!-- action="{{route('front.company.updatelogo', $company->slug)}}" method="post" role="form" enctype="multipart/form-data" -->
+                    <form id="img_upload"action="{{route('front.company.updatelogo', $company->slug)}}" method="post" role="form" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="sidebar-company-logo border-0 d-flex justify-content-between pb-2">
                         @if($company->logo_url && file_exists(public_path('/') . $company->logo_url))
@@ -32,6 +32,7 @@
                                 <span class="custom-file-control" data-label="Upload Logo"></span>
                             </label>
                         </div>
+
                         <div class="sidebar-dashboard mt-5">
                             <div class="sidebar-company-logo border-0 d-flex justify-content-between pb-2">
                                 @if($company->cover_url  && file_exists(public_path('/') . $company->cover_url))
@@ -45,8 +46,10 @@
                                 </label>
                             </div>
                         </div>
+                        
                         <button type="submit" id="upload" class="btn btn-sm btn-yellow-2 mt-3">Save</button>
                     </form>
+                    
                 </div>
 
                 <div class="col-md-6">
@@ -233,37 +236,68 @@
 /*$("#upload").click(function(e){
     e.preventDefault();
 
-    var bar = $('.bar');
-    var percent = $('.percent');
-    var status = $('#status');
-    
+    var company_id = '{{$company->slug}}';
+    var url = '{{ route("update-company-imgs", ":company_id") }}';
+    // Get form
+    var form = $('#img_upload')[0];
+
+    var data = new FormData(form);
+
     $.ajax({
-      url:'{{route("front.company.updatelogo", $company->slug)}}',
-      data:new FormData($("#img_upload")[0]),
-      dataType:'json',
-      async:false,
-      type:'post',
-      processData: false,
-      contentType: false,
-      beforeSend: function() {
-            status.empty();
-            var percentVal = '0%';
-            bar.width(percentVal);
-            percent.html(percentVal);
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: url.replace(':company_id', company_id),
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+
+            console.log(data);
+
         },
-        uploadProgress: function(event, position, total, percentComplete) {
-            var percentVal = percentComplete + '%';
-            bar.width(percentVal);
-            percent.html(percentVal);
-        },
-        complete: function(xhr) {
-            status.html(xhr.responseText);
-        },
-      success:function(response){
-        alert('asdsa');
-      },
+        error: function (e) {
+
+            console.log("ERROR : ", e);
+
+        }
     });
 });*/
+
+var total_photos_counter = 0;
+var company_id = '{{$company->slug}}';
+var url = '{{ route("update-company-imgs", ":company_id") }}';
+Dropzone.options.myDropzone = {
+    uploadMultiple: false,
+    parallelUploads: 2,
+    maxFilesize: 32,
+    previewTemplate: document.querySelector('#preview').innerHTML,
+    addRemoveLinks: true,
+    dictRemoveFile: 'Remove file',
+    dictFileTooBig: 'Image is larger than 32MB',
+    timeout: 30000,
+
+    init: function () {
+        this.on("removedfile", function (file) {
+            console.log('sadasds');
+            $.post({
+                url: url.replace(':company_id', company_id),
+                data: {id: file.name, _token: $('[name="_token"]').val()},
+                dataType: 'json',
+                success: function (data) {
+                    total_photos_counter--;
+                    $("#counter").text("# " + total_photos_counter);
+                }
+            });
+        });
+    },
+    success: function (file, done) {
+        console.log('sadasds');
+        total_photos_counter++;
+        $("#counter").text("# " + total_photos_counter);
+    }
+};
 
 var tagApi = $(".tm-input").tagsManager({
     prefilled: ["{!!$company_specialities!!}"]

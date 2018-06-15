@@ -21,9 +21,12 @@ Auth::routes();
 
 
 //Dashboard for admins only
-Route::prefix('admin')->middleware('role:superadmin|administrator')->group(function() {
+Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->group(function() {
 	Route::get('/', 'AdminController@index');
 	Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+	Route::get('/dashboard/moderator/companies', 'AdminController@moderator_dashboard_companies')->name('moderator.companies.dashboard');
+	Route::get('/dashboard/moderator/projects', 'AdminController@moderator_dashboard_projects')->name('moderator.projects.dashboard');
+	Route::get('/search-companies', 'SearchController@moderator_filter_companies')->name('mod.filter.companies');
 	//User Module
 	Route::get('/manage/users', 'UserController@index')->name('admin.user.index');
 	Route::get('/manage/users/create', 'UserController@create')->name('admin.user.create');
@@ -67,6 +70,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator')->group(funct
 	Route::get('import-export-view', 'ExcelController@importExportView')->name('import.export.view');
 	Route::post('import-file', 'ExcelController@importFile')->name('import.file');
 	Route::get('export-file/{type}', 'ExcelController@exportFile')->name('export.file');
+	Route::get('callcenter-reports', 'AdminController@admin_callcenter_reports')->name('callcenter.reports');
+	Route::get('callcenter-details', 'AdminController@admin_callcenter_reports_details')->name('callcenter.reports.details');
 });
 
 Route::prefix('user')->group(function() {
