@@ -34,16 +34,6 @@
                                         @endif
                                     </tr>
                                     @endforeach
-                                    <tr class="company-row">
-                                        <td scope="row"></td>
-                                        <td scope="row">{{$log->activity_type}}</td>
-                                        <td scope="row">{{$log->activity_log}}</td>
-                                        @if($log->activity_type == 'report_create' || $log->activity_type == 'report_update')
-                                        <td class="report-status">{{$log->company->mod_report->status}}</td>
-                                        @else
-                                        <td class="report-status">-</td>
-                                        @endif
-                                    </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr class="company-row table-success">
