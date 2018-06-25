@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="row px-4">
             <div class="col-md-9">
-                <h6 class="mb-3">What is SMBeez</h6>
-                <p>SMBeez is your local online marketplace for small and medium companies keen to do business with you. Source project opportunities and find reliable suppliers easily from the comfort of your office. Confidently do business with trusted... <a href="">more</a></p>
+                <h6 class="mb-3">What is Masharee3</h6>
+                <p>Masharee3 is your local online marketplace for small and medium companies keen to do business with you. Source project opportunities and find reliable suppliers easily from the comfort of your office. Confidently do business with trusted... <a href="">more</a></p>
             </div>
             <div class="col-md-3">
                 @if(Auth::guest())

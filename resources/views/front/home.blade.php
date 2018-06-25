@@ -57,7 +57,7 @@
                 <div class="col-md-4">
                     <div class="sidebar sidebar-01">
                         <h2>Find Suppliers</h2>
-                        <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
+                        <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through Masharee3 or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
                         <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Companies</a>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12 offset-md-3 text-center">
                     <h2><i class="fa fa-folder-o fa-3x mb-3" aria-hidden="true"></i><br>Find Work</h2>
-                    <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
+                    <p class="mt-5 mb-5">Browse thousands of reliable suppliers in different industries. Contact suppliers through Masharee3 or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
                     <a href="{{route('front.industry.index')}}" class="btn btn-blue btn-yellow"><i class="fa fa-angle-right" aria-hidden="true"></i> Browse Opportunities</a>
                 </div>
             </div>
@@ -184,7 +184,7 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12 offset-md-3 text-center">
                     <h2><i class="fa fa-files-o fa-2x mb-3" aria-hidden="true"></i><br>Be Found</h2>
-                    <p class="mt-5 mb-5">Create your company profile and sar thousands of reliable suppliers in different industries. Contact suppliers through SMBeez or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
+                    <p class="mt-5 mb-5">Create your company profile and sar thousands of reliable suppliers in different industries. Contact suppliers through Masharee3 or directly. Check out the suppliers’ reviews by other clients like you and engage confidently in business relationships based on mutual trust.</p>
                     @if (!Auth::guest() && $hascompany)
                     <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
                     @elseif (!Auth::guest() && count(Auth::user()->claims) > 0)

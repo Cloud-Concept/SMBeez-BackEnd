@@ -19,7 +19,7 @@
 							<p>Don’t forget to publish your project to earn [number] more honeycombs!</p>
 							
 							<p>
-							Your friends at SMBeez 
+							Your friends at Masharee3 
 							</p>
 	                    </td>
 	                </tr>
