@@ -4,7 +4,7 @@
         <a class="nav-link {{ Request::is('industries/*') ? 'active' : 'no' }}" href="{{route('front.industry.index')}}">Opportunities</a>
     </li>
     <li class="no-effect">
-        <a href="#"><span class="flag-icon flag-icon-ae"></span> Dubai</a>
+        <a href="#"><span class="flag-icon flag-icon-eg"></span> Cairo</a>
     </li>
     @if (Auth::guest())
     <li class="btn-menu"><a href="{{ route('login') }}">Sign in</a></li>

@@ -3,31 +3,33 @@
 @section('content')
 <main class="cd-main-content">
     <section class="hero">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Matchmaking for Small Businesses</h1>
-                    <p class="text-center">Find work and source suppliers in your local marketplace...</p>
-                    <div class="btn-hero text-center">
-                        @if (!Auth::guest() && $hascompany)
-                        <a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
-                        @elseif(!Auth::guest() && count(Auth::user()->claims) > 0)
-                        <a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
-                        @elseif (!Auth::guest() && !$hascompany)
-                        <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
-                        @elseif (!Auth::guest() && !count(Auth::user()->claims) > 0)
-                        <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
-                        @elseif(Auth::guest())
-                        <a href="{{route('login')}}?action=add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
-                        @endif
-                        <span>or </span>
-                        @if (!Auth::guest() && !$hascompany)
-                        <a href="{{route('front.industry.index')}}" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Browse Opportunities</a>
-                        @elseif (!Auth::guest() && $hascompany)
-                        <a href="#" data-toggle="modal" data-target="#add-project" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a>
-                        @elseif(Auth::guest())
-                        <a href="{{route('login')}}/?action=add-project" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a>
-                        @endif
+        <div class="hero-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-6 col-md-12 offset-xl-3">
+                        <h1 class="text-center">Matchmaking for Small Businesses</h1>
+                        <p class="text-center">Find work and source suppliers in your local marketplace...</p>
+                        <div class="btn-hero text-center">
+                            @if (!Auth::guest() && $hascompany)
+                            <a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
+                            @elseif(!Auth::guest() && count(Auth::user()->claims) > 0)
+                            <a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
+                            @elseif (!Auth::guest() && !$hascompany)
+                            <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                            @elseif (!Auth::guest() && !count(Auth::user()->claims) > 0)
+                            <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                            @elseif(Auth::guest())
+                            <a href="{{route('login')}}?action=add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                            @endif
+                            <span>or </span>
+                            @if (!Auth::guest() && !$hascompany)
+                            <a href="{{route('front.industry.index')}}" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Browse Opportunities</a>
+                            @elseif (!Auth::guest() && $hascompany)
+                            <a href="#" data-toggle="modal" data-target="#add-project" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a>
+                            @elseif(Auth::guest())
+                            <a href="{{route('login')}}/?action=add-project" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> publish your project</a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
