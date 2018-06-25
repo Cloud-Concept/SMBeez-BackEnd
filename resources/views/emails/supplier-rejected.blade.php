@@ -23,7 +23,7 @@
 							<p>Good luck!</p>
 
 							<p>
-							Your friends at SMBeez 
+							Your friends at Masharee3 
 							</p>
 	                    </td>
 	                </tr>

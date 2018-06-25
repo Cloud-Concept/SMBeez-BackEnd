@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Browse hundreds of SMBeez</h1>
+                    <h1 class="text-center">Browse hundreds of Masharee3</h1>
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && !$hasCompany && !count(Auth::user()->claims) > 0)
                     <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">Add your company</a></div>

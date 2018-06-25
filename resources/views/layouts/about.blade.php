@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 mrt-auto">
-                    <h2 class="text-center pt-5 pb-4">What is SMBeez?</h2>
+                    <h2 class="text-center pt-5 pb-4">What is Masharee3?</h2>
                     <p>CD screens are uniquely modern in style, and the liquid crystals that make them work have allowed humanity to create slimmer, more portable technology than we’ve ever had access to before. From your wrist watch to your laptop, a lot of the on the go electronics that we tote from place to place are only possible because of their thin, light LCD display screens. Liquid crystal display (LCD) technology still has some stumbling blocks in its path that can make it unreliable at times, but on the whole the invention of the LCD screen has allowed great leaps forward in global technological progress.</p>
                     <p class="pt-4">Although liquid crystals are not really liquid, their molecules behave more like a liquid than they do like a solid, which earns them their name. The crystals in an LCD exist in a kind of a unique middle ground between solid form and liquid form, which gives them the movement and flexibility of a liquid; but can also let them remain in place, like a solid. Heat can quickly melt a solid to liquid, allowing it to move, whereas cool will make the liquid solidify almost instantly.</p>
                     @if (Auth::guest())
@@ -33,11 +33,11 @@
             <div class="row">
                 <div class="col-md-6 text-center">
                     <h3>Find Work</h3>
-                    <p class="w-75 mt-3 mrt-auto">Browse hundreds of projects and express interest in the projects that suit you. Apply through SMBeez or contact the clients directly. Check out the clients’ reviews by other suppliers like you and engage confidently in business relationships based on mutual trust.</p>
+                    <p class="w-75 mt-3 mrt-auto">Browse hundreds of projects and express interest in the projects that suit you. Apply through Masharee3 or contact the clients directly. Check out the clients’ reviews by other suppliers like you and engage confidently in business relationships based on mutual trust.</p>
                 </div>
                 <div class="col-md-6 text-center">
                     <h3>Be Found</h3>
-                    <p class="w-75 mt-3 mrt-auto">Browse hundreds of projects and express interest in the projects that suit you. Apply through SMBeez or contact the clients directly. Check out the clients’ reviews by other suppliers like you and engage confidently in business relationships based on mutual trust.</p>
+                    <p class="w-75 mt-3 mrt-auto">Browse hundreds of projects and express interest in the projects that suit you. Apply through Masharee3 or contact the clients directly. Check out the clients’ reviews by other suppliers like you and engage confidently in business relationships based on mutual trust.</p>
                 </div>
                 <div class="col-md-12 text-center py-5">
                 	@if (!Auth::guest() && $hascompany)

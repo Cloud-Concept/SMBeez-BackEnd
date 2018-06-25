@@ -19,7 +19,7 @@
 							<p>You have just earned [number] honeycombs! Submit a review and earn [number] more honeycombs and bring your balance to [number]!</p>
 
 							<p>
-							Your friends at SMBeez 
+							Your friends at Masharee3 
 							</p>
 	                    </td>
 	                </tr>

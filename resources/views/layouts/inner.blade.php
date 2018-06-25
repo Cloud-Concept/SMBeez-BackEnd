@@ -11,7 +11,7 @@
         <meta property="og:description" content="@yield('description')" />
         <meta property="og:image" content="@yield('image')" />
         <meta property="og:url" content="{{url()->current()}}" />
-        <title>{{ config('app.name', 'SMBeez') }}  @yield('title')</title>
+        <title>{{ config('app.name', 'Masharee3') }}  @yield('title')</title>
 
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -30,9 +30,9 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.css">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-        <!-- Start of smbeez Zendesk Widget script -->
+        <!-- Start of Masharee3 Zendesk Widget script -->
         <script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","e18d3a93-b688-450b-b2d9-7a9c303f912f");/*]]>*/</script>
-        <!-- End of smbeez Zendesk Widget script -->
+        <!-- End of Masharee3 Zendesk Widget script -->
     </head>
     <body class="no-hero">
         <header class="cd-main-header animate-search">

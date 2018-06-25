@@ -14,11 +14,11 @@
 	                    <td class="panel-item">
 	                        <h1>Hello!</h1>
 
-							<p>Congratulations! You created a new account on SMBeez.net.<!--  Please click the below link to verify your email address. --> </p>
+							<p>Congratulations! You created a new account on masharee3.com.<!--  Please click the below link to verify your email address. --> </p>
 
 							<p>What next? </p>
 
-							<h3>Here is how you can make most of your SMBeez account:</h3>
+							<h3>Here is how you can make most of your Masharee3 account:</h3>
 							<ul>
 								<li>Browse business opportunities in your industry</li>
 								<li>Create and publish a new project and earn [number] honeycombs!</li>
@@ -27,7 +27,7 @@
 							</ul>
 
 							<p>
-							Your friends at SMBeez 
+							Your friends at Masharee3 
 							</p>
 	                    </td>
 	                </tr>

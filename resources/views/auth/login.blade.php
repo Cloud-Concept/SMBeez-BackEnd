@@ -56,7 +56,7 @@
                             </div>
                             <div class="tab-pane fade" id="create-account" role="tabpanel" aria-labelledby="create-account-tab">
                                 <h2 class="py-2 text-center">
-                                    Create your new SMBeez account
+                                    Create your new Masharee3 account
                                 </h2>
                                 <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href="{{route('socialLogin', 'linkedin')}}?action={{request()->input('action')}}"><i class="fa fa-linkedin" aria-hidden="true"></i> Sign Up With Linkedin</a> <a class="btn btn-fb mr-3" href="{{route('socialLogin', 'facebook')}}?action={{request()->input('action')}}"><i class="fa fa-facebook" aria-hidden="true"></i> Sign Up With Facebook</a></div>
                                 <p class="text-center my-3">Sign in with social media or your email and password. If you don't already have an account, click "Create new account".</p>

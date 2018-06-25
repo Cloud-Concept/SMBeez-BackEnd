@@ -104,7 +104,7 @@
                 <div class="col-md-3">
                     <div class="sidebar-subscription mb-4">
                         <h4 class="border-b">My subscription</h4>
-                        <p>All SMBeez features are open for 6 months. You are on the highest subscription tier now, but you will be downgraded to the free tier at 23/9/2018</p>
+                        <p>All Masharee3 features are open for 6 months. You are on the highest subscription tier now, but you will be downgraded to the free tier at 23/9/2018</p>
                     </div>
                     <!-- @forelse(auth()->user()->getReferrals() as $referral)
                     <div class="sidebar-subscription mb-4">             

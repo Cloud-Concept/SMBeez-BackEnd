@@ -12,13 +12,13 @@
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Dear {{$company->company_name}}, Welcome to SMBeez.</h1>
+	                        <h1>Dear {{$company->company_name}}, Welcome to Masharee3.</h1>
 
 							<p>Below is your company URL: ({{route('front.company.show', $company->slug)}})</p>
 
 							<p>What next? </p>
 
-							<h3>Here is how you can make most of your SMBeez account:</h3>
+							<h3>Here is how you can make most of your Masharee3 account:</h3>
 							<ol>
 								<li>Register your account to claim and verify your company.</li>
 								<li>Complete your company profile.</li>
