@@ -6,7 +6,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    @include('layouts.superadmin-sidebar')
+                    @role('superadmin')
+                        @include('layouts.superadmin-sidebar')
+                    @endrole
+                    @role('moderator')
+                        @include('layouts.moderator-sidebar')
+                    @endrole
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
@@ -20,7 +25,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-
+                    @role('superadmin')
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                     @if($company->is_promoted == 1)
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('unpromote').submit();"><i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Un-Promote</a></div>
@@ -50,7 +55,7 @@
                         {{csrf_field()}}                        
                     </form>
 
-
+                    @endrole
                     <form action="{{route('admin.company.update', $company->slug)}}" class="user-setting" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="field">
@@ -195,6 +200,7 @@
                         </div>
                         
                     </form>
+                    @role('superadmin')
                     <h1>DON'T EVER USE THIS CUZ ALL COMPANY OWNER PROJECTS, INTERESTS, REVIEWS, CLAIMS, BOOKMARKS WILL BE DELETED PERMENTANTLY.</h1>
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('delete').submit();"><i class="fa fa-trash fa-3x" aria-hidden="true"></i> DELETE COMPANY</a></div>
                     
@@ -209,6 +215,7 @@
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}                        
                     </form>
+                    @endrole
                 </div>
             </div>
         </div>
