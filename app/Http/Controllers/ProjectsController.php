@@ -75,7 +75,7 @@ class ProjectsController extends Controller
         }
         $project->user_id = auth()->id();
         $project->city = auth()->user()->user_city;
-        $project->close_date = Carbon::now('Asia/Dubai')->addDays(60);
+        $project->close_date = Carbon::now('Africa/Cairo')->addDays(60);
         $project->company_id = Company::where('user_id', auth()->id())->pluck('id')->first();
         
         //save it to the database 

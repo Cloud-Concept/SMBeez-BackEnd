@@ -39,11 +39,11 @@
             <div class="col-md-3">
                 <h6>Locations</h6>
                 <ul>
-                    <li class="no-effect"><a href="#">Dubai</a></li>
+                    <li class="no-effect"><a href="#">Cairo</a></li>
                 </ul>
             </div>
             <div class="col-md-12">
-                <p>Made by Cloud Concept © 2018 - All Rights Reserved</p>
+                <p>Made by Masharee3 © 2018 - All Rights Reserved</p>
             </div>
         </div>
     </div>

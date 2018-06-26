@@ -17,7 +17,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <select name="city" class="form-control custom-select d-block">
-                                                <option value="Dubai">Dubai</option>
+                                                <option value="Cairo">Cairo</option>
                                             </select>
                                         </div>
                                     </div>

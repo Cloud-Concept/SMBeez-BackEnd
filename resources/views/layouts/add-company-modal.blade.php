@@ -99,7 +99,7 @@
                                 <div class="form-group">
                                     <label for="">City *</label>
                                     <select name="city" id="city" class="form-control custom-select d-block" required>
-                                        <option value="Dubai">Dubai</option>
+                                        <option value="Cairo">Cairo</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
