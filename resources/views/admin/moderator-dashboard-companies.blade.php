@@ -74,6 +74,7 @@
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#report-company" class="px-2 report-company" alt="Report Company"><i class="fa fa-list" aria-hidden="true"></i></a>
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#email-company" class="px-2 email-company"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                                                 <a href="{{route('front.company.show', $company->slug)}}" target="_blank" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <a href="{{route('admin.company.edit', $company->slug)}}" target="_blank" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                             </div>
                                         </td>
                                     </tr>
