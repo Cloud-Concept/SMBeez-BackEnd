@@ -111,7 +111,7 @@
                                     <tr>
                                         <td scope="row"><b>City *</b></td>
                                         <td><select class="form-control custom-select d-block" name="city" id="city" required>
-                                            <option value="Dubai">Dubai</option>
+                                            <option value="Cairo">Cairo</option>
                                         </select></td>
                                     </tr>
                                     <tr>

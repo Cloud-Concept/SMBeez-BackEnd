@@ -38,7 +38,7 @@
                             </p>
                             <p class="form-group">
                                 <select name="user_city" class="form-control" required>
-                                    <option value="Dubai">Dubai</option>
+                                    <option value="Cairo">Cairo</option>
                                 </select>
                             </p>
                             <p class="form-group">

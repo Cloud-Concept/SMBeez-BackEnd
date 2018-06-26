@@ -126,7 +126,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <select name="user_city" class="form-control custom-select d-block" required>
-                                                <option value="Dubai">Dubai</option>
+                                                <option value="Cairo">Cairo</option>
                                             </select>
                                         </div>
                                         <div class="col">

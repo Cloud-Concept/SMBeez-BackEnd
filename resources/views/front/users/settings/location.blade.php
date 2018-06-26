@@ -32,10 +32,12 @@
                                 <div class="form-group">
                                     <label for="">Choose New City</label>
                                     <select class="form-control custom-select d-block" name="user_city" required>
-                                        <option value="Dubai">Dubai</option>
+                                        <option value="Cairo">Cairo</option>
                                     </select>
                                 </div>
-                                <p class="form-guide">“Masharee3 is now covering Dubai city only, we will be adding more cities very soon. Stay Tuned!”</p>
+
+                                <p class="form-guide">“Masharee3 is now covering Cairo city only, we will be adding more cities very soon. Stay Tuned!”</p>
+
                                 <br>
                                 <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize">Save Changes</button></div>
                             </form>
