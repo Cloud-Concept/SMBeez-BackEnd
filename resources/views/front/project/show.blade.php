@@ -48,7 +48,7 @@
                                 </li>
                                 @endif
                             @endif
-                            <li>Budget: <span>{{$project->budget}} AED</span></li>
+                            <li>Budget: <span>{{$project->budget}} EGP</span></li>
                             <li>Industry: <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
                             @if($project->specialities->count() > 0)
                             <li>Speciality: <span>

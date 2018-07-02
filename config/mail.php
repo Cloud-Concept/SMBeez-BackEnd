@@ -29,7 +29,7 @@ return array(
     |
     */
 
-    'host' => 'email-smtp.us-east-1.amazonaws.com',
+    'host' => 'smtp.mailgun.org',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'admin@dev.smbeez.net', 'name' => 'SMBeez'),
+    'from' => array('address' => 'noreply@masharee3.com', 'name' => 'Masharee3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ return array(
     |
     */
 
-    'username' => 'AKIAJRZ763GIDKJLELLA',
+    'username' => 'postmaster@dev.masharee3.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return array(
     |
     */
 
-    'password' => 'AjOoNArgzWDCAvYKcJleYhnhfKszfnXBSFMvtmx4bKQW',
+    'password' => 'de5ed57c5ab827d24b641516afaa0d14-0470a1f7-d1294c5c',
 
     /*
     |--------------------------------------------------------------------------
@@ -121,8 +121,8 @@ return array(
     */
 
     'pretend' => false,
-/*
-    'stream' => [
+
+    /*'stream' => [
        'ssl' => [
           'allow_self_signed' => true,
           'verify_peer' => false,

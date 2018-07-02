@@ -16,7 +16,7 @@
                         <div class="box-block-gray">
                             <h3>Project Details <!-- <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> --></h3>
                             <ul class="list-unstyled details-box">
-                                <li>Budget (AED): <input class="form-control" type="number" min="1" value="{{$project->budget}}" name="budget" placeholder="Budget in AED" id="budget" required></li>
+                                <li>Budget (EGP): <input class="form-control" type="number" min="1" value="{{$project->budget}}" name="budget" placeholder="Budget in EGP" id="budget" required></li>
                                 <li>Industry: 
                                     <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
                                         @foreach($industries as $industry)

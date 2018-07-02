@@ -47,7 +47,7 @@
 
                                 <div class="form-group">
                                     <label for="">Estimated Budget *</label>
-                                    <input class="form-control" type="number" min="1" name="budget" placeholder="Insert your budget in AED" id="budget" required>
+                                    <input class="form-control" type="number" min="1" name="budget" placeholder="Insert your budget in EGP" id="budget" required>
                                 </div>
 
                                 <div class="form-group">

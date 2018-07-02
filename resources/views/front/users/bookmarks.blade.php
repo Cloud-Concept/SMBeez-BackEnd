@@ -85,7 +85,7 @@
                             </script>
                             @endforeach
                         </div>
-                        <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('front.bookmarks.listcompanies')}}" class="btn btn-alert text-capitalize"><i class="fa fa-eye fa-3x" aria-hidden="true"></i> View All Bookmarked Companies</a></div>
+                        <div class="text-center" role="alert"><a href="{{route('front.bookmarks.listcompanies')}}" class="btn btn-blue"><i class="fa fa-eye" aria-hidden="true"></i> View All Bookmarked Companies</a></div>
                         @endif
 
                         @if($bookmarked_projects->count() > 0)
@@ -133,7 +133,7 @@
                             </style>
                             @endforeach
                         </div>
-                        <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('front.bookmarks.listopportunities')}}" class="btn btn-alert text-capitalize"><i class="fa fa-eye fa-3x" aria-hidden="true"></i> View All Bookmarked Opportunities</a></div>
+                        <div class="text-center" role="alert"><a href="{{route('front.bookmarks.listopportunities')}}" class="btn btn-blue"><i class="fa fa-eye" aria-hidden="true"></i> View All Bookmarked Opportunities</a></div>
                         @endif
 
                         @if($bookmarked_projects->count() == 0 && $bookmarked_companies->count() == 0)
