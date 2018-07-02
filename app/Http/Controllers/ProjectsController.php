@@ -168,11 +168,11 @@ class ProjectsController extends Controller
         // redirect to the home page
         session()->flash('success', 'Your project has been created as ' . $project->save_as);
 
-        /*if(Input::get('publish')) {
+        if(Input::get('publish')) {
             Mail::to($project->user->email)->send(new ProjectPublished($project));
         }elseif(Input::get('draft')) {
             Mail::to($project->user->email)->send(new ProjectCreated($project));
-        }*/
+        }
 
         return redirect(route('front.project.show', $project->slug));
     }
