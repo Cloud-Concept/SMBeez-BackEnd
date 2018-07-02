@@ -253,7 +253,7 @@ $("#create-user").click(function(e){
 <div class="modal fade modal-fullscreen modal-call" id="report-company" tabindex="-1" role="dialog" aria-labelledby="report-company" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#edit-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#report-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
             <div class="modal-header">
                 <div class="container">
                     <div class="row">
@@ -322,7 +322,7 @@ $("#submit-report").click(function(e){
 <div class="modal fade modal-fullscreen modal-call" id="email-company" tabindex="-1" role="dialog" aria-labelledby="email-company" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#email-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#email-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
             <div class="modal-header">
                 <div class="container">
                     <div class="row">

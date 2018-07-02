@@ -340,7 +340,7 @@ class ProjectsController extends Controller
     {   
         $project->where('id', $project->id)->update(['status' => 'publish']);
 
-        //Mail::to($project->user->email)->send(new ProjectPublished($project));
+        Mail::to($project->user->email)->send(new ProjectPublished($project));
         
         return back();
     }

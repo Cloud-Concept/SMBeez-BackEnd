@@ -85,7 +85,7 @@ class RegisterController extends Controller
         $sluggable = $user->replicate();
         event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
         
-        //Mail::to($user)->send(new Welcome);
+        Mail::to($user)->send(new Welcome);
 
         return $user;
     }
