@@ -14,6 +14,7 @@ use App\ModCompanyReport;
 use App\ModLog;
 use Mail;
 use App\Mail\Mod\Welcome;
+use App\Mail\Mod\NewUser;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -203,6 +204,7 @@ class AdminController extends Controller
 
             $company->update();
 
+            Mail::to($user->email)->send(new NewUser($user, $unique_password));
             //Logging
             $log = new ModLog;
             $log->company_id = $company->id;
