@@ -159,6 +159,8 @@ class AdminController extends Controller
 
             $user->roles()->sync(3);
 
+            Mail::to($request['user_email'])->send(new Welcome($company));
+            
             //Logging
             $log = new ModLog;
             $log->company_id = $company->id;
