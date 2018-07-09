@@ -12,6 +12,7 @@
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.company.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                             <form class="user-setting sd-tickets" action="{{route('mod.filter.companies')}}" role="search" method="get">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -32,20 +33,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
+                                <div class="form-group">
                                     <div class="d-flex">
                                         <select name="status" class="form-control custom-select d-block">
-                                            <option value="In Queue">In Queue</option>
-                                            <option value="Successful Call - Interested">Successful Call - Interested</option>
-                                            <option value="Successful Call - Not Interested">Successful Call - Not Interested</option>
-                                            <option value="Successful Call - Agreed to Call Back">Successful Call - Agreed to Call Back</option>
-                                            <option value="Successful Call - Asked for more details via email">Successful Call - Asked for more details via email</option>
-                                            <option value="Unsuccessful Call - Unreachable">Unsuccessful Call - Unreachable</option>
-                                            <option value="Unsuccessful Call - Wrong number">Unsuccessful Call - Wrong number</option>
-                                            <option value="Unsuccessful Call - No answer">Unsuccessful Call - No answer</option>
+                                           @foreach($status_array as $status)
+                                                <option value="{{$status}}" {{ $status == request()->query('status') ? 'selected' : ''}}>{{$status}}</option>
+                                           @endforeach
                                         </select>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="form-group">
                                     <div class="d-flex"><input class="form-control" name="s" value="{{request()->query('s')}}" placeholder="Search Company" type="search"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
                                 </div>
@@ -81,7 +77,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{$companies->links()}}
+                            {{$companies->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 'status' => request()->input('status'), 's' => request()->input('s') ])->links()}}
                         </div>
                     </div>
                 </div>
