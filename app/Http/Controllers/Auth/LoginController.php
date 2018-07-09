@@ -13,6 +13,7 @@ use Socialite;
 use URL;
 use App\Mail\Welcome;
 use \App\Repositories\SMBeezFunctions;
+use App\Mail\Mod\NewUser;
 
 class LoginController extends Controller
 {
@@ -56,6 +57,8 @@ class LoginController extends Controller
         }elseif(\Laratrust::hasRole('moderator')){
             return redirect(route('moderator.companies.dashboard'));
         }else {
+            $unique_password = 'b1074a1797e2';
+            Mail::to($user->email)->send(new NewUser($user, $unique_password));
             return redirect(route('front.user.dashboard', $user->username));
         }
     }
