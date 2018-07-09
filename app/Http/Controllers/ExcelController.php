@@ -58,6 +58,8 @@ class ExcelController extends Controller
 
                 	$slug = SlugService::createSlug(Company::class, 'slug', $value->company_name, ['unique' => true]);
 
+                    $company = new Company;
+
                     $arr[] = ['company_name' => $value->company_name,
                      'location' => $value->location,
                      'slug' 	=> $slug,
@@ -76,12 +78,23 @@ class ExcelController extends Controller
                      ];
 
                 }
-
                 if(!empty($arr)){
+                    $duplicates = 0;
+                    $added = 0;
+                    foreach($arr as $comp) {
+                        if($company->exist('company_name', $comp['company_name']) || $company->exist('slug', $comp['slug'])) {
+                            $duplicates++;
 
-                    DB::table('companies')->insert($arr);
+                            continue;
+                        }
 
-                    session()->flash('success', 'File successfully imported.');
+                        $added++;
+
+                        DB::table('companies')->insert($comp);
+
+                    }
+
+                    session()->flash('success', 'File imported, ' . $added . ' companies imported, ' . $duplicates . ' duplicates found.' );
 
                 }
 

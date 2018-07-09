@@ -13,6 +13,7 @@ use Socialite;
 use URL;
 use App\Mail\Welcome;
 use \App\Repositories\SMBeezFunctions;
+use App\Mail\Mod\NewUser;
 
 class LoginController extends Controller
 {

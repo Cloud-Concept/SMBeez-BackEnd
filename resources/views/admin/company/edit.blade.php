@@ -25,8 +25,9 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.company.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                     @role('superadmin')
-                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                     @if($company->is_promoted == 1)
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('unpromote').submit();"><i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Un-Promote</a></div>
                     @else
@@ -65,7 +66,7 @@
                             </p>
                             <p class="form-group">
                                 <label for="">What is your company main message? *</label>
-                                <textarea name="company_description" class="form-control" placeholder="Company Description" id="company_description" required>{{$company->company_description}}</textarea>
+                                <textarea name="company_description" class="form-control" placeholder="Company Description" id="company_description">{{$company->company_description}}</textarea>
                             </p>
                             <p class="form-group">
                                 <label for="">Company Tagline</label>
@@ -95,7 +96,8 @@
                             </p>
                             <p class="form-group">
                                 <label for="">Company Size *</label>
-                                <select name="company_size" id="company_size" class="form-control custom-select d-block" required>
+                                <select name="company_size" id="company_size" class="form-control custom-select d-block">
+                                    <option value="">Select Size</option>
                                     <option value="0-1 Employees">0-1 Employees</option>
                                     <option value="2-10 Employees">2-10 Employees</option>
                                     <option value="11-50 Employees">11-50 Employees</option>
@@ -107,6 +109,7 @@
                             <p class="form-group">
                                 <label for="">Company Type</label>
                                 <select name="company_type" id="company_type" class="form-control custom-select d-block">
+                                    <option value="">Select Type</option>
                                     <option value="Sole Ownership">Sole Ownership</option>
                                     <option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
                                     <option value="Free Zone Sole Ownership">Free Zone Sole Ownership</option>

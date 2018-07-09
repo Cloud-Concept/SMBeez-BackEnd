@@ -221,17 +221,21 @@ class SearchController extends Controller
 
         $company = $company->newQuery();
 
-        /*if ($request->has('status')) {
+        if ($request->has('status')) {
             if($request['status'] == 'In Queue') {
-               $company->with('mod_report')->whereHas('mod_report', function ($q) use ($request) {
-                    $q->where('mod_company_reports.company_id', '!=', 'companies.id');
-                }); 
+               
+
+                $company->leftJoin('mod_company_reports', function ($join) use ($request) {
+                    $join->on('companies.id', '=', 'mod_company_reports.company_id');
+                })
+                ->whereNull('mod_company_reports.company_id');
+                
             }else {
                 $company->with('mod_report')->whereHas('mod_report', function ($q) use ($request) {
                     $q->where('mod_company_reports.status', $request['status']);
                 });
             }
-        }*/
+        }
         if ($request->has('industry')) {
             $company->where('industry_id', $request['industry']);
         }
@@ -240,6 +244,14 @@ class SearchController extends Controller
         }
         $companies = $company->where('city', $request['city'])->paginate(10);
 
-        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry')); 
+        $status_array = array(
+            '',
+            'In Queue', 'Successful Call - Interested', 'Successful Call - Not Interested',
+            'Successful Call - Agreed to Call Back', 'Successful Call - Asked for more details via email',
+            'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
+            'Unsuccessful Call - No answer'
+        );
+
+        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array')); 
     }
 }

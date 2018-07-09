@@ -584,17 +584,19 @@ class CompaniesController extends Controller
             //get the slug
             $slug = $company->where('company_name', $request['company_name'])->first();
             //go to claim this company page
+            session()->flash('success', 'This Company Already Exist, and you have been redirected to it\'s page.');
+
             return redirect(route('admin.company.edit', $slug->slug));
 
         }else {
 
             $this->validate($request, [
                 'company_name' => 'required|string|max:255',
-                'company_description' => 'required',
+                /*'company_description' => 'required',
                 'company_phone' => 'required',
                 'city' => 'required',
                 'company_size' => 'required',
-                'industry_id' => 'required',
+                'industry_id' => 'required',*/
                 'slug' => 'unique:companies'
             ]);
 
@@ -664,23 +666,23 @@ class CompaniesController extends Controller
             //check for specs that already exists in database
             $spec_exists = Speciality::with('companies')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
             //foreach specs add the specialities that is not recorded in the database
-            foreach($specs as $spec) {
-                $speciality = new Speciality;
-                if(!in_array($spec, $spec_exists)) {
-                    $speciality->speciality_name = $spec;
-                    $speciality->save();
+            
+            if(!empty($specs[0])) {
+                foreach($specs as $spec) {
+                    $speciality = new Speciality;
+                    if(!in_array($spec, $spec_exists)) {
+                        $speciality->speciality_name = $spec;
+                        $speciality->save();
+                    }
                 }
-            }
-            //get ids of specialities to attach to the project
-            $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
-            //sync project specialities
-            $company->specialities()->sync($specs_ids, false);
 
-            //change current user to company role
-            $roles = new Role;
-            $role = $roles->where('name', 'company')->pluck('id');
-            $user = Auth::User();
-            $user->roles()->sync($role, true);
+                //get ids of specialities to attach to the project
+                $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+                //sync project specialities
+                $company->specialities()->sync($specs_ids, false);
+            }
+            
+
             //make the company sluggable
             $sluggable = $company->replicate();
             // redirect to the home page
@@ -779,19 +781,21 @@ class CompaniesController extends Controller
         //check for specs that already exists in database
         $spec_exists = Speciality::with('companies')->whereIn('speciality_name', $specs)->pluck('speciality_name')->toArray();
         //foreach specs add the specialities that is not recorded in the database
-        foreach($specs as $spec) {
-            $speciality = new Speciality;
-            if(!in_array($spec, $spec_exists)) {
-                if(!empty($spec)) {
-                    $speciality->speciality_name = $spec;
-                    $speciality->save();
+        if(!empty($specs[0])) {
+            foreach($specs as $spec) {
+                $speciality = new Speciality;
+                if(!in_array($spec, $spec_exists)) {
+                    if(!empty($spec)) {
+                        $speciality->speciality_name = $spec;
+                        $speciality->save();
+                    }
                 }
             }
+            //get ids of specialities to attach to the project
+            $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
+            //sync project specialities
+            $company->specialities()->sync($specs_ids, true);
         }
-        //get ids of specialities to attach to the project
-        $specs_ids = $speciality->with('companies')->whereIn('speciality_name', $specs)->pluck('id')->toArray();
-        //sync project specialities
-        $company->specialities()->sync($specs_ids, true);
         //make the company sluggable
         $sluggable = $company->replicate();
         // redirect to the home page

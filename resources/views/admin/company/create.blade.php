@@ -7,7 +7,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    @include('layouts.superadmin-sidebar')
+                    @role('superadmin')
+                        @include('layouts.superadmin-sidebar')
+                    @endrole
+                    @role('moderator')
+                        @include('layouts.moderator-sidebar')
+                    @endrole
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
@@ -30,7 +35,7 @@
                             </p>
                             <p class="form-group">
                                 <label for="">What is your company main message? *</label>
-                                <textarea name="company_description" class="form-control" placeholder="Company Description" id="company_description" required></textarea>
+                                <textarea name="company_description" class="form-control" placeholder="Company Description" id="company_description"></textarea>
                             </p>
                             <p class="form-group">
                                 <label for="">Company Tagline</label>
@@ -60,7 +65,8 @@
                             </p>
                             <p class="form-group">
                                 <label for="">Company Size *</label>
-                                <select name="company_size" id="company_size" class="form-control custom-select d-block" required>
+                                <select name="company_size" id="company_size" class="form-control custom-select d-block">
+                                    <option value="">Select Size</option>
                                     <option value="0-1 Employees">0-1 Employees</option>
                                     <option value="2-10 Employees">2-10 Employees</option>
                                     <option value="11-50 Employees">11-50 Employees</option>
@@ -72,6 +78,7 @@
                             <p class="form-group">
                                 <label for="">Company Type</label>
                                 <select name="company_type" id="company_type" class="form-control custom-select d-block">
+                                    <option value="">Select Type</option>
                                     <option value="Sole Ownership">Sole Ownership</option>
                                     <option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
                                     <option value="Free Zone Sole Ownership">Free Zone Sole Ownership</option>

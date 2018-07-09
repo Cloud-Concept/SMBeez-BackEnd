@@ -63,8 +63,15 @@ class AdminController extends Controller
         }
         $companies = Company::paginate(10);
         $industries = Industry::with('companies')->orderBy('industry_name', 'asc')->paginate(10);
+        $status_array = array(
+            '',
+            'In Queue', 'Successful Call - Interested', 'Successful Call - Not Interested',
+            'Successful Call - Agreed to Call Back', 'Successful Call - Asked for more details via email',
+            'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
+            'Unsuccessful Call - No answer'
+        );
 
-        return view('admin.moderator-dashboard-companies', compact('companies', 'industries'));
+        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array'));
     }
 
     public function moderator_dashboard_projects()
