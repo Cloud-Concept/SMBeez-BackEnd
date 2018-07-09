@@ -57,8 +57,6 @@ class LoginController extends Controller
         }elseif(\Laratrust::hasRole('moderator')){
             return redirect(route('moderator.companies.dashboard'));
         }else {
-            $unique_password = 'b1074a1797e2';
-            Mail::to($user->email)->send(new NewUser($user, $unique_password));
             return redirect(route('front.user.dashboard', $user->username));
         }
     }
