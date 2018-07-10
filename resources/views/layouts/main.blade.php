@@ -33,6 +33,7 @@
         
     </head>
     <body class="home">
+        @include ('layouts.another-tag-manager')
         <header class="cd-main-header animate-search">
             <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
             <nav class="cd-main-nav-wrapper">

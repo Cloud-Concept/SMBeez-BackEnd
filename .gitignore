@@ -13,3 +13,5 @@ yarn-error.log
 /config/database.php
 /database/migrations
 /resources/views/layouts/tag-manager.blade.php
+/resources/views/layouts/another-tag-manager.blade.php
+
