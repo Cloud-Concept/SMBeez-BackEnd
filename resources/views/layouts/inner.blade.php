@@ -13,7 +13,11 @@
         <meta property="og:image" content="@yield('image')" />
         <meta property="og:url" content="{{url()->current()}}" />
         <title>{{ config('app.name', 'Masharee3') }}  @yield('title')</title>
-        @include ('layouts.tag-manager')
+        @if(Request::is('user/*'))
+            <meta name="robots" content="noindex,nofollow">
+        @else
+            @include ('layouts.tag-manager')
+        @endif
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -37,6 +41,9 @@
 
     </head>
     <body class="no-hero">
+        @if(!Request::is('user/*'))
+            @include ('layouts.another-tag-manager')
+        @endif
         <header class="cd-main-header animate-search">
             <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
             <nav class="cd-main-nav-wrapper">
