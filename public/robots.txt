@@ -1,28 +1,12 @@
 User-agent: *
 
-Disallow:
-/public/companies/*
-Disallow:
-
-/public/images/*
-Disallow:
-
-/public/projects/*
-Disallow:
-
-/public/storage/*
-Disallow:
-
-/public/css/*
-
-Disallow:
-
-/public/js/
-*
-Disallow:
-
-/public/fonts/
-*
+Disallow:/public/companies/*
+Disallow:/public/images/*
+Disallow:/public/projects/*
+Disallow:/public/storage/*
+Disallow:/public/css/*
+Disallow:/public/js/*
+Disallow:/public/fonts/*
 Disallow:/resources/views/admin/*
 Disallow:/resources/views/admin/*
 Disallow:/resources/views/front/users/*
