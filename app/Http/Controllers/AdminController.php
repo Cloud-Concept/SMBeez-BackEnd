@@ -61,7 +61,7 @@ class AdminController extends Controller
         if(!$user->hasRole(['moderator'])) {
             return redirect()->route('home');
         }
-        $companies = Company::paginate(10);
+        $companies = Company::latest()->paginate(10);
         $industries = Industry::with('companies')->orderBy('industry_name', 'asc')->paginate(10);
         $status_array = array(
             '',
