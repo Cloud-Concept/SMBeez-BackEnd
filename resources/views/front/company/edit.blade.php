@@ -265,7 +265,7 @@
     });
 });*/
 
-var total_photos_counter = 0;
+/*var total_photos_counter = 0;
 var company_id = '{{$company->slug}}';
 var url = '{{ route("update-company-imgs", ":company_id") }}';
 Dropzone.options.myDropzone = {
@@ -297,7 +297,7 @@ Dropzone.options.myDropzone = {
         total_photos_counter++;
         $("#counter").text("# " + total_photos_counter);
     }
-};
+};*/
 
 var tagApi = $(".tm-input").tagsManager({
     prefilled: ["{!!$company_specialities!!}"]
