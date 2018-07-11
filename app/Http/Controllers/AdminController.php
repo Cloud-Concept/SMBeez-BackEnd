@@ -302,6 +302,8 @@ class AdminController extends Controller
         $today_assign_users = $log->where('activity_type', 'assign_user')->whereDate('created_at', Carbon::today())->count();
         $today_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereDate('created_at', Carbon::today())->count();
         $today_message_sent = $log->where('activity_type', 'message_sent')->whereDate('created_at', Carbon::today())->count();
+        $today_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereDate('created_at', Carbon::today())->count();
+        $today_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereDate('created_at', Carbon::today())->count();
         $today_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
@@ -316,6 +318,8 @@ class AdminController extends Controller
         $overall_assign_users = $log->where('activity_type', 'assign_user')->count();
         $overall_assign_new_user = $log->where('activity_type', 'assign_new_user')->count();
         $overall_message_sent = $log->where('activity_type', 'message_sent')->count();
+        $overall_companies_by_users = $log->where('activity_type', 'new_user_created_company')->count();
+        $overall_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->count();
         $overall_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
@@ -337,6 +341,8 @@ class AdminController extends Controller
         $range_assign_users = $log->where('activity_type', 'assign_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         $range_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         $range_message_sent = $log->where('activity_type', 'message_sent')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         $range_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
@@ -353,6 +359,8 @@ class AdminController extends Controller
             'today_assign_users' => $today_assign_users,
             'today_assign_new_user' => $today_assign_new_user,
             'today_message_sent' => $today_message_sent,
+            'today_companies_by_users' => $today_companies_by_users,
+            'today_companies_imported_admin' => $today_companies_imported_admin,
             'today_successful_calls' => $today_successful_calls,
             'today_unsuccessful_calls' => $today_unsuccessful_calls,
             'overall_company_updates' => $overall_company_updates,
@@ -360,6 +368,8 @@ class AdminController extends Controller
             'overall_assign_users' => $overall_assign_users,
             'overall_assign_new_user' => $overall_assign_new_user,
             'overall_message_sent' => $overall_message_sent,
+            'overall_companies_by_users' => $overall_companies_by_users,
+            'overall_companies_imported_admin' => $overall_companies_imported_admin,
             'overall_successful_calls' => $overall_successful_calls,
             'overall_unsuccessful_calls' => $overall_unsuccessful_calls,
             'overall_inqueue' => $overall_inqueue,
@@ -368,6 +378,8 @@ class AdminController extends Controller
             'range_assign_users' => $range_assign_users,
             'range_assign_new_user' => $range_assign_new_user,
             'range_message_sent' => $range_message_sent,
+            'range_companies_by_users' => $range_companies_by_users,
+            'range_companies_imported_admin' => $range_companies_imported_admin,
             'range_successful_calls' => $range_successful_calls,
             'range_unsuccessful_calls' => $range_unsuccessful_calls,
         ));

@@ -14,6 +14,7 @@ use App\MyFile;
 use App\User;
 use App\Claim;
 use App\Reply;
+use App\ModLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Image;
@@ -164,6 +165,14 @@ class CompaniesController extends Controller
                 //make the company sluggable
                 $sluggable = $company->replicate();
                 // redirect to the home page
+                //Logging
+                $log = new ModLog;
+                $log->company_id = $company->id;
+                $log->activity_type = 'new_user_created_company';
+                $log->activity_log = 'User ' . $user->first_name . ' Created Company ' . $company->company_name;
+
+                $log->save();
+                
                 session()->flash('success', 'Your company has been created.');
                 //if save go to company page, if continue go to edit page
                 if(Input::get('save')) {
@@ -685,6 +694,15 @@ class CompaniesController extends Controller
 
             //make the company sluggable
             $sluggable = $company->replicate();
+
+            //Logging
+            $log = new ModLog;
+            $log->company_id = $company->id;
+            $log->activity_type = 'admin_created_company';
+            $log->activity_log = 'Company "' . $company->company_name . '" has been added by Superadmin.';
+            
+            $log->save();
+
             // redirect to the home page
             session()->flash('success', 'Your company has been created.');
             //if save go to company page, if continue go to edit page
@@ -713,6 +731,7 @@ class CompaniesController extends Controller
         $company->company_phone = $request['company_phone'];
         $company->linkedin_url = $request['linkedin_url'];
         $company->location = $request['location'];
+        $company->industry_id = $request['industry_id'];
         $company->city = $request['city'];
         $company->company_size = $request['company_size'];
         $company->year_founded = $request['year_founded'];
@@ -798,6 +817,14 @@ class CompaniesController extends Controller
         }
         //make the company sluggable
         $sluggable = $company->replicate();
+
+        //Logging
+        $log = new ModLog;
+        $log->company_id = $company->id;
+        $log->activity_type = 'company_update';
+        $log->activity_log = 'Company "' . $company->company_name . '" has been updated.';
+
+        $log->save();
         // redirect to the home page
         session()->flash('success', 'Your company has been updated.');
 

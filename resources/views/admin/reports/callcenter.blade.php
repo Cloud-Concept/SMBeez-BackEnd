@@ -56,6 +56,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_companies_by_users']}}</p>
+                                <p><a href="#">Companies Created By Users</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_companies_imported_admin']}}</p>
+                                <p><a href="#">Companies Imported By Admin</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$logs['today_successful_calls']}}</p>
                                 <p><a href="#">Successful Calls</a></p>
                             </div>
@@ -99,6 +111,18 @@
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$logs['overall_message_sent']}}</p>
                                 <p><a href="#">Messages Sent To Users</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_companies_by_users']}}</p>
+                                <p><a href="#">Companies Created By Users</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_companies_imported_admin']}}</p>
+                                <p><a href="#">Companies Imported By Admin</a></p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -164,6 +188,18 @@
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$logs['range_message_sent']}}</p>
                                 <p><a href="#">Messages Sent To Users</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_companies_by_users']}}</p>
+                                <p><a href="#">Companies Created By Users</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_companies_imported_admin']}}</p>
+                                <p><a href="#">Companies Imported By Admin</a></p>
                             </div>
                         </div>
                         <div class="col-md-6">
