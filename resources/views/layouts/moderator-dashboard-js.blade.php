@@ -109,6 +109,7 @@
                                 <div class="form-group"><label class="custom-control">Phone</label><input class="form-control" type="text" name="company_phone" placeholder="Company Phone *" id="company_phone" required></div>
                                 <div class="form-group"><label class="custom-control">Company Address</label><input class="form-control" type="text" name="location" placeholder="Company Address *" id="location" required></div>
                                 <input type="hidden" class="get-info"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                                 <button class="btn btn-blue btn-yellow pull-right update-company-submit">Save Details</button>
                             </form>
                         </div>
@@ -131,6 +132,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" class="get-info"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                             </form>
                             <form class="call-form" id="create-user-form" method="post">
                                 {{csrf_field()}}
@@ -148,6 +150,7 @@
                                     </select>
                                 </div>
                                 <input type="hidden" class="get-info"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                                 <button class="btn btn-blue btn-yellow pull-right" id="create-user">Create User</button>
                             </form>
                         </div>
@@ -200,6 +203,7 @@ $(".update-company-submit").click(function(e){
 		company_phone: $(this).closest('#update-company-form').find('#company_phone').val(),
 		location: $(this).closest('#update-company-form').find('#location').val(),
 		specialities: $(this).closest('#update-company-form').find( "input[name='hidden-speciality_id']" ).val(),
+        mod_user: $(this).closest('#update-company-form').find( "input[name='mod_user']" ).val(),
 
 	}).done(function( data ) {
 	    $('.company-update-alert').addClass('show').show();
@@ -215,6 +219,7 @@ $("#assign-company").click(function(e){
 	$.post(url.replace(':company_id', company_id),
 	{
 		user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
+        mod_user: $(this).closest('#assign-company-to-user').find( "input[name='mod_user']" ).val(),
 
 	}).done(function( data ) {
 	    $('#assign-company-to-user').find('.verify').show();
@@ -237,6 +242,7 @@ $("#create-user").click(function(e){
 		phone: $(this).closest('#create-user-form').find('#phone').val(),
 		email: $(this).closest('#create-user-form').find('#email').val(),
 		role: $(this).closest('#create-user-form').find('#role').val(),
+        mod_user: $(this).closest('#create-user-form').find( "input[name='mod_user']" ).val(),
 
 	}).done(function( data ) {
 	    $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
@@ -288,6 +294,7 @@ $("#create-user").click(function(e){
                                 </div>
                                 <div class="form-group"><label class="custom-control">Additional Comments</label><textarea name="feedback" id="feedback" class="form-control" placeholder="Write down a feedback"></textarea></div>
                                 <input type="hidden" class="get-info"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                                 <button class="btn btn-blue btn-yellow pull-right" id="submit-report">Save Status</button>
                             </form>
                         </div>
@@ -309,6 +316,7 @@ $("#submit-report").click(function(e){
 		status: $(this).closest('#report-company-form').find('#status').val(),
 		feedback: $(this).closest('#report-company-form').find('#feedback').val(),
 		company_id: company_id,
+        mod_user: $(this).closest('#report-company-form').find( "input[name='mod_user']" ).val(),
 
 	}).done(function( data ) {
 	    $('.report-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
@@ -354,6 +362,7 @@ $("#submit-report").click(function(e){
                                 <div class="form-group"><label class="custom-control">User Email *</label><input type="text" id="user_email" name="user_email" class="form-control" placeholder="User Email *" required></div>
                                 <!-- <div class="form-group"><label class="custom-control">Message Body</label><textarea id="body" name="body" class="form-control" placeholder="Message Body"></textarea></div> -->
                                 <input type="hidden" class="get-info"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                                 <button id="send-message" class="btn btn-blue btn-yellow pull-right">Send</button>
                             </form>
                         </div>
@@ -374,6 +383,7 @@ $("#send-message").click(function(e){
 		subject: $(this).closest('#send-msg-form').find('#subject').val(),
 		body: $(this).closest('#send-msg-form').find('#body').val(),
 		user_email: $(this).closest('#send-msg-form').find('#user_email').val(),
+        mod_user: $(this).closest('#send-msg-form').find( "input[name='mod_user']" ).val(),
 
 	}).done(function( data ) {
 	    $('.email-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);

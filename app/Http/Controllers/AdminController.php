@@ -147,9 +147,11 @@ class AdminController extends Controller
         }
         //Logging
         $log = new ModLog;
+        $mod_user = $request['mod_user'];
         $log->company_id = $company->id;
         $log->activity_type = 'company_update';
         $log->activity_log = 'Company "' . $company->company_name . '" has been updated.';
+        $log->user_id = $mod_user;
 
         $log->save();
 
@@ -170,6 +172,8 @@ class AdminController extends Controller
             
             //Logging
             $log = new ModLog;
+            $mod_user = $request['mod_user'];
+            $log->user_id = $mod_user;
             $log->company_id = $company->id;
             $log->activity_type = 'assign_user';
             $log->activity_log = 'Company "' . $company->company_name . '" has been assigned to existing user ' . $user->email;
@@ -216,6 +220,8 @@ class AdminController extends Controller
             Mail::to($user->email)->send(new NewUser($user, $unique_password));
             //Logging
             $log = new ModLog;
+            $mod_user = $request['mod_user'];
+            $log->user_id = $mod_user;
             $log->company_id = $company->id;
             $log->activity_type = 'assign_new_user';
             $log->activity_log = 'Company "' . $company->company_name . '" has been assigned to a new user ' . $user->email;
@@ -251,6 +257,8 @@ class AdminController extends Controller
 
             //Logging
             $log = new ModLog;
+            $mod_user = $request['mod_user'];
+            $log->user_id = $mod_user;
             $log->company_id = $company->id;
             $log->activity_type = 'report_update';
             $log->activity_log = 'Company status updated to "' . $report->status . '"';
@@ -261,7 +269,9 @@ class AdminController extends Controller
 
         }else {
             $report = new ModCompanyReport;
+            $mod_user = $request['mod_user'];
 
+            $report->user_id = $mod_user;
             $report->status = $request['status'];
             $report->feedback = $request['feedback'];
             $report->company_id = $company->id;
@@ -270,6 +280,8 @@ class AdminController extends Controller
 
             //Logging
             $log = new ModLog;
+            
+            $log->user_id = $mod_user;
             $log->company_id = $company->id;
             $log->activity_type = 'report_create';
             $log->activity_log = 'Company first call status is "' . $report->status . '"';
@@ -286,6 +298,8 @@ class AdminController extends Controller
 
         //Logging
         $log = new ModLog;
+        $mod_user = $request['mod_user'];
+        $log->user_id = $mod_user;
         $log->company_id = $company->id;
         $log->activity_type = 'message_sent';
         $log->activity_log = 'A mail has been sent to company "' . $company->company_name . '"';
@@ -385,7 +399,7 @@ class AdminController extends Controller
         ));
         $logs = $logs[0];
 
-        return view('admin.reports.callcenter', compact('logs', 'log_range'));
+        return view('admin.reports.callcenter', compact('logs'));
     }
     public function admin_callcenter_reports_details(Request $request, ModLog $log, ModCompanyReport $report) {
 

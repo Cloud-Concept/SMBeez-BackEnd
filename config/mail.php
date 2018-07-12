@@ -55,7 +55,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'noreply@masharee3.com', 'name' => 'Masharee3'),
+    'from' => array('address' => 'info@masharee3.com', 'name' => 'Masharee3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,11 +122,11 @@ return array(
 
     'pretend' => false,
 
-    'stream' => [
+    /*'stream' => [
        'ssl' => [
           'allow_self_signed' => true,
           'verify_peer' => false,
           'verify_peer_name' => false,
        ],
-    ],
+    ],*/
 );

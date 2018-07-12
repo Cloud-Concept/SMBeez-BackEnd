@@ -15,6 +15,9 @@ use App\Company;
 use App\Industry;
 use App\Speciality;
 use App\Message;
+use App\ModLog;
+use App\ModCompanyReport;
+use Carbon\Carbon;
 use Image;
 use File;
 use DB;
@@ -601,5 +604,111 @@ class UserController extends Controller
 
             return view('front.users.opportunities', compact('user_messages','user', 'suggested_projects', 'interested_projects', 'industries', 'specialities'));
         }
+    }
+
+
+    public function moderators() {
+        $user = auth()->user();
+        if(!$user->hasRole(['superadmin'])) {
+            return redirect()->route('home');
+        }
+
+        $moderators = User::whereHas('roles', function($q){
+            $q->where('name', 'moderator');
+        })->get();
+
+        return view('admin.users.moderator-list', compact('moderators'));
+    }
+
+    public function moderator_stats(User $user, Request $request) {
+        $_user = auth()->user();
+        if(!$_user->hasRole(['superadmin'])) {
+            return redirect()->route('home');
+        }
+
+        $log = new ModLog;
+        $report = new ModCompanyReport;
+
+        $today_company_updates = $log->where('activity_type', 'company_update')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_report_creates = $log->where('activity_type', 'report_create')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_assign_users = $log->where('activity_type', 'assign_user')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_assign_new_user = $log->where('activity_type', 'assign_new_user')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_message_sent = $log->where('activity_type', 'message_sent')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_companies_by_users = $log->where('activity_type', 'new_user_created_company')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
+        'Successful Call - Not Interested', 
+        'Successful Call - Agreed to Call Back', 
+        'Successful Call - Asked for more details via email'])->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
+        'Unsuccessful Call - Wrong number', 
+        'Unsuccessful Call - No answer'])->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+
+
+        $overall_company_updates = $log->where('activity_type', 'company_update')->where('user_id', $user->id)->count();
+        $overall_report_creates = $log->where('activity_type', 'report_create')->where('user_id', $user->id)->count();
+        $overall_assign_users = $log->where('activity_type', 'assign_user')->where('user_id', $user->id)->count();
+        $overall_assign_new_user = $log->where('activity_type', 'assign_new_user')->where('user_id', $user->id)->count();
+        $overall_message_sent = $log->where('activity_type', 'message_sent')->where('user_id', $user->id)->count();
+        $overall_companies_by_users = $log->where('activity_type', 'new_user_created_company')->where('user_id', $user->id)->count();
+        $overall_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->where('user_id', $user->id)->count();
+        $overall_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
+        'Successful Call - Not Interested', 
+        'Successful Call - Agreed to Call Back', 
+        'Successful Call - Asked for more details via email'])->where('user_id', $user->id)->count();
+        $overall_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
+        'Unsuccessful Call - Wrong number', 
+        'Unsuccessful Call - No answer'])->where('user_id', $user->id)->count();
+
+
+        $range_company_updates = $log->where('activity_type', 'company_update')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_report_creates = $log->where('activity_type', 'report_create')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_assign_users = $log->where('activity_type', 'assign_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_message_sent = $log->where('activity_type', 'message_sent')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
+        'Successful Call - Not Interested', 
+        'Successful Call - Agreed to Call Back', 
+        'Successful Call - Asked for more details via email'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
+        'Unsuccessful Call - Wrong number', 
+        'Unsuccessful Call - No answer'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+
+        $logs = array();
+
+        array_push($logs, array(
+            'today_company_updates' => $today_company_updates,
+            'today_report_creates' => $today_report_creates,
+            'today_assign_users' => $today_assign_users,
+            'today_assign_new_user' => $today_assign_new_user,
+            'today_message_sent' => $today_message_sent,
+            'today_companies_by_users' => $today_companies_by_users,
+            'today_companies_imported_admin' => $today_companies_imported_admin,
+            'today_successful_calls' => $today_successful_calls,
+            'today_unsuccessful_calls' => $today_unsuccessful_calls,
+            'overall_company_updates' => $overall_company_updates,
+            'overall_report_creates' => $overall_report_creates,
+            'overall_assign_users' => $overall_assign_users,
+            'overall_assign_new_user' => $overall_assign_new_user,
+            'overall_message_sent' => $overall_message_sent,
+            'overall_companies_by_users' => $overall_companies_by_users,
+            'overall_companies_imported_admin' => $overall_companies_imported_admin,
+            'overall_successful_calls' => $overall_successful_calls,
+            'overall_unsuccessful_calls' => $overall_unsuccessful_calls,
+            'range_company_updates' => $range_company_updates,
+            'range_report_creates' => $range_report_creates,
+            'range_assign_users' => $range_assign_users,
+            'range_assign_new_user' => $range_assign_new_user,
+            'range_message_sent' => $range_message_sent,
+            'range_companies_by_users' => $range_companies_by_users,
+            'range_companies_imported_admin' => $range_companies_imported_admin,
+            'range_successful_calls' => $range_successful_calls,
+            'range_unsuccessful_calls' => $range_unsuccessful_calls,
+        ));
+        $logs = $logs[0];
+
+        return view('admin.users.moderator-stat', compact('logs', 'user'));
     }
 }

@@ -34,6 +34,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('/manage/users/edit/{user}', 'UserController@edit')->name('admin.user.edit');
 	Route::post('/manage/users/update/{user}', 'UserController@update')->name('admin.user.update');
 	Route::delete('/manage/users/delete/{user}', 'UserController@destroy')->name('admin.user.delete');
+	Route::get('/manage/moderators', 'UserController@moderators')->name('admin.user.mods');
+	Route::get('/manage/moderator-stat/{user}', 'UserController@moderator_stats')->name('admin.user.mod_stat');
 	//Industries Module
 	Route::get('/manage/industries', 'AdminController@industries')->name('admin.industries');
 	Route::get('/manage/industries/create', 'IndustriesController@create')->name('admin.industry.create');
