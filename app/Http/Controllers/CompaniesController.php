@@ -697,6 +697,9 @@ class CompaniesController extends Controller
 
             //Logging
             $log = new ModLog;
+
+            $mod_user = auth()->user()->id;
+            $log->user_id = $mod_user;
             $log->company_id = $company->id;
             $log->activity_type = 'admin_created_company';
             $log->activity_log = 'Company "' . $company->company_name . '" has been added by Superadmin.';
@@ -820,6 +823,9 @@ class CompaniesController extends Controller
 
         //Logging
         $log = new ModLog;
+
+        $mod_user = auth()->user()->id;
+        $log->user_id = $mod_user;
         $log->company_id = $company->id;
         $log->activity_type = 'company_update';
         $log->activity_log = 'Company "' . $company->company_name . '" has been updated.';

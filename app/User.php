@@ -83,6 +83,17 @@ class User extends Authenticatable
     public function claims() {
         return $this->hasOne(Claim::class);
     }
+
+    public function mod_reports() {
+
+        return $this->hasMany(ModCompanyReport::class);
+
+    }
+    public function mod_logs() {
+
+        return $this->hasMany(ModLog::class);
+
+    }
     //check for profile completion
     public function profile_completion() {
 

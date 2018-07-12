@@ -37,6 +37,8 @@ class LoginController extends Controller
      */
 
     protected function authenticated(Request $request, $user) {
+
+        $user->increment('logins_no', 1);
         if($request['action'] === 'add-company') { 
             //if unlogged user clicked on add company
             return redirect(route('front.user.dashboard', $user->username) . '?action=add-company');
@@ -122,6 +124,8 @@ class LoginController extends Controller
 
             Auth::login($user);
             
+            $user->increment('logins_no', 1);
+
             if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
                 //if unlogged user clicked on add company
                 return redirect(route('front.user.dashboard', $user) . '?action=add-company');
@@ -156,9 +160,9 @@ class LoginController extends Controller
           $sluggable = $user->replicate();
           event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
           
-          //Mail::to($user)->send(new Welcome);
-
           Auth::login($user);
+
+          $user->increment('logins_no', 1);
 
             if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
                 //if unlogged user clicked on add company
