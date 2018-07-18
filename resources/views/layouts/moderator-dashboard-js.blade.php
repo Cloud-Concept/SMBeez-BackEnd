@@ -19,10 +19,11 @@
 	        $('#edit-company').find('#company_email').val(data.company_email);
 	        $('#edit-company').find('#company_phone').val(data.company_phone);
 	        $('#edit-company').find('#location').val(data.location);
+            $('#edit-company').find('#industry_id').val(data.industry_id).attr('selected', 'selected');
 	        $('#edit-company').find('.company-name-span').text('(' + data.company_name + ')');
 	        $('#edit-company').find('.com-city').text(data.city);
 	        $('#edit-company').find('.get-info').val(data.slug);
-	        
+
 	        if(data.user != null) {
 	        	$('#edit-company').find('#user_email').val(data.user.email);
 	    	}else{
@@ -104,6 +105,13 @@
                                 <div class="form-group"><label class="custom-control">Specialities</label>
                                 	<input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">Write your keywords separated with commas</p>
+                                </div>
+                                <div class="form-group">
+                                    <select name="industry_id" id="industry_id" class="form-control custom-select d-block" required>
+                                        @foreach($industries as $industry)
+                                        <option value="{{$industry->id}}" {{$industry->id == $company->industry->id ? 'selected' : ''}}>{{$industry->industry_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group"><label class="custom-control">Company email</label><input class="form-control" type="email" name="company_email" placeholder="Company Email *" id="company_email" required></div>
                                 <div class="form-group"><label class="custom-control">Phone</label><input class="form-control" type="text" name="company_phone" placeholder="Company Phone *" id="company_phone" required></div>
@@ -202,6 +210,7 @@ $(".update-company-submit").click(function(e){
 		company_email: $(this).closest('#update-company-form').find('#company_email').val(),
 		company_phone: $(this).closest('#update-company-form').find('#company_phone').val(),
 		location: $(this).closest('#update-company-form').find('#location').val(),
+        industry_id: $(this).closest('#update-company-form').find('#industry_id').val(),
 		specialities: $(this).closest('#update-company-form').find( "input[name='hidden-speciality_id']" ).val(),
         mod_user: $(this).closest('#update-company-form').find( "input[name='mod_user']" ).val(),
 

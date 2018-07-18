@@ -127,6 +127,13 @@
                                 </select>
                             </p>
                             <p class="form-group">
+                                <label for="">Company Status</label>
+                                <select name="status" id="status" class="form-control custom-select d-block" required>
+                                    <option value="1" {{$company->status == 1 ? 'selected' : ''}}>Show</option>
+                                    <option value="0" {{$company->status == 0 ? 'selected' : ''}}>Hide</option>
+                                </select>
+                            </p>
+                            <p class="form-group">
                                 <div class="form-group">
                                     <label for="speciality_id">Specialities</label>
                                     <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>

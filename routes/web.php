@@ -66,6 +66,7 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::post('/unverify/{company}', 'CompaniesController@unverify')->name('admin.company.unverify');
 	Route::delete('/{company}/delete', 'CompaniesController@destroy')->name('admin.company.delete');
 	Route::delete('/{company}/delete-reviews', 'CompaniesController@clear_reviews')->name('admin.company.delete-reviews');
+	Route::get('/manage/hidden-companies', 'AdminController@hidden_companies')->name('admin.hidden-companies');
 	//Flagged Reviews
 	//Route::get('/manage/reviews', 'AdminController@reviews')->name('admin.reviews');
 	//Export / Import CSV

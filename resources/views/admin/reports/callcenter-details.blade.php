@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    @include('layouts.moderator-sidebar')
+                    @include('layouts.superadmin-sidebar')
                 </div>
                 <div class="col-md-9">
                     <div class="row">
@@ -52,7 +52,5 @@
         </div>
     </section>
 </main>
-
-@include ('layouts.moderator-dashboard-js')
 
 @endsection

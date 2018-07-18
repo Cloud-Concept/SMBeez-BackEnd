@@ -14,6 +14,7 @@ use URL;
 use App\Mail\Welcome;
 use \App\Repositories\SMBeezFunctions;
 use App\Mail\Mod\NewUser;
+//use Mailgun;
 
 class LoginController extends Controller
 {
@@ -39,6 +40,11 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user) {
 
         $user->increment('logins_no', 1);
+        /*$validate = Mailgun::validator()->validate("hossam.struggler@qqq.com");
+        dd($validate);
+        if($validate) {
+          Mail::to($user->email)->send(new Welcome);
+        }*/
         if($request['action'] === 'add-company') { 
             //if unlogged user clicked on add company
             return redirect(route('front.user.dashboard', $user->username) . '?action=add-company');

@@ -51,7 +51,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
+            $companies = $company->where('status', 1)->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
         }else {
             //this will be changed to the selected country from the menu
 
@@ -61,7 +61,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->orderBy('relevance_score', 'desc')->paginate(10);
+            $companies = $company->where('status', 1)->orderBy('relevance_score', 'desc')->paginate(10);
         }   
         
         return view('front.company.index', compact('companies', 'hasCompany', 'specialities', 'industries', 'featured_companies'));
@@ -734,6 +734,7 @@ class CompaniesController extends Controller
         $company->company_phone = $request['company_phone'];
         $company->linkedin_url = $request['linkedin_url'];
         $company->location = $request['location'];
+        $company->status = $request['status'];
         $company->industry_id = $request['industry_id'];
         $company->city = $request['city'];
         $company->company_size = $request['company_size'];
@@ -905,7 +906,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->where('industry_id', $industry->id)->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
+            $companies = $company->where('status', 1)->where('industry_id', $industry->id)->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
         }else {
             //this will be changed to the selected country from the menu
             $featured_companies = $company->where('is_promoted', 1)
@@ -914,7 +915,7 @@ class CompaniesController extends Controller
             ->take(2)
             ->get();
 
-            $companies = $company->where('industry_id', $industry->id)->orderBy('relevance_score', 'desc')->paginate(10);
+            $companies = $company->where('status', 1)->where('industry_id', $industry->id)->orderBy('relevance_score', 'desc')->paginate(10);
         }   
         
         return view('front.company.index', compact('companies', 'hasCompany', 'specialities', 'industries', 'featured_companies'));
