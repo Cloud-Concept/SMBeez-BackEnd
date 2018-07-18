@@ -78,6 +78,48 @@
                                 <p><a href="#">Unsuccessful Calls</a></p>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_interested_calls']}}</p>
+                                <p><a href="#">Interested Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_notinterested_calls']}}</p>
+                                <p><a href="#">Not Interested Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_callback_calls']}}</p>
+                                <p><a href="#">Agreed to CallBack</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_msgdetails_calls']}}</p>
+                                <p><a href="#">Requested More Details</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_unreachable_calls']}}</p>
+                                <p><a href="#">Unreachable Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_wrongno_calls']}}</p>
+                                <p><a href="#">Wrong No. Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['today_noanswer_calls']}}</p>
+                                <p><a href="#">No Answer Calls</a></p>
+                            </div>
+                        </div>
                     </div>
 
                     <h3>Overall Call Center Reports</h3>
@@ -141,6 +183,48 @@
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$logs['overall_inqueue']}}</p>
                                 <p><a href="#">InQueue</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_interested_calls']}}</p>
+                                <p><a href="#">Interested Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_notinterested_calls']}}</p>
+                                <p><a href="#">Not Interested Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_callback_calls']}}</p>
+                                <p><a href="#">Agreed to CallBack</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_msgdetails_calls']}}</p>
+                                <p><a href="#">Requested More Details</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_unreachable_calls']}}</p>
+                                <p><a href="#">Unreachable Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_wrongno_calls']}}</p>
+                                <p><a href="#">Wrong No. Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['overall_noanswer_calls']}}</p>
+                                <p><a href="#">No Answer Calls</a></p>
                             </div>
                         </div>
                     </div>
@@ -212,6 +296,48 @@
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$logs['range_unsuccessful_calls']}}</p>
                                 <p><a href="#">Unsuccessful Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_interested_calls']}}</p>
+                                <p><a href="#">Interested Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_notinterested_calls']}}</p>
+                                <p><a href="#">Not Interested Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_callback_calls']}}</p>
+                                <p><a href="#">Agreed to CallBack</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_msgdetails_calls']}}</p>
+                                <p><a href="#">Requested More Details</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_unreachable_calls']}}</p>
+                                <p><a href="#">Unreachable Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_wrongno_calls']}}</p>
+                                <p><a href="#">Wrong No. Calls</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$logs['range_noanswer_calls']}}</p>
+                                <p><a href="#">No Answer Calls</a></p>
                             </div>
                         </div>
                     </div>

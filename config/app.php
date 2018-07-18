@@ -186,6 +186,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Bogardo\Mailgun\MailgunServiceProvider::class,
     ],
 
     /*
@@ -224,6 +225,7 @@ return [
         'Laratrust'   => Laratrust\LaratrustFacade::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
+        'Mailgun' => Bogardo\Mailgun\Facades\Mailgun::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,

@@ -4,6 +4,7 @@
         <li class="list-group-item"><a href="{{route('admin.dashboard')}}" class="{{ Request::is('admin/dashboard') ? 'active' : 'no' }}">Overview</a></li>
         <li class="list-group-item"><a href="{{route('admin.user.index')}}" class="{{ Request::is('admin/manage/users') ? 'active' : 'no' }}">User</a></li>
         <li class="list-group-item"><a href="{{route('admin.companies')}}" class="{{ Request::is('admin/manage/companies') ? 'active' : 'no' }}">Companies</a></li>
+        <li class="list-group-item"><a href="{{route('admin.hidden-companies')}}" class="{{ Request::is('admin/manage/hidden-companies') ? 'active' : 'no' }}">Hidden Companies</a></li>
         <!-- <li class="list-group-item"><a href="">Reviews</a></li> -->
         <li class="list-group-item"><a href="{{route('admin.projects')}}" class="{{ Request::is('admin/manage/projects') ? 'active' : 'no' }}">Projects</a></li>
         <li class="list-group-item"><a href="{{route('admin.industries')}}" class="{{ Request::is('admin/manage/industries') ? 'active' : 'no' }}">Industries</a></li>

@@ -61,8 +61,8 @@ class AdminController extends Controller
         if(!$user->hasRole(['moderator'])) {
             return redirect()->route('home');
         }
-        $companies = Company::latest()->paginate(10);
-        $industries = Industry::with('companies')->orderBy('industry_name', 'asc')->paginate(10);
+        $companies = Company::where('status', 1)->latest()->paginate(10);
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
         $status_array = array(
             '',
             'In Queue', 'Successful Call - Interested', 'Successful Call - Not Interested',
@@ -105,6 +105,7 @@ class AdminController extends Controller
         $company->company_email = $request['company_email'];
         $company->company_phone = $request['company_phone'];
         $company->location = $request['location'];
+        $company->industry_id = $request['industry_id'];
 
         $specialities_count_before = $this->specialities_count_before;
         $specialities_count_before += $company->specialities()->count();
@@ -292,6 +293,35 @@ class AdminController extends Controller
         }
     }
 
+    public function hide_company(Request $request, Company $company) {
+        $company->status = $request['status'];
+        $company->update();
+
+        $mod_user = $request['mod_user'];
+
+        $report = new ModCompanyReport;
+        $mod_user = $request['mod_user'];
+
+        $report->user_id = $mod_user;
+        $report->status = 'Hide Company';
+        $report->company_id = $company->id;
+
+        $report->save();
+
+        return response()->json(['msg' => 'Company Hidden Successfully!']);
+    }
+
+    public function hidden_companies(Company $company)
+    {   
+        $user = auth()->user();
+
+        if(!$user->hasRole(['superadmin', 'administrator'])) {
+            return redirect()->route('home');
+        }
+        $companies = Company::where('status', 0)->latest()->paginate(10);
+        return view('admin.company.hidden', compact('companies'));
+    }
+
     public function send_mod_message(Request $request, Company $company) {
 
         Mail::to($request['user_email'])->send(new Welcome($company));
@@ -322,10 +352,17 @@ class AdminController extends Controller
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
         'Successful Call - Asked for more details via email'])->whereDate('created_at', Carbon::today())->count();
+        $today_interested_calls = $report->where('status', 'Successful Call - Interested')->whereDate('created_at', Carbon::today())->count();
+        $today_notinterested_calls = $report->where('status', 'Successful Call - Not Interested')->whereDate('created_at', Carbon::today())->count();
+        $today_callback_calls = $report->where('status', 'Successful Call - Agreed to Call Back')->whereDate('created_at', Carbon::today())->count();
+        $today_msgdetails_calls = $report->where('status', 'Successful Call - Asked for more details via email')->whereDate('created_at', Carbon::today())->count();
+        
         $today_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
         'Unsuccessful Call - Wrong number', 
         'Unsuccessful Call - No answer'])->whereDate('created_at', Carbon::today())->count();
-
+        $today_unreachable_calls = $report->where('status', 'Unsuccessful Call - Unreachable')->whereDate('created_at', Carbon::today())->count();
+        $today_wrongno_calls = $report->where('status', 'Unsuccessful Call - Wrong number')->whereDate('created_at', Carbon::today())->count();
+        $today_noanswer_calls = $report->where('status', 'Unsuccessful Call - No answer')->whereDate('created_at', Carbon::today())->count();
 
         $overall_company_updates = $log->where('activity_type', 'company_update')->count();
         $overall_report_creates = $log->where('activity_type', 'report_create')->count();
@@ -338,9 +375,16 @@ class AdminController extends Controller
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
         'Successful Call - Asked for more details via email'])->count();
+        $overall_interested_calls = $report->where('status', 'Successful Call - Interested')->count();
+        $overall_notinterested_calls = $report->where('status', 'Successful Call - Not Interested')->count();
+        $overall_callback_calls = $report->where('status', 'Successful Call - Agreed to Call Back')->count();
+        $overall_msgdetails_calls = $report->where('status', 'Successful Call - Asked for more details via email')->count();
         $overall_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
         'Unsuccessful Call - Wrong number', 
         'Unsuccessful Call - No answer'])->count();
+        $overall_unreachable_calls = $report->where('status', 'Unsuccessful Call - Unreachable')->count();
+        $overall_wrongno_calls = $report->where('status', 'Unsuccessful Call - Wrong number')->count();
+        $overall_noanswer_calls = $report->where('status', 'Unsuccessful Call - No answer')->count();
 
         $reported_companies = Company::with('mod_report')->whereHas('mod_report', function ($q) use ($request) {
             $q->where('mod_company_reports.company_id', '!=', 'companies.id');
@@ -361,9 +405,16 @@ class AdminController extends Controller
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
         'Successful Call - Asked for more details via email'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_interested_calls = $report->where('status', 'Successful Call - Interested')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_notinterested_calls = $report->where('status', 'Successful Call - Not Interested')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_callback_calls = $report->where('status', 'Successful Call - Agreed to Call Back')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_msgdetails_calls = $report->where('status', 'Successful Call - Asked for more details via email')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         $range_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
         'Unsuccessful Call - Wrong number', 
         'Unsuccessful Call - No answer'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_unreachable_calls = $report->where('status', 'Unsuccessful Call - Unreachable')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_wrongno_calls = $report->where('status', 'Unsuccessful Call - Wrong number')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_noanswer_calls = $report->where('status', 'Unsuccessful Call - No answer')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
 
         $logs = array();
 
@@ -377,6 +428,13 @@ class AdminController extends Controller
             'today_companies_imported_admin' => $today_companies_imported_admin,
             'today_successful_calls' => $today_successful_calls,
             'today_unsuccessful_calls' => $today_unsuccessful_calls,
+            'today_interested_calls' => $today_interested_calls,
+            'today_notinterested_calls' => $today_notinterested_calls,
+            'today_callback_calls' => $today_callback_calls,
+            'today_msgdetails_calls' => $today_msgdetails_calls,
+            'today_unreachable_calls' => $today_unreachable_calls,
+            'today_wrongno_calls' => $today_wrongno_calls,
+            'today_noanswer_calls' => $today_noanswer_calls,
             'overall_company_updates' => $overall_company_updates,
             'overall_report_creates' => $overall_report_creates,
             'overall_assign_users' => $overall_assign_users,
@@ -387,6 +445,13 @@ class AdminController extends Controller
             'overall_successful_calls' => $overall_successful_calls,
             'overall_unsuccessful_calls' => $overall_unsuccessful_calls,
             'overall_inqueue' => $overall_inqueue,
+            'overall_interested_calls' => $overall_interested_calls,
+            'overall_notinterested_calls' => $overall_notinterested_calls,
+            'overall_callback_calls' => $overall_callback_calls,
+            'overall_msgdetails_calls' => $overall_msgdetails_calls,
+            'overall_unreachable_calls' => $overall_unreachable_calls,
+            'overall_wrongno_calls' => $overall_wrongno_calls,
+            'overall_noanswer_calls' => $overall_noanswer_calls,
             'range_company_updates' => $range_company_updates,
             'range_report_creates' => $range_report_creates,
             'range_assign_users' => $range_assign_users,
@@ -396,6 +461,13 @@ class AdminController extends Controller
             'range_companies_imported_admin' => $range_companies_imported_admin,
             'range_successful_calls' => $range_successful_calls,
             'range_unsuccessful_calls' => $range_unsuccessful_calls,
+            'range_interested_calls' => $range_interested_calls,
+            'range_notinterested_calls' => $range_notinterested_calls,
+            'range_callback_calls' => $range_callback_calls,
+            'range_msgdetails_calls' => $range_msgdetails_calls,
+            'range_unreachable_calls' => $range_unreachable_calls,
+            'range_wrongno_calls' => $range_wrongno_calls,
+            'range_noanswer_calls' => $range_noanswer_calls,
         ));
         $logs = $logs[0];
 

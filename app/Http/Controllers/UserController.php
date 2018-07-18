@@ -629,52 +629,72 @@ class UserController extends Controller
         $log = new ModLog;
         $report = new ModCompanyReport;
 
-        $today_company_updates = $log->where('activity_type', 'company_update')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
-        $today_report_creates = $log->where('activity_type', 'report_create')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
-        $today_assign_users = $log->where('activity_type', 'assign_user')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
-        $today_assign_new_user = $log->where('activity_type', 'assign_new_user')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
-        $today_message_sent = $log->where('activity_type', 'message_sent')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
-        $today_companies_by_users = $log->where('activity_type', 'new_user_created_company')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
-        $today_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_company_updates = $log->where('activity_type', 'company_update')->whereDate('created_at', Carbon::today())->count();
+        $today_report_creates = $log->where('activity_type', 'report_create')->whereDate('created_at', Carbon::today())->count();
+        $today_assign_users = $log->where('activity_type', 'assign_user')->whereDate('created_at', Carbon::today())->count();
+        $today_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereDate('created_at', Carbon::today())->count();
+        $today_message_sent = $log->where('activity_type', 'message_sent')->whereDate('created_at', Carbon::today())->count();
+        $today_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereDate('created_at', Carbon::today())->count();
+        $today_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereDate('created_at', Carbon::today())->count();
         $today_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
-        'Successful Call - Asked for more details via email'])->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        'Successful Call - Asked for more details via email'])->whereDate('created_at', Carbon::today())->count();
+        $today_interested_calls = $report->where('status', 'Successful Call - Interested')->whereDate('created_at', Carbon::today())->count();
+        $today_notinterested_calls = $report->where('status', 'Successful Call - Not Interested')->whereDate('created_at', Carbon::today())->count();
+        $today_callback_calls = $report->where('status', 'Successful Call - Agreed to Call Back')->whereDate('created_at', Carbon::today())->count();
+        $today_msgdetails_calls = $report->where('status', 'Successful Call - Asked for more details via email')->whereDate('created_at', Carbon::today())->count();
+        
         $today_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
         'Unsuccessful Call - Wrong number', 
-        'Unsuccessful Call - No answer'])->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        'Unsuccessful Call - No answer'])->whereDate('created_at', Carbon::today())->count();
+        $today_unreachable_calls = $report->where('status', 'Unsuccessful Call - Unreachable')->whereDate('created_at', Carbon::today())->count();
+        $today_wrongno_calls = $report->where('status', 'Unsuccessful Call - Wrong number')->whereDate('created_at', Carbon::today())->count();
+        $today_noanswer_calls = $report->where('status', 'Unsuccessful Call - No answer')->whereDate('created_at', Carbon::today())->count();
 
-
-        $overall_company_updates = $log->where('activity_type', 'company_update')->where('user_id', $user->id)->count();
-        $overall_report_creates = $log->where('activity_type', 'report_create')->where('user_id', $user->id)->count();
-        $overall_assign_users = $log->where('activity_type', 'assign_user')->where('user_id', $user->id)->count();
-        $overall_assign_new_user = $log->where('activity_type', 'assign_new_user')->where('user_id', $user->id)->count();
-        $overall_message_sent = $log->where('activity_type', 'message_sent')->where('user_id', $user->id)->count();
-        $overall_companies_by_users = $log->where('activity_type', 'new_user_created_company')->where('user_id', $user->id)->count();
-        $overall_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->where('user_id', $user->id)->count();
+        $overall_company_updates = $log->where('activity_type', 'company_update')->count();
+        $overall_report_creates = $log->where('activity_type', 'report_create')->count();
+        $overall_assign_users = $log->where('activity_type', 'assign_user')->count();
+        $overall_assign_new_user = $log->where('activity_type', 'assign_new_user')->count();
+        $overall_message_sent = $log->where('activity_type', 'message_sent')->count();
+        $overall_companies_by_users = $log->where('activity_type', 'new_user_created_company')->count();
+        $overall_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->count();
         $overall_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
-        'Successful Call - Asked for more details via email'])->where('user_id', $user->id)->count();
+        'Successful Call - Asked for more details via email'])->count();
+        $overall_interested_calls = $report->where('status', 'Successful Call - Interested')->count();
+        $overall_notinterested_calls = $report->where('status', 'Successful Call - Not Interested')->count();
+        $overall_callback_calls = $report->where('status', 'Successful Call - Agreed to Call Back')->count();
+        $overall_msgdetails_calls = $report->where('status', 'Successful Call - Asked for more details via email')->count();
         $overall_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
         'Unsuccessful Call - Wrong number', 
-        'Unsuccessful Call - No answer'])->where('user_id', $user->id)->count();
+        'Unsuccessful Call - No answer'])->count();
+        $overall_unreachable_calls = $report->where('status', 'Unsuccessful Call - Unreachable')->count();
+        $overall_wrongno_calls = $report->where('status', 'Unsuccessful Call - Wrong number')->count();
+        $overall_noanswer_calls = $report->where('status', 'Unsuccessful Call - No answer')->count();
 
-
-        $range_company_updates = $log->where('activity_type', 'company_update')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
-        $range_report_creates = $log->where('activity_type', 'report_create')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
-        $range_assign_users = $log->where('activity_type', 'assign_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
-        $range_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
-        $range_message_sent = $log->where('activity_type', 'message_sent')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
-        $range_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
-        $range_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        $range_company_updates = $log->where('activity_type', 'company_update')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_report_creates = $log->where('activity_type', 'report_create')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_assign_users = $log->where('activity_type', 'assign_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_message_sent = $log->where('activity_type', 'message_sent')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         $range_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 
-        'Successful Call - Asked for more details via email'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        'Successful Call - Asked for more details via email'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_interested_calls = $report->where('status', 'Successful Call - Interested')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_notinterested_calls = $report->where('status', 'Successful Call - Not Interested')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_callback_calls = $report->where('status', 'Successful Call - Agreed to Call Back')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_msgdetails_calls = $report->where('status', 'Successful Call - Asked for more details via email')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         $range_unsuccessful_calls = $report->whereIn('status', ['Unsuccessful Call - Unreachable',
         'Unsuccessful Call - Wrong number', 
-        'Unsuccessful Call - No answer'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->where('user_id', $user->id)->count();
+        'Unsuccessful Call - No answer'])->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_unreachable_calls = $report->where('status', 'Unsuccessful Call - Unreachable')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_wrongno_calls = $report->where('status', 'Unsuccessful Call - Wrong number')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $range_noanswer_calls = $report->where('status', 'Unsuccessful Call - No answer')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
 
         $logs = array();
 
@@ -688,6 +708,13 @@ class UserController extends Controller
             'today_companies_imported_admin' => $today_companies_imported_admin,
             'today_successful_calls' => $today_successful_calls,
             'today_unsuccessful_calls' => $today_unsuccessful_calls,
+            'today_interested_calls' => $today_interested_calls,
+            'today_notinterested_calls' => $today_notinterested_calls,
+            'today_callback_calls' => $today_callback_calls,
+            'today_msgdetails_calls' => $today_msgdetails_calls,
+            'today_unreachable_calls' => $today_unreachable_calls,
+            'today_wrongno_calls' => $today_wrongno_calls,
+            'today_noanswer_calls' => $today_noanswer_calls,
             'overall_company_updates' => $overall_company_updates,
             'overall_report_creates' => $overall_report_creates,
             'overall_assign_users' => $overall_assign_users,
@@ -697,6 +724,13 @@ class UserController extends Controller
             'overall_companies_imported_admin' => $overall_companies_imported_admin,
             'overall_successful_calls' => $overall_successful_calls,
             'overall_unsuccessful_calls' => $overall_unsuccessful_calls,
+            'overall_interested_calls' => $overall_interested_calls,
+            'overall_notinterested_calls' => $overall_notinterested_calls,
+            'overall_callback_calls' => $overall_callback_calls,
+            'overall_msgdetails_calls' => $overall_msgdetails_calls,
+            'overall_unreachable_calls' => $overall_unreachable_calls,
+            'overall_wrongno_calls' => $overall_wrongno_calls,
+            'overall_noanswer_calls' => $overall_noanswer_calls,
             'range_company_updates' => $range_company_updates,
             'range_report_creates' => $range_report_creates,
             'range_assign_users' => $range_assign_users,
@@ -706,6 +740,13 @@ class UserController extends Controller
             'range_companies_imported_admin' => $range_companies_imported_admin,
             'range_successful_calls' => $range_successful_calls,
             'range_unsuccessful_calls' => $range_unsuccessful_calls,
+            'range_interested_calls' => $range_interested_calls,
+            'range_notinterested_calls' => $range_notinterested_calls,
+            'range_callback_calls' => $range_callback_calls,
+            'range_msgdetails_calls' => $range_msgdetails_calls,
+            'range_unreachable_calls' => $range_unreachable_calls,
+            'range_wrongno_calls' => $range_wrongno_calls,
+            'range_noanswer_calls' => $range_noanswer_calls,
         ));
         $logs = $logs[0];
 
