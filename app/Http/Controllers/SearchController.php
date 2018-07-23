@@ -251,7 +251,9 @@ class SearchController extends Controller
             'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
             'Unsuccessful Call - No answer'
         );
-
-        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array')); 
+        if(!$company) {
+            $company = new Company;
+        }
+        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company')); 
     }
 }

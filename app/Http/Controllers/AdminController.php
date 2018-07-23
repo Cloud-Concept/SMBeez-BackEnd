@@ -299,15 +299,20 @@ class AdminController extends Controller
 
         $mod_user = $request['mod_user'];
 
-        $report = new ModCompanyReport;
-        $mod_user = $request['mod_user'];
-
-        $report->user_id = $mod_user;
-        $report->status = 'Hide Company';
-        $report->company_id = $company->id;
-
-        $report->save();
-
+        if($company->mod_report) {
+            $report = $company->mod_report;
+            $report->user_id = $mod_user;
+            $report->status = 'Hide Company';
+            $report->company_id = $company->id;
+            $report->update();
+        }else{
+            $report = new ModCompanyReport;
+            $report->user_id = $mod_user;
+            $report->status = 'Hide Company';
+            $report->company_id = $company->id;
+            $report->save();  
+        }
+        
         return response()->json(['msg' => 'Company Hidden Successfully!']);
     }
 

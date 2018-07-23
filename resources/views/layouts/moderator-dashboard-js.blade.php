@@ -109,7 +109,7 @@
                                 <div class="form-group">
                                     <select name="industry_id" id="industry_id" class="form-control custom-select d-block" required>
                                         @foreach($industries as $industry)
-                                        <option value="{{$industry->id}}" {{$industry->id == $company->industry->id ? 'selected' : ''}}>{{$industry->industry_name}}</option>
+                                        <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
