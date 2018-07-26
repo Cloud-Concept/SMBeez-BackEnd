@@ -87,7 +87,7 @@
                                         {
                                             status : 0,
                                             mod_user: '{{Auth()->user()->id}}',
-
+                                        }).done(function( data ) {
                                             $('.'+ company_id).hide();
                                         });
 
