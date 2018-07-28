@@ -21,19 +21,19 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div> -->
                     <div class="box-block-gray">
-                        <h3>Project Details <!-- <a href="#" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> --></h3>
+                        <h3>{{__('project.project_details')}} <!-- <a href="#" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> --></h3>
                         <ul class="list-unstyled details-box">
                             @if(!Auth::guest() && !$project->is_owner(Auth::user()->id) || Auth::guest())
 
                                 @if($project->has_interest() && $project->interest_status() == 1)
-                                    <li>Client: <span><a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a></span></li>
+                                    <li>{{__('project.client')}} <span><a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a></span></li>
                                 @else
-                                <li>Client: <i class="fa fa-lock" aria-hidden="true"></i> <span> Locked</span></li>
+                                <li>{{__('project.client')}} <i class="fa fa-lock" aria-hidden="true"></i> <span> {{__('project.locked')}}</span></li>
                                 @endif
 
                                 @if($project->user->company->reviews->count() > 0)
                                 <li>
-                                    <div class="pull-left">Client Overall Rating:</div>
+                                    <div class="pull-left">{{__('project.client_overall_rating')}}</div>
                                     <div class="star-rating pull-left">
                                         <ul class="list-inline">                                            
                                             <li class="list-inline-item">
@@ -48,10 +48,10 @@
                                 </li>
                                 @endif
                             @endif
-                            <li>Budget: <span>{{$project->budget}} EGP</span></li>
-                            <li>Industry: <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
+                            <li>{{__('project.budget')}} <span>{{$project->budget}} {{__('project.currency')}}</span></li>
+                            <li>{{__('general.industry_title')}} <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
                             @if($project->specialities->count() > 0)
-                            <li>Speciality: <span>
+                            <li>{{__('general.speciality_title')}} <span>
                                 @foreach($project->specialities as $speciality)
                                     {{ $loop->first ? '' : ', ' }}
                                     {{$speciality->speciality_name}} 
@@ -85,29 +85,29 @@
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Express Interest</button></div>
+                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button></div>
                         </form>
                         @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
                             {{csrf_field()}}
                             {{ method_field('DELETE') }}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Withdraw Interest</button></div>
+                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.withdraw_interest')}}</button></div>
                         </form>
                         @elseif(!Auth::guest() && $project->is_owner(Auth::user()->id) && $project->status === 'publish')
                         <form action="{{route('front.project.close', $project->slug)}}" method="post">
                             {{csrf_field()}}
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Close Project</button></div>
+                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.close')}}</button></div>
                         </form>
                         <br>
-                        <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">Edit Project</a></div>
+                        <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">{{__('project.edit')}}</a></div>
                         @elseif(!Auth::guest() && $project->is_owner(Auth::user()->id) && $project->status === 'draft')
                         <form action="{{route('front.project.publish', $project->slug)}}" method="post">
                             {{csrf_field()}}
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Publish Project</button></div>
+                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.publish')}}</button></div>
                         </form>
                         <br>
-                        <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">Edit Project</a></div>
+                        <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">{{__('project.edit')}}</a></div>
                         @endif
                     </div>
                 </div>
@@ -205,28 +205,28 @@
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <button type="submit" class="btn btn-blue btn-yellow">Express Interest</button>
+                            <button type="submit" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button>
                         </form>
                         @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
                             {{csrf_field()}}
                             {{ method_field('DELETE') }}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <button type="submit" class="btn btn-blue btn-yellow">Withdraw Interest</button>
+                            <button type="submit" class="btn btn-blue btn-yellow">{{__('project.withdraw_interest')}}</button>
                         </form>
                         @endif
                     </div>
                     @endif
 
                     @if($relatedprojects->count() > 0)
-                    <h2 class="mb-4 mt-5">Similar Opportunities</h2>
+                    <h2 class="mb-4 mt-5">{{__('project.similar_opportunities')}}</h2>
                     <div class="row equal">
                         @foreach($relatedprojects as $project)
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1"><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></p>
                                 {{strip_tags(substr($project->project_description, 0, 100))}}...
-                                <p class="tags">More in: 
+                                <p class="tags">{{__('general.more_in')}} 
                                     <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
                                 </p>
                             </div>

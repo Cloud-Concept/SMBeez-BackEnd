@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'SMBeez'),
+    'name' => env('APP_NAME', 'Masharee3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'Asia/Dubai',
+    'timezone' => 'Africa/Cairo',
 
     /*
     |--------------------------------------------------------------------------
@@ -186,7 +186,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        //Bogardo\Mailgun\MailgunServiceProvider::class,
+        Bogardo\Mailgun\MailgunServiceProvider::class,
+        Barryvdh\TranslationManager\ManagerServiceProvider::class,
     ],
 
     /*
@@ -225,7 +226,7 @@ return [
         'Laratrust'   => Laratrust\LaratrustFacade::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
-        //'Mailgun' => Bogardo\Mailgun\Facades\Mailgun::class,
+        'Mailgun' => Bogardo\Mailgun\Facades\Mailgun::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
@@ -238,7 +239,7 @@ return [
         'Session' => Illuminate\Support\Facades\Session::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        
+        'Translation' => Barryvdh\TranslationManager\Facades\ManagerServiceProvider::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,

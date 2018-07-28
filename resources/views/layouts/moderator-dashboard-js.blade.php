@@ -211,7 +211,7 @@ $(".update-company-submit").click(function(e){
 		company_phone: $(this).closest('#update-company-form').find('#company_phone').val(),
 		location: $(this).closest('#update-company-form').find('#location').val(),
         industry_id: $(this).closest('#update-company-form').find('#industry_id').val(),
-		specialities: $(this).closest('#update-company-form').find( "input[name='hidden-speciality_id']" ).val(),
+		{{__('general.specs_tag_title')}} $(this).closest('#update-company-form').find( "input[name='hidden-speciality_id']" ).val(),
         mod_user: $(this).closest('#update-company-form').find( "input[name='mod_user']" ).val(),
 
 	}).done(function( data ) {

@@ -22,7 +22,7 @@
                             <h3 class="search-title text-uppercase">Project Details <span class="pull-right">Closing Date</span></h3>
                             @if($projects_count == 0)
                             	<br>
-                            	<p>No opportunities found.</p>
+                            	<p>{{__('general.no_opportunities_found')}}</p>
                             @endif
                             <div class="infinite-scroll">
 	                            @foreach($projects as $project)
@@ -35,11 +35,11 @@
 	                                            </div>
 	                                        </div>
 	                                        <p>{{strip_tags(substr($project->project_description, 0, 200))}}...</p>
-	                                        <p class="tags">More in: 
+	                                        <p class="tags">{{__('general.more_in')}} 
 	                                        <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
 		                                    </p>
 		                                    @if($project->specialities->count() > 0)
-		                                    <p class="tags"><b>Specialities:</b> 
+		                                    <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
 		                                        @foreach($project->specialities as $speciality)
 		                                            {{ $loop->first ? '' : ', ' }}
 		                                            {{$speciality->speciality_name}} 
@@ -63,7 +63,7 @@
                             <h3 class="search-title text-uppercase">Company info <span class="pull-right">Industry</span></h3>
                             @if($companies_count == 0)
                             	<br>
-                            	<p>No companies found.</p>
+                            	<p>{{__('general.no_companies_found')}}</p>
                             @endif
                             <div class="infinite-scroll-2">
 	                            @foreach($companies as $company)
@@ -96,7 +96,7 @@
 			                                {{strip_tags(substr($company->location, 0, 55))}}
 			                                </p>
 			                                @if($company->specialities->count() > 0)
-			                                <p class="tags"><b>Specialities:</b> 
+			                                <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
 			                                    @foreach($company->specialities as $speciality)
 			                                        {{ $loop->first ? '' : ', ' }}
 			                                        {{$speciality->speciality_name}} 

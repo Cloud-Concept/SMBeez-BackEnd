@@ -11,12 +11,18 @@ use Illuminate\Http\Request;
 use Image;
 use File;
 use DB;
+use Session;
 
 class IndustriesController extends Controller
 {
 
     public function index(Industry $industry)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $company = new Company;
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
@@ -133,6 +139,11 @@ class IndustriesController extends Controller
      */
     public function show(Industry $industry)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $company = new Company;
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
@@ -207,6 +218,11 @@ class IndustriesController extends Controller
      */
     public function edit(Industry $industry)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
         $display = array('both' => 'Companies & Projects', 'companies' => 'Companies Only', 'projects' => 'Projects Only');
         return view('admin.industry.edit', compact('industry', 'display'));
     }

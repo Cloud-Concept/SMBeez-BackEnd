@@ -19,6 +19,7 @@ use App\Mail\ProjectCreated;
 use App\Mail\ProjectPublished;
 
 use File;
+use Session;
 
 class ProjectsController extends Controller
 {
@@ -185,6 +186,11 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $company = new Company;
         $hasCompany = $company->where('user_id', Auth::id())->first();
         //if access deleted project redirect home
@@ -210,6 +216,11 @@ class ProjectsController extends Controller
      */
     public function edit(Project $project)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         if($project->is_owner(auth()->id())) {
 
             $industries = Industry::with('projects')->orderBy('industry_name', 'asc')->get();
@@ -347,6 +358,11 @@ class ProjectsController extends Controller
 
     public function admin_edit(Project $project)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
         $current_specialities = array();
 
         foreach($project->specialities as $speciality) {

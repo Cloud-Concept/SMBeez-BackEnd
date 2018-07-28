@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use Illuminate\Http\Request;
+use Session;
 
 class MessagesController extends Controller
 {
@@ -13,7 +14,11 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         $user = auth()->user();
 
         $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->paginate(10);
@@ -50,6 +55,11 @@ class MessagesController extends Controller
      */
     public function show(Message $id)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
         $user = auth()->user();
 
         $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->paginate(15);

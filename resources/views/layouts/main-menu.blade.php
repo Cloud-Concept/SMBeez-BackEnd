@@ -1,13 +1,22 @@
 <ul class="cd-main-nav">
-    <li><a href="{{route('front.company.all')}}" class="{{ Request::is('companies/all') ? 'active' : 'no' }}">Companies</a></li>
+    <li><a href="{{route('front.company.all')}}" class="{{ Request::is('companies/all') ? 'active' : 'no' }}">{{__('general.menu_companies')}}</a></li>
     <li class="nav-item dropdown">
-        <a class="nav-link {{ Request::is('industries/*') ? 'active' : 'no' }}" href="{{route('front.industry.index')}}">Opportunities</a>
+        <a class="nav-link {{ Request::is('industries/*') ? 'active' : 'no' }}" href="{{route('front.industry.index')}}">{{__('general.menu_opportunities')}}</a>
     </li>
+    @if(app()->getLocale() == 'en')
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="{{route('change.lang', 'ar')}}">Arabic</a>
+        </li>
+    @else
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="{{route('change.lang', 'en')}}">English</a>
+        </li>
+    @endif
     <li class="no-effect">
-        <a href="#"><span class="flag-icon flag-icon-eg"></span> Cairo</a>
+        <a href="#"><span class="flag-icon flag-icon-eg"></span> {{__('footer.cairo')}}</a>
     </li>
     @if (Auth::guest())
-    <li class="btn-menu"><a href="{{ route('login') }}">Sign in</a></li>
+    <li class="btn-menu"><a href="{{ route('login') }}">{{__('general.sign_in')}}</a></li>
     @else
     <li class="nav-item dropdown usernav">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

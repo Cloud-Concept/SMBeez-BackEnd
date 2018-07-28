@@ -1,0 +1,28 @@
+<?php
+
+return array (
+  'sign_in' => 'Sign In',
+  'search_title' => 'SEARCH',
+  'search_placeholder' => 'Search...',
+  'menu_companies' => 'Companies',
+  'menu_opportunities' => 'Opportunities',
+  'more_in' => 'More In:',
+  'specs_tag_title' => 'Specialities:',
+  'browse_companies' => 'Browse Companies',
+  'add_company_button' => 'Add your company',
+  'browse_opportunities_button' => 'Browse Opportunities',
+  'publish_project' => 'Publish Your Project',
+  'specialities_tags_choose' => 'SELECT FROM SPECIALITIES',
+  'all_industries_title' => 'All Industries',
+  'submit_filter_button' => 'SUBMIT FILTER',
+  'reviews_title' => 'Reviews',
+  'companies_headline' => 'Browse hundreds of Masharee3',
+  'companies_sub_headline' => 'In your local marketplace',
+  'opportunities_headline' => 'Discover hundreds of opportunities',
+  'opportunities_sub_headline' => 'In your local marketplace',
+  'no_companies_found' => 'No Companies Found.',
+  'no_opportunities_found' => 'No Opportunities Found.',
+  'industry_title' => 'Industry:',
+  'speciality_title' => 'Speciality:',
+  'go_to_dashboard' => 'Go To My Dashboard',
+);

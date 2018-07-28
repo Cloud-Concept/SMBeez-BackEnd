@@ -6,14 +6,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-12 offset-xl-3">
-                    <h1 class="text-center">Browse hundreds of Masharee3</h1>
-                    <p class="text-center">In your local marketplace</p>
+                    <h1 class="text-center">{{__('general.companies_headline')}}</h1>
+                    <p class="text-center">{{__('general.companies_sub_headline')}}</p>
                     @if (!Auth::guest() && !$hasCompany && !count(Auth::user()->claims) > 0)
-                    <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">Add your company</a></div>
+                    <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">{{__('general.add_company_button')}}</a></div>
                     @elseif(Auth::guest())
-                    <div class="btn-hero text-center"><a href="{{route('login')}}?action=add-company" class="btn btn-blue">Add your company</a></div>
+                    <div class="btn-hero text-center"><a href="{{route('login')}}?action=add-company" class="btn btn-blue">{{__('general.add_company_button')}}</a></div>
                     @elseif (!Auth::guest() && $hasCompany || count(Auth::user()->claims) > 0)
-                    <div class="btn-hero text-center"><a href="{{route('front.user.dashboard', Auth::user()->username)}}" class="btn btn-blue">Go to my dashboard</a></div>
+                    <div class="btn-hero text-center"><a href="{{route('front.user.dashboard', Auth::user()->username)}}" class="btn btn-blue">{{__('general.go_to_dashboard')}}</a></div>
                     @endif
                 </div>
             </div>
@@ -78,11 +78,11 @@
                                     @endif
                                 </div>
                                 <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
-                                <p class="tags">More in: 
+                                <p class="tags">{{__('general.more_in')}} 
                                     <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
                                 @if($company->specialities->count() > 0)
-                                <p class="tags"><b>Specialities:</b>
+                                <p class="tags"><b>{{__('general.specs_tag_title')}}</b>
                                     @foreach($company->specialities as $speciality)
                                         {{ $loop->first ? '' : ', ' }}
                                         {{$speciality->speciality_name}} 
@@ -151,7 +151,7 @@
                     <div class="row equal infinite-scroll">
                         @if($companies->count() == 0)
                         <div class="col-md-12 mt-5">
-                            <p>No companies found.</p>
+                            <p>{{__('general.no_companies_found')}}</p>
                         </div>
                         @endif
                         @foreach($companies as $company)
@@ -191,11 +191,11 @@
                                 @endif
                                 {{strip_tags(substr($company->location, 0, 55))}}
                                 </p>
-                                <p class="tags">More in:
+                                <p class="tags">{{__('general.more_in')}}
                                     <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
                                 @if($company->specialities->count() > 0)
-                                <p class="tags"><b>Specialities:</b> 
+                                <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
                                     @foreach($company->specialities as $speciality)
                                         {{ $loop->first ? '' : ', ' }}
                                         {{$speciality->speciality_name}} 

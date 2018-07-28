@@ -35,7 +35,7 @@
                                     <a href="#" id="unbookmark-b-{{$bookmark->id}}" onclick="event.preventDefault();"><i class="fa fa-bookmark" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Remove from your Favorites"></i></a>
                                     <p class="thumb-title mt-1 mb-1"><a href="{{route('front.project.show', $bookmark->bookmarked_projects($bookmark->bookmarked_id)->slug)}}">{{$bookmark->bookmarked_projects($bookmark->bookmarked_id)->project_title}}</a></p>
                                     <p>{{strip_tags(substr($bookmark->bookmarked_projects($bookmark->bookmarked_id)->project_description, 0, 100))}}</p>
-                                    <p class="tags">More in: <a href="{{route('front.industry.show', $bookmark->bookmarked_projects($bookmark->bookmarked_id)->industries[0]->slug)}}">{{$bookmark->bookmarked_projects($bookmark->bookmarked_id)->industries[0]->industry_name}}</a></p>
+                                    <p class="tags">{{__('general.more_in')}} <a href="{{route('front.industry.show', $bookmark->bookmarked_projects($bookmark->bookmarked_id)->industries[0]->slug)}}">{{$bookmark->bookmarked_projects($bookmark->bookmarked_id)->industries[0]->industry_name}}</a></p>
                                 </div>
                             </div>
                             <form id="unbookmark-{{$bookmark->id}}" action="#">

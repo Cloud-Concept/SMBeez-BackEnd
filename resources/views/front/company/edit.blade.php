@@ -40,14 +40,14 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <p class="form-guide">Upload a cover image for your company, Max. file size 2MB (JPG, PNG supported)</p>
+                                <p class="form-guide">{{__('company.upload_img_hint')}}</p>
                                 <label class="custom-file"><input type="file" name="cover_url" class="custom-file-input" accept=".png, .jpg, .jpeg, .bmp">
                                  <span class="custom-file-control" data-label="Upload Cover"></span>
                                 </label>
                             </div>
                         </div>
                         
-                        <button type="submit" id="upload" class="btn btn-sm btn-yellow-2 mt-3">Save</button>
+                        <button type="submit" id="upload" class="btn btn-sm btn-yellow-2 mt-3">{{__('company.save_btn')}}</button>
                     </form>
                     
                 </div>
@@ -57,17 +57,17 @@
                         {{csrf_field()}}
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">My Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">{{__('company.my_dashboard')}}</a></li>
                                 <li class="breadcrumb-item"><a href="{{route('front.company.show', $company->slug)}}">{{$company->company_name}}</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{__('company.edit_company_btn')}}</li>
                             </ol>
                         </nav>
                         <div class="dashboard-company-block">
                             <div class="media-body">
                                 <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $company->slug)}}">{{$company->company_name}}</a></h5>
-                                <p class="tags"><b>Industry</b>:<a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></p>
+                                <p class="tags"><b>{{__('general.industry_title')}}</b><a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></p>
                                 @if($company->specialities->count() > 0)
-                                <p class="tags"><b>Specialities:</b> <span>
+                                <p class="tags"><b>{{__('general.specs_tag_title')}}</b> <span>
                                     
                                     @foreach($company->specialities as $speciality)
                                         {{ $loop->first ? '' : ', ' }}
@@ -76,46 +76,46 @@
                                 </span></p>
                                 @endif
                             </div>
-                            <h4>Company Brief</h4>
+                            <h4>{{__('company.company_berif')}}</h4>
                             <textarea class="form-control mb-3" name="company_description" id="company_description" required>{!! strip_tags($company->company_description) !!}</textarea>
-                            <button type="submit" class="btn btn-sm btn-yellow-2">Save</button>
+                            <button type="submit" class="btn btn-sm btn-yellow-2">{{__('company.save_btn')}}</button>
                         </div>
                         <div class="dashboard-company-block my-3">
                             <table class="table">
                                 <thead class="thead-blue">
                                     <tr>
-                                        <th scope="col" colspan="2">Basic information</th>
+                                        <th scope="col" colspan="2">{{__('company.basic_information')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td scope="row"><b>Company Tag Line</b></td>
+                                        <td scope="row"><b>{{__('company.tag_line')}}</b></td>
                                         <td><input class="form-control" type="text" name="company_tagline" value="{{$company->company_tagline}}" id="company_tagline"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Website</b></td>
+                                        <td scope="row"><b>{{__('company.website')}}</b></td>
                                         <td><input class="form-control" type="text" name="company_website" value="{{$company->company_website}}" id="company_website"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Company Email</b></td>
+                                        <td scope="row"><b>{{__('company.email')}}</b></td>
                                         <td><input class="form-control" type="email" name="company_email" value="{{$company->company_email}}" id="company_email"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Phone *</b></td>
+                                        <td scope="row"><b>{{__('company.phone')}}</b></td>
                                         <td><input class="form-control" type="text" name="company_phone" value="{{$company->company_phone}}" id="company_phone" required></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>LinkedIn Profile</b></td>
+                                        <td scope="row"><b>{{__('company.linked_in')}}</b></td>
                                         <td><input class="form-control" type="text" name="linkedin_url" value="{{$company->linkedin_url}}" id="linkedin_url"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>City *</b></td>
+                                        <td scope="row"><b>{{__('company.city_label')}}</b></td>
                                         <td><select class="form-control custom-select d-block" name="city" id="city" required>
-                                            <option value="Cairo">Cairo</option>
+                                            <option value="Cairo">{{__('footer.cairo')}}</option>
                                         </select></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Company Size *</b></td>
+                                        <td scope="row"><b>{{__('company.company_size')}}</b></td>
                                         <td><select name="company_size" id="company_size" class="form-control custom-select d-block" required>
                                             @foreach($company_size_array as $company_size)
                                             <option value="{{$company_size}}" {{$company_size === $company->company_size ? 'selected' : ''}}>{{$company_size}}</option>
@@ -123,11 +123,11 @@
                                         </select></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Year Founded</b></td>
+                                        <td scope="row"><b>{{__('company.year_found')}}</b></td>
                                         <td><input class="form-control" type="text" name="year_founded" value="{{$company->year_founded}}" id="year_founded"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Company Type</b></td>
+                                        <td scope="row"><b>{{__('company.company_type')}}</b></td>
                                         <td><select name="company_type" id="company_type" class="form-control custom-select d-block">
                                             @foreach($company_type_array as $company_type)
                                             <option value="{{$company_type}}" {{$company_type === $company->company_type ? 'selected' : ''}}>{{$company_type}}</option>
@@ -135,39 +135,39 @@
                                         </select></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Specialities</b></td>
-                                        <td><input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/></td>
+                                        <td scope="row"><b>{{__('general.specs_tag_title')}}</b></td>
+                                        <td><input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row"><b>Address</b></td>
-                                        <td><input class="form-control" type="text" name="location" value="{{$company->location}}" id="location" placeholder="Address"></td>
+                                        <td scope="row"><b>{{__('company.address_label')}}</b></td>
+                                        <td><input class="form-control" type="text" name="location" value="{{$company->location}}" id="location" placeholder="{{__('company.address_label')}}"></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <button type="submit" class="btn btn-sm btn-yellow-2 mt-3 mb-5">Save</button>
+                            <button type="submit" class="btn btn-sm btn-yellow-2 mt-3 mb-5">{{__('company.save_btn')}}</button>
                             <table class="table">
                                 <thead class="thead-blue">
                                     <tr>
-                                        <th scope="col" colspan="2">Company Registration details</th>
+                                        <th scope="col" colspan="2">{{__('company.company_reg_details')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td scope="row">Registration Number :</td>
+                                        <td scope="row">{{__('company.reg_no')}} :</td>
                                         <td><input class="form-control" type="text" name="reg_number" value="{{$company->reg_number}}" id="reg_number" placeholder="345A-499-LLC213"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row">Date of Registration :</td>
+                                        <td scope="row">{{__('company.date_of_reg')}} :</td>
                                         <td><input data-provide="datepicker" class="form-control" name="reg_date" value="{{$company->reg_date}}" id="reg_date" placeholder="dd/mm/yyyy"></td>
                                     </tr>
                                     <tr>
-                                        <td scope="row">Upload Document:</td>
+                                        <td scope="row">{{__('company.upload_doc')}}:</td>
                                         <td>
                                             <label class="custom-file">
                                                 <input type="file" id="reg_doc" name="reg_doc[]" class="custom-file-input" accept=".jpg, .png, .jpeg, .doc, .docx, .xlsx, .xls,text/plain, application/pdf, .zip, .rar" multiple> 
                                                 <span class="custom-file-control" data-label="Registration Documents"></span>
                                             </label>
-                                            <p class="form-guide">*Upload your scanned business card, trade license, shareholder certificate, or a company authorization letter.</p>
+                                            <p class="form-guide">{{__('company.reg_hint')}}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -175,7 +175,7 @@
                         </div>
                         @if($company->files->count() > 0)
                         <div class="download-box d-flex justify-content-between align-items-center">
-                            <label>Uploaded Documents:</label>
+                            <label>{{__('company.uploaded_docs')}}:</label>
                             <div>
                             @foreach($company->files as $file)
                                 @if(file_exists(public_path('/companies/files/'. $file->file_path)))
@@ -188,7 +188,7 @@
                         
                         </div>
                         @endif
-                        <button type="submit" class="btn btn-sm btn-yellow-2 my-3">Save</button>
+                        <button type="submit" class="btn btn-sm btn-yellow-2 my-3">{{__('company.save_btn')}}</button>
                     </form>
                     @foreach($company->files as $file)
                     <form id="delete-file-{{$file->id}}" action="{{route('front.file.delete', $file->id)}}" method="post">
@@ -200,7 +200,7 @@
                 <div class="col-md-3">
                     <div class="sidebar-review-rating">
                         <div class="rating-sidebar-block">
-                            <h5 class="mb-3">My reviews</h5>
+                            <h5 class="mb-3">{{__('company.my_reviews')}}</h5>
                             <div class="star-rating mb-3">
                                 <ul class="list-inline">
                                     <li class="list-inline-item">

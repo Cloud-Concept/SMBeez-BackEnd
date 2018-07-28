@@ -40,7 +40,7 @@
                         </li>
                     </ul>
                     @if($user->company)    
-                        <button class="btn-dash btn-blue btn-yellow mt-3" data-toggle="modal" data-target="#add-project"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Publish New Project</button>
+                        <button class="btn-dash btn-blue btn-yellow mt-3" data-toggle="modal" data-target="#add-project"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.publish_project')}}</button>
                     @endif
                  </div>
               </div>
@@ -129,7 +129,7 @@
                            <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $user->company->slug)}}">{{$user->company->company_name}}</a></h5>
                            <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $user->company->industry->slug)}}">{{$user->company->industry->industry_name}}</a></p>
                            @if($user->company->specialities->count() > 0)
-                           <p class="tags"><b>Specialities:</b> 
+                           <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
                             <span>
                                 @foreach($user->company->specialities as $speciality)
                                     {{ $loop->first ? '' : ', ' }}

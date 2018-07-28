@@ -14,22 +14,22 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div> -->
                         <div class="box-block-gray">
-                            <h3>Project Details <!-- <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> --></h3>
+                            <h3>{{__('project.edit_project')}} <!-- <a href="" class="btn-more pull-right"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a> --></h3>
                             <ul class="list-unstyled details-box">
-                                <li>Budget (EGP): <input class="form-control" type="number" min="1" value="{{$project->budget}}" name="budget" placeholder="Budget in EGP" id="budget" required></li>
-                                <li>Industry: 
+                                <li>{{__('project.budget')}} ({{__('project.currency')}}): <input class="form-control" type="number" min="1" value="{{$project->budget}}" name="budget" placeholder="Budget in EGP" id="budget" required></li>
+                                <li>{{__('general.industry_title')}} 
                                     <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
                                         @foreach($industries as $industry)
                                         <option value="{{$industry->id}}" {{$project->industries[0]->id == $industry->id ? 'selected' : '' }}>{{$industry->industry_name}}</option>
                                         @endforeach
                                     </select>
                                 </li>
-                                <li>Speciality: <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/></li>
+                                <li>{{__('general.speciality_title')}} <input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/></li>
                             </ul>
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Update Project</button></div>
+                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.update')}}</button></div>
                             @if($project->status === 'draft')
                             <br>
-                            <div class="text-center"><a href="#" onclick="event.preventDefault(); document.getElementById('publish-project').submit();" class="btn btn-blue btn-yellow">Publish Project</a></div>
+                            <div class="text-center"><a href="#" onclick="event.preventDefault(); document.getElementById('publish-project').submit();" class="btn btn-blue btn-yellow">{{__('project.publish')}}</a></div>
                             @endif
                         </div>
                     </div>
@@ -42,11 +42,11 @@
                         </nav>
                         <div class="compnay-edit">
                             <div class="form-group">
-                                <h4>Project Title:</h4>
-                                <h2 class="mb-3 mt-3"><input class="form-control" type="text" value="{{$project->project_title}}" name="project_title" placeholder="Project Title" id="project_title"></h2>
+                                <h4>{{__('project.title_label')}}:</h4>
+                                <h2 class="mb-3 mt-3"><input class="form-control" type="text" value="{{$project->project_title}}" name="project_title" placeholder="{{__('project.title_label')}}" id="project_title"></h2>
                             </div>
                             <div class="form-group">
-                                <h4>Project Description:</h4>
+                                <h4>{{__('project.desc_label')}}:</h4>
                                 <textarea name="project_description" class="form-control" id="project_description" required>{!! strip_tags($project->project_description) !!}</textarea>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                     @if(file_exists(public_path('/projects/files/'. $file->file_path)))
                                         <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('projects/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> {{$file->file_name}}</a></p>
                                     @else
-                                        <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('projects/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> <strike>{{$file->file_name}}</strike> <i>(File Damaged Re-upload)</i></a></p>  
+                                        <p class="list-item more-inf"><a href="#" onclick="event.preventDefault(); document.getElementById('delete-file-{{$file->id}}').submit();"><i class="fa fa-times" aria-hidden="true" style="color:red;" data-toggle="tooltip" data-placement="bottom" title="Delete File"></i></a><a href="{{asset('projects/files/'. $file->file_path)}}" target="_blank"><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Download File"></i> <strike>{{$file->file_name}}</strike> <i>({{__('project.file_damaged')}})</i></a></p>  
                                     @endif
                                 @endforeach
                                 </div>
@@ -71,11 +71,11 @@
                                     <span class="custom-file-control" data-label="Upload Project Documents"></span>
                                 </label>
                                 <br>
-                                <span class="form-guide">You can upload more than one file by choosing multiple files during browse.</span>
+                                <span class="form-guide">{{__('project.file_hint')}}</span>
                             </div>
                         </div>
                         <br>
-                        <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">Update Project</button></div>
+                        <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.update')}}</button></div>
                     </div>
                 </div>
             </div>

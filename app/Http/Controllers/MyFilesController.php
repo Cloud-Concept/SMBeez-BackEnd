@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\MyFile;
 use File;
 use Illuminate\Http\Request;
+use Session;
 
 class MyFilesController extends Controller
 {

@@ -12,10 +12,29 @@
 */
 
 Route::get('/', function () {
+	$locale = Session::get('locale');
+    if($locale) {
+        app()->setLocale($locale);
+    }
+
     return view('front.home');
 })->name('home');
 
 Auth::routes();
+
+Route::get('/{locale}', function ($locale) {
+	$refer_url = URL::previous();
+	
+	if($locale == '') {
+		App::setLocale('en');
+		session(['locale' => 'en']);
+	}else{
+		App::setLocale($locale);
+		session(['locale' => $locale]);
+	}
+
+    return redirect()->to($refer_url);
+})->name('change.lang');
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
@@ -75,6 +94,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('export-file/{type}', 'ExcelController@exportFile')->name('export.file');
 	Route::get('callcenter-reports', 'AdminController@admin_callcenter_reports')->name('callcenter.reports');
 	Route::get('callcenter-details', 'AdminController@admin_callcenter_reports_details')->name('callcenter.reports.details');
+	//Translation
+	Route::get('/manage/translations', '\Barryvdh\TranslationManager\Controller@getIndex')->name('admin.translation');
 });
 
 Route::prefix('user')->group(function() {
