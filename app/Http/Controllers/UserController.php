@@ -22,6 +22,7 @@ use Image;
 use File;
 use DB;
 use Auth;
+use Session;
 
 class UserController extends Controller
 {
@@ -224,6 +225,10 @@ class UserController extends Controller
 
     public function dashboard(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the dashboard 
         //and you are not the owner redirect to home
 
@@ -264,6 +269,10 @@ class UserController extends Controller
 
     public function profile(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the dashboard 
         //and you are not the owner redirect to home
 
@@ -290,6 +299,10 @@ class UserController extends Controller
 
     public function edit_profile_settings(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the edit profile
         //and you are not the owner redirect to home
 
@@ -359,6 +372,10 @@ class UserController extends Controller
 
     public function edit_location(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the edit profile
         //and you are not the owner redirect to home
 
@@ -401,6 +418,10 @@ class UserController extends Controller
 
     public function reviews(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the edit profile
         //and you are not the owner redirect to home
 
@@ -417,6 +438,10 @@ class UserController extends Controller
 
     public function supplier_reviews(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the edit profile
         //and you are not the owner redirect to home
 
@@ -433,6 +458,10 @@ class UserController extends Controller
 
     public function customer_reviews(User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the edit profile
         //and you are not the owner redirect to home
 
@@ -518,7 +547,11 @@ class UserController extends Controller
         return back();
     }
     public function myprojects(User $user)
-    {
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the dashboard 
         //and you are not the owner redirect to home
         if (!$user->dashboard_owner(auth()->id()) ) {
@@ -559,7 +592,11 @@ class UserController extends Controller
     }
 
     public function opportunities(User $user)
-    {
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if trying to access the dashboard 
         //and you are not the owner redirect to home
         if (!$user->dashboard_owner(auth()->id()) ) {

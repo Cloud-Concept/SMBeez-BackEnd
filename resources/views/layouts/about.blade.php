@@ -41,15 +41,15 @@
                 </div>
                 <div class="col-md-12 text-center py-5">
                 	@if (!Auth::guest() && $hascompany)
-                    <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
+                    <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.browse_companies')}}</a>
                     @elseif(!Auth::guest() && count(Auth::user()->claims) > 0)
-                    <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> Browse Companies</a>
+                    <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.browse_companies')}}</a>
                     @elseif (!Auth::guest() && !$hascompany)
-                    <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                    <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
                     @elseif (!Auth::guest() && !count(Auth::user()->claims) > 0)
-                    <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                    <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
                     @elseif(Auth::guest())
-                    <a href="{{route('login')}}?action=add-company" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> Add your company</a>
+                    <a href="{{route('login')}}?action=add-company" class="btn btn-blue btn-yellow"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
                     @endif
                 </div>
             </div>

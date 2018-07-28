@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Bookmark;
 use App\User;
+use Session;
 
 class BookmarksController extends Controller
 {
     
     public function listBookmarks()
-    { 
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
     	$user = auth()->user();
 
     	$bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company')->take(4);
@@ -23,7 +29,12 @@ class BookmarksController extends Controller
     }
 
     public function companiesBookmarks()
-    { 
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $user = auth()->user();
 
         $bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company');
@@ -36,7 +47,12 @@ class BookmarksController extends Controller
     }
 
     public function opportunitiesBookmarks()
-    { 
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
         $user = auth()->user();
 
         $bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company');

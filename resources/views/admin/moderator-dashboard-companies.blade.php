@@ -25,7 +25,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <select name="industry" class="form-control custom-select d-block">
-                                                <option value="">All Industries</option>
+                                                <option value="">{{__('general.all_industries_title')}}</option>
                                                 @foreach($industries as $key => $getindustry)
                                                     <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>
                                                 @endforeach

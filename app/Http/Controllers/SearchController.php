@@ -9,11 +9,16 @@ use App\Speciality;
 use App\Company;
 use Auth;
 use DB;
+use Session;
 
 class SearchController extends Controller
 {
     public function filter_opportunities(Request $request, Project $project,Industry $industry, Speciality $speciality, Company $company)
     {	
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
 
@@ -92,6 +97,10 @@ class SearchController extends Controller
 
     public function filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
 
@@ -160,6 +169,10 @@ class SearchController extends Controller
 
     public function search(Request $request, Company $company, Project $project, Industry $industry)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
 
@@ -209,7 +222,11 @@ class SearchController extends Controller
 
     public function moderator_filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
     {   
-
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
         $industries = $industry->all();
         $filter_industry = $request['industry'];
         //if selected all industries go to all opportunities page

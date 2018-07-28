@@ -2,12 +2,12 @@
     <div class="container-fluid">
         <div class="row px-4">
             <div class="col-md-9">
-                <h6 class="mb-3">What is Masharee3</h6>
-                <p>Masharee3 is your local online marketplace for small and medium companies keen to do business with you. Source project opportunities and find reliable suppliers easily from the comfort of your office. Confidently do business with trusted... <a href="">more</a></p>
+                <h6 class="mb-3">{{__('footer.what_masharee3')}}</h6>
+                <p>{{__('footer.what_masharee3_desc')}}</p>
             </div>
             <div class="col-md-3">
                 @if(Auth::guest())
-                <h6 class="mb-3">Stay in touch</h6>
+                <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
                 <form action="" class="newsletter">
                     <div class="input-group"><input type="text" class="form-control" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="button"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
                 </form>
@@ -16,20 +16,20 @@
             <div class="col-md-3">
                 <h6>Links</h6>
                 <ul>
-                    <li><a href="{{route('about')}}">About</a></li>
-                    <li><a href="{{route('login')}}">Sign Up</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="{{route('about')}}">{{__('footer.about')}}</a></li>
+                    <li><a href="{{route('login')}}">{{__('footer.sign_up')}}</a></li>
+                    <li><a href="#">{{__('footer.terms')}}</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6>Listing</h6>
+                <h6>{{__('footer.listing')}}</h6>
                 <ul>
-                    <li><a href="{{route('front.company.all')}}">Companies</a></li>
-                    <li><a href="{{route('front.industry.index')}}">Opportunities</a></li>
+                    <li><a href="{{route('front.company.all')}}">{{__('footer.companies')}}</a></li>
+                    <li><a href="{{route('front.industry.index')}}">{{__('footer.opportunities')}}</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6>Opportunities</h6>
+                <h6>{{__('footer.opportunities')}}</h6>
                 <ul>
                 	@foreach($industries as $industry)
                     <li><a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a></li>
@@ -37,9 +37,9 @@
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6>Locations</h6>
+                <h6>{{__('footer.locations')}}</h6>
                 <ul>
-                    <li class="no-effect"><a href="#">Cairo</a></li>
+                    <li class="no-effect"><a href="#">{{__('footer.cairo')}}</a></li>
                 </ul>
             </div>
             <div class="col-md-12">

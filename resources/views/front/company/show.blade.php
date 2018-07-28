@@ -34,9 +34,9 @@
                         <div class="p-3">
                             <h2 class="mt-2">@if($company->is_verified == 1) <i class="fa fa-check" aria-hidden="true" style="color:#00c875"></i> @endif {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
-                                <li>Industry: <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
+                                <li>{{__('general.industry_title')}} <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
                                 @if($company->specialities->count() > 0)
-                                <li>Speciality: <span>
+                                <li>{{__('general.speciality_title')}} <span>
                                     @foreach($company->specialities as $speciality)
                                         {{ $loop->first ? '' : ', ' }}
                                         {{$speciality->speciality_name}} 
@@ -46,16 +46,16 @@
                             </ul>
 
                             @if (Auth::guest() && $company->is_verified == null)
-                                <div class="text-center my-3"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>
+                                <div class="text-center my-3"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.claim_company_btn')}}</a></div>
                             @elseif (Auth::guest() && $company->is_verified == 1)
                                 <div></div>
                             @elseif (!Auth::guest() && $company->is_verified == null && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id) && count(Auth::user()->claims) == 0)
-                                <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Claim company</a></div>    
+                                <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.claim_company_btn')}}</a></div>    
                             @elseif(Auth::user()->id == $company->user_id)
-                                <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> Edit Company</button></a></div>
+                                <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.edit_company_btn')}}</button></a></div>
                             @endif
 
-                            <h3>Contact info</h3>
+                            <h3>{{__('company.contact_info')}}</h3>
                             <ul class="list-unstyled details-box vcard-list">
                                 @if($company->location)
                                 <li>
@@ -92,7 +92,7 @@
                                 @if($company->linkedin_url)
                                 <li>
                                     <span class="pull-left"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
-                                    <div class="pull-left"><a href="{{$company->linkedin_url}}" target="_blank">Linkedin Profile</a></div>
+                                    <div class="pull-left"><a href="{{$company->linkedin_url}}" target="_blank">{{__('company.linked_in')}}</a></div>
                                 </li>
                                 @endif
                             </ul>
@@ -115,7 +115,7 @@
                                                 @endfor
                                             </select>
                                         </li>
-                                        <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} Reviews)</p></li>
+                                        <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
                                         <li class="list-item"> 
                                             @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))
                                                 @if(!$company->bookmarked($company->id))
@@ -191,12 +191,12 @@
                     <div class="company-tabs">
                         <ul class="nav d-flex nav-tabs mt-5" id="myTab" role="tablist">
                             <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a></li>
-                            <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews from Customers</a></li>
-                            <li class="nav-item mr-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Reviews from Suppliers</a></li>
+                            <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('company.reviews_from_customers')}}</a></li>
+                            <li class="nav-item mr-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}}</a></li>
                             @if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
-                            <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write a Review</button></li>
+                            <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.write_review')}}</button></li>
                             @elseif(Auth::guest())
-                            <li><a href="{{route('login')}}?action=write-review&name={{$company->slug}}" class="btn btn-blue btn-yellow pull-right btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write a Review</a></li>
+                            <li><a href="{{route('login')}}?action=write-review&name={{$company->slug}}" class="btn btn-blue btn-yellow pull-right btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.write_review')}}</a></li>
                             @endif
                         </ul>
                     </div>
@@ -214,7 +214,7 @@
                                         <div class="project-box box-block mb-3">
                                             <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
                                             <p>{{strip_tags(substr($project->project_description, 0, 100))}}...</p>
-                                            <p class="tags">More in: 
+                                            <p class="tags">{{__('general.more_in')}} 
                                                 <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                             </p>
                                         </div>
@@ -234,8 +234,8 @@
                                                 @endfor
                                             </select>
                                         </li>
-                                        <li class="list-inline-item thumb-review">(Customers Overall Rating)</li>
-                                        <li class="list-inline-item thumb-review">({{$customer_reviews->count()}} Reviews from Customers)</li>
+                                        <li class="list-inline-item thumb-review">{{__('company.customer_overall_rating')}}</li>
+                                        <li class="list-inline-item thumb-review">({{$customer_reviews->count()}} {{__('company.reviews_from_customers')}})</li>
                                     </ul>
                                 </div>
                             </div>
@@ -379,7 +379,7 @@
                                                 </div>
                                             </div>
                                             @if($review->replies->count() > 0)
-                                                <h3 class="mt-4 mb-3 underline">Replies</h3>
+                                                <h3 class="mt-4 mb-3 underline">{{__('company.replies_title')}}</h3>
                                                 @foreach($review->replies as $reply)
                                                 <div class="media mt-5">
                                                     <div class="media-body push-left">
@@ -560,8 +560,8 @@
                                                 @endfor
                                             </select>
                                         </li>
-                                        <li class="list-inline-item thumb-review">(Suppliers Overall Rating)</li>
-                                        <li class="list-inline-item thumb-review">({{$suppliers_reviews->count()}} Reviews from Suppliers)</li>
+                                        <li class="list-inline-item thumb-review">{{__('company.suppliers_overall_rating')}}</li>
+                                        <li class="list-inline-item thumb-review">({{$suppliers_reviews->count()}} {{__('company.reviews_from_suppliers')}})</li>
                                     </ul>
                                 </div>
                             </div>
@@ -703,7 +703,7 @@
                                                 </div>
                                             </div>
                                             @if($review->replies->count() > 0)
-                                                <h3 class="mt-4 mb-3 underline">Replies</h3>
+                                                <h3 class="mt-4 mb-3 underline">{{__('company.replies_title')}}</h3>
                                                 @foreach($review->replies as $reply)
                                                 <div class="media mt-5">
                                                     <div class="media-body push-left">
@@ -888,7 +888,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 class="modal-title">Write A Review</h5>
+                            <h5 class="modal-title">{{__('company.write_review')}}</h5>
                         </div>
                     </div>
                 </div>

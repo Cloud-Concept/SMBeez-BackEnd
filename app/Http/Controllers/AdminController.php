@@ -16,6 +16,7 @@ use Mail;
 use App\Mail\Mod\Welcome;
 use App\Mail\Mod\NewUser;
 use Carbon\Carbon;
+use Session;
 
 class AdminController extends Controller
 {   
@@ -24,6 +25,11 @@ class AdminController extends Controller
 	//redirect to admin dashboard
     public function index()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $user = auth()->user();
 
         if(!$user->hasRole(['superadmin', 'administrator'])) {
@@ -35,6 +41,11 @@ class AdminController extends Controller
     //view admin dashboard
     public function dashboard()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $user = auth()->user();
 
         if(!$user->hasRole(['superadmin', 'administrator'])) {
@@ -56,6 +67,11 @@ class AdminController extends Controller
 
     public function moderator_dashboard_companies()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $user = auth()->user();
 
         if(!$user->hasRole(['moderator'])) {
@@ -76,6 +92,11 @@ class AdminController extends Controller
 
     public function moderator_dashboard_projects()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $user = auth()->user();
 
         if(!$user->hasRole(['moderator'])) {
@@ -319,6 +340,11 @@ class AdminController extends Controller
 
     public function hidden_companies(Company $company)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $user = auth()->user();
 
         if(!$user->hasRole(['superadmin', 'administrator'])) {
@@ -525,6 +551,11 @@ class AdminController extends Controller
 
     public function industries()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $industries = Industry::with('projects')->orderBy('industry_name', 'asc')->paginate(10);
 
         return view('admin.industry.index', compact('industries'));
@@ -532,6 +563,11 @@ class AdminController extends Controller
 
     public function specialities()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $specialities = Speciality::with('projects')->orderBy('speciality_name', 'asc')->paginate(30);
 
         return view('admin.speciality.index', compact('specialities'));
@@ -539,6 +575,11 @@ class AdminController extends Controller
 
     public function projects()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $projects = Project::paginate(10);
 
         return view('admin.project.index', compact('projects'));
@@ -546,11 +587,25 @@ class AdminController extends Controller
 
     public function companies()
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $companies = Company::paginate(10);
 
         $claims = Claim::paginate(10);
 
         return view('admin.company.index', compact('companies', 'claims'));
+    }
+
+
+    public function manage_translation() {
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        return view('vendor.translation-manager.index');
     }
 
 }
