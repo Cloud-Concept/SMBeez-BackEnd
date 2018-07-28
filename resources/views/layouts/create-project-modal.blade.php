@@ -6,7 +6,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 class="modal-title">Publish New Project</h5>
+                            <h5 class="modal-title">{{__('general.publish_project')}}</h5>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,13 @@
 
 @section('content')
 
+<?php 
+$locale = Session::get('locale');
+if($locale) {
+    app()->setLocale($locale);
+}
+
+?>
 <main class="cd-main-content signup">
     <section class="sign-section">
         <div class="container-fluid">

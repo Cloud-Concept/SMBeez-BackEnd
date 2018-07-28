@@ -9,9 +9,9 @@
                     <h1 class="text-center">Browse hundreds of Masharee3</h1>
                     <p class="text-center">In your local marketplace</p>
                     @if (!Auth::guest() && !$hasCompany && !count(Auth::user()->claims) > 0)
-                    <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">Add your company</a></div>
+                    <div class="btn-hero text-center"><a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-blue">{{__('general.add_company_button')}}</a></div>
                     @elseif(Auth::guest())
-                    <div class="btn-hero text-center"><a href="{{route('login')}}?action=add-company" class="btn btn-blue">Add your company</a></div>
+                    <div class="btn-hero text-center"><a href="{{route('login')}}?action=add-company" class="btn btn-blue">{{__('general.add_company_button')}}</a></div>
                     @elseif (!Auth::guest() && $hasCompany || count(Auth::user()->claims) > 0)
                     <div class="btn-hero text-center"><a href="{{route('front.user.dashboard', Auth::user()->username)}}" class="btn btn-blue">Go to my dashboard</a></div>
                     @endif
@@ -48,12 +48,12 @@
                                     </div>
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>
-                                <p class="tags">More in: 
+                                <p class="tags">{{__('general.more_in')}} 
                                     @foreach($company->industries as $industry)
                                         <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
                                     @endforeach
                                 </p>
-                                <p class="tags"><b>Specialities:</b>
+                                <p class="tags"><b>{{__('general.specs_tag_title')}}</b>
                                     @foreach($company->specialities as $speciality)
                                         {{$speciality->speciality_name . ','}} 
                                     @endforeach
@@ -86,10 +86,10 @@
                                     </div>
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>
-                                <p class="tags">More in:
+                                <p class="tags">{{__('general.more_in')}}
                                     <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
                                 </p>
-                                <p class="tags"><b>Specialities:</b> 
+                                <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
                                     @foreach($company->specialities as $speciality)
                                         {{$speciality->speciality_name . ','}} 
                                     @endforeach

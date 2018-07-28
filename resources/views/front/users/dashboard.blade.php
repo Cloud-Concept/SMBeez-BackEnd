@@ -75,9 +75,9 @@
                 <div class="col-md-9">
                     <ul class="dashbord-quickbtn nav nav-pills nav-fill">
                         @if($hascompany)
-                            <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">Publish New Project</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
+                            <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
                         @elseif(!$hascompany && !count($user->claims) > 0)
-                            <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">Add Your Company</button></a></li>
+                            <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">{{__('general.add_company_button')}}</button></a></li>
                         @endif
                         <li class="nav-item"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#reviewModal">Submit a Review</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
                         <li class="nav-item"><button class="btn-dash btn-blue btn-yellow disable"><i class="fa fa-cubes mr-1" aria-hidden="true"></i> Redeem Honeycombs</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>

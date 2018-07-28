@@ -22,6 +22,7 @@ use File;
 use Auth;
 use DB;
 use GeoIP;
+use Session;
 
 class CompaniesController extends Controller
 {   
@@ -34,6 +35,12 @@ class CompaniesController extends Controller
      */
     public function index()
     {   
+
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $company = new Company;
         $user = Auth::user();
 
@@ -192,6 +199,10 @@ class CompaniesController extends Controller
      */
     public function show(Company $company, User $user)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         $project = new Project;
         
         $closed_projects = $project->where('user_id', $company->user_id)
@@ -215,6 +226,10 @@ class CompaniesController extends Controller
      */
     public function edit(Company $company)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         $user = auth()->user();
 
         $customer_reviews = $company->reviews->where('company_id', $company->id)
@@ -437,6 +452,10 @@ class CompaniesController extends Controller
     //Stage 1 for claim company
     public function claim_notification(Company $company)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //if user already sent a claim request
         //if user trying to access a company that is already owned and verified
         //if user trying to access his company
@@ -452,6 +471,10 @@ class CompaniesController extends Controller
     //Stage 2 for claim company
     public function claim_application(Company $company)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         //check if user is not logged in
         if(Auth::guest()) {
             return redirect(route('login')); 
@@ -511,7 +534,11 @@ class CompaniesController extends Controller
     }
     //Stage 4 for claim company
     public function claim_thanks(Company $company)
-    {
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         return view('front.company.claim-thanks', compact('company'));
     }
     /**
@@ -580,7 +607,11 @@ class CompaniesController extends Controller
     }
     //create company for superadmins
     public function admin_create()
-    {
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
         return view('admin.company.create');
     }
 
@@ -715,6 +746,11 @@ class CompaniesController extends Controller
     //Edit company for superadmins
     public function admin_edit(Company $company)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $current_specialities = array();
 
         foreach($company->specialities as $speciality) {
@@ -888,6 +924,11 @@ class CompaniesController extends Controller
      */
     public function show_industry(Industry $industry)
     {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
         $company = new Company;
         $user = Auth::user();
 
