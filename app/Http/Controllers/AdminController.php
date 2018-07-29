@@ -22,7 +22,7 @@ class AdminController extends Controller
 {   
     public $old_profile_relevance_score = 0;
     public $specialities_count_before = 0;
-	//redirect to admin dashboard
+    //redirect to admin dashboard
     public function index()
     {   
         $locale = Session::get('locale');
@@ -334,6 +334,7 @@ class AdminController extends Controller
             $report->save();  
         }
         
+
         return response()->json(['msg' => 'Company Hidden Successfully!']);
     }
 
