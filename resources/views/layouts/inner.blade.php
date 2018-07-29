@@ -19,7 +19,6 @@
         @else
             @include ('layouts.tag-manager')
         @endif
-
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">

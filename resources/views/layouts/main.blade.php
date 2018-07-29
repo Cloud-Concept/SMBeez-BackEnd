@@ -10,6 +10,7 @@
 
         <title>{{ config('app.name', 'Masharee3') }}</title>
         @include ('layouts.tag-manager')
+        
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
