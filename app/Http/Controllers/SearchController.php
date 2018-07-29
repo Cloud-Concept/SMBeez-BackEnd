@@ -14,7 +14,7 @@ use Session;
 class SearchController extends Controller
 {
     public function filter_opportunities(Request $request, Project $project,Industry $industry, Speciality $speciality, Company $company)
-    {	
+    {   
         $locale = Session::get('locale');
         if($locale) {
             app()->setLocale($locale);
@@ -33,14 +33,14 @@ class SearchController extends Controller
 
         }
 
-    	$project = $project->newQuery();
+        $project = $project->newQuery();
 
         //get the requested specialities
-    	if ($request->has('specialities')) {
-    		$project->with('specialities')->whereHas('specialities', function ($q) use ($speciality, $request) {
-	            $q->whereIn('specialities.id', $request['specialities']);
-	        });
-    	}
+        if ($request->has('specialities')) {
+            $project->with('specialities')->whereHas('specialities', function ($q) use ($speciality, $request) {
+                $q->whereIn('specialities.id', $request['specialities']);
+            });
+        }
 
         if(Auth::user()) {
             //if user signed in so find the user's company industry and get use it with request
@@ -92,7 +92,7 @@ class SearchController extends Controller
                 ->get();
         }
 
-    	return view('front.industry.show', compact('industries', 'industry', 'hasCompany', 'industry_projects', 'companies', 'featured_projects', 'specialities', 'filter_industry')); 
+        return view('front.industry.show', compact('industries', 'industry', 'hasCompany', 'industry_projects', 'companies', 'featured_projects', 'specialities', 'filter_industry')); 
     }
 
     public function filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
@@ -173,6 +173,7 @@ class SearchController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
+        dd($request['s']);
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
 

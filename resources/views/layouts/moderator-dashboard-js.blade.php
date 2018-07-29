@@ -1,80 +1,80 @@
 <script type="text/javascript">
-	$(".edit-company").click(function(e){
-		e.preventDefault();
+    $(".edit-company").click(function(e){
+        e.preventDefault();
 
-		//Hide notifications
-		$('#assign-company-to-user').find('.verify').hide();
-	    $('#verified-check').hide();
-	    $('.assign-user-alert').removeClass('show').hide();
-	    $('.company-update-alert').removeClass('show').hide();
-
-
-		var company_id = $(this).closest('.company-info').find('.get-info').attr('company-id');
-		var url = '{{ route("get-company-ajax", ":company_id") }}';
-
-		$('.company-row.' + company_id).addClass('highlight');
-
-	    $.get(url.replace(':company_id', company_id), function(data, status){
-	        $('#edit-company').find('#company_name').val(data.company_name);
-	        $('#edit-company').find('#company_email').val(data.company_email);
-	        $('#edit-company').find('#company_phone').val(data.company_phone);
-	        $('#edit-company').find('#location').val(data.location);
-	        $('#edit-company').find('.company-name-span').text('(' + data.company_name + ')');
-	        $('#edit-company').find('.com-city').text(data.city);
-	        $('#edit-company').find('.get-info').val(data.slug);
-
-	        if(data.user != null) {
-	        	$('#edit-company').find('#user_email').val(data.user.email);
-	    	}else{
-	    		$('#edit-company').find('#user_email').val('');
-	    	}
-	    });
-	});
-
-	$(".report-company").click(function(e){
-		e.preventDefault();
-
-		//Hide notifications
-	    $('.report-alert').removeClass('show').hide();
+        //Hide notifications
+        $('#assign-company-to-user').find('.verify').hide();
+        $('#verified-check').hide();
+        $('.assign-user-alert').removeClass('show').hide();
+        $('.company-update-alert').removeClass('show').hide();
 
 
-		var company_id = $(this).closest('.company-info').find('.get-info').attr('company-id');
-		var company_name = $(this).closest('.company-info').find('.get-info').attr('company-name');
-		var url = '{{ route("get-company-report-ajax", ":company_id") }}';
+        var company_id = $(this).closest('.company-info').find('.get-info').attr('company-id');
+        var url = '{{ route("get-company-ajax", ":company_id") }}';
 
-		$('.company-row.' + company_id).addClass('highlight');
+        $('.company-row.' + company_id).addClass('highlight');
 
-	    $.get(url.replace(':company_id', company_id), function(data, status){
-	    	if(data.status) {
-	        	$('#report-company').find('#status').val(data.status);
-	    	}else {
-	    		$('#report-company').find('#status').val('In Queue');
-	    	}
-	        $('#report-company').find('#feedback').val(data.feedback);
-	        $('#report-company').find('.company-name-span').text('(' + company_name + ')');
-	        $('#report-company').find('.get-info').val(company_id);	        
-	    });
-	});
+        $.get(url.replace(':company_id', company_id), function(data, status){
+            $('#edit-company').find('#company_name').val(data.company_name);
+            $('#edit-company').find('#company_email').val(data.company_email);
+            $('#edit-company').find('#company_phone').val(data.company_phone);
+            $('#edit-company').find('#location').val(data.location);
+            $('#edit-company').find('.company-name-span').text('(' + data.company_name + ')');
+            $('#edit-company').find('.com-city').text(data.city);
+            $('#edit-company').find('.get-info').val(data.slug);
 
-	$(".email-company").click(function(e){
-		e.preventDefault();
+            if(data.user != null) {
+                $('#edit-company').find('#user_email').val(data.user.email);
+            }else{
+                $('#edit-company').find('#user_email').val('');
+            }
+        });
+    });
 
-		//Hide notifications
-	    $('.email-alert').removeClass('show').hide();
+    $(".report-company").click(function(e){
+        e.preventDefault();
+
+        //Hide notifications
+        $('.report-alert').removeClass('show').hide();
 
 
-		var company_id = $(this).closest('.company-info').find('.get-info').attr('company-id');
-		var company_name = $(this).closest('.company-info').find('.get-info').attr('company-name');
-		var url = '{{ route("get-company-ajax", ":company_id") }}';
+        var company_id = $(this).closest('.company-info').find('.get-info').attr('company-id');
+        var company_name = $(this).closest('.company-info').find('.get-info').attr('company-name');
+        var url = '{{ route("get-company-report-ajax", ":company_id") }}';
 
-		$('.company-row.' + company_id).addClass('highlight');
+        $('.company-row.' + company_id).addClass('highlight');
 
-	    $.get(url.replace(':company_id', company_id), function(data, status){
-	        $('#email-company').find('.company-name-span').text('(' + data.company_name + ')');
-	        $('#email-company').find('.company-city').text(data.city);
-	        $('#email-company').find('.get-info').val(company_id);		        
-	    });
-	});
+        $.get(url.replace(':company_id', company_id), function(data, status){
+            if(data.status) {
+                $('#report-company').find('#status').val(data.status);
+            }else {
+                $('#report-company').find('#status').val('In Queue');
+            }
+            $('#report-company').find('#feedback').val(data.feedback);
+            $('#report-company').find('.company-name-span').text('(' + company_name + ')');
+            $('#report-company').find('.get-info').val(company_id);         
+        });
+    });
+
+    $(".email-company").click(function(e){
+        e.preventDefault();
+
+        //Hide notifications
+        $('.email-alert').removeClass('show').hide();
+
+
+        var company_id = $(this).closest('.company-info').find('.get-info').attr('company-id');
+        var company_name = $(this).closest('.company-info').find('.get-info').attr('company-name');
+        var url = '{{ route("get-company-ajax", ":company_id") }}';
+
+        $('.company-row.' + company_id).addClass('highlight');
+
+        $.get(url.replace(':company_id', company_id), function(data, status){
+            $('#email-company').find('.company-name-span').text('(' + data.company_name + ')');
+            $('#email-company').find('.company-city').text(data.city);
+            $('#email-company').find('.get-info').val(company_id);              
+        });
+    });
 </script>
 
 <div class="modal fade modal-fullscreen modal-add-company" id="edit-company" tabindex="-1" role="dialog" aria-labelledby="edit-company" aria-hidden="true">
@@ -102,7 +102,7 @@
                                 {{csrf_field()}}
                                 <div class="form-group"><input class="form-control" type="text" name="company_name" placeholder="Company Name *" id="company_name" required><label class="custom-control single-label com-city"></label></div>
                                 <div class="form-group"><label class="custom-control">Specialities</label>
-                                	<input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
+                                    <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">Write your keywords separated with commas</p>
                                 </div>
                                 <div class="form-group"><label class="custom-control">Company email</label><input class="form-control" type="email" name="company_email" placeholder="Company Email *" id="company_email" required></div>
@@ -192,63 +192,63 @@ jQuery("#company_name").typeahead({
 <script>
 
 $(".update-company-submit").click(function(e){
-	e.preventDefault();
+    e.preventDefault();
 
-	var company_id = $(this).closest('#update-company-form').find('.get-info').val();
-	var url = '{{ route("update-company-ajax", ":company_id") }}';
-	$.post(url.replace(':company_id', company_id),
-	{
-		company_name: $(this).closest('#update-company-form').find('#company_name').val(),
-		company_email: $(this).closest('#update-company-form').find('#company_email').val(),
-		company_phone: $(this).closest('#update-company-form').find('#company_phone').val(),
-		location: $(this).closest('#update-company-form').find('#location').val(),
-		specialities: $(this).closest('#update-company-form').find( "input[name='hidden-speciality_id']" ).val(),
+    var company_id = $(this).closest('#update-company-form').find('.get-info').val();
+    var url = '{{ route("update-company-ajax", ":company_id") }}';
+    $.post(url.replace(':company_id', company_id),
+    {
+        company_name: $(this).closest('#update-company-form').find('#company_name').val(),
+        company_email: $(this).closest('#update-company-form').find('#company_email').val(),
+        company_phone: $(this).closest('#update-company-form').find('#company_phone').val(),
+        location: $(this).closest('#update-company-form').find('#location').val(),
+        specialities: $(this).closest('#update-company-form').find( "input[name='hidden-speciality_id']" ).val(),
         mod_user: $(this).closest('#update-company-form').find( "input[name='mod_user']" ).val(),
 
-	}).done(function( data ) {
-	    $('.company-update-alert').addClass('show').show();
-	});
+    }).done(function( data ) {
+        $('.company-update-alert').addClass('show').show();
+    });
 
 });
 
 $("#assign-company").click(function(e){
-	e.preventDefault();
+    e.preventDefault();
 
-	var company_id = $(this).closest('#assign-company-to-user').find('.get-info').val();
-	var url = '{{ route("assign-company-ajax", ":company_id") }}';
-	$.post(url.replace(':company_id', company_id),
-	{
-		user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
+    var company_id = $(this).closest('#assign-company-to-user').find('.get-info').val();
+    var url = '{{ route("assign-company-ajax", ":company_id") }}';
+    $.post(url.replace(':company_id', company_id),
+    {
+        user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
         mod_user: $(this).closest('#assign-company-to-user').find( "input[name='mod_user']" ).val(),
 
-	}).done(function( data ) {
-	    $('#assign-company-to-user').find('.verify').show();
-	    $('#verified-check').show();
-	    $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.success);
-	    $('.assign-user-alert').addClass('show').show();
-	});
+    }).done(function( data ) {
+        $('#assign-company-to-user').find('.verify').show();
+        $('#verified-check').show();
+        $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.success);
+        $('.assign-user-alert').addClass('show').show();
+    });
 
 });
 
 $("#create-user").click(function(e){
-	e.preventDefault();
+    e.preventDefault();
 
-	var company_id = $(this).closest('#create-user-form').find('.get-info').val();
-	var url = '{{ route("user-company-ajax", ":company_id") }}';
-	$.post(url.replace(':company_id', company_id),
-	{
-		first_name: $(this).closest('#create-user-form').find('#first_name').val(),
-		last_name: $(this).closest('#create-user-form').find('#last_name').val(),
-		phone: $(this).closest('#create-user-form').find('#phone').val(),
-		email: $(this).closest('#create-user-form').find('#email').val(),
-		role: $(this).closest('#create-user-form').find('#role').val(),
+    var company_id = $(this).closest('#create-user-form').find('.get-info').val();
+    var url = '{{ route("user-company-ajax", ":company_id") }}';
+    $.post(url.replace(':company_id', company_id),
+    {
+        first_name: $(this).closest('#create-user-form').find('#first_name').val(),
+        last_name: $(this).closest('#create-user-form').find('#last_name').val(),
+        phone: $(this).closest('#create-user-form').find('#phone').val(),
+        email: $(this).closest('#create-user-form').find('#email').val(),
+        role: $(this).closest('#create-user-form').find('#role').val(),
         mod_user: $(this).closest('#create-user-form').find( "input[name='mod_user']" ).val(),
 
-	}).done(function( data ) {
-	    $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
-	    $('.assign-msg').after('<p>' + data.data + '</p>');
-	    $('.assign-user-alert').addClass('show').show();
-	});
+    }).done(function( data ) {
+        $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
+        $('.assign-msg').after('<p>' + data.data + '</p>');
+        $('.assign-user-alert').addClass('show').show();
+    });
 
 });
 </script>
@@ -278,7 +278,7 @@ $("#create-user").click(function(e){
                                 <h3></h3>
                             </div>
                             <form class="call-form" id="report-company-form">
-                            	{{csrf_field()}}
+                                {{csrf_field()}}
                                 <div class="form-group">
                                     <label class="custom-control">Status</label>
                                     <select name="status" id="status" class="custom-select mb-sm-0 w-100">
@@ -307,22 +307,22 @@ $("#create-user").click(function(e){
 
 <script>
 $("#submit-report").click(function(e){
-	e.preventDefault();
+    e.preventDefault();
 
-	var company_id = $(this).closest('#report-company-form').find('.get-info').val();
-	var url = '{{ route("create-update-company-report-ajax", ":company_id") }}';
-	$.post(url.replace(':company_id', company_id),
-	{
-		status: $(this).closest('#report-company-form').find('#status').val(),
-		feedback: $(this).closest('#report-company-form').find('#feedback').val(),
-		company_id: company_id,
+    var company_id = $(this).closest('#report-company-form').find('.get-info').val();
+    var url = '{{ route("create-update-company-report-ajax", ":company_id") }}';
+    $.post(url.replace(':company_id', company_id),
+    {
+        status: $(this).closest('#report-company-form').find('#status').val(),
+        feedback: $(this).closest('#report-company-form').find('#feedback').val(),
+        company_id: company_id,
         mod_user: $(this).closest('#report-company-form').find( "input[name='mod_user']" ).val(),
 
-	}).done(function( data ) {
-	    $('.report-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
-	    $('.report-alert').addClass('show').show();
-	    $('.report-status.' + company_id).text(data.status);
-	});
+    }).done(function( data ) {
+        $('.report-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
+        $('.report-alert').addClass('show').show();
+        $('.report-status.' + company_id).text(data.status);
+    });
 
 });
 </script>
@@ -374,26 +374,26 @@ $("#submit-report").click(function(e){
 </div>
 <script>
 $("#send-message").click(function(e){
-	e.preventDefault();
+    e.preventDefault();
 
-	var company_id = $(this).closest('#send-msg-form').find('.get-info').val();
-	var url = '{{ route("send-mod-msg-ajax", ":company_id") }}';
-	$.post(url.replace(':company_id', company_id),
-	{
-		subject: $(this).closest('#send-msg-form').find('#subject').val(),
-		body: $(this).closest('#send-msg-form').find('#body').val(),
-		user_email: $(this).closest('#send-msg-form').find('#user_email').val(),
+    var company_id = $(this).closest('#send-msg-form').find('.get-info').val();
+    var url = '{{ route("send-mod-msg-ajax", ":company_id") }}';
+    $.post(url.replace(':company_id', company_id),
+    {
+        subject: $(this).closest('#send-msg-form').find('#subject').val(),
+        body: $(this).closest('#send-msg-form').find('#body').val(),
+        user_email: $(this).closest('#send-msg-form').find('#user_email').val(),
         mod_user: $(this).closest('#send-msg-form').find( "input[name='mod_user']" ).val(),
 
-	}).done(function( data ) {
-	    $('.email-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
-	    $('.email-alert').addClass('show').show();
-	});
+    }).done(function( data ) {
+        $('.email-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
+        $('.email-alert').addClass('show').show();
+    });
 
 });
 </script>
 <style>
-	tr.highlight {
-		font-weight: 900;
-	}
+    tr.highlight {
+        font-weight: 900;
+    }
 </style>

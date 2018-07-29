@@ -89,7 +89,6 @@ class ReviewsController extends Controller
 
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
 
-
         return back();
     }
 

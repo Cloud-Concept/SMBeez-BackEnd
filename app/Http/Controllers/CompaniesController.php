@@ -339,7 +339,6 @@ class CompaniesController extends Controller
         //make the company sluggable
         $sluggable = $company->replicate();
         //relevance scoring
-
         $profile_completion = array($company->company_description, $company->linkedin_url, $company->company_website,
         $company->company_phone, $company->location, $company->company_email, $company->company_size,
         $company->company_tagline, $company->year_founded, $company->reg_number, $company->reg_doc);
@@ -350,7 +349,6 @@ class CompaniesController extends Controller
             $value = $current_score + ($current - $old_profile_relevance_score);
             $company->update(['relevance_score' => $value]);
         }
-
         // redirect to the home page
         session()->flash('success', 'Your company has been updated.');
 
@@ -726,7 +724,6 @@ class CompaniesController extends Controller
 
             //Logging
             $log = new ModLog;
-
             $mod_user = auth()->user()->id;
             $log->user_id = $mod_user;
             $log->company_id = $company->id;
@@ -858,7 +855,6 @@ class CompaniesController extends Controller
 
         //Logging
         $log = new ModLog;
-
         $mod_user = auth()->user()->id;
         $log->user_id = $mod_user;
         $log->company_id = $company->id;
@@ -948,6 +944,7 @@ class CompaniesController extends Controller
             $companies = $company->where('status', 1)->where('industry_id', $industry->id)->where('city', Auth::user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
         }else {
             //this will be changed to the selected country from the menu
+
             $featured_companies = $company->where('is_promoted', 1)
             ->where('status', '!=', '0')
             ->orderBy(DB::raw('RAND()'))
