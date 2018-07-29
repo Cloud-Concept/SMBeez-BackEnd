@@ -4,13 +4,13 @@
         <a class="nav-link {{ Request::is('industries/*') ? 'active' : 'no' }}" href="{{route('front.industry.index')}}">{{__('general.menu_opportunities')}}</a>
     </li>
     @if(app()->getLocale() == 'en')
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
             <a class="nav-link" href="{{route('change.lang', 'ar')}}">Arabic</a>
-        </li>
+        </li> -->
     @else
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
             <a class="nav-link" href="{{route('change.lang', 'en')}}">English</a>
-        </li>
+        </li> -->
     @endif
     <li class="no-effect">
         <a href="#"><span class="flag-icon flag-icon-eg"></span> {{__('footer.cairo')}}</a>

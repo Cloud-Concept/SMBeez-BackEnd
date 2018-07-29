@@ -106,13 +106,13 @@
                                 	<input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">Write your keywords separated with commas</p>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <select name="industry_id" id="industry_id" class="form-control custom-select d-block" required>
                                         @foreach($industries as $industry)
                                         <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> -->
                                 <div class="form-group"><label class="custom-control">Company email</label><input class="form-control" type="email" name="company_email" placeholder="Company Email *" id="company_email" required></div>
                                 <div class="form-group"><label class="custom-control">Phone</label><input class="form-control" type="text" name="company_phone" placeholder="Company Phone *" id="company_phone" required></div>
                                 <div class="form-group"><label class="custom-control">Company Address</label><input class="form-control" type="text" name="location" placeholder="Company Address *" id="location" required></div>

@@ -173,6 +173,7 @@ class SearchController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
+        dd($request['s']);
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
 
