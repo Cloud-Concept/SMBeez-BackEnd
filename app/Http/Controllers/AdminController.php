@@ -126,7 +126,7 @@ class AdminController extends Controller
         $company->company_email = $request['company_email'];
         $company->company_phone = $request['company_phone'];
         $company->location = $request['location'];
-        $company->industry_id = $request['industry_id'];
+        //$company->industry_id = $request['industry_id'];
 
         $specialities_count_before = $this->specialities_count_before;
         $specialities_count_before += $company->specialities()->count();
