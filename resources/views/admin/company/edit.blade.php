@@ -20,6 +20,9 @@
                             <li class="breadcrumb-item active" aria-current="page">Edit Company {{$company->company_name}}</li>
                         </ol>
                     </nav>
+                    <div class="alert alert-info">
+                        Company Owner: <a href="{{route('admin.user.edit', $company->user->username)}}">{{$company->user->first_name}} {{$company->user->last_name}}</a>
+                    </div>
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
