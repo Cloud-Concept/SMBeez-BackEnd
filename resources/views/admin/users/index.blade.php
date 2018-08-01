@@ -33,7 +33,7 @@
                                     <tr>
                                         <th scope="col">id</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">City <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                        <th scope="col">Logins <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                         <th colspan="2" scope="col" width="30%">Company</th>
                                     </tr>
                                 </thead>
@@ -42,7 +42,7 @@
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td scope="row"><a href="{{route('admin.user.edit', $user->username)}}">{{$user->first_name . " " . $user->last_name}}</a></td>
-                                        <td>{{$user->user_city}}</td>
+                                        <td>{{$user->logins_no}}</td>
                                         <td>{{$user->company ? $user->company->company_name : '-'}}</td>
                                         <td><a href="{{route('admin.user.edit', $user->username)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
                                     </tr>
