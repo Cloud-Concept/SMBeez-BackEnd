@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/{locale}', function ($locale) {
+Route::get('/language/{locale}', function ($locale) {
 	$refer_url = URL::previous();
 	
 	if($locale == '') {
