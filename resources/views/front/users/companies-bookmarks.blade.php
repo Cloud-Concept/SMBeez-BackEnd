@@ -54,7 +54,13 @@
                                     </div>
                                     <p>{{strip_tags(substr($bookmark->bookmarked_companies($bookmark->bookmarked_id)->company_description, 0, 180))}}</p>
                                     <p class="tags">{{__('general.more_in')}}
-                                        <a href="{{route('front.company.showindustry', $bookmark->bookmarked_companies($bookmark->bookmarked_id)->industry->slug)}}">{{$bookmark->bookmarked_companies($bookmark->bookmarked_id)->industry->industry_name}}</a>
+                                        <a href="{{route('front.company.showindustry', $bookmark->bookmarked_companies($bookmark->bookmarked_id)->industry->slug)}}">
+                                            @if(app()->getLocale() == 'ar')
+                                            {{$bookmark->bookmarked_companies($bookmark->bookmarked_id)->industry->industry_name_ar}}
+                                            @else
+                                            {{$bookmark->bookmarked_companies($bookmark->bookmarked_id)->industry->industry_name}}
+                                            @endif
+                                        </a>
                                     </p>
                                 </div>
                             </div>

@@ -20,9 +20,11 @@
                             <li class="breadcrumb-item active" aria-current="page">Edit Company {{$company->company_name}}</li>
                         </ol>
                     </nav>
+                    @if($company->user)
                     <div class="alert alert-info">
                         Company Owner: <a href="{{route('admin.user.edit', $company->user->username)}}">{{$company->user->first_name}} {{$company->user->last_name}}</a>
                     </div>
+                    @endif
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -125,7 +127,11 @@
                                 <label for="">Industry *</label>
                                 <select name="industry_id" id="industry_id" class="form-control custom-select d-block" required>
                                     @foreach($industries as $industry)
-                                    <option value="{{$industry->id}}" {{$industry->id == $company->industry->id ? 'selected' : ''}}>{{$industry->industry_name}}</option>
+                                    @if(app()->getLocale() == 'ar')
+                                        <option value="{{$industry->id}}" {{$industry->id == $company->industry->id ? 'selected' : ''}}>{{$industry->industry_name_ar}}</option>
+                                    @else
+                                        <option value="{{$industry->id}}" {{$industry->id == $company->industry->id ? 'selected' : ''}}>{{$industry->industry_name}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </p>

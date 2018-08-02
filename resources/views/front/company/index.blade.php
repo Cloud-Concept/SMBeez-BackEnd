@@ -79,7 +79,13 @@
                                 </div>
                                 <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
                                 <p class="tags">{{__('general.more_in')}} 
-                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">
+                                        @if(app()->getLocale() == 'ar')
+                                        {{$company->industry->industry_name_ar}}
+                                        @else
+                                        {{$company->industry->industry_name}}
+                                        @endif
+                                    </a>
                                 </p>
                                 @if($company->specialities->count() > 0)
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b>
@@ -192,7 +198,13 @@
                                 {{strip_tags(substr($company->location, 0, 55))}}
                                 </p>
                                 <p class="tags">{{__('general.more_in')}}
-                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">
+                                        @if(app()->getLocale() == 'ar')
+                                        {{$company->industry->industry_name_ar}}
+                                        @else
+                                        {{$company->industry->industry_name}}
+                                        @endif
+                                    </a>
                                 </p>
                                 @if($company->specialities->count() > 0)
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 

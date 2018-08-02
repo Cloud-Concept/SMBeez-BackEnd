@@ -61,6 +61,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::post('/manage/industries/store', 'IndustriesController@store')->name('admin.industry.store');
 	Route::get('/manage/industries/{industry}/edit', 'IndustriesController@edit')->name('admin.industry.edit');
 	Route::post('/manage/industries/{industry}/update', 'IndustriesController@update')->name('admin.industry.update');
+	Route::post('/manage/industries/disable/{industry}', 'IndustriesController@disable')->name('admin.industry.disable');
+	Route::post('/manage/industries/enable/{industry}', 'IndustriesController@enable')->name('admin.industry.enable');
 	//Specialities Module
 	Route::get('/manage/specialities', 'AdminController@specialities')->name('admin.specialities');
 	Route::get('/manage/specialities/create', 'SpecialitiesController@create')->name('admin.speciality.create');
@@ -86,6 +88,10 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::delete('/{company}/delete', 'CompaniesController@destroy')->name('admin.company.delete');
 	Route::delete('/{company}/delete-reviews', 'CompaniesController@clear_reviews')->name('admin.company.delete-reviews');
 	Route::get('/manage/hidden-companies', 'AdminController@hidden_companies')->name('admin.hidden-companies');
+	Route::get('/manage/companies/claims', 'AdminController@get_claims')->name('admin.get_claims');
+	Route::get('/manage/companies/show-claim/{claim}', 'AdminController@show_claim')->name('admin.show_claim');
+	Route::post('/manage/companies/accept-claim/{claim}/{company}', 'AdminController@accept_claim')->name('admin.accept_claim');
+	Route::post('/manage/companies/decline-claim/{claim}/{company}', 'AdminController@decline_claim')->name('admin.decline_claim');
 	//Flagged Reviews
 	//Route::get('/manage/reviews', 'AdminController@reviews')->name('admin.reviews');
 	//Export / Import CSV

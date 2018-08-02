@@ -57,7 +57,11 @@
                                 <label for="">Industry *</label>
                                 <select name="industry_id" class="form-control" id="industry_id" required>
                                     @foreach($industries as $industry)
+                                    @if(app()->getLocale() == 'ar')
+                                    <option value="{{$industry->id}}" {{$project->industries[0]->id == $industry->id ? 'selected' : '' }}>{{$industry->industry_name_ar}}</option>
+                                    @else
                                     <option value="{{$industry->id}}" {{$project->industries[0]->id == $industry->id ? 'selected' : '' }}>{{$industry->industry_name}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </p>

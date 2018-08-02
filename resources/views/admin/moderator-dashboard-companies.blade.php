@@ -27,7 +27,11 @@
                                             <select name="industry" class="form-control custom-select d-block">
                                                 <option value="">{{__('general.all_industries_title')}}</option>
                                                 @foreach($industries as $key => $getindustry)
+                                                    @if(app()->getLocale() == 'ar')
+                                                    <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name_ar}}</option>
+                                                    @else
                                                     <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -64,7 +68,11 @@
                                         @else
                                         <td class="report-status {{$company->slug}}">In Queue</td>
                                         @endif
+                                        @if(app()->getLocale() == 'ar')
+                                        <td>{{$company->industry->industry_name_ar}}</td>
+                                        @else
                                         <td>{{$company->industry->industry_name}}</td>
+                                        @endif
                                         <td>
                                             <div class="d-flex company-info">
                                                 <input type="hidden" class="get-info" company-id="{{$company->slug}}" company-name="{{$company->company_name}}" />

@@ -104,6 +104,7 @@ class IndustriesController extends Controller
         $industry = new Industry;
 
         $industry->industry_name = $request['industry_name'];
+        $industry->industry_name_ar = $request['industry_name_ar'];
         $industry->display = $request['display'];
 
         if($request->hasFile('industry_img_url')) {
@@ -119,6 +120,21 @@ class IndustriesController extends Controller
             Image::make($industry_img_url)->save($path);
             //make the field industry_img_url in the table = to the link of img
             $industry->industry_img_url = $path_db . $img_name;
+        }
+
+        if($request->hasFile('industry_img_url_ar')) {
+
+            $industry_img_url_ar     = $request->file('industry_img_url_ar');
+            $img_name  = time() . '.' . $industry_img_url_ar->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/industry/';
+            
+            //path of the new image
+            $path       = public_path('images/industry/' . $img_name);
+            //save image to the path
+            Image::make($industry_img_url_ar)->save($path);
+            //make the field industry_img_url_ar in the table = to the link of img
+            $industry->industry_img_url_ar = $path_db . $img_name;
         }
 
         //save it to the database 
@@ -237,6 +253,7 @@ class IndustriesController extends Controller
     public function update(Request $request, Industry $industry)
     {
         $industry->industry_name = $request['industry_name'];
+        $industry->industry_name_ar = $request['industry_name_ar'];
         $industry->display = $request['display'];
 
         if($request->hasFile('industry_img_url')) {
@@ -258,6 +275,25 @@ class IndustriesController extends Controller
             File::delete(public_path($oldImage));
         }
 
+        if($request->hasFile('industry_img_url_ar')) {
+
+            $industry_img_url_ar     = $request->file('industry_img_url_ar');
+            $img_name  = time() . '.' . $industry_img_url_ar->getClientOriginalExtension();
+            //path to year/month folder
+            $path_db = 'images/industry/';
+            
+            //path of the new image
+            $path       = public_path('images/industry/' . $img_name);
+            //save image to the path
+            Image::make($industry_img_url_ar)->save($path);
+            //get the old image
+            $oldImage = $industry->industry_img_url_ar;
+            //make the field industry_img_url_ar in the table = to the link of img
+            $industry->industry_img_url_ar = $path_db . $img_name;
+            //delete the old image
+            File::delete(public_path($oldImage));
+        }
+
         $industry->update();
 
         session()->flash('success', 'Your industry has been updated.');
@@ -271,8 +307,23 @@ class IndustriesController extends Controller
      * @param  \App\Industry  $industry
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Industry $industry)
+    public function disable(Industry $industry)
     {
-        //
+        $industry->is_disabled = 1;
+        $industry->display = '';
+
+        $industry->update();
+
+        return back();
+    }
+
+    public function enable(Industry $industry)
+    {
+        $industry->is_disabled = 0;
+        $industry->display = '';
+
+        $industry->update();
+
+        return back();
     }
 }

@@ -22,8 +22,12 @@
                             <table class="table table-hover my-4">
                                 <tbody>
                                     @foreach($industries as $industry)
-                                    <tr>
+                                    <tr {{$industry->is_disabled == 1 ? 'style=background:red;' : '' }}>
+                                        @if(app()->getLocale() == 'ar')
+                                        <td scope="row">{{$industry->industry_name_ar}}</td>
+                                        @else
                                         <td scope="row">{{$industry->industry_name}}</td>
+                                        @endif
                                         <td width="10%">
                                             <div class="d-flex"><a href="{{route('admin.industry.edit', $industry->slug)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></div>
                                         </td>
