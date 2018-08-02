@@ -65,7 +65,11 @@
                             <p class="group-control">
                                 <select name="industry_id" id="industry_id">
                                     @foreach($industries as $industry)
+                                    @if(app()->getLocale() == 'ar')
+                                    <option value="{{$industry->id}}">{{$industry->industry_name_ar}}</option>
+                                    @else
                                     <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </p>

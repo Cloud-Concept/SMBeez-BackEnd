@@ -17,12 +17,14 @@ use App\Reply;
 use App\ModLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use App\Mail\ClaimNotification;
 use Image;
 use File;
 use Auth;
 use DB;
 use GeoIP;
 use Session;
+use Mail;
 
 class CompaniesController extends Controller
 {   
@@ -526,6 +528,8 @@ class CompaniesController extends Controller
             }
 
             $claim->save();
+
+            Mail::to('info@masharee3.com')->send(new ClaimNotification($company));
 
             return redirect(route('front.company.claim-thanks', $company->slug));
         }

@@ -14,12 +14,22 @@
                 <option value="">{{__('general.all_industries_title')}}</option>
 
                 @foreach($industries as $key => $getindustry)
-                <option value="{{$getindustry->id}}" {{$getindustry->id == $industry->id ? 'selected' : ''}} {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>
+                <option value="{{$getindustry->id}}" {{$getindustry->id == $industry->id ? 'selected' : ''}} {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>
+                    @if(app()->getLocale() == 'ar')
+                    {{$getindustry->industry_name_ar}}
+                    @else
+                    {{$getindustry->industry_name}}
+                    @endif
+                </option>
                 @endforeach
             </select>
             @elseif(!Auth::guest() || $hasCompany)
                 <div class="search-filter mb-4">
+                    @if(app()->getLocale() == 'ar')
+                    <span>{{Auth::user()->company->industry->industry_name_ar}}</span>
+                    @else
                     <span>{{Auth::user()->company->industry->industry_name}}</span>
+                    @endif
                 </div>
             @endif
             <div class="search-filter">

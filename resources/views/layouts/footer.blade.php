@@ -32,7 +32,13 @@
                 <h6>{{__('footer.opportunities')}}</h6>
                 <ul>
                 	@foreach($industries as $industry)
-                    <li><a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a></li>
+                    <li><a href="{{route('front.industry.show', $industry->slug)}}">
+                        @if(app()->getLocale() == 'ar')
+                        {{$industry->industry_name_ar}}
+                        @else
+                        {{$industry->industry_name}}
+                        @endif
+                    </a></li>
                     @endforeach
                 </ul>
             </div>

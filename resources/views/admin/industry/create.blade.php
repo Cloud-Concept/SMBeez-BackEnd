@@ -27,6 +27,10 @@
                             <input class="form-control" type="text" name="industry_name" placeholder="Industry Name" id="industry_name">
                         </p>
                         <p class="form-group">
+                            <label for="">Industry Arabic Name</label>
+                            <input class="form-control" type="text" name="industry_name_ar" placeholder="Industry Arabic Name" id="industry_name_ar">
+                        </p>
+                        <p class="form-group">
                             <label for="">Industry Image</label>
                             <br>
                             <label class="custom-file">
@@ -34,6 +38,16 @@
                                 <span class="custom-file-control" data-label="Industry Image"></span>
                             </label>
                         </p>
+                        <br>
+                        <p class="form-group">
+                            <label for="">Industry Arabic Image</label>
+                            <br>
+                            <label class="custom-file">
+                                <input type="file" id="industry_img_url_ar" name="industry_img_url_ar" class="custom-file-input" accept=".jpg, .png, .jpeg"> 
+                                <span class="custom-file-control" data-label="Industry Arabic Image"></span>
+                            </label>
+                        </p>
+                        <br>
                         <p class="form-group">
                             <label for="">Display In</label>
                             <select name="display" class="form-control custom-select d-block">

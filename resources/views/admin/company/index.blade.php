@@ -36,7 +36,11 @@
                                     @foreach($companies as $company)
                                     <tr>
                                         <td scope="row">{{$company->company_name}}</td>
+                                        @if(app()->getLocale() == 'ar')
+                                        <td>{{$company->industry->industry_name_ar}}</td>
+                                        @else
                                         <td>{{$company->industry->industry_name}}</td>
+                                        @endif
                                         <td>
                                             <div class="d-flex">
                                                 <a href="{{route('admin.company.edit', $company->slug)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -50,30 +54,6 @@
                             </table>
 
                             {{$companies->links()}}
-
-                            <h4>Claimed company request</h4>
-                            <table class="table table-striped my-4">
-                                <thead class="thead-blue">
-                                    <tr>
-                                        <th scope="col">Company Name</th>
-                                        <th scope="col">User Name</th>
-                                        <th scope="col" width="10%">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($claims as $claim)
-                                    <tr>
-                                        <td scope="row">{{$claim->company->company_name}}</td>
-                                        <td>{{$claim->user->first_name . " " . $claim->user->last_name}}</td>
-                                        <td>
-                                            <div class="d-flex"><a href="" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="" class="px-2"><i class="fa fa-check" aria-hidden="true"></i></a> <a href="" class="px-2"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                            {{$claims->links()}}
                             
                         </div>
                     </div>

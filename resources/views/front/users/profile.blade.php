@@ -127,7 +127,13 @@
                         <div class="media-body">
                            <a href="{{route('front.company.edit', $user->company->slug)}}"><i class="fa fa-pencil-square-o pull-right" aria-hidden="true"></i></a>
                            <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $user->company->slug)}}">{{$user->company->company_name}}</a></h5>
-                           <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $user->company->industry->slug)}}">{{$user->company->industry->industry_name}}</a></p>
+                           <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $user->company->industry->slug)}}">
+                            @if(app()->getLocale() == 'ar')
+                            {{$user->company->industry->industry_name_ar}}
+                            @else
+                            {{$user->company->industry->industry_name}}
+                            @endif
+                          </a></p>
                            @if($user->company->specialities->count() > 0)
                            <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
                             <span>

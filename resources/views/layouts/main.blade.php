@@ -36,7 +36,11 @@
     <body class="home">
         @include ('layouts.another-tag-manager')
         <header class="cd-main-header animate-search">
+            @if(app()->getLocale() == 'ar')
+            <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo-ar.svg') }}" alt="Logo"></a></div>
+            @else
             <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
+            @endif
             <nav class="cd-main-nav-wrapper">
                 <a href="#search" class="cd-search-trigger"></a>
                 @include ('layouts.main-menu')

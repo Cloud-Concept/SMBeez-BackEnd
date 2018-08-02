@@ -81,7 +81,7 @@ class User extends Authenticatable
     }
     //claims relationship
     public function claims() {
-        return $this->hasOne(Claim::class);
+        return $this->hasOne(Claim::class)->where('status', null);
     }
 
     public function mod_reports() {

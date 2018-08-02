@@ -34,7 +34,13 @@
                         <div class="p-3">
                             <h2 class="mt-2">@if($company->is_verified == 1) <i class="fa fa-check" aria-hidden="true" style="color:#00c875"></i> @endif {{$company->company_name}}</h2>
                             <ul class="list-unstyled details-box">
-                                <li>{{__('general.industry_title')}} <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></li>
+                                <li>{{__('general.industry_title')}} <a href="{{route('front.company.showindustry', $company->industry->slug)}}">
+                                    @if(app()->getLocale() == 'ar')
+                                    {{$company->industry->industry_name_ar}}
+                                    @else
+                                    {{$company->industry->industry_name}}
+                                    @endif
+                                </a></li>
                                 @if($company->specialities->count() > 0)
                                 <li>{{__('general.speciality_title')}} <span>
                                     @foreach($company->specialities as $speciality)
@@ -101,7 +107,11 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
+                    @if(app()->getLocale() == 'ar')
+                    <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url_ar)) ? asset($company->industry->industry_img_url_ar) : ''}}) no-repeat 100% 100%;">
+                    @else
                     <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url)) ? asset($company->industry->industry_img_url) : ''}}) no-repeat 100% 100%;">
+                    @endif
                         <h1 class="w-50">{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">
@@ -215,7 +225,13 @@
                                             <p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p>
                                             <p>{{strip_tags(substr($project->project_description, 0, 100))}}...</p>
                                             <p class="tags">{{__('general.more_in')}} 
-                                                <a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                                <a href="{{route('front.industry.show', $company->industry->slug)}}">
+                                                    @if(app()->getLocale() == 'ar')
+                                                    {{$company->industry->industry_name_ar}}
+                                                    @else
+                                                    {{$company->industry->industry_name}}
+                                                    @endif
+                                                </a>
                                             </p>
                                         </div>
                                     </div> 
