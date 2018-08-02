@@ -91,7 +91,11 @@
                                 <label for="">Industry *</label>
                                 <select name="industry_id" id="industry_id" class="form-control custom-select d-block" required>
                                     @foreach($industries as $industry)
-                                    <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
+                                    @if(app()->getLocale() == 'ar')
+                                        <option value="{{$industry->id}}">{{$industry->industry_name_ar}}</option>
+                                    @else
+                                        <option value="{{$industry->id}}">{{$industry->industry_name}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </p>

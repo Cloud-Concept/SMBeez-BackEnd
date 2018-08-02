@@ -20,7 +20,13 @@
                                 <li>{{__('general.industry_title')}} 
                                     <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
                                         @foreach($industries as $industry)
-                                        <option value="{{$industry->id}}" {{$project->industries[0]->id == $industry->id ? 'selected' : '' }}>{{$industry->industry_name}}</option>
+                                        <option value="{{$industry->id}}" {{$project->industries[0]->id == $industry->id ? 'selected' : '' }}>
+                                            @if(app()->getLocale() == 'ar')
+                                            {{$industry->industry_name_ar}}
+                                            @else
+                                            {{$industry->industry_name}}
+                                            @endif
+                                        </option>
                                         @endforeach
                                     </select>
                                 </li>

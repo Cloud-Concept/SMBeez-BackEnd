@@ -27,7 +27,11 @@
                                             <select name="industry" class="form-control custom-select d-block">
                                                 <option value="">{{__('general.all_industries_title')}}</option>
                                                 @foreach($industries as $key => $getindustry)
+                                                    @if(app()->getLocale() == 'ar')
+                                                    <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name_ar}}</option>
+                                                    @else
                                                     <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -64,14 +68,18 @@
                                         @else
                                         <td class="report-status {{$company->slug}}">In Queue</td>
                                         @endif
+                                        @if(app()->getLocale() == 'ar')
+                                        <td>{{$company->industry->industry_name_ar}}</td>
+                                        @else
                                         <td>{{$company->industry->industry_name}}</td>
+                                        @endif
                                         <td>
                                             <div class="d-flex company-info">
                                                 <input type="hidden" class="get-info" company-id="{{$company->slug}}" company-name="{{$company->company_name}}" />
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#edit-company" class="px-2 edit-company"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#report-company" class="px-2 report-company" alt="Report Company"><i class="fa fa-list" aria-hidden="true"></i></a>
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#email-company" class="px-2 email-company"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                                                <a href="#" id="hide-company-{{$company->slug}}" class="px-2" company-id="{{$company->slug}}" onClick="event.preventDefault(); if(confirm('Do you really need to hide this company?')){ var e = $(this); hide_company(e)}"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                                <!-- <a href="#" id="hide-company-{{$company->slug}}" class="px-2" company-id="{{$company->slug}}" onClick="event.preventDefault(); if(confirm('Do you really need to hide this company?')){ var e = $(this); hide_company(e)}"><i class="fa fa-eye-slash" aria-hidden="true"></i></a> -->
                                                 <a href="{{route('front.company.show', $company->slug)}}" target="_blank" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <a href="{{route('admin.company.edit', $company->slug)}}" target="_blank" class="px-2"><i class="fa fa-clone" aria-hidden="true"></i></a>
                                             </div>
@@ -79,7 +87,7 @@
                                     </tr>
                                     <script>
 
-                                    function hide_company(e) {                                        
+                                    /*function hide_company(e) {                                        
                                         var company_id = e.attr('company-id');
                                         console.log(company_id);
                                         var url = '{{ route("hide-company-ajax", ":company_id") }}';
@@ -91,7 +99,7 @@
                                             $('.'+ company_id).hide();
                                         });
 
-                                    }
+                                    }*/
                                     </script>
                                     @endforeach
                                 </tbody>

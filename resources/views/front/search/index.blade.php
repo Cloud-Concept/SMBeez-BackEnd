@@ -105,7 +105,13 @@
 			                                @endif
 	                                    </div>
 	                                    <div class="col-md-3">
-	                                        <div class="media-body-info pt-3 text-right"><a href="{{route('front.industry.show', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></div>
+	                                        <div class="media-body-info pt-3 text-right"><a href="{{route('front.industry.show', $company->industry->slug)}}">
+	                                        	@if(app()->getLocale() == 'ar')
+	                                        	{{$company->industry->industry_name_ar}}
+	                                        	@else
+	                                        	{{$company->industry->industry_name}}
+	                                        	@endif
+	                                        </a></div>
 	                                    </div>
 	                                </div>
 	                            </div>

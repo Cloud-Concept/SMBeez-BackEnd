@@ -12,9 +12,12 @@ use App\Speciality;
 use App\Claim;
 use App\ModCompanyReport;
 use App\ModLog;
+use App\Role;
 use Mail;
 use App\Mail\Mod\Welcome;
 use App\Mail\Mod\NewUser;
+use App\Mail\ClaimAccepted;
+use App\Mail\ClaimDeclined;
 use Carbon\Carbon;
 use Session;
 
@@ -592,13 +595,90 @@ class AdminController extends Controller
             app()->setLocale($locale);
         }
 
-        $companies = Company::paginate(10);
+        $companies = Company::latest()->paginate(10);
 
-        $claims = Claim::paginate(10);
-
-        return view('admin.company.index', compact('companies', 'claims'));
+        return view('admin.company.index', compact('companies'));
     }
 
+    public function get_claims()
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
+        $claims = Claim::where('status', null)->latest()->paginate(10);
+
+        return view('admin.company.claims', compact('claims'));
+    }
+
+    public function show_claim(Claim $claim)
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
+        return view('admin.company.show-claim', compact('claim'));
+    }
+
+    public function accept_claim(Claim $claim, Company $company)
+    {   
+        $user = User::where('id', $claim->user_id)->first();
+
+        if($claim->company->user_id == 0 && !$user->company) {
+            //update cliam status to accepted
+            $claim->status = 1;
+            $claim->update();
+            //assign user to the company
+            $company->user_id = $claim->user_id;
+            $company->update();
+            //make user a company
+            $roles = new Role;
+            $role = $roles->where('name', 'company')->pluck('id');
+            $user->roles()->sync($role, true);
+            //send email to notify user
+
+            Mail::to($user->email)->send(new ClaimAccepted($company));
+
+            $other_claims = Claim::where('status', null)
+                ->where('company_id', $company->id)
+                ->get();
+
+            foreach($other_claims as $other_claim) {
+                $other_claim->status = 0;
+                $other_claim->update();
+            }
+
+            $report = new ModCompanyReport;
+
+            $report->status = 'Claimed Company';
+            $report->feedback = 'Company Claimed Successfully';
+            $report->company_id = $company->id;
+
+            $report->save();
+
+            session()->flash('success', 'Claim accepted and company assigned to the user Successfully!');
+        }else {
+            //update claim status to declined
+            $claim->status = 0;
+            $claim->update();
+
+            session()->flash('success', 'Sorry!, Claim can\'t be done, as the user may already have a company or the company was claimed by someone else.');
+        }
+
+        return back();
+    }
+
+    public function decline_claim(Claim $claim, Company $company)
+    {   
+        $claim->status = 0;
+        $claim->update();
+        Mail::to($claim->user->email)->send(new ClaimDeclined($company));
+        session()->flash('success', 'Claim request has been declined.');
+
+        return back();
+    }
 
     public function manage_translation() {
         $locale = Session::get('locale');

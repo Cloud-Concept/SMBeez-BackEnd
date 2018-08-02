@@ -65,7 +65,13 @@
                         <div class="dashboard-company-block">
                             <div class="media-body">
                                 <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $company->slug)}}">{{$company->company_name}}</a></h5>
-                                <p class="tags"><b>{{__('general.industry_title')}}</b><a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a></p>
+                                <p class="tags"><b>{{__('general.industry_title')}}</b><a href="{{route('front.company.showindustry', $company->industry->slug)}}">
+                                    @if(app()->getLocale() == 'ar')
+                                    {{$company->industry->industry_name_ar}}
+                                    @else
+                                    {{$company->industry->industry_name}}
+                                    @endif
+                                </a></p>
                                 @if($company->specialities->count() > 0)
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b> <span>
                                     

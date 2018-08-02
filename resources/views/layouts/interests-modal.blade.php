@@ -29,7 +29,13 @@
                                     <div class="modal-sidebar">
                                         <div class="media-body">
                                             <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $interest->user->company->slug)}}">{{$interest->user->company->company_name}}</a></h5>
-                                            <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $interest->user->company->industry->slug)}}">{{$interest->user->company->industry->industry_name}}</a></p>
+                                            <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $interest->user->company->industry->slug)}}">
+                                                @if(app()->getLocale() == 'ar')
+                                                {{$interest->user->company->industry->industry_name_ar}}
+                                                @else
+                                                {{$interest->user->company->industry->industry_name}}
+                                                @endif
+                                            </a></p>
                                             <p class="tags"><b>{{__('general.specs_tag_title')}}</b> <span>
                                                 @foreach($interest->user->company->specialities as $speciality)
                                                     {{$speciality->speciality_name}},

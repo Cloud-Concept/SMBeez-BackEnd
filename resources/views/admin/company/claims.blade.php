@@ -13,10 +13,9 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">SuperAdmin</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Hidden Companies</li>
+                            <li class="breadcrumb-item active" aria-current="page">Claims</li>
                         </ol>
                     </nav>
-                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.company.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                     <div class="row">
                         <div class="col-md-12">
                             <form action="" class="search-company">
@@ -24,36 +23,34 @@
                                     <div class="d-flex"><input type="text" class="form-control" placeholder="link here"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
                                 </div>
                             </form>
+
+                            <h4>Claim company request</h4>
                             <table class="table table-striped my-4">
                                 <thead class="thead-blue">
                                     <tr>
                                         <th scope="col">Company Name</th>
-                                        <th scope="col">Industry <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                        <th scope="col">User Name</th>
+                                        <th scope="col">Role</th>
                                         <th scope="col" width="10%">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($companies as $company)
+                                    @foreach($claims as $claim)
                                     <tr>
-                                        <td scope="row">{{$company->company_name}}</td>
-                                        @if(app()->getLocale() == 'ar')
-                                        <td>{{$company->industry->industry_name_ar}}</td>
-                                        @else
-                                        <td>{{$company->industry->industry_name}}</td>
-                                        @endif
+                                        <td scope="row">{{$claim->company->company_name}}</td>
+                                        <td>{{$claim->user->first_name . " " . $claim->user->last_name}}</td>
                                         <td>
-                                            <div class="d-flex">
-                                                <a href="{{route('admin.company.edit', $company->slug)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                <a href="{{route('admin.company.edit', $company->slug)}}" class="px-2 {{$company->is_promoted == 1 ? 'active' : 'disable'}}" alt="Featured"><i class="fa fa-bullhorn" aria-hidden="true"></i></a>
-                                                <a href="{{route('front.company.show', $company->slug)}}" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                            </div>
+                                            {{$claim->role}}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex"><a href="{{route('admin.show_claim', $claim->id)}}" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a></div>
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
 
-                            {{$companies->links()}}
+                            {{$claims->links()}}
                             
                         </div>
                     </div>

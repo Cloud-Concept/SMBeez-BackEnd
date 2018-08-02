@@ -50,7 +50,13 @@
                                 <p>{{strip_tags($company->company_description)}}</p>
                                 <p class="tags">{{__('general.more_in')}} 
                                     @foreach($company->industries as $industry)
-                                        <a href="{{route('front.industry.show', $industry->slug)}}">{{$industry->industry_name}}</a>
+                                        <a href="{{route('front.industry.show', $industry->slug)}}">
+                                            @if(app()->getLocale() == 'ar')
+                                            {{$industry->industry_name_ar}}
+                                            @else
+                                            {{$industry->industry_name}}
+                                            @endif
+                                        </a>
                                     @endforeach
                                 </p>
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b>
@@ -87,7 +93,13 @@
                                 </div>
                                 <p>{{strip_tags($company->company_description)}}</p>
                                 <p class="tags">{{__('general.more_in')}}
-                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">{{$company->industry->industry_name}}</a>
+                                    <a href="{{route('front.company.showindustry', $company->industry->slug)}}">
+                                        @if(app()->getLocale() == 'ar')
+                                        {{$company->industry->industry_name_ar}}
+                                        @else
+                                        {{$company->industry->industry_name}}
+                                        @endif
+                                    </a>
                                 </p>
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
                                     @foreach($company->specialities as $speciality)
