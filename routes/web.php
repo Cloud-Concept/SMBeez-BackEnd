@@ -55,6 +55,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::delete('/manage/users/delete/{user}', 'UserController@destroy')->name('admin.user.delete');
 	Route::get('/manage/moderators', 'UserController@moderators')->name('admin.user.mods');
 	Route::get('/manage/moderator-stat/{user}', 'UserController@moderator_stats')->name('admin.user.mod_stat');
+	Route::get('/manage/users/logins', 'UserController@logins')->name('admin.user.logins');
+	Route::get('/manage/users/logins/{user}', 'UserController@user_logins')->name('admin.user.user-logins');
 	//Industries Module
 	Route::get('/manage/industries', 'AdminController@industries')->name('admin.industries');
 	Route::get('/manage/industries/create', 'IndustriesController@create')->name('admin.industry.create');

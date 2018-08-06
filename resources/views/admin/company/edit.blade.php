@@ -24,6 +24,7 @@
                     @if($company->user)
                     <div class="alert alert-info">
                         Company Owner: <a href="{{route('admin.user.edit', $company->user->username)}}">{{$company->user->first_name}} {{$company->user->last_name}}</a>
+                        <br>Last Login: {{$last_login->created_at->diffForHumans()}}
                     </div>
                     @endif
                     @if (session('success'))

@@ -1,6 +1,8 @@
 <?php  
 namespace App\Repositories;
 use \App\EmailLogs;
+use \App\UserLogins;
+
 class SMBeezFunctions {
 
 	public function get_last_word($amount, $string, $action)
@@ -24,6 +26,13 @@ class SMBeezFunctions {
 		$email_logs->recipient_email = $email;
 
 		return $email_logs->save();
+	}
+
+	public function user_logins($user) {
+		$user_login = new \App\UserLogins;
+
+		$user_login->user_id = $user;
+		return $user_login->save();
 	}
 
 }

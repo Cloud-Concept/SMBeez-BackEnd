@@ -40,6 +40,8 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user) {
 
         $user->increment('logins_no', 1);
+        $track = new SMBeezFunctions;
+        $track->user_logins($user->id);
         /*$validate = Mailgun::validator()->validate("hossam.struggler@qqq.com");
         dd($validate);
         if($validate) {
