@@ -15,6 +15,7 @@ use App\User;
 use App\Claim;
 use App\Reply;
 use App\ModLog;
+use \App\Repositories\SMBeezFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Mail\ClaimNotification;
@@ -530,6 +531,9 @@ class CompaniesController extends Controller
             $claim->save();
 
             Mail::to('info@masharee3.com')->send(new ClaimNotification($company));
+
+            $do = new SMBeezFunctions;
+            $do->email_log($claim->user_id, $claim->user->email);
 
             return redirect(route('front.company.claim-thanks', $company->slug));
         }

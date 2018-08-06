@@ -14,6 +14,7 @@ use App\ModCompanyReport;
 use App\ModLog;
 use App\Role;
 use Mail;
+use \App\Repositories\SMBeezFunctions;
 use App\Mail\Mod\Welcome;
 use App\Mail\Mod\NewUser;
 use App\Mail\ClaimAccepted;
@@ -187,7 +188,7 @@ class AdminController extends Controller
         $user = User::where('email', $request['user_email'])->first();
         if(!$user->company) {
             $company->user_id = $user->id;
-            $company->is_verified = 1;
+            //$company->is_verified = 1;
 
             $company->update();
 
@@ -195,6 +196,8 @@ class AdminController extends Controller
 
             Mail::to($request['user_email'])->send(new Welcome($company));
             
+            $do = new SMBeezFunctions;
+            $do->email_log($user->id, $request['user_email']);
             //Logging
             $log = new ModLog;
             $mod_user = $request['mod_user'];
@@ -237,12 +240,15 @@ class AdminController extends Controller
             $sluggable = $user->replicate();
             //update the company
             $company->user_id = $user->id;
-            $company->is_verified = 1;
+            //$company->is_verified = 1;
             $company->role = $request['role'];
 
             $company->update();
 
             Mail::to($user->email)->send(new NewUser($user, $unique_password));
+
+            $do = new SMBeezFunctions;
+            $do->email_log($user->id, $user->email);
             //Logging
             $log = new ModLog;
             $mod_user = $request['mod_user'];
@@ -360,7 +366,8 @@ class AdminController extends Controller
     public function send_mod_message(Request $request, Company $company) {
 
         Mail::to($request['user_email'])->send(new Welcome($company));
-
+        $do = new SMBeezFunctions;
+        $do->email_log(0, $request['user_email']);
         //Logging
         $log = new ModLog;
         $mod_user = $request['mod_user'];
@@ -632,6 +639,7 @@ class AdminController extends Controller
             $claim->update();
             //assign user to the company
             $company->user_id = $claim->user_id;
+            $company->is_verified = 1;
             $company->update();
             //make user a company
             $roles = new Role;
@@ -640,6 +648,9 @@ class AdminController extends Controller
             //send email to notify user
 
             Mail::to($user->email)->send(new ClaimAccepted($company));
+            
+            $do = new SMBeezFunctions;
+            $do->email_log($user->id, $user->email);
 
             $other_claims = Claim::where('status', null)
                 ->where('company_id', $company->id)
@@ -675,6 +686,8 @@ class AdminController extends Controller
         $claim->status = 0;
         $claim->update();
         Mail::to($claim->user->email)->send(new ClaimDeclined($company));
+        $do = new SMBeezFunctions;
+        $do->email_log($claim->user->id, $claim->user->email);
         session()->flash('success', 'Claim request has been declined.');
 
         return back();

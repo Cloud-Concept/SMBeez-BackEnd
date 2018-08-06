@@ -11,6 +11,7 @@ use Image;
 use Illuminate\Support\Facades\Input;
 use Mail;
 use App\Mail\Welcome;
+use \App\Repositories\SMBeezFunctions;
 
 class RegisterController extends Controller
 {
@@ -87,6 +88,9 @@ class RegisterController extends Controller
         
         Mail::to($user)->send(new Welcome);
 
+        $do = new SMBeezFunctions;
+        $do->email_log($user->id, $user->email);
+        
         return $user;
     }
 
