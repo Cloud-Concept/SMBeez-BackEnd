@@ -6,7 +6,7 @@ use App\Interest;
 use App\Project;
 use App\Message;
 use Illuminate\Http\Request;
-
+use \App\Repositories\SMBeezFunctions;
 use Mail;
 use App\Mail\SupplierAccepted;
 use App\Mail\SupplierRejected;
@@ -81,6 +81,9 @@ class InterestsController extends Controller
         //$interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
         Mail::to($interest->user->email)->send(new SupplierAccepted($interest));
 
+        $do = new SMBeezFunctions;
+        $do->email_log($interest->user->id, $interest->user->email);
+
         return back();
     }
 
@@ -90,6 +93,9 @@ class InterestsController extends Controller
         $interest->where('id', $interest->id)->update(['is_accepted' => 0]);
 
         Mail::to($interest->user->email)->send(new SupplierRejected($interest));
+
+        $do = new SMBeezFunctions;
+        $do->email_log($interest->user->id, $interest->user->email);
 
         return back();
     }
