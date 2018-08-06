@@ -15,6 +15,7 @@ use App\User;
 use App\Claim;
 use App\Reply;
 use App\ModLog;
+use App\UserLogins;
 use \App\Repositories\SMBeezFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -760,8 +761,8 @@ class CompaniesController extends Controller
             $current_specialities[] = $speciality->speciality_name;
         }
         $company_specialities = implode('","', $current_specialities);
-
-        return view('admin.company.edit', compact('company', 'company_specialities'));
+        $last_login = UserLogins::where('user_id', $company->user_id)->latest()->first();
+        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login'));
     }
     public function admin_update(Request $request, Company $company)
     {

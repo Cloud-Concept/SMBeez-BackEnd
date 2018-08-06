@@ -99,6 +99,11 @@ class User extends Authenticatable
         return $this->hasMany(EmailLogs::class);
 
     }
+    public function logins() {
+
+        return $this->hasMany(UserLogins::class);
+
+    }
     //check for profile completion
     public function profile_completion() {
 

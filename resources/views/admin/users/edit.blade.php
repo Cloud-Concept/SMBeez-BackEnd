@@ -15,16 +15,16 @@
                             <li class="breadcrumb-item active" aria-current="page">Edit User {{$user->first_name . " " . $user->last_name}}</li>
                         </ol>
                     </nav>
-                    @if($user->company)
+                    
                     <div class="alert alert-info">
-                        Own Company: <a href="{{route('front.company.show', $user->company->slug)}}">{{$user->company->company_name}}</a> | <a href="{{route('admin.company.edit', $user->company->slug)}}">Edit Company</a>
-                        <br>Total Logins: {{$user->logins_no}}
+                        @if($user->company)
+                            Own Company: <a href="{{route('front.company.show', $user->company->slug)}}">{{$user->company->company_name}}</a> | <a href="{{route('admin.company.edit', $user->company->slug)}}">Edit Company</a>
+                        @else
+                            This user don't own a company yet.
+                        @endif
+                        <br>Total Logins: <a href="{{route('admin.user.user-logins', $user->username)}}">{{$user->logins_no}}</a>
+                        <br>Last Login: {{$last_login->created_at->diffForHumans()}}
                     </div>
-                    @else
-                    <div class="alert alert-info">
-                        This user don't own a company yet.
-                    </div>
-                    @endif
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}

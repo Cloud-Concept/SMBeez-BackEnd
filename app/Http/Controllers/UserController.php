@@ -18,6 +18,7 @@ use App\Message;
 use App\ModLog;
 use App\ModCompanyReport;
 use Carbon\Carbon;
+use App\UserLogins;
 use Image;
 use File;
 use DB;
@@ -37,6 +38,15 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
+    public function logins()
+    {   $logins = UserLogins::latest()->paginate(10);
+        return view('admin.users.logins', compact('logins'));
+    }
+    public function user_logins(User $user, Request $request)
+    {   
+        $logins = UserLogins::where('user_id', $user->id)->latest()->paginate(10);
+        return view('admin.users.logins', compact('logins'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -95,7 +105,8 @@ class UserController extends Controller
     public function edit(User $user)
     {   
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $last_login = UserLogins::where('user_id', $user->id)->latest()->first();
+        return view('admin.users.edit', compact('user', 'roles', 'last_login'));
     }
 
     /**
@@ -219,8 +230,6 @@ class UserController extends Controller
 
         return redirect(route('admin.user.index'));
     }
-
-
     // Front End Stuff
 
     public function dashboard(User $user)

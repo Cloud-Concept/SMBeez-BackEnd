@@ -9,6 +9,7 @@ use App\Speciality;
 use App\Interest;
 use App\User;
 use App\MyFile;
+use App\UserLogins;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -372,8 +373,8 @@ class ProjectsController extends Controller
             $current_specialities[] = $speciality->speciality_name;
         }
         $project_specialities = implode('","', $current_specialities);
-
-        return view('admin.project.edit', compact('project', 'project_specialities'));
+        $last_login = UserLogins::where('user_id', $project->user_id)->latest()->first();
+        return view('admin.project.edit', compact('project', 'project_specialities', 'last_login'));
     }
 
     public function admin_update(Request $request, Project $project)
