@@ -57,6 +57,7 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('/manage/moderator-stat/{user}', 'UserController@moderator_stats')->name('admin.user.mod_stat');
 	Route::get('/manage/users/logins', 'UserController@logins')->name('admin.user.logins');
 	Route::get('/manage/users/logins/{user}', 'UserController@user_logins')->name('admin.user.user-logins');
+	Route::get('/manage/users/emails', 'UserController@emails')->name('admin.user.emails');
 	//Industries Module
 	Route::get('/manage/industries', 'AdminController@industries')->name('admin.industries');
 	Route::get('/manage/industries/create', 'IndustriesController@create')->name('admin.industry.create');

@@ -16,6 +16,7 @@ use App\Industry;
 use App\Speciality;
 use App\Message;
 use App\ModLog;
+use App\EmailLogs;
 use App\ModCompanyReport;
 use Carbon\Carbon;
 use App\UserLogins;
@@ -38,14 +39,35 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function logins()
-    {   $logins = UserLogins::latest()->paginate(10);
-        return view('admin.users.logins', compact('logins'));
+    public function logins(Request $request)
+    {   
+        if($request['date_from'] || $request['date_to']) {
+            $get_logins = UserLogins::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->get();
+        }else{
+            $get_logins = UserLogins::latest()->get();
+        }
+        $users = array();
+        foreach($get_logins as $login) {
+            $users[] = $login->user_id;
+        }
+        $users = User::whereIn('id', $users)->paginate(10);
+        
+        return view('admin.users.logins', compact('users'));
     }
     public function user_logins(User $user, Request $request)
     {   
         $logins = UserLogins::where('user_id', $user->id)->latest()->paginate(10);
-        return view('admin.users.logins', compact('logins'));
+        return view('admin.users.login-details', compact('logins'));
+    }
+    public function emails(Request $request)
+    {   
+        if($request['date_from'] || $request['date_to']) {
+            $emails = EmailLogs::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->paginate(10);
+        }else{
+            $emails = EmailLogs::latest()->paginate(10);
+        }
+
+        return view('admin.users.emails', compact('emails'));
     }
     /**
      * Show the form for creating a new resource.

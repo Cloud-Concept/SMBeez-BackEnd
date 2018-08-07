@@ -16,6 +16,7 @@
         <li class="list-group-item"><a href="{{route('callcenter.reports.details')}}" class="{{ Request::is('admin/callcenter-details') ? 'active' : 'no' }}">Call Center Details</a></li>
         <li class="list-group-item"><a href="{{route('admin.user.mods')}}" class="{{ Request::is('admin/manage/moderators') ? 'active' : 'no' }}">Moderators</a></li>
         <li class="list-group-item"><a href="{{route('admin.translation')}}" class="{{ Request::is('admin/manage/translations') ? 'active' : 'no' }}">Translations</a></li>
+        <li class="list-group-item"><a href="{{route('admin.user.emails')}}" class="{{ Request::is('admin/manage/users/emails') ? 'active' : 'no' }}">Sent Emails</a></li>
         <!-- <li class="list-group-item"><a href="">Gamification & Rewards</a></li>
         <li class="list-group-item"><a href="">Support Tickets (123)</a></li>
         <li class="list-group-item"><a href="">Settings</a></li> -->

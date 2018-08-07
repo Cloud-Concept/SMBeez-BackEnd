@@ -12,6 +12,7 @@ use App\Speciality;
 use App\Claim;
 use App\ModCompanyReport;
 use App\ModLog;
+use App\EmailLogs;
 use App\Role;
 use Mail;
 use \App\Repositories\SMBeezFunctions;
@@ -64,8 +65,9 @@ class AdminController extends Controller
         $completed_projects = Project::with('users')->where('status', 'closed')->count();
         $industries = Industry::with('projects')->count();
         $specialities = Speciality::with('project')->count();
+        $emails_sent = EmailLogs::with('user')->count();
 
-        return view('admin.dashboard', compact('users', 'companies', 'customer_reviews', 'supplier_reviews', 'projects', 'completed_projects', 'industries', 'specialities'));
+        return view('admin.dashboard', compact('users', 'companies', 'customer_reviews', 'supplier_reviews', 'projects', 'completed_projects', 'industries', 'specialities', 'emails_sent'));
     }
 
 

@@ -12,12 +12,12 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">SuperAdmin</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Logins</li>
+                            <li class="breadcrumb-item active" aria-current="page">User Emails</li>
                         </ol>
                     </nav>
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="{{route('admin.user.logins')}}" method="get">
+                            <form action="{{route('admin.user.emails')}}" method="get">
                                 <div class="form-group">
                                     <div class="d-flex"><label>Date From: <input type="date" class="form-control" name="date_from" value="{{request()->query('date_from')}}"></label></div>
                                 </div>
@@ -32,27 +32,21 @@
                                 <thead class="thead-blue">
                                     <tr>
                                         <th scope="col">User Email</th>
-                                        <th scope="col">Total Logins</th>
                                         <th scope="col">Company</th>
-                                        @if(request()->query('date_from') || request()->query('date_to'))
                                         <th scope="col">Time</th>
-                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($emails as $email)
                                     <tr>
-                                        <td><a href="{{route('admin.user.edit', $user->username)}}">{{$user->email}}</a></td>
-                                        <td><a href="{{route('admin.user.user-logins', $user->username)}}">{{$user->logins->count()}}</a></td>
-                                        <td>{{$user->company ? $user->company->company_name : '-'}}</td>
-                                        @if(request()->query('date_from') || request()->query('date_to'))
-                                        <td>{{request()->query('date_from')}} - {{request()->query('date_to')}}</td>
-                                        @endif
+                                        <td><a href="{{route('admin.user.edit', $email->user->username)}}">{{$email->user->email}}</a></td>
+                                        <td>{{$email->user->company ? $email->user->company->company_name : '-'}}</td>
+                                        <td>{{$email->created_at->toDateTimeString()}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{$users->links()}}
+                            {{$emails->links()}}
                         </div>
                     </div>
                 </div>

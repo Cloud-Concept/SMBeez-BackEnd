@@ -20,7 +20,9 @@
                         Project Owner Company: <a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a> | <a href="{{route('admin.company.edit', $project->user->company->slug)}}">Edit Company</a>
                         <br>
                         Project Owner User: <a href="{{route('admin.user.edit', $project->user->username)}}">{{$project->user->first_name}} {{$project->user->last_name}}</a>
+                        @if($last_login)
                         <br>Last Login: {{$last_login->created_at->diffForHumans()}}
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">

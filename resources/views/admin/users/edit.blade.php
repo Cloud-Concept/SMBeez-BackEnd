@@ -22,8 +22,10 @@
                         @else
                             This user don't own a company yet.
                         @endif
-                        <br>Total Logins: <a href="{{route('admin.user.user-logins', $user->username)}}">{{$user->logins_no}}</a>
-                        <br>Last Login: {{$last_login->created_at->diffForHumans()}}
+                        @if($user->logins)
+                            <br>Total Logins: <a href="{{route('admin.user.user-logins', $user->username)}}">{{$user->logins->count()}}</a>
+                            <br>Last Login: {{$last_login->created_at->diffForHumans()}}
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">
