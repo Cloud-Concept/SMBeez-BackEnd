@@ -18,6 +18,7 @@ use App\Message;
 use App\ModLog;
 use App\EmailLogs;
 use App\ModCompanyReport;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Carbon\Carbon;
 use App\UserLogins;
 use Image;
@@ -43,19 +44,52 @@ class UserController extends Controller
     {   
         if($request['date_from'] || $request['date_to']) {
             $get_logins = UserLogins::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->get();
-            $logins_count = UserLogins::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         }else{
             $get_logins = UserLogins::latest()->get();
-            $logins_count = UserLogins::count();
         }
 
         $users = array();
         foreach($get_logins as $login) {
             $users[] = $login->user_id;
         }
-        $users = User::whereIn('id', $users)->paginate(10);
-        
-        return view('admin.users.logins', compact('users', 'logins_count'));
+        $users = User::whereIn('id', $users)->get();
+
+        $lists = array();
+
+        foreach($users as $u) {
+            if($request['date_from'] || $request['date_to']) {
+                $logins_count = UserLogins::where('user_id', $u->id)->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+            }else{
+                $logins_count = UserLogins::where('user_id', $u->id)->count();
+            }
+            array_push($lists, array(
+                'user' => $u,
+                'logins' => $logins_count
+            ));
+        }
+
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+ 
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($lists);
+ 
+        // Define how many items we want to be visible in each page
+        $perPage = 10;
+ 
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+ 
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+ 
+        // set url path for generted links
+        $paginatedItems->setPath($request->url());
+
+        $lists = $paginatedItems;
+
+        //dd($lists[0]['user']->email);
+        return view('admin.users.logins', compact('users', 'lists'));
     }
     public function user_logins(User $user, Request $request)
     {   

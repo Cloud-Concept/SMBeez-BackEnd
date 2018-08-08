@@ -45,11 +45,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($lists as $list)
                                     <tr>
-                                        <td><a href="{{route('admin.user.edit', $user->username)}}">{{$user->email}}</a></td>
-                                        <td><a href="{{route('admin.user.user-logins', $user->username)}}">{{$logins_count}}</a></td>
-                                        <td>{{$user->company ? $user->company->company_name : '-'}}</td>
+                                        <td><a href="{{route('admin.user.edit', $list['user']->username)}}">{{$list['user']->email}}</a></td>
+                                        <td><a href="{{route('admin.user.user-logins', $list['user']->username)}}">{{$list['logins']}}</a></td>
+                                        <td>{{$list['user']->company ? $list['user']->company->company_name : '-'}}</td>
                                         @if(request()->query('date_from') || request()->query('date_to'))
                                         <td>{{request()->query('date_from')}} - {{request()->query('date_to')}}</td>
                                         @endif
@@ -57,7 +57,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{$users->links()}}
+                            {{$lists->links()}}
                         </div>
                     </div>
                 </div>

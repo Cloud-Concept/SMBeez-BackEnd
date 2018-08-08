@@ -6,11 +6,24 @@
                 <p>{{__('footer.what_masharee3_desc')}}</p>
             </div>
             <div class="col-md-3">
-                @if(Auth::guest())
-                <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
-                <form action="" class="newsletter">
-                    <div class="input-group"><input type="text" class="form-control" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="button"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
-                </form>
+                @if (session('msg'))
+                    <div class="alert alert-success">
+                        {{ session('msg') }}
+                    </div>
+                @else
+                    @if(Auth::guest())
+                    <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
+                    <form action="{{route('subscribe')}}" class="newsletter" method="post">
+                        {{csrf_field()}}
+                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
+                    </form>
+                    @else
+                    <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
+                    <form action="{{route('subscribe')}}" class="newsletter" method="post">
+                        {{csrf_field()}}
+                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="E-mail" aria-label="E-mail" value="{{Auth::user()->email}}"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
+                    </form>
+                    @endif
                 @endif
             </div>
             <div class="col-md-3">

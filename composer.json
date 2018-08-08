@@ -23,6 +23,7 @@
         "php-http/guzzle6-adapter": "^1.1",
         "ramsey/uuid": "^3.7",
         "santigarcor/laratrust": "5.0.*",
+        "spatie/laravel-newsletter": "^3.7",
         "torann/geoip": "0.2.*@dev"
     },
     "require-dev": {

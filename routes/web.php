@@ -193,3 +193,5 @@ Route::post('/reply', ['middleware' => ['role:user|company|superadmin'], 'uses' 
 Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','facebook|linkedin')->name('socialLogin');
 
 Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','facebook|linkedin')->name('socialCallback');
+Route::post('/subscribe', 'HomeController@subscribe')->name('subscribe');
+Route::post('/unsubscribe', 'HomeController@unsubscribe')->name('unsubscribe');
