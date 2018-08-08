@@ -43,16 +43,19 @@ class UserController extends Controller
     {   
         if($request['date_from'] || $request['date_to']) {
             $get_logins = UserLogins::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->get();
+            $logins_count = UserLogins::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
         }else{
             $get_logins = UserLogins::latest()->get();
+            $logins_count = UserLogins::count();
         }
+
         $users = array();
         foreach($get_logins as $login) {
             $users[] = $login->user_id;
         }
         $users = User::whereIn('id', $users)->paginate(10);
         
-        return view('admin.users.logins', compact('users'));
+        return view('admin.users.logins', compact('users', 'logins_count'));
     }
     public function user_logins(User $user, Request $request)
     {   

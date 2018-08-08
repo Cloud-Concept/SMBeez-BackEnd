@@ -28,6 +28,11 @@
                                     <input type="submit" class="btn btn-blue btn-yellow text-capitalize ml-3">
                                 </div>
                             </form>
+                            @if(request()->query('date_from') || request()->query('date_to'))
+                            <h1>Emails From {{request()->query('date_from')}} TO {{request()->query('date_to')}}</h1>
+                            @else
+                            <h1>Overall Emails</h1>
+                            @endif
                             <table class="table table-striped my-4">
                                 <thead class="thead-blue">
                                     <tr>

@@ -28,6 +28,11 @@
                                     <input type="submit" class="btn btn-blue btn-yellow text-capitalize ml-3">
                                 </div>
                             </form>
+                            @if(request()->query('date_from') || request()->query('date_to'))
+                            <h1>Logins From {{request()->query('date_from')}} TO {{request()->query('date_to')}}</h1>
+                            @else
+                            <h1>Overall Logins</h1>
+                            @endif
                             <table class="table table-striped my-4">
                                 <thead class="thead-blue">
                                     <tr>
@@ -43,7 +48,7 @@
                                     @foreach ($users as $user)
                                     <tr>
                                         <td><a href="{{route('admin.user.edit', $user->username)}}">{{$user->email}}</a></td>
-                                        <td><a href="{{route('admin.user.user-logins', $user->username)}}">{{$user->logins->count()}}</a></td>
+                                        <td><a href="{{route('admin.user.user-logins', $user->username)}}">{{$logins_count}}</a></td>
                                         <td>{{$user->company ? $user->company->company_name : '-'}}</td>
                                         @if(request()->query('date_from') || request()->query('date_to'))
                                         <td>{{request()->query('date_from')}} - {{request()->query('date_to')}}</td>
