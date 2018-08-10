@@ -2,7 +2,7 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
+            <img src="{{asset('images/common/email-header.png')}}" style="width:100%;height:auto;"/>
         @endcomponent
     @endslot
 
@@ -12,18 +12,19 @@
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Hello!</h1>
+	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
+	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p>Unfortunately you have been declined for "{{$interest->project->project_title}}". You need not despair: a declined response might be due to several reasons: </p>
+							<p {{$rtl}}>للأسف تم رفضك لمشروع "{{$interest->project->project_title}}". لا داعي للإحباط: هناك عدة أسباب تؤدي للرفض ويمكنك معالجتها: </p>
 
-							<p>* Your company profile might be incomplete. Complete your profile here and get more honeycombs that you can redeem for valuable things later! </p>
-							<p>* Your reviews might be too few or not high enough. Ask your customers and suppliers to submit reviews about your company here. </p>
-							<p>* The opportunity might be unrelated to your expertise. Update your industry and specialities here. </p>
+							<p {{$rtl}}>* قد يكون بروفايل شركتك غير كامل. قم بإكمال بروفايل شركتك هنا وأحصل على نقاط إضافية في حسابك. </p>
+							<p {{$rtl}}>* قد تكون التقييمات عن شركتك قليلة العدد أو منخفضة. أطلب من زبائنك ومورديك أن يعطوا تقييماتهم لشركتك هنا. </p>
+							<p {{$rtl}}>* قد تكون فرصة المشروع غير ذات صلة بخبرة شركتك أو مجال عملها. قم بتحديث خبرات شركتك هنا. </p>
 
-							<p>Good luck!</p>
+							<p {{$rtl}}>حظ سعيد!</p>
 
-							<p>
-							Your friends at Masharee3 
+							<p {{$rtl}}>
+							أصدقائك في مشاريع 
 							</p>
 	                    </td>
 	                </tr>

@@ -58,25 +58,25 @@
                                 @endforeach
                             </span></li>
                             @endif
-                            <li>Status: 
+                            <li>{{__('project.status')}} 
 
                                 @if($project->status == 'draft')
 
-                                    <span>Draft</span>
+                                    <span>{{__('project.draft')}}</span>
 
                                 @elseif($project->status == 'closed' && $project->status_on_close == 'expired')
 
-                                    <span>Expired on {{$project->close_date->toFormattedDateString()}}</span>
+                                    <span>{{__('project.expired_on')}} {{$project->close_date->toFormattedDateString()}}</span>
 
                                 @elseif($project->status == 'closed' && $project->status_on_close == 'by_owner')
 
-                                    <span>Closed</span>
+                                    <span>{{__('project.closed')}}</span>
 
                                 @elseif($project->status == 'publish')
 
-                                    <span>Open until {{$project->close_date->toFormattedDateString()}}</span>
+                                    <span>{{__('project.open_until')}} {{$project->close_date->toFormattedDateString()}}</span>
                                 @elseif($project->status == 'deleted')
-                                    <span>Deleted</span> 
+                                    <span>{{__('project.deleted')}}</span> 
                                 @endif
 
                             </li>

@@ -2,7 +2,7 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
+            <img src="{{asset('images/common/email-header.png')}}" style="width:100%;height:auto;"/>
         @endcomponent
     @endslot
 
@@ -12,14 +12,15 @@
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Hello!</h1>
+	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
+	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p>Thank you for creating your project “{{$project->project_title}}”. </p>
+							<p {{$rtl}}>شكراً على مشروع “{{$project->project_title}}”. </p>
 
-							<p>Don’t forget to publish your project to earn [number] more honeycombs!</p>
+							<p {{$rtl}}>لا تنسى أن تضغط على زر نشر المشروع لتربح ١٠٠ نقطة إضافية في حسابك لدى مشاريع!</p>
 							
-							<p>
-							Your friends at Masharee3 
+							<p {{$rtl}}>
+							أصدقاءك في مشاريع 
 							</p>
 	                    </td>
 	                </tr>

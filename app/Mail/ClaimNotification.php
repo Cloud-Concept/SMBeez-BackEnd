@@ -30,7 +30,7 @@ class ClaimNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('Claim Company Notification "' . $this->company->company_name . '"')->markdown('emails.claim-notification')
+        return $this->subject('تنبيه بمطالبة بشركة جديد "' . $this->company->company_name . '"')->markdown('emails.claim-notification')
         ->with([
             'company' => $this->company,
         ]);

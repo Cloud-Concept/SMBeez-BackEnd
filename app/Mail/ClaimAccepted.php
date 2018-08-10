@@ -30,7 +30,7 @@ class ClaimAccepted extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your company claim is approved for "' . $this->company->company_name . '"')->markdown('emails.claim-accepted')
+        return $this->subject('تم الموافقة على مطالبتك بشركتك! "' . $this->company->company_name . '"')->markdown('emails.claim-accepted')
         ->with([
             'company' => $this->company,
         ]);

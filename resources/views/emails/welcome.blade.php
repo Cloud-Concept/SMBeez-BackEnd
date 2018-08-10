@@ -2,7 +2,7 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
+            <img src="{{asset('images/common/email-header.png')}}" style="width:100%;height:auto;"/>
         @endcomponent
     @endslot
 
@@ -12,22 +12,23 @@
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Hello!</h1>
+	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
+	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p>Congratulations! You created a new account on masharee3.com.<!--  Please click the below link to verify your email address. --> </p>
+							<p {{$rtl}}>مبروك! تم فتح حسابك على مشاريع. <!-- من فضلك إضغط على الرابط أدناه للتحقق من عنوان بريدك الإلكتروني. --> </p>
 
-							<p>What next? </p>
+							<p {{$rtl}}>بداية الطريق هنا! </p>
 
-							<h3>Here is how you can make most of your Masharee3 account:</h3>
-							<ul>
-								<li>Browse business opportunities in your industry</li>
-								<li>Create and publish a new project and earn [number] honeycombs!</li>
-								<li>Submit a company review and earn [number] honeycombs!</li>
-								<li>Claim your company and update your company details</li>
+							<h3 {{$rtl}}>بعض الطرق التي تمكنك من الإستفادة القصوى من حسابك على مشاريع:</h3>
+							<ul {{$rtl}}>
+								<li {{$rtl}}>تصفح فرص المشاريع في مجال عملك</li>
+								<li {{$rtl}}>أنشر مشروع جديد واحصل على ١٠٠ نقطة</li>
+								<li {{$rtl}}>عبر عن تقييمك لشركة وأحصل على ٢٥ نقطة</li>
+								<li {{$rtl}}>طالب بشركة</li>
 							</ul>
 
-							<p>
-							Your friends at Masharee3 
+							<p {{$rtl}}>
+							أصدقاءك في مشاريع 
 							</p>
 	                    </td>
 	                </tr>

@@ -5,7 +5,7 @@
             <div class="search-filter">
                 <h3>{{__('general.search_title')}} <i class="fa fa-search pull-right" aria-hidden="true"></i></h3>
                 <div class="form-group">
-                    <input type="search" name="s" class="form-control" value="{{request()->query('s')}}" placeholder="Search...">
+                    <input type="search" name="s" class="form-control" value="{{request()->query('s')}}" placeholder="{{__('general.search_placeholder')}}...">
                 </div>
             </div>
             <br>

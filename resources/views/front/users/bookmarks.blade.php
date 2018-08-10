@@ -13,20 +13,20 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="sidebar-updates">
-                        <h5 class="title-blue">My Bookmarks</h5>
+                        <h5 class="title-blue">{{__('general.my_bookmarks')}}</h5>
                         @include('layouts.bookmarks-menu')
                     </div>
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', Auth::user()->username)}}">My Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Bookmarks</li>
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', Auth::user()->username)}}">{{__('general.my_dashboard')}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{__('general.my_bookmarks')}}</li>
                         </ol>
                     </nav>
                     <div class="bookmarks-block">
                         @if($bookmarked_companies->count() > 0)
-                        <h4 id="bookmarked_companies">Bookmarked Companies</h4>
+                        <h4 id="bookmarked_companies">{{__('general.bookmarked_companies')}}</h4>
                         <div class="row equal">
                             @foreach($bookmarked_companies as $bookmark)
                             <div id="bookmark-box-{{$bookmark->id}}" class="col-md-12 mt-2">
@@ -45,7 +45,7 @@
                                                             @endfor
                                                         </select>
                                                     </li>
-                                                    <li class="list-inline-item thumb-review"><p>({{$bookmark->bookmarked_companies($bookmark->bookmarked_id)->reviews->count()}} Reviews)</p></li>
+                                                    <li class="list-inline-item thumb-review"><p>({{$bookmark->bookmarked_companies($bookmark->bookmarked_id)->reviews->count()}} {{__('general.reviews_title')}})</p></li>
                                                 </ul>
                                             </div>
                                             @endif
@@ -91,11 +91,11 @@
                             </script>
                             @endforeach
                         </div>
-                        <div class="text-center" role="alert"><a href="{{route('front.bookmarks.listcompanies')}}" class="btn btn-blue"><i class="fa fa-eye" aria-hidden="true"></i> View All Bookmarked Companies</a></div>
+                        <div class="text-center" role="alert"><a href="{{route('front.bookmarks.listcompanies')}}" class="btn btn-blue"><i class="fa fa-eye" aria-hidden="true"></i> {{__('general.view_all_companies')}}</a></div>
                         @endif
 
                         @if($bookmarked_projects->count() > 0)
-                        <h4 id="bookmarked_projects">Bookmarked Opportunities</h4>
+                        <h4 id="bookmarked_projects">{{__('general.bookmarked_opportunities')}}</h4>
                         <div class="row equal mb-5">
 
                             @foreach($bookmarked_projects as $bookmark)
@@ -139,11 +139,11 @@
                             </style>
                             @endforeach
                         </div>
-                        <div class="text-center" role="alert"><a href="{{route('front.bookmarks.listopportunities')}}" class="btn btn-blue"><i class="fa fa-eye" aria-hidden="true"></i> View All Bookmarked Opportunities</a></div>
+                        <div class="text-center" role="alert"><a href="{{route('front.bookmarks.listopportunities')}}" class="btn btn-blue"><i class="fa fa-eye" aria-hidden="true"></i> {{__('general.view_all_opportunities')}}</a></div>
                         @endif
 
                         @if($bookmarked_projects->count() == 0 && $bookmarked_companies->count() == 0)
-                            <p>You didn't save any companies or opportunities to your favorites yet.</p>
+                            <p>{{__('general.no_bookmarks')}}</p>
                         @endif
                     </div>
                     <!-- <div class="alert alert-secondary alert-dismissible fade show" role="alert">

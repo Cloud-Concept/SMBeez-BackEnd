@@ -17,13 +17,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <div class="form-group"><label for="">Company name *</label>
-                                    <input class="form-control" type="text" name="company_name" placeholder="Company Name" id="company_name" required>
+                                <div class="form-group"><label for="">{{__('company.company_name')}}</label>
+                                    <input class="form-control" type="text" name="company_name" placeholder="{{__('company.company_name')}}" id="company_name" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Industry *</label>
+                                    <label for="">{{__('general.industry_title')}} *</label>
                                     <select name="industry_id" class="form-control custom-select d-block" id="industry_id" required>
                                         @foreach($industries as $industry)
                                         <option value="{{$industry->id}}">
@@ -41,35 +41,35 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Website</label>
-                                    <input class="form-control" type="text" name="company_website" placeholder="Company Website" id="company_website">
+                                    <label for="">{{__('company.website')}}</label>
+                                    <input class="form-control" type="text" name="company_website" placeholder="{{__('company.website')}}" id="company_website">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="speciality_id">Specialities</label>
-                                    <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
-                                    <p class="form-guide">Write your keywords separated with commas</p>
+                                    <label for="speciality_id">{{__('general.specs_tag_title')}}</label>
+                                    <input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/>
+                                    <p class="form-guide">{{__('company.specs_hint')}}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Linkedin Profile</label>
-                                    <input class="form-control" type="text" name="linkedin_url" placeholder="Linkedin URL" id="linkedin_url">
+                                    <label for="">{{__('company.linked_in')}}</label>
+                                    <input class="form-control" type="text" name="linkedin_url" placeholder="{{__('company.linked_in')}}" id="linkedin_url">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Company Type</label>
+                                    <label for="">{{__('company.company_type')}}</label>
                                     <select name="company_type" id="company_type" class="form-control custom-select d-block">
-                                        <option value="Sole Ownership">Sole Ownership</option>
-                                        <option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
-                                        <option value="Free Zone Sole Ownership">Free Zone Sole Ownership</option>
-                                        <option value="Free Zone LLC">Free Zone LLC</option>
-                                        <option value="Public Joint-Stock Company (PJSC)">Public Joint-Stock Company (PJSC)</option>
-                                        <option value="Private Joint-Stock Company (PrJSC)">Private Joint-Stock Company (PrJSC)</option>
+                                        <option value="Sole Ownership">{{__('company.company_type_1')}}</option>
+                                        <option value="Limited Liability Company (LLC)">{{__('company.company_type_2')}}</option>
+                                        <option value="Free Zone Sole Ownership">{{__('company.company_type_3')}}</option>
+                                        <option value="Free Zone LLC">{{__('company.company_type_4')}}</option>
+                                        <option value="Public Joint-Stock Company (PJSC)">{{__('company.company_type_5')}}</option>
+                                        <option value="Private Joint-Stock Company (PrJSC)">{{__('company.company_type_6')}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -77,48 +77,48 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Write a brief about your company *</label>
+                                    <label for="">{{__('company.company_brief')}}</label>
                                     <textarea name="company_description" class="form-control" id="company_description" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">What's your company role? *</label>
+                                    <label for="">{{__('company.company_role')}}</label>
                                     <select name="role" class="form-control custom-select d-block" required>
-                                        <option value="Company Owner">Company Owner</option>
-                                        <option value="General Manager">General Manager</option>
-                                        <option value="Sales and/or Marketing Director">Sales and/or Marketing Director</option>
-                                        <option value="Account Manager">Other</option>
+                                        <option value="Company Owner">{{__('company.company_owner')}}</option>
+                                        <option value="General Manager">{{__('company.general_manager')}}</option>
+                                        <option value="Sales and/or Marketing Director">{{__('company.sales')}}</option>
+                                        <option value="Account Manager">{{__('company.other')}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Company Size *</label>
+                                    <label for="">{{__('company.company_size')}} *</label>
                                     <select name="company_size" id="company_size" class="form-control custom-select d-block" required>
-                                        <option value="0-1 Employees">0-1 Employees</option>
-                                        <option value="2-10 Employees">2-10 Employees</option>
-                                        <option value="11-50 Employees">11-50 Employees</option>
-                                        <option value="51-200 Employees">51-200 Employees</option>
-                                        <option value="201-500 Employees">201-500 Employees</option>
-                                        <option value="501+ Employees">501+ Employees</option>
+                                        <option value="0-1 Employees">0-1 {{__('company.employees')}}</option>
+                                        <option value="2-10 Employees">2-10 {{__('company.employees')}}</option>
+                                        <option value="11-50 Employees">11-50 {{__('company.employees')}}</option>
+                                        <option value="51-200 Employees">51-200 {{__('company.employees')}}</option>
+                                        <option value="201-500 Employees">201-500 {{__('company.employees')}}</option>
+                                        <option value="501+ Employees">501+ {{__('company.employees')}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">City *</label>
+                                    <label for="">{{__('company.city_label')}} *</label>
                                     <select name="city" id="city" class="form-control custom-select d-block" required>
-                                        <option value="Cairo">Cairo</option>
+                                        <option value="Cairo">{{__('footer.cairo')}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Phone *</label>
-                                    <input class="form-control" type="text" name="company_phone" placeholder="Company Phone" id="company_phone" required>
+                                    <label for="">{{__('company.phone')}} *</label>
+                                    <input class="form-control" type="text" name="company_phone" placeholder="{{__('company.phone')}}" id="company_phone" required>
                                 </div>   
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="btn-list text-center my-3">
-                                    <button type="submit" name="save" value="save" class="btn btn-blue mr-3">Save & Exit</a> 
-                                    <button type="submit" name="edit" value="edit" class="btn btn-blue">Continue Editing</a>
+                                    <button type="submit" name="save" value="save" class="btn btn-blue mr-3">{{__('company.save_exit')}}</a> 
+                                    <button type="submit" name="edit" value="edit" class="btn btn-blue">{{__('company.continue_editing')}}</a>
                                 </div>
                             </div>
                         </div>

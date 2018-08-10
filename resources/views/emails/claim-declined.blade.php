@@ -1,8 +1,8 @@
 @component('mail::layout')
     {{-- Header --}}
     @slot('header')
-        @component('mail::header', ['url' => config('app.url'), 'logo' => asset('images/common/logo.svg')])
-            {{ config('app.name') }}
+        @component('mail::header', ['url' => config('app.url')])
+            <img src="{{asset('images/common/email-header.png')}}" style="width:100%;height:auto;"/>
         @endcomponent
     @endslot
 
@@ -12,30 +12,29 @@
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Hello!</h1>
+	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
+	                        <h1 {{$rtl}}>رحباً</h1>
 
-							<p>Thank you for claiming <a href="{{route('front.company.show', $company->slug)}}">"{{$company->company_name}}"</a>. We were unable to verify your position within your company.
-							Before we can approve your request, we need more information.</p>
+							<p {{$rtl}}>شكراً على مطالبتك بشركة <a href="{{route('front.company.show', $company->slug)}}">"{{$company->company_name}}"</a>.  لم نتمكن من التحقق من دورك في هذه الشركة. قبل أن نوافق على مطالبتك فنحن نحتاج إلى بيانات إضافية.</p>
 
-							<p>Please provide verification in one of the following ways:</p>
+							<p {{$rtl}}>من فضلك أرسل ما يعزز مطالبتك من الإختيارات التالية:</p>
 							
-							<p>
-							Option 1: Email from a verifiable owner, director, or C-level employee at your company. The email should come from the executive's email address and include:
-							<ul>
-								<li> The executive's name, title and contact information</li>
-								<li> Your name, title and work email</li>
-								<li> A statement that they agree you can speak on behalf of the company on SMBeez as a company representative</li>
+							<p {{$rtl}}>
+							إختيار ١: رسالة إلكترونية من صاحب أو مدير الشركة. يجب أن يكون عنوان البريد الإلكتروني من نفس نطاق الشركة ويحتوي على الآتي:
+							<ul {{$rtl}}>
+								<li {{$rtl}}> إسم وظيفة المدير ورقم هاتفه</li>
+								<li {{$rtl}}> اسمك ووظيفتك وعنوان بريدك الإلكتروني الرسمي</li>
+								<li {{$rtl}}> عبارة تنص على الموافقة على أن تكون مندوب الشركة على موقع مشاريع </li>
 							</ul>
 							</p>
-							<p>
-								Option 2: Copy of trade license, service license, commercial registration, or shareholder certificate showing your name as the authorized manager or representative of the company.
+							<p {{$rtl}}>
+								إختيار ٢: صورة من السجل التجاري والبطاقة الضريبية تحتوي على إسمك كمدير مسؤول أو مندوب عن الشركة.
 							</p>
-							<p>
-								Please send this information to <b>verification@masharee3.com</b>
+							<p {{$rtl}}>
+								من فضلك أرسل هذه المعلومات على عنوان <b>verification@masharee3.com</b>
 							</p>
-							<p>We look forward to welcoming you to Masharee3!</p>
-							<p>Thank You,</p>
-							<p>Your friends at Masharee3.</p>
+							<p {{$rtl}}>نتطلع للترحيب بك في مشاريع!</p>
+							<p {{$rtl}}>أصدقاءك في مشاريع.</p>
 	                    </td>
 	                </tr>
 	            </table>
