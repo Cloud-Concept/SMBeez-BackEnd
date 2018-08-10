@@ -1,12 +1,13 @@
 @component('mail::layout')
     {{-- Header --}}
     @slot('header')
-        @component('mail::header', ['url' => config('app.url')])
-            <img src="{{asset('images/common/email-header.png')}}" style="width:100%;height:auto;"/>
-        @endcomponent
+        
     @endslot
 
-    <table class="panel" width="100%" cellpadding="0" cellspacing="0">
+    <table class="panel" width="100%" cellpadding="0" cellspacing="0" style="direction:rtl" direction="rtl">
+	    <tr>
+    		<td><img src="https://www.masharee3.com/images/common/email-header.png" style="width:100%;height:auto;"/></td>
+    	</tr>
 	    <tr>
 	        <td class="panel-content">
 	            <table width="100%" cellpadding="0" cellspacing="0">
@@ -32,6 +33,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
+        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot
