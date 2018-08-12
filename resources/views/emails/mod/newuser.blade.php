@@ -1,35 +1,41 @@
 @component('mail::layout')
     {{-- Header --}}
     @slot('header')
-        @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
-        @endcomponent
+
     @endslot
 
-    <table class="panel" width="100%" cellpadding="0" cellspacing="0">
+    <table class="panel" width="100%" cellpadding="0" cellspacing="0" style="direction:rtl" direction="rtl">
+    	<tr>
+    		<td><img src="https://www.masharee3.com/images/common/email-header.png" style="width:100%;height:auto;"/></td>
+    	</tr>
 	    <tr>
 	        <td class="panel-content">
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Welcome to Masharee3.</h1>
+	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
+	                        <h1 {{$rtl}}>مرحباً في مشاريع.</h1>
 
-	                        <p>Login Email: {{$user->email}}</p>
-							<p>Login Password: {{$unique_password}}</p>
-							<p>Link: <a href="http://www.masharee3.com/login">http://www.masharee3.com/login</a></p>
-							<p>Below is your company URL: ({{route('front.company.show', $user->company->slug)}})</p>
+	                        <p {{$rtl}}>البريد الالكتروني: {{$user->email}}</p>
+							<p {{$rtl}}>كلمة السر: {{$unique_password}}</p>
+							<p {{$rtl}}>رابط تسجيل الدخول: <a href="http://www.masharee3.com/login">http://www.masharee3.com/login</a></p>
+							<p {{$rtl}}>رابط شركتك: ({{route('front.company.show', $user->company->slug)}})</p>
 							
-							<p>What next? </p>
+							<p {{$rtl}}>ماذا بعد؟ </p>
 
-							<h3>Here is how you can make most of your Masharee3 account:</h3>
-							<ol>
-								<li>Complete your company profile.</li>
-								<li>Browse business opportunities in your industry.</li>
-								<li>Create and publish a new project and get interested suppliers on it.</li>
+							<h3 {{$rtl}}>بعض الطرق التي تمكنك من الإستفادة القصوى من حسابك على مشاريع:</h3>
+							<ol {{$rtl}}>
+								<li {{$rtl}}>اكمل بروفايل شركتك</li>
+								<li {{$rtl}}>تصفح فرص المشاريع في مجال عملك</li>
+								<li {{$rtl}}>أنشر مشروع جديد واحصل على ١٠٠ نقطة</li>
 							</ol>
 
-							<p>
-							Thanks,
+							<p {{$rtl}}>
+							شكراً
+							</p>
+
+							<p {{$rtl}}>
+							أصدقاءك في مشاريع
 							</p>
 	                    </td>
 	                </tr>
@@ -41,6 +47,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
+        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

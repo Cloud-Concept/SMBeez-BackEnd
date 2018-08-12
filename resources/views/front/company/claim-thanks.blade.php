@@ -10,8 +10,8 @@
                     <div class="sign-block claim-company">
                         <div class="px-4 pb-5">
                             <br><br>
-                            <p class="text-center w-75 mrt-auto download-box">Thank you for your request. Will send you future instruction to verify your ownership of this company.</p>
-                            <div class="text-center mt-4"><a href="{{route('front.company.show', $company->slug)}}" class="btn btn-blue btn-yellow">Go Back</a></div>
+                            <p class="text-center w-75 mrt-auto download-box">{{ __('company.claim_thnx_msg') }}</p>
+                            <div class="text-center mt-4"><a href="{{route('front.company.show', $company->slug)}}" class="btn btn-blue btn-yellow">{{ __('company.go_back') }}</a></div>
                         </div>
                     </div>
                 </div>

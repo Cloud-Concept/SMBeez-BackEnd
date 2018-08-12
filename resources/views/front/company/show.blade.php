@@ -112,7 +112,7 @@
                     @else
                     <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url)) ? asset($company->industry->industry_img_url) : ''}}) no-repeat 100% 100%;">
                     @endif
-                        <h1 class="w-50">{{$company->company_name}}</h1>
+                        <h1>{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">
                             <ul class="list-inline">

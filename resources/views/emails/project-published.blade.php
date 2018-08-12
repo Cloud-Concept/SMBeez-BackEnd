@@ -1,25 +1,27 @@
 @component('mail::layout')
     {{-- Header --}}
     @slot('header')
-        @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
-        @endcomponent
+        
     @endslot
 
-    <table class="panel" width="100%" cellpadding="0" cellspacing="0">
+    <table class="panel" width="100%" cellpadding="0" cellspacing="0" style="direction:rtl" direction="rtl">
+	    <tr>
+    		<td><img src="https://www.masharee3.com/images/common/email-header.png" style="width:100%;height:auto;"/></td>
+    	</tr>
 	    <tr>
 	        <td class="panel-content">
 	            <table width="100%" cellpadding="0" cellspacing="0">
 	                <tr>
 	                    <td class="panel-item">
-	                        <h1>Hello!</h1>
+	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
+	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p>Thank you for publishing your project “{{$project->project_title}}”. </p>
+							<p {{$rtl}}>شكراً على نشرك مشروع “{{$project->project_title}}”. </p>
 
-							<p>You have just earned [number] honeycombs! Submit a review and earn [number] more honeycombs and bring your balance to [number]!</p>
+							<p {{$rtl}}>لقد ربحت ١٠٠ نقطة إضافية في حسابك! أنشر تقييمك لشركة وأربح ٢٥ نقطة إضافية!</p>
 
-							<p>
-							Your friends at Masharee3 
+							<p {{$rtl}}>
+							أصدقاءك في مشاريع 
 							</p>
 	                    </td>
 	                </tr>
@@ -31,6 +33,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
+        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

@@ -6,10 +6,11 @@ use App\Interest;
 use App\Project;
 use App\Message;
 use Illuminate\Http\Request;
-
+use \App\Repositories\SMBeezFunctions;
 use Mail;
 use App\Mail\SupplierAccepted;
 use App\Mail\SupplierRejected;
+use Session;
 
 class InterestsController extends Controller
 {
@@ -30,7 +31,7 @@ class InterestsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $interest = new Interest;
 
         $interest->user_id = auth()->id();
@@ -49,11 +50,17 @@ class InterestsController extends Controller
 
         $interest->save();
 
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
         $message = new Message;
         $user = auth()->user();
         $user_company = route('front.company.show', $user->company->slug);
         $project_url = route('front.project.show', $interest->project->slug);
-        $subject = $user->first_name . ' from <a href='.$user_company.' target="_blank">' . $user->company->company_name . '</a> expressed interest on your project <a href='.$project_url.' target="_blank">' . $interest->project->project_title . '</a>';
+        //$subject = $user->first_name . ' from <a href='.$user_company.' target="_blank">' . $user->company->company_name . '</a> expressed interest on your project <a href='.$project_url.' target="_blank">' . $interest->project->project_title . '</a>';
+        $subject = sprintf(__('general.interest_subject'),$user->first_name,$user_company,$user->company->company_name,$project_url,$interest->project->project_title);
         
         $message_content = '<div class="btn-list mt-3 mb-4">
         <h5 class="mb-2 mt-4">What else would you like to do? ...</h5>
@@ -81,6 +88,9 @@ class InterestsController extends Controller
         //$interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
         Mail::to($interest->user->email)->send(new SupplierAccepted($interest));
 
+        $do = new SMBeezFunctions;
+        $do->email_log($interest->user->id, $interest->user->email);
+
         return back();
     }
 
@@ -90,6 +100,9 @@ class InterestsController extends Controller
         $interest->where('id', $interest->id)->update(['is_accepted' => 0]);
 
         Mail::to($interest->user->email)->send(new SupplierRejected($interest));
+
+        $do = new SMBeezFunctions;
+        $do->email_log($interest->user->id, $interest->user->email);
 
         return back();
     }

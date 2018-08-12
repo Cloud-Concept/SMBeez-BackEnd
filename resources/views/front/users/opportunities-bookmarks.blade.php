@@ -13,20 +13,20 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="sidebar-updates">
-                        <h5 class="title-blue">My Bookmarks</h5>
+                        <h5 class="title-blue">{{__('general.my_bookmarks')}}</h5>
                         @include('layouts.bookmarks-menu')
                     </div>
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', Auth::user()->username)}}">My Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Bookmarks</li>
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', Auth::user()->username)}}">{{__('general.my_dashboard')}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{__('general.my_bookmarks')}}</li>
                         </ol>
                     </nav>
                     <div class="bookmarks-block">
                         @if($bookmarked_projects->count() > 0)
-                        <h4 id="bookmarked_projects">Bookmarked Opportunities</h4>
+                        <h4 id="bookmarked_projects">{{__('general.bookmarked_opportunities')}}</h4>
                         <div class="row equal mb-5">
 
                             @foreach($bookmarked_projects as $bookmark)

@@ -8,18 +8,18 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="sidebar-updates">
-                        <h5 class="title-blue">Search Results</h5>
+                        <h5 class="title-blue">{{__('general.search_results')}}</h5>
                         <ul class="list-group flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <li class="list-group-item"><a class="active" id="v-opportunities-tab" data-toggle="pill" href="#v-opportunities" role="tab" aria-controls="v-opportunities" aria-selected="true">Opportunities ({{$projects_count}})</a></li>
-                            <li class="list-group-item"><a id="v-companies-tab" data-toggle="pill" href="#v-companies" role="tab" aria-controls="v-companies" aria-selected="false">Companies ({{$companies_count}})</a></li>
+                            <li class="list-group-item"><a class="active" id="v-opportunities-tab" data-toggle="pill" href="#v-opportunities" role="tab" aria-controls="v-opportunities" aria-selected="true">{{__('general.search_opportunities')}} ({{$projects_count}})</a></li>
+                            <li class="list-group-item"><a id="v-companies-tab" data-toggle="pill" href="#v-companies" role="tab" aria-controls="v-companies" aria-selected="false">{{__('general.search_companies')}} ({{$companies_count}})</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-opportunities" role="tabpanel" aria-labelledby="v-opportunities-tab">
-                            <p class="search-info">Results for ‘{{request()->input('s')}}’ Opportunities...</p>
-                            <h3 class="search-title text-uppercase">Project Details <span class="pull-right">Closing Date</span></h3>
+                            <p class="search-info">{{__('general.results_for')}} ‘{{request()->input('s')}}’ {{__('general.search_opportunities')}}...</p>
+                            <h3 class="search-title text-uppercase">{{__('general.project_details')}} <span class="pull-right">{{__('general.closing_date')}}</span></h3>
                             @if($projects_count == 0)
                             	<br>
                             	<p>{{__('general.no_opportunities_found')}}</p>
@@ -49,7 +49,7 @@
 	                                    </div>
 	                                    <div class="col-md-3 media-body-info pt-3 d-flex flex-column align-items-end">
 	                                        <p class="date align-top">{{$project->close_date->toFormattedDateString()}}</p>
-	                                        <a href="{{route('front.project.show', $project->slug)}}" class="btn btn-sm btn-yellow-2 mb-3 mt-auto">View Project</a>
+	                                        <a href="{{route('front.project.show', $project->slug)}}" class="btn btn-sm btn-yellow-2 mb-3 mt-auto">{{__('general.view_project')}}</a>
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -59,8 +59,8 @@
                             
                         </div>
                         <div class="tab-pane search-content-oo fade" id="v-companies" role="tabpanel" aria-labelledby="v-companies-tab">
-                            <p class="search-info">Results for ‘{{request()->input('s')}}’ Opportunities...</p>
-                            <h3 class="search-title text-uppercase">Company info <span class="pull-right">Industry</span></h3>
+                            <p class="search-info">{{__('general.results_for')}} ‘{{request()->input('s')}}’ {{__('general.search_companies')}}...</p>
+                            <h3 class="search-title text-uppercase">{{__('general.company_info')}} <span class="pull-right">{{__('general.search_industry')}}</span></h3>
                             @if($companies_count == 0)
                             	<br>
                             	<p>{{__('general.no_companies_found')}}</p>
@@ -83,7 +83,7 @@
 			                                                        @endfor
 			                                                    </select>
 			                                                </li>
-			                                                <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} Reviews)</p></li>
+			                                                <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
 			                                            </ul>
 			                                        </div>
 			                                    </div>

@@ -94,6 +94,17 @@ class User extends Authenticatable
         return $this->hasMany(ModLog::class);
 
     }
+    public function email_logs() {
+
+        return $this->hasMany(EmailLogs::class);
+
+    }
+
+    public function logins() {
+
+        return $this->hasMany(UserLogins::class);
+
+    }
     //check for profile completion
     public function profile_completion() {
 

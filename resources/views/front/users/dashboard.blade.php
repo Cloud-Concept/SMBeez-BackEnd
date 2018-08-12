@@ -22,20 +22,20 @@
                                     <a href="">My Achievements</a>
                                 </div>
                             </li> -->
-                            <li>
+                            <!-- <li>
                                 <i class="fa fa-pie-chart fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
                                     <p class="numb">87%</p>
                                     <p><i><b>Profile</b></i> Completion</p>
                                     <a href="{{route('front.user.editprofile', $user->username)}}">Edit Profile</a>
                                 </div>
-                            </li>
+                            </li> -->
                             <li>
                                 <i class="fa fa-folder-open-o fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
                                     <p class="numb">{{count($user->projects)}}</p>
-                                    <p>Published <i><b>Projects</b></i></p>
-                                    <a href="{{route('front.user.myprojects', $user->username)}}">My Projects</a>
+                                    <p>{{__('general.published_project')}}</p>
+                                    <a href="{{route('front.user.myprojects', $user->username)}}">{{__('general.my_projects')}}</a>
                                 </div>
                             </li>
                         </ul>
@@ -46,7 +46,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div> -->
                     <div class="sidebar-updates mt-5">
-                        <h5 class="title-blue">Updates ({{$user->messages->count()}})</h5>
+                        <h5 class="title-blue">{{__('company.updates')}} ({{$user->messages->count()}})</h5>
                         <ul class="list-group">
                             @if($user->messages->count() > 0)
                                 @foreach($user_messages as $message)
@@ -58,7 +58,7 @@
                                                 {{strip_tags($message->subject, '')}}
                                             </a>
                                             @else
-                                            <p>Sender doesn't exist anymore</p>
+                                            <p>{{__('company.sender_no_exist')}}</p>
                                             @endif
                                         @else
                                             {{strip_tags($message->subject, '')}}
@@ -66,9 +66,9 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li class="list-group-item">You don’t have any messages yet</li>
+                                <li class="list-group-item">{{__('company.no_msgs')}}</li>
                             @endif                       
-                            <li class="list-group-item"><a href="{{route('front.messages.index')}}">All Messages</a></li>
+                            <li class="list-group-item"><a href="{{route('front.messages.index')}}">{{__('general.all_messages')}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -79,27 +79,27 @@
                         @elseif(!$hascompany && !count($user->claims) > 0)
                             <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">{{__('general.add_company_button')}}</button></a></li>
                         @endif
-                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#reviewModal">Submit a Review</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
-                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow disable"><i class="fa fa-cubes mr-1" aria-hidden="true"></i> Redeem Honeycombs</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
+                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#reviewModal">{{__('general.submit_review')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
+                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow disable"><i class="fa fa-cubes mr-1" aria-hidden="true"></i> {{__('general.redeem_honeycombs')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
                     </ul>
                     @if(count($user->claims) > 0)
                     <br>
-                    <p>You claimed the company ‘{{$user->claims->company->company_name}}’, and we will review your request and contact you back.</p>
+                    <p>{{sprintf(__('general.already_claimed'), $user->claims->company->company_name)}}</p>
                     @endif
 
                     @if(count($user->projects) == 0 && count($user->interests) == 0)
                         <br>
-                        <p>You don't have any projects yet.</p>
+                        <p>{{__('general.no_projects')}}</p>
                     @endif
 
                     @if(count($user->projects) > 0 && $hascompany)
-                    <h4>My Projects ({{count($user->projects)}})</h4>
+                    <h4>{{__('general.published_project')}} ({{count($user->projects)}})</h4>
                     <table class="table table-striped">
                         <thead class="thead-blue">
                             <tr>
-                                <th scope="col">Project name</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Suppliers</th>
+                                <th scope="col">{{__('general.project_name')}}</th>
+                                <th scope="col">{{__('general.status')}}</th>
+                                <th scope="col">{{__('general.suppliers')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,40 +107,40 @@
                             <tr>
                                 <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a>
                                     @if($project->status != 'closed' && $project->status != 'deleted')
-                                        <div class="btn-list my-1"><a href="{{route('front.project.edit', $project->slug)}}" class="btn-blank">Edit Details</a></div>
+                                        <div class="btn-list my-1"><a href="{{route('front.project.edit', $project->slug)}}" class="btn-blank">{{__('project.edit_project')}}</a></div>
                                     @endif
                                 </td>
                                 @if($project->status == 'draft')
 
-                                    <td>Draft</td>
+                                    <td>{{__('project.draft')}}</td>
 
                                 @elseif($project->status == 'closed' && $project->status_on_close == 'expired')
 
-                                    <td>Expired on {{$project->close_date->toFormattedDateString()}}</td>
+                                    <td>{{__('project.expired_on')}} {{$project->close_date->toFormattedDateString()}}</td>
 
                                 @elseif($project->status == 'closed' && $project->status_on_close == 'by_owner')
 
-                                    <td>Closed</td>
+                                    <td>{{__('project.closed')}}</td>
 
                                 @elseif($project->status == 'publish')
 
-                                    <td>Open until {{$project->close_date->toFormattedDateString()}}</td>
+                                    <td>{{__('project.open_until')}} {{$project->close_date->toFormattedDateString()}}</td>
                                 @elseif($project->status == 'deleted')
-                                    <td>Deleted</td> 
+                                    <td>{{__('project.deleted')}}</td> 
                                 @endif
-                                <td><a href="#" data-toggle="modal" data-target="#expressInterestModal-{{$project->id}}">{{count($project->interests) > 0 ? count($project->interests) . ' Interested Suppliers' : 'NA'}}</a></td>
+                                <td><a href="#" data-toggle="modal" data-target="#expressInterestModal-{{$project->id}}">{{count($project->interests) > 0 ? count($project->interests) . ' ' .__("general.suppliers") : 'NA'}}</a></td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                     @endif
                     @if(count($user->interests) > 0 && $hascompany)
-                    <h4>My Opportunities ({{count($user->interests)}})</h4>
+                    <h4>{{__('general.my_opportunities')}} ({{count($user->interests)}})</h4>
                     <table class="table table-striped">
                         <thead class="thead-blue">
                             <tr>
-                                <th scope="col">Opportunity name</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">{{__('general.opportunity_name')}}</th>
+                                <th scope="col">{{__('general.status')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,15 +149,14 @@
                             @foreach($interested_projects as $project)
                             <tr>
                                 <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a></td>
-
                                 @if($project->interest_status() == 1)
-                                    <td>Interest Accepted
-                                        <br><span><a href="{{route('front.company.show', $project->user->company->slug)}}">Contact Client</a></span>
+                                    <td>{{__('general.interest_accepted')}}
+                                        <br><span><a href="{{route('front.company.show', $project->user->company->slug)}}">{{__('general.contact_client')}}</a></span>
                                     </td>
                                 @elseif(is_null($project->interest_status()))
-                                    <td>Waiting for Client</td>
+                                    <td>{{__('general.waiting_for_client')}}</td>
                                 @elseif($project->interest_status() == 0)
-                                    <td>Interest Rejected</td>
+                                    <td>{{__('general.interest_rejected')}}</td>
                                 @endif
                             </tr>
                             @endforeach

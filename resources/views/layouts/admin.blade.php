@@ -10,7 +10,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Masharee3') }}</title>
+        <title>{{ __('general.website_title') }}</title>
 
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -39,7 +39,11 @@
     </head>
     <body class="no-hero">
         <header class="cd-main-header animate-search">
+            @if(app()->getLocale() == 'ar')
+            <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo-ar.svg') }}" alt="Logo"></a></div>
+            @else
             <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
+            @endif
             <nav class="cd-main-nav-wrapper">
                 <a href="#search" class="cd-search-trigger"></a>
                 @include ('layouts.main-menu')

@@ -217,7 +217,7 @@
                                         </select>
                                     </li>
                                 </ul>
-                                <a href="{{route('front.company.show', $user->company->slug)}}/?tab=customers">({{$customer_reviews->count()}}) Reviews from customers</a>
+                                <a href="{{route('front.company.show', $user->company->slug)}}/?tab=customers">({{$customer_reviews->count()}}) {{__('company.reviews_from_customers')}}</a>
                             </div>
                             <div class="star-rating">
                                 <ul class="list-inline">
@@ -229,7 +229,7 @@
                                         </select>
                                     </li>
                                 </ul>
-                                <a href="{{route('front.company.show', $user->company->slug)}}/?tab=suppliers">({{$suppliers_reviews->count()}}) Reviews from suppliers</a>
+                                <a href="{{route('front.company.show', $user->company->slug)}}/?tab=suppliers">({{$suppliers_reviews->count()}}) {{__('company.reviews_from_suppliers')}}</a>
                             </div>
                         </div>
                     </div>

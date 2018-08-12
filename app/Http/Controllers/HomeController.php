@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Newsletter;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -27,5 +29,41 @@ class HomeController extends Controller
         }
 
         return view('layouts.about');
+    }
+
+    public function subscribe(Request $request)
+    {   
+        
+        if ( ! Newsletter::isSubscribed($request->email) ) 
+        {   
+            if(!Auth::guest() && !Auth::user()->company) {
+                Newsletter::subscribe($request->email, ['FNAME'=>Auth::user()->first_name, 'LNAME'=>Auth::user()->last_name]);
+            }elseif(!Auth::guest() && Auth::user()->company) {
+                Newsletter::subscribe($request->email, ['FNAME'=>Auth::user()->first_name, 'LNAME'=>Auth::user()->last_name, 'COMPANY'=>Auth::user()->company->company_name]);
+            }else {
+                Newsletter::subscribe($request->email);
+            }
+            session()->flash('msg', 'Thank you for subscribtion.');
+        }else {
+            session()->flash('msg', 'Sorry! You have already subscribed');
+        }
+        
+        
+        return back();
+    }
+
+    public function unsubscribe(Request $request)
+    {   
+        
+        if ( Newsletter::isSubscribed($request->email) ) 
+        {   
+            Newsletter::unsubscribe($request->email);
+            session()->flash('msg', 'You are now unsubscribed from our Newsletter.');
+        }else {
+            session()->flash('msg', 'Your email is not listed in our Newsletter.');
+        }
+        
+        
+        return back();
     }
 }

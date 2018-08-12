@@ -15,6 +15,8 @@ use App\User;
 use App\Claim;
 use App\Reply;
 use App\ModLog;
+use App\UserLogins;
+use \App\Repositories\SMBeezFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Mail\ClaimNotification;
@@ -247,8 +249,8 @@ class CompaniesController extends Controller
         }
         $company_specialities = implode('","', $current_specialities);
 
-        $company_size_array = array('0-1 Employees', '2-10 Employees', '11-50 Employees', '51-200 Employees', '201-500 Employees', '501+ Employees');
-        $company_type_array = array('Sole Ownership', 'Limited Liability Company (LLC)', 'Free Zone Sole Ownership', 'Free Zone LLC', 'Public Joint-Stock Company (PJSC)', 'Private Joint-Stock Company (PrJSC)');
+        $company_size_array = array('0-1 '. __('company.employees'), '2-10 '. __('company.employees'), '11-50 '. __('company.employees'), '51-200 '. __('company.employees'), '201-500 '. __('company.employees'), '501+ '. __('company.employees'));
+        $company_type_array = array(__('company.company_type_1'), __('company.company_type_2'), __('company.company_type_3'), __('company.company_type_4'), __('company.company_type_5'), __('company.company_type_6'));
         //allow edit for company owner only
         if($company->is_owner(auth()->id())) {
             return view('front.company.edit', compact('company', 'user', 'customer_reviews', 'suppliers_reviews', 'company_specialities', 'company_size_array', 'company_type_array'));
@@ -531,6 +533,9 @@ class CompaniesController extends Controller
 
             Mail::to('info@masharee3.com')->send(new ClaimNotification($company));
 
+            $do = new SMBeezFunctions;
+            $do->email_log($claim->user_id, $claim->user->email);
+
             return redirect(route('front.company.claim-thanks', $company->slug));
         }
     }
@@ -756,8 +761,8 @@ class CompaniesController extends Controller
             $current_specialities[] = $speciality->speciality_name;
         }
         $company_specialities = implode('","', $current_specialities);
-
-        return view('admin.company.edit', compact('company', 'company_specialities'));
+        $last_login = UserLogins::where('user_id', $company->user_id)->latest()->first();
+        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login'));
     }
     public function admin_update(Request $request, Company $company)
     {

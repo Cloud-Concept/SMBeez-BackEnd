@@ -188,6 +188,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Bogardo\Mailgun\MailgunServiceProvider::class,
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
+        Spatie\Newsletter\NewsletterServiceProvider::class,
+
     ],
 
     /*
@@ -228,6 +230,7 @@ return [
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Mailgun' => Bogardo\Mailgun\Facades\Mailgun::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
+        'Newsletter' => Spatie\Newsletter\NewsletterFacade::class,
         'Password' => Illuminate\Support\Facades\Password::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,

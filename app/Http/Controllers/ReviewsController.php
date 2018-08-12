@@ -7,7 +7,7 @@ use App\Company;
 use App\ReviewsLikeUnlike;
 use App\ReviewFlags;
 use Illuminate\Http\Request;
-
+use \App\Repositories\SMBeezFunctions;
 use Mail;
 use App\Mail\ReviewSubmitted;
 
@@ -89,6 +89,8 @@ class ReviewsController extends Controller
 
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
 
+        $do = new SMBeezFunctions;
+        $do->email_log($review->user->id, $review->user->email);
         return back();
     }
 
@@ -143,6 +145,9 @@ class ReviewsController extends Controller
         }
 
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+        
+        $do = new SMBeezFunctions;
+        $do->email_log($review->user->id, $review->user->email);
         
         return back();
     }

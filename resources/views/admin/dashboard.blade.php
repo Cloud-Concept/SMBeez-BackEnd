@@ -70,6 +70,12 @@
                                 <p><a href="{{route('admin.specialities')}}">Specialities</a></p>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$emails_sent}}</p>
+                                <p><a href="#">Sent Emails</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

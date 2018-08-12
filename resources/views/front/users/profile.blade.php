@@ -22,20 +22,20 @@
                                 <a href="">My Achievements</a>
                             </div>
                         </li> -->
-                        <li>
+                        <!-- <li>
                             <i class="fa fa-pie-chart fa-2x pull-left mr-3" aria-hidden="true"></i>
                             <div class="pull-right">
                                 <p class="numb">87%</p>
                                 <p><i><b>Profile</b></i> Completion</p>
                                 <a href="{{route('front.user.editprofile', $user->username)}}">Edit Profile</a>
                             </div>
-                        </li>
+                        </li> -->
                         <li>
                             <i class="fa fa-folder-open-o fa-2x pull-left mr-3" aria-hidden="true"></i>
                             <div class="pull-right">
                                 <p class="numb">{{count($user->projects)}}</p>
-                                <p>Published <i><b>Projects</b></i></p>
-                                <a href="{{route('front.user.myprojects', $user->username)}}">My Projects</a>
+                                <p>{{__('general.published_project')}}</p>
+                                <a href="{{route('front.user.myprojects', $user->username)}}">{{__('general.my_projects')}}</a>
                             </div>
                         </li>
                     </ul>
@@ -47,8 +47,8 @@
               <div class="col-md-6">
                  <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
-                       <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">My Dashboard</a></li>
-                       <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+                       <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">{{__('general.my_dashboard')}}</a></li>
+                       <li class="breadcrumb-item active" aria-current="page">{{__('general.my_profile')}}</li>
                     </ol>
                  </nav>
                  <div class="dashboard-company-block">
@@ -73,28 +73,28 @@
                           <p class="tags"><b>{{$user->company->role}}</b></p>
                           @endif
                         </div>
-                        <div><a href="{{route('front.user.editprofile', $user->username)}}" class="btn btn-sm btn-blue btn-yellow-2">Edit Settings</a></div>
+                        <div><a href="{{route('front.user.editprofile', $user->username)}}" class="btn btn-sm btn-blue btn-yellow-2">{{__('general.edit_settings')}}</a></div>
                     </div>
                  </div>
                  <div class="dashboard-company-block my-3">
                     <table class="table table-striped">
                        <thead class="thead-blue">
                           <tr>
-                             <th scope="col">Basic information</th>
+                             <th scope="col">{{__('general.basic_info')}}</th>
                              <th scope="col" class="text-right"></th>
                           </tr>
                        </thead>
                        <tbody>
                           <tr>
-                             <td scope="row"><b>City</b></td>
+                             <td scope="row"><b>{{__('general.city_title')}}</b></td>
                              <td>{{$user->user_city}}</td>
                           </tr>
                           <tr>
-                             <td scope="row"><b>Email</b></td>
-                             <td>{{$user->email}} <b>(Verified)</b></td>
+                             <td scope="row"><b>{{__('general.email')}}</b></td>
+                             <td>{{$user->email}} </td>
                           </tr>
                           <tr>
-                             <td scope="row"><b>Phone</b></td>
+                             <td scope="row"><b>{{__('general.phone')}}</b></td>
                              <td>{{$user->phone}}</td>
                           </tr>
                        </tbody>
@@ -103,8 +103,8 @@
               </div>
                 <div class="col-md-3">
                     <div class="sidebar-subscription mb-4">
-                        <h4 class="border-b">My subscription</h4>
-                        <p>All Masharee3 features are open for 6 months. You are on the highest subscription tier now, but you will be downgraded to the free tier at 23/9/2018</p>
+                        <h4 class="border-b">{{__('general.my_subscription')}}</h4>
+                        <p>{{__('general.my_subscription_details')}} <!-- You are on the highest subscription tier now, but you will be downgraded to the free tier at 23/9/2018 --></p>
                     </div>
                     <!-- @forelse(auth()->user()->getReferrals() as $referral)
                     <div class="sidebar-subscription mb-4">             
@@ -123,11 +123,11 @@
                     @endforelse -->
                     @if($user->company)
                     <div class="sidebar-mycompany mb-4">
-                        <h4 class="border-b">My Company</h4>
+                        <h4 class="border-b">{{__('general.my_company')}}</h4>
                         <div class="media-body">
                            <a href="{{route('front.company.edit', $user->company->slug)}}"><i class="fa fa-pencil-square-o pull-right" aria-hidden="true"></i></a>
                            <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $user->company->slug)}}">{{$user->company->company_name}}</a></h5>
-                           <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $user->company->industry->slug)}}">
+                           <p class="tags"><b>{{__('general.industry_title')}}</b><a href="{{route('front.industry.show', $user->company->industry->slug)}}">
                             @if(app()->getLocale() == 'ar')
                             {{$user->company->industry->industry_name_ar}}
                             @else
@@ -148,7 +148,7 @@
                     </div>
                     <div class="sidebar-review-rating mt-4">
                         <div class="rating-sidebar-block">
-                           <h5 class="mb-3">My reviews</h5>
+                           <h5 class="mb-3">{{__('general.my_reviews')}}</h5>
                            <div class="star-rating mb-3">
                               <ul class="list-inline">
                                   <li class="list-inline-item">
@@ -159,7 +159,7 @@
                                       </select>
                                   </li>
                               </ul>
-                              <a href="{{route('front.company.show', $user->company->slug)}}/?tab=customers">({{$customer_reviews->count()}}) Reviews from customers</a>
+                              <a href="{{route('front.company.show', $user->company->slug)}}/?tab=customers">({{$customer_reviews->count()}}) {{__('company.reviews_from_customers')}}</a>
                           </div>
                           <div class="star-rating">
                               <ul class="list-inline">
@@ -171,7 +171,7 @@
                                       </select>
                                   </li>
                               </ul>
-                              <a href="{{route('front.company.show', $user->company->slug)}}/?tab=suppliers">({{$suppliers_reviews->count()}}) Reviews from suppliers</a>
+                              <a href="{{route('front.company.show', $user->company->slug)}}/?tab=suppliers">({{$suppliers_reviews->count()}}) {{__('company.reviews_from_suppliers')}}</a>
                           </div>
                         </div>
                     </div>

@@ -16,8 +16,11 @@ use App\Industry;
 use App\Speciality;
 use App\Message;
 use App\ModLog;
+use App\EmailLogs;
 use App\ModCompanyReport;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Carbon\Carbon;
+use App\UserLogins;
 use Image;
 use File;
 use DB;
@@ -37,6 +40,72 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
+    public function logins(Request $request)
+    {   
+        if($request['date_from'] || $request['date_to']) {
+            $get_logins = UserLogins::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->get();
+        }else{
+            $get_logins = UserLogins::latest()->get();
+        }
+
+        $users = array();
+        foreach($get_logins as $login) {
+            $users[] = $login->user_id;
+        }
+        $users = User::whereIn('id', $users)->get();
+
+        $lists = array();
+
+        foreach($users as $u) {
+            if($request['date_from'] || $request['date_to']) {
+                $logins_count = UserLogins::where('user_id', $u->id)->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+            }else{
+                $logins_count = UserLogins::where('user_id', $u->id)->count();
+            }
+            array_push($lists, array(
+                'user' => $u,
+                'logins' => $logins_count
+            ));
+        }
+
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+ 
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($lists);
+ 
+        // Define how many items we want to be visible in each page
+        $perPage = 10;
+ 
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+ 
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+ 
+        // set url path for generted links
+        $paginatedItems->setPath($request->url());
+
+        $lists = $paginatedItems;
+
+        //dd($lists[0]['user']->email);
+        return view('admin.users.logins', compact('users', 'lists'));
+    }
+    public function user_logins(User $user, Request $request)
+    {   
+        $logins = UserLogins::where('user_id', $user->id)->latest()->paginate(10);
+        return view('admin.users.login-details', compact('logins'));
+    }
+    public function emails(Request $request)
+    {   
+        if($request['date_from'] || $request['date_to']) {
+            $emails = EmailLogs::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->paginate(10);
+        }else{
+            $emails = EmailLogs::latest()->paginate(10);
+        }
+
+        return view('admin.users.emails', compact('emails'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -95,7 +164,8 @@ class UserController extends Controller
     public function edit(User $user)
     {   
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $last_login = UserLogins::where('user_id', $user->id)->latest()->first();
+        return view('admin.users.edit', compact('user', 'roles', 'last_login'));
     }
 
     /**
@@ -219,8 +289,6 @@ class UserController extends Controller
 
         return redirect(route('admin.user.index'));
     }
-
-
     // Front End Stuff
 
     public function dashboard(User $user)

@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="sidebar-updates">
-                        <h5 class="title-blue">Updates ({{$user->messages->count()}})</h5>
+                        <h5 class="title-blue">{{__('company.updates')}} ({{$user->messages->count()}})</h5>
                         <ul class="list-group">
                             @if($user->messages->count() > 0)
                                 @foreach($user_messages as $message)
@@ -26,7 +26,7 @@
                                                 {{strip_tags($message->subject, '')}}
                                             </a>
                                             @else
-                                            <p>Sender doesn't exist anymore</p>
+                                            <p>{{__('company.sender_no_exist')}}</p>
                                             @endif
                                         @else
                                             {{strip_tags($message->subject, '')}}
@@ -34,7 +34,7 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li class="list-group-item">You don’t have any messages yet</li>
+                                <li class="list-group-item">{{__('company.no_msgs')}}</li>
                             @endif
                         </ul>
                     </div>
@@ -42,26 +42,26 @@
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">My Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Messages</li>
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">{{__('general.my_dashboard')}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{__('company.msgs')}}</li>
                         </ol>
                     </nav>
                     
                     <div id="message-{{$message->interest_id}}" class="message-block">
                         <div class="message-intro my-3">
-                            <p class="tags"><b><i>Subject</i>:</b> {!!$id->subject!!}</p>
-                            <p class="tags"><b><i>Date</i>:</b> <span>{{$id->created_at->diffForHumans()}}</span></p>
+                            <p class="tags"><b><i>{{__('company.subject')}}</i>:</b> {!!$id->subject!!}</p>
+                            <p class="tags"><b><i>{{__('company.date')}}</i>:</b> <span>{{$id->created_at->diffForHumans()}}</span></p>
                             @if(!is_null($id->interest_id))
                                 <div class="btn-list mt-3 mb-4">
                                     @if($id->interest_status($id->interest_id) === 1)
-                                        <p>Accepted</p>
+                                        <p>{{__('company.accepted')}}</p>
                                     @elseif($id->interest_status($id->interest_id) === 0)
-                                        <p>Declined</p>
+                                        <p>{{__('company.declined')}}</p>
                                     @elseif($id->interest_status($id->interest_id) === false)
-                                        <p>Interest withdrawn by the supplier.</p>
+                                        <p>{{__('company.interest_withdrawn')}}</p>
                                     @else
-                                        <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$id->interest_id}}').submit();">Accept</button>
-                                        <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$id->interest_id}}').submit();">Decline</button>
+                                        <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$id->interest_id}}').submit();">{{__('company.accept')}}</button>
+                                        <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$id->interest_id}}').submit();">{{__('company.decline')}}</button>
                                         <form id="accept-interest-{{$id->interest_id}}" action="{{route('accept.interest', $id->interest_id)}}" method="post" class="write-review">
                                             {{csrf_field()}}
                                         </form> 

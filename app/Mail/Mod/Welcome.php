@@ -30,7 +30,7 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome to Masharee3!')->markdown('emails.mod.welcome')
+        return $this->subject('مرحباً بك في مشاريع!')->markdown('emails.mod.welcome')
         ->with([
             'company' => $this->company,
         ]);

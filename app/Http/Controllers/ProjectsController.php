@@ -9,15 +9,15 @@ use App\Speciality;
 use App\Interest;
 use App\User;
 use App\MyFile;
+use App\UserLogins;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-
+use \App\Repositories\SMBeezFunctions;
 use Mail;
 use Auth;
 use App\Mail\ProjectCreated;
 use App\Mail\ProjectPublished;
-
 use File;
 use Session;
 
@@ -171,8 +171,12 @@ class ProjectsController extends Controller
 
         if(Input::get('publish')) {
             Mail::to($project->user->email)->send(new ProjectPublished($project));
+            $do = new SMBeezFunctions;
+            $do->email_log($project->user->id, $project->user->email);
         }elseif(Input::get('draft')) {
             Mail::to($project->user->email)->send(new ProjectCreated($project));
+            $do = new SMBeezFunctions;
+            $do->email_log($project->user->id, $project->user->email);
         }
 
         return redirect(route('front.project.show', $project->slug));
@@ -352,6 +356,8 @@ class ProjectsController extends Controller
         $project->where('id', $project->id)->update(['status' => 'publish']);
 
         Mail::to($project->user->email)->send(new ProjectPublished($project));
+        $do = new SMBeezFunctions;
+        $do->email_log($project->user->id, $project->user->email);
         
         return back();
     }
@@ -369,8 +375,8 @@ class ProjectsController extends Controller
             $current_specialities[] = $speciality->speciality_name;
         }
         $project_specialities = implode('","', $current_specialities);
-
-        return view('admin.project.edit', compact('project', 'project_specialities'));
+        $last_login = UserLogins::where('user_id', $project->user_id)->latest()->first();
+        return view('admin.project.edit', compact('project', 'project_specialities', 'last_login'));
     }
 
     public function admin_update(Request $request, Project $project)

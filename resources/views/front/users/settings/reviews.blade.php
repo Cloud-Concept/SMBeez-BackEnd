@@ -13,19 +13,19 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="sidebar-updates">
-                        <h5 class="title-blue">Reviews</h5>
+                        <h5 class="title-blue">{{__('company.my_reviews')}}</h5>
                         <ul class="list-group">
-                            <li class="list-group-item"><a href="{{route('front.user.customerreviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/customerreviews') ? 'active' : 'no' }}">Reviews from Customers</a></li>
-                            <li class="list-group-item"><a href="{{route('front.user.supplierreviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/supplierreviews') ? 'active' : 'no' }}">Reviews from Suppliers</a></li>
-                            <li class="list-group-item"><a href="{{route('front.user.reviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/reviews') ? 'active' : 'no' }}">My Reviews</a></li>
+                            <li class="list-group-item"><a href="{{route('front.user.customerreviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/customerreviews') ? 'active' : 'no' }}">{{__('company.reviews_from_customers')}}</a></li>
+                            <li class="list-group-item"><a href="{{route('front.user.supplierreviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/supplierreviews') ? 'active' : 'no' }}">{{__('company.reviews_from_suppliers')}}</a></li>
+                            <li class="list-group-item"><a href="{{route('front.user.reviews', $user->username)}}" class="{{ Request::is('user/profile/'.$user->username.'/reviews') ? 'active' : 'no' }}">{{__('company.my_reviews')}}</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">My Reviews</li>
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">{{__('general.my_dashboard')}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{__('company.my_reviews')}}</li>
                         </ol>
                     </nav>
                     <div class="row">
@@ -44,8 +44,8 @@
                                 <table class="table table-striped my-4">
                                     <thead class="thead-blue">
                                         <tr>
-                                            <th scope="col">Company Name</th>
-                                            <th colspan="2">Feedback <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">{{__('general.company_name')}}</th>
+                                            <th colspan="2">{{__('general.feedback')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,7 +69,7 @@
                                 </table>
                                 {{$user_reviews->links()}}
                             @else
-                                <p>You don’t have any reviews yet.</p>
+                                <p>{{__('general.no_reviews')}}</p>
                             @endif
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 class="modal-title">Edit Review</h5>
+                            <h5 class="modal-title">{{__('general.edit_review')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                                         <textarea name="feedback" class="form-control"></textarea>
                                         <br>
                                         <p>{{$review->feedback}}</p>
-                                        <div class="btn-list my-5"><button type="submit" class="btn btn-blue btn-yellow">Submit Edits</button></div>
+                                        <div class="btn-list my-5"><button type="submit" class="btn btn-blue btn-yellow">{{__('general.save_changes')}}</button></div>
                                     </div>
                                 </div>
                             </div>

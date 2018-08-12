@@ -30,7 +30,7 @@ class ClaimDeclined extends Mailable
      */
     public function build()
     {
-        return $this->subject('Action required: We need a little more information about "' . $this->company->company_name . '"')->markdown('emails.claim-declined')
+        return $this->subject('مطلوب بيانات إضافية "' . $this->company->company_name . '"')->markdown('emails.claim-declined')
         ->with([
             'company' => $this->company,
         ]);

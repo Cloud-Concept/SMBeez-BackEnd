@@ -15,11 +15,11 @@
                             <h2>{{$company->company_tagline}}</h2>
                         </div>
                         <div class="px-4 pb-5">
-                            <p class="text-center py-3 download-box w-75 mrt-auto">This company already has a manager. If you didn't claim it, please send us your verification documents, and we should get back to you very soon.</p>
+                            <p class="text-center py-3 download-box w-75 mrt-auto">{{ __('company.claim_no_success') }}</p>
                             @if(!Auth::guest())
-                            <div class="text-center mt-4"><a href="{{route('front.company.claim_application', $company->slug)}}" class="btn btn-blue btn-yellow">Claim Company</a></div>
+                            <div class="text-center mt-4"><a href="{{route('front.company.claim_application', $company->slug)}}" class="btn btn-blue btn-yellow">{{ __('company.claim_company_btn') }}</a></div>
                             @else
-                            <div class="text-center mt-4"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow">Claim Company</a></div>
+                            <div class="text-center mt-4"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow">{{ __('company.claim_company_btn') }}</a></div>
                             @endif
                         </div>
                     </div>

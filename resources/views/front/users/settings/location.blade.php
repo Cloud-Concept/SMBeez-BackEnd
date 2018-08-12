@@ -17,8 +17,8 @@
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Settings</li>
+                            <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">{{__('general.my_dashboard')}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{__('general.edit_settings')}}</li>
                         </ol>
                     </nav>
                     <!-- <div class="alert alert-secondary alert-dismissible fade show my-4" role="alert">
@@ -30,16 +30,16 @@
                             <form action="{{route('front.user.update_location', $user->username)}}" method="POST"  class="user-setting" role="form" enctype="multipart/form-data">
                                 {{csrf_field()}}
                                 <div class="form-group">
-                                    <label for="">Choose New City</label>
+                                    <label for="">{{__('general.choose_city')}}</label>
                                     <select class="form-control custom-select d-block" name="user_city" required>
-                                        <option value="Cairo">Cairo</option>
+                                        <option value="Cairo">{{__('footer.cairo')}}</option>
                                     </select>
                                 </div>
 
-                                <p class="form-guide">“Masharee3 is now covering Cairo city only, we will be adding more cities very soon. Stay Tuned!”</p>
+                                <p class="form-guide">“{{__('general.city_msg')}}”</p>
 
                                 <br>
-                                <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize">Save Changes</button></div>
+                                <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize">{{__('general.save_changes')}}</button></div>
                             </form>
                         </div>
                     </div>

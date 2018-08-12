@@ -12,7 +12,7 @@
         <meta property="og:description" content="@yield('description')" />
         <meta property="og:image" content="@yield('image')" />
         <meta property="og:url" content="{{url()->current()}}" />
-        <title>{{ config('app.name', 'Masharee3') }}  @yield('title')</title>
+        <title>{{ __('general.website_title') }}  @yield('title')</title>
         @if(Request::is('user/*'))
             <meta name="robots" content="noindex,nofollow">
         @else
@@ -46,7 +46,11 @@
             @include ('layouts.another-tag-manager')
         @endif
         <header class="cd-main-header animate-search">
+           @if(app()->getLocale() == 'ar')
+            <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo-ar.svg') }}" alt="Logo"></a></div>
+            @else
             <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
+            @endif
             <nav class="cd-main-nav-wrapper">
                 <a href="#search" class="cd-search-trigger"></a>
                 @include ('layouts.main-menu')

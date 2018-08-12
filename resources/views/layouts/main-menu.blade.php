@@ -28,20 +28,20 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @if(\Laratrust::hasRole('administrator|superadmin'))
-            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{__('general.admin_dashboard')}}</a>
             @elseif(\Laratrust::hasRole('moderator'))
-            <a class="dropdown-item" href="{{ route('moderator.companies.dashboard') }}">Dashboard</a>
+            <a class="dropdown-item" href="{{ route('moderator.companies.dashboard') }}">{{__('general.dashboard')}}</a>
             @else
-            <a class="dropdown-item" href="{{ route('front.user.dashboard', Auth::user()->username) }}">Dashboard</a>
+            <a class="dropdown-item" href="{{ route('front.user.dashboard', Auth::user()->username) }}">{{__('general.dashboard')}}</a>
             @endif
-            <a class="dropdown-item" href="{{ route('front.user.profile', Auth::user()->username) }}">Profile</a>
+            <a class="dropdown-item" href="{{ route('front.user.profile', Auth::user()->username) }}">{{__('general.profile')}}</a>
             @if($hascompany)
-            <a class="dropdown-item" href="{{ route('front.company.show', $mycompany->slug) }}">My Company</a>
+            <a class="dropdown-item" href="{{ route('front.company.show', $mycompany->slug) }}">{{__('general.my_company')}}</a>
             @endif
             @if(Auth::user()->reviews->count() > 0)
-            <a class="dropdown-item" href="{{route('front.user.reviews', Auth::user()->username)}}">My Reviews</a>
+            <a class="dropdown-item" href="{{route('front.user.reviews', Auth::user()->username)}}">{{__('company.my_reviews')}}</a>
             @endif
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('general.logout')}}</a>
         </div>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}

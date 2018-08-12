@@ -3,6 +3,7 @@
     <ul class="list-group">
         <li class="list-group-item"><a href="{{route('admin.dashboard')}}" class="{{ Request::is('admin/dashboard') ? 'active' : 'no' }}">Overview</a></li>
         <li class="list-group-item"><a href="{{route('admin.user.index')}}" class="{{ Request::is('admin/manage/users') ? 'active' : 'no' }}">User</a></li>
+        <li class="list-group-item"><a href="{{route('admin.user.logins')}}" class="{{ Request::is('admin/manage/users/logins') ? 'active' : 'no' }}">User Logins</a></li>
         <li class="list-group-item"><a href="{{route('admin.companies')}}" class="{{ Request::is('admin/manage/companies') ? 'active' : 'no' }}">Companies</a></li>
         <li class="list-group-item"><a href="{{route('admin.get_claims')}}" class="{{ Request::is('admin/manage/companies/claims') ? 'active' : 'no' }}">Claim Requests</a></li>
         <li class="list-group-item"><a href="{{route('admin.hidden-companies')}}" class="{{ Request::is('admin/manage/hidden-companies') ? 'active' : 'no' }}">Hidden Companies</a></li>
@@ -15,6 +16,7 @@
         <li class="list-group-item"><a href="{{route('callcenter.reports.details')}}" class="{{ Request::is('admin/callcenter-details') ? 'active' : 'no' }}">Call Center Details</a></li>
         <li class="list-group-item"><a href="{{route('admin.user.mods')}}" class="{{ Request::is('admin/manage/moderators') ? 'active' : 'no' }}">Moderators</a></li>
         <li class="list-group-item"><a href="{{route('admin.translation')}}" class="{{ Request::is('admin/manage/translations') ? 'active' : 'no' }}">Translations</a></li>
+        <li class="list-group-item"><a href="{{route('admin.user.emails')}}" class="{{ Request::is('admin/manage/users/emails') ? 'active' : 'no' }}">Sent Emails</a></li>
         <!-- <li class="list-group-item"><a href="">Gamification & Rewards</a></li>
         <li class="list-group-item"><a href="">Support Tickets (123)</a></li>
         <li class="list-group-item"><a href="">Settings</a></li> -->
