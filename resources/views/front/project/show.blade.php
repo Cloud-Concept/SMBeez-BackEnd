@@ -89,7 +89,7 @@
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button></div>
+                            <div class="text-center"><button type="submit" id="express-interest" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button></div>
                         </form>
                         @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
@@ -112,6 +112,8 @@
                         </form>
                         <br>
                         <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">{{__('project.edit')}}</a></div>
+                        @elseif(Auth::guest())
+                            <div class="text-center"><a href="{{route('login')}}?action=express-interest&name={{$project->slug}}" class="btn btn-blue btn-yellow">{{__('project.no_login_express_interest')}}</a></div>
                         @endif
                     </div>
                 </div>

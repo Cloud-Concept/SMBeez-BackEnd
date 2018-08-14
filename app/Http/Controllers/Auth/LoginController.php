@@ -59,6 +59,9 @@ class LoginController extends Controller
         }elseif($request['action'] === 'claim-company' ) { 
             //if unlogged user clicked on claim company
             return redirect(route('front.company.claim_application', $request['claim']));
+        }elseif($request['action'] === 'express-interest' ) { 
+            //if unlogged user clicked on express interest
+            return redirect(route('front.project.show', $request['claim']) . '?action=express-interest');
         }elseif($request['action'] === 'write-review' ) {
             //if unlogged user clicked on write review
             return redirect(route('front.company.show', $request['claim'])  . '?action=write-review');

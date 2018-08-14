@@ -36,4 +36,5 @@ return array (
   'company_info' => 'Company Information',
   'about_company' => 'About',
   'company_size' => 'Company Size',
+  'no_login_express_interest' => 'Login to Express Interest',
 );

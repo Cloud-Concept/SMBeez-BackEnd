@@ -163,7 +163,11 @@
                     $("#write-review-modal").trigger('click');
                 },3);
             }
-
+            if(action == 'express-interest') {
+                setTimeout(function() {
+                    $("#express-interest").trigger('click');
+                },3);
+            }
             if(tab == 'customers') {
                 setTimeout(function() {
                     $("#profile-tab").trigger('click');

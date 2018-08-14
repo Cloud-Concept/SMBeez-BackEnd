@@ -36,4 +36,5 @@ return array (
   'company_info' => 'بيانات الشركة',
   'company_size' => 'حجم الشركة',
   'about_company' => 'عن الشركة',
+  'no_login_express_interest' => 'سجل للاشتراك في المشروع',
 );
