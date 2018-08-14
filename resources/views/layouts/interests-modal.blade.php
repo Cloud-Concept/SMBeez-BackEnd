@@ -8,7 +8,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h5 class="modal-title">Expressed interests on your project “{{$project->project_title}}”</h5>
+                                    <h5 class="modal-title">{{sprintf(__('project.expressed_interest'), $project->project_title)}}</h5>
                                 </div>
                             </div>
                         </div>
@@ -17,10 +17,10 @@
                         <div class="container">
                             <div class="row gray-title mb-4">
                                 <div class="col-md-4">
-                                    <h3>Supplier</h3>
+                                    <h3>{{__('project.supplier')}}</h3>
                                 </div>
                                 <div class="col-md-8">
-                                    <h3>Company Information</h3>
+                                    <h3>{{__('project.company_info')}}</h3>
                                 </div>
                             </div>
                             @foreach($project->interests as $interest)
@@ -29,7 +29,7 @@
                                     <div class="modal-sidebar">
                                         <div class="media-body">
                                             <h5 class="mt-1 mb-2"><a href="{{route('front.company.show', $interest->user->company->slug)}}">{{$interest->user->company->company_name}}</a></h5>
-                                            <p class="tags"><b>Industry</b>:<a href="{{route('front.industry.show', $interest->user->company->industry->slug)}}">
+                                            <p class="tags"><b>{{__('project.industry')}}</b>:<a href="{{route('front.industry.show', $interest->user->company->industry->slug)}}">
                                                 @if(app()->getLocale() == 'ar')
                                                 {{$interest->user->company->industry->industry_name_ar}}
                                                 @else
@@ -54,7 +54,7 @@
                                                                 @endfor
                                                             </select>
                                                         </li>
-                                                        <li class="list-inline-item thumb-review"><a href="">({{$interest->user->company->reviews->count()}} Reviews)</a></li>
+                                                        <li class="list-inline-item thumb-review"><a href="">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
                                                     </ul>
                                                 </div>
                                                 @endif
@@ -64,17 +64,17 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="modal-company">
-                                        <p class="tags"><b>Company Size:</b> {{$interest->user->company->company_size}}</p>
-                                        <p class="tags"><b>About:</b></p>
+                                        <p class="tags"><b>{{__('project.company_size')}}:</b> {{$interest->user->company->company_size}}</p>
+                                        <p class="tags"><b>{{__('project.about_company')}}:</b></p>
                                         {!! substr($interest->user->company->company_description, 0, 400) !!}
                                         <div class="btn-list mt-3 mb-4">
                                             @if($interest->is_accepted === 1)
-                                                <p>Accepted</p>
+                                                <p>{{__('company.accepted')}}</p>
                                             @elseif($interest->is_accepted === 0)
-                                                <p>Declined</p>
+                                                <p>{{__('company.declined')}}</p>
                                             @else
-                                                <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">Accept</button>                  
-                                                <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">Decline</button>
+                                                <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">{{__('company.accept')}}</button>                  
+                                                <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button>
                                             @endif
                                             <form id="accept-interest-{{$interest->id}}" action="{{route('accept.interest', $interest->id)}}" method="post" class="write-review">
                                                 {{csrf_field()}}

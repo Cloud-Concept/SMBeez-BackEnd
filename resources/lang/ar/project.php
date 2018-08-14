@@ -30,4 +30,10 @@ return array (
   'save_draft' => 'حفظ كمسودة',
   'supportive_docs' => 'الملفات المساعدة',
   'spec_hint_2' => 'ادخل التخصصات التي توصف مجال عملك.',
+  'client_overall_rating' => 'التقييم:',
+  'expressed_interest' => 'طلبات الاشتراك في مشروعك “%s”',
+  'supplier' => 'المورد',
+  'company_info' => 'بيانات الشركة',
+  'company_size' => 'حجم الشركة',
+  'about_company' => 'عن الشركة',
 );

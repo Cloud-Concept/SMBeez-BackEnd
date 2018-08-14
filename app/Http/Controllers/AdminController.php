@@ -130,7 +130,7 @@ class AdminController extends Controller
 
         $company->company_name = $request['company_name'];
         $company->company_email = $request['company_email'];
-        $company->company_phone = $request['company_phone'];
+        $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
         $company->location = $request['location'];
         //$company->industry_id = $request['industry_id'];
 

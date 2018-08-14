@@ -49,7 +49,7 @@
                                                         @endfor
                                                     </select>
                                                 </li>
-                                                <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} Reviews)</p></li>
+                                                <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
                                             </ul>
                                         </div>
                                         @else
@@ -62,7 +62,7 @@
                                                         @endfor
                                                     </select>
                                                 </li>
-                                                <li class="list-inline-item thumb-review"><a href="{{route('front.company.show', $company->slug)}}">({{$company->reviews->count()}} Reviews)</a></li>
+                                                <li class="list-inline-item thumb-review"><a href="{{route('front.company.show', $company->slug)}}">({{$company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
                                             </ul>
                                         </div>
                                         @endif
@@ -176,7 +176,7 @@
                                                         @endfor
                                                     </select>
                                                 </li>
-                                                <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} Reviews)</p></li>
+                                                <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
                                             </ul>
                                         </div>
                                     </div>

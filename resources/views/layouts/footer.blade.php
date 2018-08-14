@@ -15,19 +15,19 @@
                     <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
                     <form action="{{route('subscribe')}}" class="newsletter" method="post">
                         {{csrf_field()}}
-                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="E-mail" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
+                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
                     </form>
                     @else
                     <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
                     <form action="{{route('subscribe')}}" class="newsletter" method="post">
                         {{csrf_field()}}
-                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="E-mail" aria-label="E-mail" value="{{Auth::user()->email}}"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
+                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail" value="{{Auth::user()->email}}"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
                     </form>
                     @endif
                 @endif
             </div>
             <div class="col-md-3">
-                <h6>Links</h6>
+                <h6>{{__('footer.links')}}</h6>
                 <ul>
                     <li><a href="{{route('about')}}">{{__('footer.about')}}</a></li>
                     <li><a href="{{route('login')}}">{{__('footer.sign_up')}}</a></li>

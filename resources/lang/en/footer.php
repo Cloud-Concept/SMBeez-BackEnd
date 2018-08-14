@@ -12,4 +12,6 @@ return array (
   'listing' => 'Listing',
   'locations' => 'Locations',
   'cairo' => 'Cairo',
+  'links' => 'Links',
+  'email_newsletter' => 'Email',
 );

@@ -31,7 +31,11 @@
                                 <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
                                 <p>{{strip_tags(substr($project->project_description, 0, 60))}}...</p> 
                                 <p class="tags">{{__('general.more_in')}} 
-                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a>
                                 </p>
                                 @if($project->specialities->count() > 0)
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 
@@ -57,7 +61,11 @@
                                 <a href="{{route('front.project.show', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
                                 <p>{{strip_tags(substr($project->project_description, 0, 150))}}...</p> 
                                 <p class="tags">{{__('general.more_in')}} 
-                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a>
                                 </p>
                                 @if($project->specialities->count() > 0)
                                 <p class="tags"><b>{{__('general.specs_tag_title')}}</b> 

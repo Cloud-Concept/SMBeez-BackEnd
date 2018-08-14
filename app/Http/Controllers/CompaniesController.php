@@ -135,7 +135,7 @@ class CompaniesController extends Controller
                 $company->industry_id = $request['industry_id'];
                 $company->company_description = $request['company_description'];
                 $company->company_website = $request['company_website'];
-                $company->company_phone = $request['company_phone'];
+                $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
                 $company->linkedin_url = $request['linkedin_url'];
                 $company->city = $request['city'];
                 $company->company_size = $request['company_size'];
@@ -281,7 +281,7 @@ class CompaniesController extends Controller
         $company->company_tagline = $request['company_tagline'];
         $company->company_website = $request['company_website'];
         $company->company_email = $request['company_email'];
-        $company->company_phone = $request['company_phone'];
+        $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
         $company->linkedin_url = $request['linkedin_url'];
         $company->location = $request['location'];
         $company->city = $request['city'];
@@ -654,7 +654,7 @@ class CompaniesController extends Controller
             $company->company_tagline = $request['company_tagline'];
             $company->company_website = $request['company_website'];
             $company->company_email = $request['company_email'];
-            $company->company_phone = $request['company_phone'];
+            $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
             $company->linkedin_url = $request['linkedin_url'];
             $company->city = $request['city'];
             $company->company_size = $request['company_size'];
@@ -771,7 +771,7 @@ class CompaniesController extends Controller
         $company->company_tagline = $request['company_tagline'];
         $company->company_website = $request['company_website'];
         $company->company_email = $request['company_email'];
-        $company->company_phone = $request['company_phone'];
+        $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
         $company->linkedin_url = $request['linkedin_url'];
         $company->location = $request['location'];
         $company->status = $request['status'];

@@ -49,7 +49,11 @@
                                 @endif
                             @endif
                             <li>{{__('project.budget')}} <span>{{$project->budget}} {{__('project.currency')}}</span></li>
-                            <li>{{__('general.industry_title')}} <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
+                            <li>{{__('general.industry_title')}} <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a></li>
                             @if($project->specialities->count() > 0)
                             <li>{{__('general.speciality_title')}} <span>
                                 @foreach($project->specialities as $speciality)
@@ -114,7 +118,11 @@
                 <div class="col-md-8">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{$project->project_title}}</li>
                         </ol>
                     </nav>
@@ -227,7 +235,11 @@
                                 <p class="thumb-title mt-1 mb-1"><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></p>
                                 {{strip_tags(substr($project->project_description, 0, 100))}}...
                                 <p class="tags">{{__('general.more_in')}} 
-                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a>
                                 </p>
                             </div>
                         </div>

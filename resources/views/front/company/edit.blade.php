@@ -108,7 +108,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row"><b>{{__('company.phone')}}</b></td>
-                                        <td><input class="form-control" type="text" name="company_phone" value="{{$company->company_phone}}" id="company_phone" required></td>
+                                        <td><input class="form-control" type="text" name="company_phone" value="{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}" id="company_phone" required></td>
                                     </tr>
                                     <tr>
                                         <td scope="row"><b>{{__('company.linked_in')}}</b></td>

@@ -7,8 +7,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-6 col-md-12 offset-xl-3">
-                        <h1 class="text-center">Matchmaking for Small Businesses</h1>
-                        <p class="text-center">{{__('home.slider_headline')}}</p>
+                        <h1 class="text-center">{{__('home.slider_headline')}}</h1>
                         <div class="btn-hero text-center">
                             @if (!Auth::guest() && $hascompany)
                             <a href="{{route('front.company.all')}}" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.browse_companies')}}</a>
@@ -21,7 +20,7 @@
                             @elseif(Auth::guest())
                             <a href="{{route('login')}}?action=add-company" class="btn btn-blue"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
                             @endif
-                            <span>or </span>
+                            <span>{{__('home.or_title')}}</span>
                             @if (!Auth::guest() && !$hascompany)
                             <a href="{{route('front.industry.index')}}" class="btn btn-blue"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.browse_opportunities_button')}}</a>
                             @elseif (!Auth::guest() && $hascompany)

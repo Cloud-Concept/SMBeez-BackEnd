@@ -24,7 +24,9 @@
                     @if($company->user)
                     <div class="alert alert-info">
                         Company Owner: <a href="{{route('admin.user.edit', $company->user->username)}}">{{$company->user->first_name}} {{$company->user->last_name}}</a>
+                        @if($last_login)
                         <br>Last Login: {{$last_login->created_at->diffForHumans()}}
+                        @endif
                     </div>
                     @endif
                     @if (session('success'))
@@ -89,7 +91,7 @@
                             </p>
                             <p class="form-group">
                                 <label for="">Phone *</label>
-                                <input class="form-control" value="{{$company->company_phone}}" type="text" name="company_phone" placeholder="Company Phone" id="company_phone">
+                                <input class="form-control" value="{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}" type="text" name="company_phone" placeholder="Company Phone" id="company_phone">
                             </p>
                             <p class="form-group">
                                 <label for="">Linkedin Profile</label>

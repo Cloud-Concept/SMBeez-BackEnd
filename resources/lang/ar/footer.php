@@ -12,4 +12,6 @@ return array (
   'cairo' => 'القاهرة',
   'listing' => 'روابط اخري',
   'locations' => 'الاماكن',
+  'links' => 'روابط',
+  'email_newsletter' => 'الاميل',
 );
