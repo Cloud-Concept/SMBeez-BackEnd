@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ExpireProjects::class,
-        Commands\QueueCloudSearch::class,
+        //Commands\QueueCloudSearch::class,
     ];
 
     /**
