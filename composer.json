@@ -24,7 +24,8 @@
         "ramsey/uuid": "^3.7",
         "santigarcor/laratrust": "5.0.*",
         "spatie/laravel-newsletter": "^3.7",
-        "torann/geoip": "0.2.*@dev"
+        "torann/geoip": "0.2.*@dev",
+        "torann/laravel-cloudsearch": "^0.1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

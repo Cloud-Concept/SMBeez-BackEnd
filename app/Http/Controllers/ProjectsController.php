@@ -194,7 +194,7 @@ class ProjectsController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-
+        
         $company = new Company;
         $hasCompany = $company->where('user_id', Auth::id())->first();
         //if access deleted project redirect home

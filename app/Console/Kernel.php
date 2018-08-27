@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ExpireProjects::class,
+        Commands\QueueCloudSearch::class,
     ];
 
     /**
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {   
-        $schedule->command('command:expireprojects')->hourly();
+        $schedule->command('expireprojects')->hourly();
+        $schedule->command('search:queue')->everyTenMinutes();
     }
 
     /**

@@ -46,6 +46,9 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('/dashboard/moderator/companies', 'AdminController@moderator_dashboard_companies')->name('moderator.companies.dashboard');
 	Route::get('/dashboard/moderator/projects', 'AdminController@moderator_dashboard_projects')->name('moderator.projects.dashboard');
 	Route::get('/search-companies', 'SearchController@moderator_filter_companies')->name('mod.filter.companies');
+	Route::get('/search-companies/superadmin', 'SearchController@superadmin_filter_companies')->name('superadmin.filter.companies');
+	Route::get('/search-users/superadmin', 'SearchController@superadmin_filter_users')->name('superadmin.filter.users');
+	Route::get('/search-projects/superadmin', 'SearchController@superadmin_filter_projects')->name('superadmin.filter.projects');
 	//User Module
 	Route::get('/manage/users', 'UserController@index')->name('admin.user.index');
 	Route::get('/manage/users/create', 'UserController@create')->name('admin.user.create');

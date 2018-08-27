@@ -189,6 +189,7 @@ return [
         Bogardo\Mailgun\MailgunServiceProvider::class,
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Spatie\Newsletter\NewsletterServiceProvider::class,
+        LaravelCloudSearch\LaravelCloudSearchServiceProvider::class,
 
     ],
 

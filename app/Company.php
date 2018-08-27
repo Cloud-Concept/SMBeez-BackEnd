@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use LaravelCloudSearch\Eloquent\Searchable;
 use DB;
 use App\Bookmark;
 
@@ -11,6 +12,7 @@ use App\Bookmark;
 class Company extends Model
 {	
 	use Sluggable;
+    use Searchable;
 
     protected $fillable = ['relevance_score'];
 
@@ -24,6 +26,36 @@ class Company extends Model
             'slug' => [
                 'source' => 'company_name'
             ]
+        ];
+    }
+
+    /**
+     * Get CloudSearch document data for the model.
+     *
+     * @return array|null
+     */
+    public function getSearchDocument()
+    {   
+        $specialities = $this->specialities->toArray();
+        $arr = array();
+        foreach($specialities as $s) {
+            $arr[] = $s['speciality_name'];
+        }
+        $specialities = implode (", ", $arr);
+
+        return [
+            'id' => $this->id,
+            'name' => $this->company_name,
+            'speciality' => $specialities,
+            'industry_name' => $this->industry->industry_name_ar,
+            'industry_id' => $this->industry->id,
+            'industry_slug' => $this->industry->slug,
+            'relevance_score' => $this->relevance_score,
+            'created_at' => (string) $this->created_at,
+            'status' => $this->status,
+            'city' => $this->city,
+            'slug' => $this->slug,
+            'is_promoted' => $this->is_promoted,
         ];
     }
 
@@ -98,6 +130,10 @@ class Company extends Model
     //check if the user is the owner of this company
     public function is_owner($user) {
         return $this->user_id === auth()->id();
+    }
+
+    public function get_company($id) {
+        return $this->where('id', $id)->first();
     }
 
     public function company_overall_rating($company_id)

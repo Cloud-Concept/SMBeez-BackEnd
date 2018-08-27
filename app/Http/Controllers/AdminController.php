@@ -591,10 +591,10 @@ class AdminController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-
+        $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
         $projects = Project::paginate(10);
 
-        return view('admin.project.index', compact('projects'));
+        return view('admin.project.index', compact('projects', 'industries'));
     }
 
     public function companies()
@@ -605,8 +605,9 @@ class AdminController extends Controller
         }
 
         $companies = Company::latest()->paginate(10);
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
 
-        return view('admin.company.index', compact('companies'));
+        return view('admin.company.index', compact('companies', 'industries'));
     }
 
     public function get_claims()

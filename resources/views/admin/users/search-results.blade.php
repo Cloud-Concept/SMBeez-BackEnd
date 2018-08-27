@@ -25,7 +25,7 @@
                         <div class="col-md-12">
                             <form action="{{route('superadmin.filter.users')}}" class="search-company">
                                 <div class="form-group">
-                                    <div class="d-flex"><input type="text" class="form-control" name="s" placeholder="Name or Email"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find User</button></div>
+                                    <div class="d-flex"><input type="text" class="form-control" value="{{request()->query('s')}}" name="s" placeholder="Name or Email"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find User</button></div>
                                 </div>
                             </form>
                             <table class="table table-striped my-4">

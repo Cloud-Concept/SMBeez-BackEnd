@@ -84,7 +84,7 @@ class ExcelController extends Controller
                     foreach($arr as $comp) {
                         if($company->exist('company_name', $comp['company_name']) || $company->exist('slug', $comp['slug'])) {
                             $duplicates++;
-
+                            $dup_arr[] = ['company_name' => $comp['company_name'], 'company_phone' => $comp['company_phone']];
                             continue;
                         }
 
@@ -95,6 +95,18 @@ class ExcelController extends Controller
                     }
 
                     session()->flash('success', 'File imported, ' . $added . ' companies imported, ' . $duplicates . ' duplicates found.' );
+
+                    \Excel::create('companies_'.$duplicates.'_duplicates', function($excel) use ($dup_arr) {
+
+                        $excel->sheet('Companies Duplicates Sheet', function($sheet) use ($dup_arr)
+
+                        {
+
+                            $sheet->fromArray($dup_arr);
+
+                        });
+
+                    })->download('xls');
 
                 }
 

@@ -3,24 +3,22 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Project;
-use Carbon\Carbon;
 
-class ExpireProjects extends Command
+class QueueCloudSearch extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'expireprojects';
+    protected $signature = 'search:queue';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Expire all projects not awarded over 60 Days and close them.';
+    protected $description = 'Indexing Cloud Search Queue Companies & Projects';
 
     /**
      * Create a new command instance.
@@ -39,9 +37,6 @@ class ExpireProjects extends Command
      */
     public function handle()
     {
-        Project::where('created_at', '<=', Carbon::now('Africa/Cairo')->subDays(60))
-        ->update(['status' => 'closed', 'status_on_close' => 'expired']);
-
-        $this->info('All projects passed 60 Days closed automatically.');
+        $this->info('Cloud Search EndPoint Updated.');
     }
 }
