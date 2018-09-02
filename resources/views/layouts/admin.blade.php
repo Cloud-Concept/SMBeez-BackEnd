@@ -14,7 +14,6 @@
 
         <!-- Styles -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
         <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
