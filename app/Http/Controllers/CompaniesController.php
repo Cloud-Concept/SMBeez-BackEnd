@@ -391,7 +391,7 @@ class CompaniesController extends Controller
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            Image::make($cover_url)->resize(553, 267)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img
@@ -438,7 +438,7 @@ class CompaniesController extends Controller
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            Image::make($cover_url)->resize(553, 267)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img
@@ -689,7 +689,7 @@ class CompaniesController extends Controller
                 //path of the new image
                 $path_cover       = public_path('images/company/' . $img_name_cover);
                 //save image to the path
-                Image::make($cover_url)->resize(350, 215)->save($path_cover);
+                Image::make($cover_url)->resize(553, 267)->save($path_cover);
                 //make the field cover_url in the table = to the link of img
                 $company->cover_url = $path_db_cover . $img_name_cover;
             }
@@ -813,7 +813,7 @@ class CompaniesController extends Controller
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            Image::make($cover_url)->resize(553, 267)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img

@@ -35,19 +35,59 @@
     </head>
     <body class="home">
         @include ('layouts.another-tag-manager')
-        <header class="cd-main-header animate-search">
-            @if(app()->getLocale() == 'ar')
-            <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo-ar.svg') }}" alt="Logo"></a></div>
-            @else
-            <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
-            @endif
-            <nav class="cd-main-nav-wrapper">
-                <a href="#search" class="cd-search-trigger"></a>
-                @include ('layouts.main-menu')
-            </nav>
-            <a href="#" class="cd-nav-trigger cd-text-replace">Menu<span></span></a>
-        </header>
-        
+        <div class="home-header-bg">
+            <header class="cd-main-header animate-search">
+                @if(app()->getLocale() == 'ar')
+                <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo-ar.svg') }}" alt="Logo"></a></div>
+                @else
+                <div class="cd-logo"><a href="{{route('home')}}"><img src="{{ asset('images/common/logo.svg') }}" alt="Logo"></a></div>
+                @endif
+                <nav class="cd-main-nav-wrapper">
+                    <a href="#search" class="cd-search-trigger"></a>
+                    @include ('layouts.main-menu')
+                </nav>
+                <a href="#" class="cd-nav-trigger cd-text-replace">Menu<span></span></a>
+
+            </header>
+          
+            <section class="hero here-center">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-7 py-5">
+                      <img src="images/hero/hero-home.png" alt="Home" class="img-fluid">
+                    </div>
+                    <div class="col-md-5 py-5">
+                      <h1>{{__('home.slider_headline')}}</h1>
+                      <p class="mt-3">{{__('home.slider_sub_headline')}}</p>
+                      <div class="btn-hero">
+                            <!-- @if (!Auth::guest() && $hascompany)
+                            <a href="{{route('front.company.all')}}" class="btn btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.browse_companies')}}</a>
+                            @elseif(!Auth::guest() && count(Auth::user()->claims) > 0)
+                            <a href="{{route('front.company.all')}}" class="btn btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.browse_companies')}}</a>
+                            @elseif (!Auth::guest() && !$hascompany)
+                            <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
+                            @elseif (!Auth::guest() && !count(Auth::user()->claims) > 0)
+                            <a href="#" data-toggle="modal" data-target="#add-company" class="btn btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
+                            @elseif(Auth::guest())
+                            <a href="{{route('login')}}?action=add-company" class="btn btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
+                            @endif
+                            <span>{{__('home.or_title')}}</span> -->
+                            @if (!Auth::guest() && !$hascompany)
+                            <a href="{{route('front.industry.index')}}" class="btn btn-yellow-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.browse_opportunities_button')}}</a>
+                            @elseif (!Auth::guest() && $hascompany)
+                            <a href="#" data-toggle="modal" data-target="#add-project" class="btn btn-yellow-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.publish_project')}}</a>
+                            @elseif(Auth::guest())
+                            <a href="{{route('login')}}/?action=add-project" class="btn btn-yellow-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.publish_project')}}</a>
+                            @endif
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </section>
+            <a href="#next-block" class="arrow-down"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></a>
+
+        </div>
+
         @yield('content')
         @include('layouts.footer')
         <!-- Scripts -->
@@ -62,12 +102,12 @@
         
 
         <script type="text/javascript">
-            google.maps.event.addDomListener(window, 'load', function () {
+            /*google.maps.event.addDomListener(window, 'load', function () {
                 var places = new google.maps.places.Autocomplete(document.getElementById('location'));
                 google.maps.event.addListener(places, 'place_changed', function () {
 
                 });
-            });
+            });*/
             
         </script>
     </body>

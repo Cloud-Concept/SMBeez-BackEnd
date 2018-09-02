@@ -107,11 +107,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    @if(app()->getLocale() == 'ar')
-                    <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url_ar)) ? asset($company->industry->industry_img_url_ar) : ''}}) no-repeat 100% 100%;">
-                    @else
-                    <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url)) ? asset($company->industry->industry_img_url) : ''}}) no-repeat 100% 100%;">
-                    @endif
+                    <div class="hero-blank">
                         <h1>{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">
@@ -196,13 +192,12 @@
                             </script>
                             @endif
                         </div>
-                        <div class="hero-shadow"></div>
                     </div>
                     <div class="company-tabs">
                         <ul class="nav d-flex nav-tabs mt-5" id="myTab" role="tablist">
                             <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{__('company.profile')}}</a></li>
                             <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('company.reviews_from_customers')}}</a></li>
-                            <li class="nav-item mr-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}}</a></li>
+                            <li class="nav-item ml-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}}</a></li>
                             @if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
                             <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.write_review')}}</button></li>
                             @elseif(Auth::guest())

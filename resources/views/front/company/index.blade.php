@@ -32,7 +32,7 @@
                             <div class="company-box box-block mb-5">
                                 @if($company->cover_url && file_exists(public_path('/') . $company->cover_url))
                                 <div>
-                                <img class="img-responsive" src="{{asset($company->cover_url)}}" alt="{{$company->company_name}}">
+                                <img class="img-responsive" style="width:100%;" src="{{asset($company->cover_url)}}" alt="{{$company->company_name}}">
                                 </div>
                                 @endif
                                 <div class="company-box-header media mt-4">

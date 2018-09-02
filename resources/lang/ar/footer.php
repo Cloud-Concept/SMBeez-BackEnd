@@ -11,7 +11,8 @@ return array (
   'terms' => 'الشروط و الاحكام',
   'cairo' => 'القاهرة',
   'listing' => 'روابط اخري',
-  'locations' => 'الاماكن',
+  'locations' => 'المدن',
   'links' => 'روابط',
   'email_newsletter' => 'الاميل',
+  'copyrights' => 'Made by Masharee3 © 2018 - All Rights Reserved',
 );

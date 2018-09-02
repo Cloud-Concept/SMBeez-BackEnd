@@ -14,4 +14,5 @@ return array (
   'cairo' => 'Cairo',
   'links' => 'Links',
   'email_newsletter' => 'Email',
+  'copyrights' => 'Made by Masharee3 © 2018 - All Rights Reserved',
 );

@@ -100,8 +100,8 @@ return array (
   'password_with_hint' => 'كلمة السر (علي الاقل 6 احرف) *',
   'reg_hint' => 'إفتح حساب جديد في مشاريع',
   'remember_me' => 'تذكرني',
-  'sign_facebook' => 'تسجيل دخول بواسطة فيسبوك',
-  'sign_linkedin' => 'تسجيل دخول بواسطة لينكدإن',
-  'signup_facebook' => 'تسجيل حساب بواسطة فيسبوك',
-  'signup_linkedin' => 'تسجيل حساب بواسطة لينكدإن',
+  'sign_facebook' => 'تسجيل دخول بفيسبوك',
+  'sign_linkedin' => 'تسجيل دخول بلينكدإن',
+  'signup_facebook' => 'تسجيل حساب بفيسبوك',
+  'signup_linkedin' => 'تسجيل حساب بلينكدإن',
 );
