@@ -51,11 +51,9 @@
                                 @endif
                             </ul>
 
-                            @if (Auth::guest() && $company->is_verified == null)
+                            @if (Auth::guest())
                                 <div class="text-center my-3"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.claim_company_btn')}}</a></div>
-                            @elseif (Auth::guest() && $company->is_verified == 1)
-                                <div></div>
-                            @elseif (!Auth::guest() && $company->is_verified == null && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id) && count(Auth::user()->claims) == 0)
+                            @elseif (!Auth::guest() && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id) && count(Auth::user()->claims) == 0)
                                 <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.claim_company_btn')}}</a></div>    
                             @elseif(Auth::user()->id == $company->user_id)
                                 <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.edit_company_btn')}}</button></a></div>

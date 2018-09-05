@@ -462,7 +462,7 @@ class CompaniesController extends Controller
         //if user trying to access a company that is already owned and verified
         //if user trying to access his company
         //if user already have company assigned to him
-        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
             return redirect(route('front.company.all'));
         }elseif(count(auth()->user()->claims) > 0) {
             return redirect(route('front.company.all'));
@@ -485,7 +485,7 @@ class CompaniesController extends Controller
         //if user trying to access a company that is already owned and verified
         //if user trying to access his company
         //if user already have company assigned to him
-        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
             return redirect(route('front.company.all'));
         }elseif(count(auth()->user()->claims) > 0) {
             return redirect(route('front.company.all'));
@@ -501,7 +501,7 @@ class CompaniesController extends Controller
         //if the user already have a company
         //if the user already the owner of the company
         //if the company already a verified company
-        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
             return redirect(route('front.company.all'));
         }else {
 
