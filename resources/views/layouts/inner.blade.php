@@ -166,6 +166,9 @@
             if(action == 'express-interest') {
                 setTimeout(function() {
                     $("#express-interest").trigger('click');
+                    var url = window.location.href;
+                    url = url.split('?')[0];
+                    window.history.replaceState({}, document.title, url);
                 },3);
             }
             if(tab == 'customers') {
