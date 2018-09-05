@@ -54,7 +54,7 @@
           <div class="row">
           	@foreach($industry_projects as $project)
             <div class="col-md-6 d-flex">
-              <div class="box-block-into px-3 pb-3">
+              <div class="box-block-into px-3 pb-3 mb-5">
                 <a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}"><h3>{{$project->project_title}}</h3></a>
                 <p class="tags">{{__('general.more_in')}} 
                     <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
