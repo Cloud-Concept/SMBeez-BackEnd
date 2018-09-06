@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,12 +66,12 @@
         <script src="{{ asset('js/bloodhound.min.js') }}"></script>
 
         <script type="text/javascript">
-            google.maps.event.addDomListener(window, 'load', function () {
+            /*google.maps.event.addDomListener(window, 'load', function () {
                 var places = new google.maps.places.Autocomplete(document.getElementById('location'));
                 google.maps.event.addListener(places, 'place_changed', function () {
 
                 });
-            });
+            });*/
         </script>
 
     </body>

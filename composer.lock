@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3d8b113443f0ec6b6a986f375e8819e",
+    "content-hash": "2d5c6223f74658530ea1657e36fb3780",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -4743,6 +4743,58 @@
                 "location"
             ],
             "time": "2017-04-15T14:55:08+00:00"
+        },
+        {
+            "name": "torann/laravel-cloudsearch",
+            "version": "0.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Torann/laravel-cloudsearch.git",
+                "reference": "3bf0bc83f994bdb56aef51cd025a024b5dbc7c6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Torann/laravel-cloudsearch/zipball/3bf0bc83f994bdb56aef51cd025a024b5dbc7c6e",
+                "reference": "3bf0bc83f994bdb56aef51cd025a024b5dbc7c6e",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "~3.0",
+                "illuminate/config": "~5.4",
+                "illuminate/support": "~5.4",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "~4.2|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaravelCloudSearch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Stainback",
+                    "email": "torann@gmail.com"
+                }
+            ],
+            "description": "Index and search Laravel models on Amazon's CloudSearch.",
+            "homepage": "https://github.com/Torann/laravel-cloudsearch",
+            "keywords": [
+                "amazon cloudsearch",
+                "aws",
+                "cloudsearch",
+                "eloquent",
+                "laravel",
+                "search"
+            ],
+            "time": "2017-10-13T16:35:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

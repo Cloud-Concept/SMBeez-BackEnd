@@ -49,7 +49,11 @@
                                 @endif
                             @endif
                             <li>{{__('project.budget')}} <span>{{$project->budget}} {{__('project.currency')}}</span></li>
-                            <li>{{__('general.industry_title')}} <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
+                            <li>{{__('general.industry_title')}} <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a></li>
                             @if($project->specialities->count() > 0)
                             <li>{{__('general.speciality_title')}} <span>
                                 @foreach($project->specialities as $speciality)
@@ -85,7 +89,7 @@
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button></div>
+                            <div class="text-center"><button type="submit" id="express-interest" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button></div>
                         </form>
                         @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
@@ -108,13 +112,19 @@
                         </form>
                         <br>
                         <div class="text-center"><a href="{{route('front.project.edit', $project->slug)}}" class="btn btn-blue btn-yellow">{{__('project.edit')}}</a></div>
+                        @elseif(Auth::guest())
+                            <div class="text-center"><a href="{{route('login')}}?action=express-interest&name={{$project->slug}}" class="btn btn-blue btn-yellow">{{__('project.no_login_express_interest')}}</a></div>
                         @endif
                     </div>
                 </div>
                 <div class="col-md-8">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{$project->project_title}}</li>
                         </ol>
                     </nav>
@@ -227,7 +237,11 @@
                                 <p class="thumb-title mt-1 mb-1"><a href="{{route('front.project.show', $project->slug)}}" title="{{$project->project_title}}">{{$project->project_title}}</a></p>
                                 {{strip_tags(substr($project->project_description, 0, 100))}}...
                                 <p class="tags">{{__('general.more_in')}} 
-                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">{{$project->industries[0]->industry_name}}</a>
+                                    <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                    {{$project->industries[0]->industry_name_ar}}
+                                    @else
+                                    {{$project->industries[0]->industry_name}}
+                                    @endif</a>
                                 </p>
                             </div>
                         </div>

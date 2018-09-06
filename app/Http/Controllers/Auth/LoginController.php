@@ -59,6 +59,9 @@ class LoginController extends Controller
         }elseif($request['action'] === 'claim-company' ) { 
             //if unlogged user clicked on claim company
             return redirect(route('front.company.claim_application', $request['claim']));
+        }elseif($request['action'] === 'express-interest' ) { 
+            //if unlogged user clicked on express interest
+            return redirect(route('front.project.show', $request['claim']) . '?action=express-interest');
         }elseif($request['action'] === 'write-review' ) {
             //if unlogged user clicked on write review
             return redirect(route('front.company.show', $request['claim'])  . '?action=write-review');
@@ -133,6 +136,8 @@ class LoginController extends Controller
             Auth::login($user);
             
             $user->increment('logins_no', 1);
+            $track = new SMBeezFunctions;
+            $track->user_logins($user->id);
 
             if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
                 //if unlogged user clicked on add company
@@ -143,6 +148,10 @@ class LoginController extends Controller
             }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && !$user->company ) { 
                 //if unlogged user clicked on add project and he dont have a company
                 return redirect(route('front.user.dashboard', $user) . '?action=add-company');
+            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=express-interest') !== false ) {
+                //if unlogged user clicked on claim company
+                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=express-interest&name='));
+                return redirect(route('front.project.show', $string . '?action=express-interest'));
             }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=claim-company') !== false ) {
                 //if unlogged user clicked on claim company
                 $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=claim-company&name='));
@@ -171,6 +180,8 @@ class LoginController extends Controller
           Auth::login($user);
 
           $user->increment('logins_no', 1);
+          $track = new SMBeezFunctions;
+          $track->user_logins($user->id);
 
             if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
                 //if unlogged user clicked on add company
@@ -181,6 +192,10 @@ class LoginController extends Controller
             }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && !$user->company ) { 
                 //if unlogged user clicked on add project and he dont have a company
                 return redirect(route('front.user.dashboard', $user) . '?action=add-company');
+            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=express-interest') !== false ) {
+                //if unlogged user clicked on claim company
+                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=express-interest&name='));
+                return redirect(route('front.project.show', $string . '?action=express-interest'));
             }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=claim-company') !== false ) {
                 //if unlogged user clicked on claim company
                 $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=claim-company&name='));

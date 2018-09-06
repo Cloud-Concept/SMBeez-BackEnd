@@ -135,7 +135,7 @@ class CompaniesController extends Controller
                 $company->industry_id = $request['industry_id'];
                 $company->company_description = $request['company_description'];
                 $company->company_website = $request['company_website'];
-                $company->company_phone = $request['company_phone'];
+                $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
                 $company->linkedin_url = $request['linkedin_url'];
                 $company->city = $request['city'];
                 $company->company_size = $request['company_size'];
@@ -281,7 +281,7 @@ class CompaniesController extends Controller
         $company->company_tagline = $request['company_tagline'];
         $company->company_website = $request['company_website'];
         $company->company_email = $request['company_email'];
-        $company->company_phone = $request['company_phone'];
+        $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
         $company->linkedin_url = $request['linkedin_url'];
         $company->location = $request['location'];
         $company->city = $request['city'];
@@ -391,7 +391,7 @@ class CompaniesController extends Controller
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            Image::make($cover_url)->resize(553, 267)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img
@@ -438,7 +438,7 @@ class CompaniesController extends Controller
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            Image::make($cover_url)->resize(553, 267)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img
@@ -462,7 +462,7 @@ class CompaniesController extends Controller
         //if user trying to access a company that is already owned and verified
         //if user trying to access his company
         //if user already have company assigned to him
-        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
             return redirect(route('front.company.all'));
         }elseif(count(auth()->user()->claims) > 0) {
             return redirect(route('front.company.all'));
@@ -485,7 +485,7 @@ class CompaniesController extends Controller
         //if user trying to access a company that is already owned and verified
         //if user trying to access his company
         //if user already have company assigned to him
-        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
             return redirect(route('front.company.all'));
         }elseif(count(auth()->user()->claims) > 0) {
             return redirect(route('front.company.all'));
@@ -501,7 +501,7 @@ class CompaniesController extends Controller
         //if the user already have a company
         //if the user already the owner of the company
         //if the company already a verified company
-        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id()) || $company->is_verified != null) {
+        if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
             return redirect(route('front.company.all'));
         }else {
 
@@ -654,7 +654,7 @@ class CompaniesController extends Controller
             $company->company_tagline = $request['company_tagline'];
             $company->company_website = $request['company_website'];
             $company->company_email = $request['company_email'];
-            $company->company_phone = $request['company_phone'];
+            $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
             $company->linkedin_url = $request['linkedin_url'];
             $company->city = $request['city'];
             $company->company_size = $request['company_size'];
@@ -689,7 +689,7 @@ class CompaniesController extends Controller
                 //path of the new image
                 $path_cover       = public_path('images/company/' . $img_name_cover);
                 //save image to the path
-                Image::make($cover_url)->resize(350, 215)->save($path_cover);
+                Image::make($cover_url)->resize(553, 267)->save($path_cover);
                 //make the field cover_url in the table = to the link of img
                 $company->cover_url = $path_db_cover . $img_name_cover;
             }
@@ -771,7 +771,7 @@ class CompaniesController extends Controller
         $company->company_tagline = $request['company_tagline'];
         $company->company_website = $request['company_website'];
         $company->company_email = $request['company_email'];
-        $company->company_phone = $request['company_phone'];
+        $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
         $company->linkedin_url = $request['linkedin_url'];
         $company->location = $request['location'];
         $company->status = $request['status'];
@@ -813,7 +813,7 @@ class CompaniesController extends Controller
             //path of the new image
             $path_cover       = public_path('images/company/' . $img_name_cover);
             //save image to the path
-            Image::make($cover_url)->resize(350, 215)->save($path_cover);
+            Image::make($cover_url)->resize(553, 267)->save($path_cover);
             //get the old image
             $oldCover = $company->cover_url;
             //make the field cover_url in the table = to the link of img

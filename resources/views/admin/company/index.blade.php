@@ -19,9 +19,32 @@
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.company.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="" class="search-company">
+                            <form class="user-setting sd-tickets" action="{{route('superadmin.filter.companies')}}" role="search" method="get">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select name="city" class="form-control custom-select d-block">
+                                                <option value="Cairo">Cairo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select name="industry" class="form-control custom-select d-block">
+                                                <option value="">{{__('general.all_industries_title')}}</option>
+                                                @foreach($industries as $key => $getindustry)
+                                                    @if(app()->getLocale() == 'ar')
+                                                    <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name_ar}}</option>
+                                                    @else
+                                                    <option value="{{$getindustry->id}}" {{ $getindustry->id == request()->query('industry') ? 'selected' : ''}}>{{$getindustry->industry_name}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <div class="d-flex"><input type="text" class="form-control" placeholder="link here"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
+                                    <div class="d-flex"><input class="form-control" name="s" value="{{request()->query('s')}}" placeholder="Search Company" type="search"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
                                 </div>
                             </form>
                             <table class="table table-striped my-4">

@@ -51,11 +51,9 @@
                                 @endif
                             </ul>
 
-                            @if (Auth::guest() && $company->is_verified == null)
+                            @if (Auth::guest())
                                 <div class="text-center my-3"><a href="{{route('login')}}/?action=claim-company&name={{$company->slug}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.claim_company_btn')}}</a></div>
-                            @elseif (Auth::guest() && $company->is_verified == 1)
-                                <div></div>
-                            @elseif (!Auth::guest() && $company->is_verified == null && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id) && count(Auth::user()->claims) == 0)
+                            @elseif (!Auth::guest() && !Auth::user()->company && !$company->requested_claim(Auth::user()->id, $company->id) && count(Auth::user()->claims) == 0)
                                 <div class="text-center my-3"><a href="{{route('front.company.claim_notification', $company->slug)}}" class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.claim_company_btn')}}</a></div>    
                             @elseif(Auth::user()->id == $company->user_id)
                                 <div class="text-center my-3"><a href="{{route('front.company.edit', $company->slug)}}"><button class="btn btn-blue btn-yellow"><i class="fa fa-check" aria-hidden="true"></i> {{__('company.edit_company_btn')}}</button></a></div>
@@ -72,7 +70,7 @@
                                 @if($company->company_phone && $company->company_phone != '-')
                                 <li>
                                     <span class="pull-left"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                    <div class="pull-left"><a href="tel:{{$company->company_phone}}">{{$company->company_phone}}</a></div>
+                                    <div class="pull-left"><a href="tel:{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}">{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}</a></div>
                                 </li>
                                 @endif
 
@@ -107,11 +105,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    @if(app()->getLocale() == 'ar')
-                    <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url_ar)) ? asset($company->industry->industry_img_url_ar) : ''}}) no-repeat 100% 100%;">
-                    @else
-                    <div class="hero-company-details" style="background: url( {{file_exists(public_path($company->industry->industry_img_url)) ? asset($company->industry->industry_img_url) : ''}}) no-repeat 100% 100%;">
-                    @endif
+                    <div class="hero-blank">
                         <h1>{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
                         <div class="star-rating">
@@ -196,13 +190,12 @@
                             </script>
                             @endif
                         </div>
-                        <div class="hero-shadow"></div>
                     </div>
                     <div class="company-tabs">
                         <ul class="nav d-flex nav-tabs mt-5" id="myTab" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{__('company.profile')}}</a></li>
                             <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('company.reviews_from_customers')}}</a></li>
-                            <li class="nav-item mr-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}}</a></li>
+                            <li class="nav-item ml-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}}</a></li>
                             @if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
                             <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.write_review')}}</button></li>
                             @elseif(Auth::guest())
@@ -217,7 +210,7 @@
                             @endif
                             
                             @if($closed_projects->count() > 0)
-                            <h3 class="mb-4 mt-5">Closed projects</h3>
+                            <h3 class="mb-4 mt-5">{{__('company.closed_projects')}}</h3>
                             <div class="row equal">
                                 @foreach($closed_projects as $project)
                                    <div class="col-md-6">
@@ -272,7 +265,7 @@
                                                     @if($review->review_privacy === 'public')
                                                     <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
                                                     @elseif($review->review_privacy === 'private')
-                                                    <h5 class="mt-0">Anonymous</h5>
+                                                    <h5 class="mt-0">{{__('company.anonymous_title')}}</h5>
                                                     @endif
                                                     <p>{{$review->feedback}} <!-- <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i> --></a></p>
                                                 
@@ -402,7 +395,7 @@
                                                         @if($review->review_privacy === 'public' && $reply->user->id != $company->user_id)
                                                         <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
                                                         @elseif($review->review_privacy === 'private' && $reply->user->id != $company->user_id)
-                                                        <h5 class="mt-0">Anonymous</h5>
+                                                        <h5 class="mt-0">{{__('company.anonymous_title')}}</h5>
                                                         @elseif($reply->user->id == $company->user_id)
                                                         <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
                                                         @endif
@@ -488,7 +481,7 @@
                                         <div class="col-lg-3 col-md-12">
                                             <div class="rating-sidebar">
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Quality</h5>
+                                                    <h5>{{__('company.quality')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -502,7 +495,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Time</h5>
+                                                    <h5>{{__('company.time')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -516,7 +509,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Cost</h5>
+                                                    <h5>{{__('company.cost')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -530,7 +523,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Repeat Business</h5>
+                                                    <h5>{{__('company.business_repeat')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -544,7 +537,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Overall Rating</h5>
+                                                    <h5>{{__('company.overall_rating')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -598,7 +591,7 @@
                                                     @if($review->review_privacy === 'public')
                                                     <h5 class="mt-0">{{$review->user->company->company_name}}</h5>
                                                     @elseif($review->review_privacy === 'private')
-                                                    <h5 class="mt-0">Anonymous</h5>
+                                                    <h5 class="mt-0">{{__('company.anonymous_title')}}</h5>
                                                     @endif
                                                     <p>{{$review->feedback}} <!-- <a href="">more <i class="fa fa-caret-down" aria-hidden="true"></i> --></a></p>
                                                     @if(!Auth::guest())
@@ -726,7 +719,7 @@
                                                         @if($review->review_privacy === 'public' && $reply->user->id != $company->user_id)
                                                         <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
                                                         @elseif($review->review_privacy === 'private' && $reply->user->id != $company->user_id)
-                                                        <h5 class="mt-0">Anonymous</h5>
+                                                        <h5 class="mt-0">{{__('company.anonymous_title')}}</h5>
                                                         @elseif($reply->user->id == $company->user_id)
                                                         <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
                                                         @endif
@@ -811,7 +804,7 @@
                                         <div class="col-lg-3 col-md-12">
                                             <div class="rating-sidebar">
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Procurement</h5>
+                                                    <h5>{{__('company.procurement')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -825,7 +818,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Expectations</h5>
+                                                    <h5>{{__('company.expectations')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -839,7 +832,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Payments</h5>
+                                                    <h5>{{__('company.payment')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -853,7 +846,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Repeat Business</h5>
+                                                    <h5>{{__('company.business_repeat')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -867,7 +860,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="rating-sidebar-block">
-                                                    <h5>Overall Rating</h5>
+                                                    <h5>{{__('company.overall_rating')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -914,11 +907,11 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group"><label for="recipient-name" class="col-form-label">What is your relation to {{$company->company_name}}? *</label></div>
+                                <div class="form-group"><label for="recipient-name" class="col-form-label">{{sprintf(__('company.relation_to_q'), $company->company_name)}} *</label></div>
                                 <div class="form-group form-bg">
                                     <ul class="nav radio-tabs" role="tablist">
-                                        <li><a class="active radio-link" id="form1-tab" data-toggle="tab" href="#form1" role="tab" aria-controls="form1" aria-selected="true"><label class="custom-control custom-radio"><input id="radio1-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">I am a Customer</span></label></a></li>
-                                        <li><a class="radio-link" id="form2-tab" data-toggle="tab" href="#form2" role="tab" aria-controls="form2" aria-selected="false"><label class="custom-control custom-radio"><input id="radio2-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">I am a Supplier</span></label></a></li>
+                                        <li><a class="active radio-link" id="form1-tab" data-toggle="tab" href="#form1" role="tab" aria-controls="form1" aria-selected="true"><label class="custom-control custom-radio"><input id="radio1-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.im_customer')}}</span></label></a></li>
+                                        <li><a class="radio-link" id="form2-tab" data-toggle="tab" href="#form2" role="tab" aria-controls="form2" aria-selected="false"><label class="custom-control custom-radio"><input id="radio2-test" name="radioselect" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.im_supplier')}}</span></label></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -929,47 +922,47 @@
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group"><label for="recipient-name" class="col-form-label">Did your company hire {{$company->company_name}} to do some work? *</label></div>
+                                            <div class="form-group"><label for="recipient-name" class="col-form-label">{{sprintf(__('company.did_u_hire'), $company->company_name)}} *</label></div>
                                             <div class="radio-cases" id="first-level">
-                                                <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired1" value="1" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired2" name="is_hired" value="0" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
+                                                <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired1" value="1" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.yes')}}</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired2" name="is_hired" value="0" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.no')}}</span></label></div>
                                             </div>
                                             <div id="second-level">
                                                 <div class="yes-case-info">
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Did {{$company->company_name}} complete the work successfully?</label></div>
-                                                    <div class="form-group case-02 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="completness1" value="1" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="completness2" value="0" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">{{sprintf(__('company.did_complete_suc'), $company->company_name)}}</label></div>
+                                                    <div class="form-group case-02 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="completness1" value="1" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.yes')}}</span></label><label class="custom-control custom-radio radio-no-case"><input id="completness2" value="0" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.no')}}</span></label></div>
                                                 </div>
                                             </div>
                                             <div id="third-level">
                                                 <div class="no-case-info">                                                
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Why not?</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">{{__('company.why_not')}}</label></div>
                                                     <div class="form-group case-03 form-bg">
                                                         <select name="why_not" class="form-control">
-                                                            <option value="">Select Reason</option>
-                                                            <option value="time">{{$company->company_name}} failed to deliver work on time</option>
-                                                            <option value="quality">{{$company->company_name}} failed to provide the expected level of quality</option>
-                                                            <option value="cost">{{$company->company_name}} requested additional cost</option>
-                                                            <option value="they-out">{{$company->company_name}} went out of business</option>
-                                                            <option value="we-out">My company went out of business</option>
-                                                            <option class="radio-no-case" value="other">Other</option>
+                                                            <option value="">{{__('company.select_reason')}}</option>
+                                                            <option value="time">{{sprintf(__('company.cust_time'), $company->company_name)}}</option>
+                                                            <option value="quality">{{sprintf(__('company.cust_quality'), $company->company_name)}}</option>
+                                                            <option value="cost">{{sprintf(__('company.cust_cost'), $company->company_name)}}</option>
+                                                            <option value="they-out">{{sprintf(__('company.cust_theyout'), $company->company_name)}}</option>
+                                                            <option value="we-out">{{__('company.cust_weout')}}</option>
+                                                            <option class="radio-no-case" value="other">{{__('company.other')}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="four-level">
                                                 <div class="no-case-info">
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Please elaborate *</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">{{__('company.please_elaborate')}}*</label></div>
                                                     <div class="form-group case-04 form-bg">
-                                                        <textarea class="form-control" id="why_not_msg" name="why_not_msg" placeholder="Write your text here..."></textarea>
+                                                        <textarea class="form-control" id="why_not_msg" name="why_not_msg" placeholder=""></textarea>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}} *</label><textarea class="form-control" id="feedback" name="feedback" placeholder="Write your text here..." required></textarea></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">{{sprintf(__('company.please_overall'), $company->company_name)}} *</label><textarea class="form-control" id="feedback" name="feedback" placeholder="" required></textarea></div>
                                         </div>
                                         <div class="col-md-6 casepushup">
                                             <div class="form-group">
-                                                <label for="message-text" class="col-form-label">How would you rate "{{$company->company_name}}"? *</label>
+                                                <label for="message-text" class="col-form-label">{{sprintf(__('company.rate'), $company->company_name)}} *</label>
                                                 <div class="d-flex mt-4">
-                                                    <h5>Quality</h5>
+                                                    <h5>{{__('company.quality')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -985,7 +978,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Cost</h5>
+                                                    <h5>{{__('company.cost')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1001,7 +994,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Time</h5>
+                                                    <h5>{{__('company.time')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1017,7 +1010,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Repeat Business</h5>
+                                                    <h5>{{__('company.business_repeat')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1033,7 +1026,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Overall Rating</h5>
+                                                    <h5>{{__('company.overall_rating')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1049,9 +1042,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review *</label><label class="custom-control custom-radio"><input id="privacy1" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy2" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">{{__('company.display_review_author')}} *</label><label class="custom-control custom-radio"><input id="privacy1" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.display_name')}}</span></label><br><label class="custom-control custom-radio"><input id="privacy2" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.anonymous')}}</span></label></div>
                                             <input type="hidden" name="company_id" value="{{$company->id}}">
-                                            <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Review</button></div>
+                                            <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.submit_review')}}</button></div>
                                         </div>
                                     </div>
                                 </form>
@@ -1061,47 +1054,47 @@
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group"><label for="recipient-name" class="col-form-label">Was your company hired by {{$company->company_name}} to do some work? *</label></div>
+                                            <div class="form-group"><label for="recipient-name" class="col-form-label">{{sprintf(__('company.hired_by_q'), $company->company_name)}} *</label></div>
                                             <div class="radio-cases" id="first-level">
-                                                <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired3" name="is_hired" value="1" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired4" value="0" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
+                                                <div class="form-group case-01 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="is_hired3" name="is_hired" value="1" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.yes')}}</span></label><label class="custom-control custom-radio radio-no-case"><input id="is_hired4" value="0" name="is_hired" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.no')}}</span></label></div>
                                             </div>
                                             <div id="second-level">
                                                 <div class="yes-case-info">
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Did you complete the work successfully? *</label></div>
-                                                    <div class="form-group case-02 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="completness3" value="1" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Yes</span></label><label class="custom-control custom-radio radio-no-case"><input id="completness4" name="completness" value="0" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">No</span></label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">{{sprintf(__('company.did_complete_suc'), $company->company_name)}} *</label></div>
+                                                    <div class="form-group case-02 form-bg"><label class="custom-control custom-radio radio-yes-case"><input id="completness3" value="1" name="completness" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.yes')}}</span></label><label class="custom-control custom-radio radio-no-case"><input id="completness4" name="completness" value="0" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.no')}}</span></label></div>
                                                 </div>
                                             </div>
                                             <div id="third-level">
                                                 <div class="no-case-info">                                                
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Why not? *</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">{{__('company.why_not')}} *</label></div>
                                                     <div class="form-group case-03 form-bg">
                                                         <select name="why_not" class="form-control">
-                                                            <option value="">Select Reason</option>
-                                                            <option value="cancelled">Client canceled the project</option>
-                                                            <option value="nopay">Client did not pay</option>
-                                                            <option value="expectations">Client expectations were unreasonable</option>
-                                                            <option value="they-out">Client went out of business</option>
-                                                            <option value="we-out">My company went out of business</option>
-                                                            <option class="radio-no-case" value="other">Other</option>
+                                                            <option value="">{{__('company.select_reason')}}</option>
+                                                            <option value="cancelled">{{__('company.sup_cancelled')}}</option>
+                                                            <option value="nopay">{{__('company.sup_nopay')}}</option>
+                                                            <option value="expectations">{{__('company.sup_expectations')}}</option>
+                                                            <option value="they-out">{{__('company.sup_theyout')}}</option>
+                                                            <option value="we-out">{{__('company.sup_weout')}}</option>
+                                                            <option class="radio-no-case" value="other">{{__('company.other')}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="four-level">
                                                 <div class="no-case-info">
-                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">Please elaborate</label></div>
+                                                    <div class="form-group"><label for="recipient-name" class="col-form-label">{{__('company.please_elaborate')}}</label></div>
                                                     <div class="form-group case-04 form-bg">
-                                                        <textarea class="form-control" id="why_not_msg1" name="why_not_msg" placeholder="Write your text here..."></textarea>
+                                                        <textarea class="form-control" id="why_not_msg1" name="why_not_msg" placeholder=""></textarea>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">Please give your overall assessment of {{$company->company_name}} *</label><textarea class="form-control" id="feedback1" name="feedback" placeholder="Write your text here..." required></textarea></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">{{sprintf(__('company.please_overall'), $company->company_name)}} *</label><textarea class="form-control" id="feedback1" name="feedback" placeholder="" required></textarea></div>
                                         </div>
                                         <div class="col-md-6 casepushup">
                                             <div class="form-group">
-                                                <label for="message-text" class="col-form-label">How would you rate "{{$company->company_name}}"? *</label>
+                                                <label for="message-text" class="col-form-label">{{sprintf(__('company.rate'), $company->company_name)}} *</label>
                                                 <div class="d-flex mt-4">
-                                                    <h5>Procurement</h5>
+                                                    <h5>{{__('company.procurement')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1117,7 +1110,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Expectations</h5>
+                                                    <h5>{{__('company.expectations')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1133,7 +1126,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Payments</h5>
+                                                    <h5>{{__('company.payment')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1149,7 +1142,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Repeat Business</h5>
+                                                    <h5>{{__('company.business_repeat')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1165,7 +1158,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <h5>Overall Rating</h5>
+                                                    <h5>{{__('company.overall_rating')}}</h5>
                                                     <div class="star-rating">
                                                         <ul class="list-inline">
                                                             <li class="list-inline-item">
@@ -1181,9 +1174,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group"><label for="message-text" class="col-form-label">How would you like the public to preview your review *</label><label class="custom-control custom-radio"><input id="privacy3" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Display my Name & Company to Public</span></label><br><label class="custom-control custom-radio"><input id="privacy4" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">Stay Anonymous</span></label></div>
+                                            <div class="form-group"><label for="message-text" class="col-form-label">{{__('company.display_review_author')}} *</label><label class="custom-control custom-radio"><input id="privacy3" name="privacy" value="public" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.display_name')}}</span></label><br><label class="custom-control custom-radio"><input id="privacy4" name="privacy" value="private" type="radio" class="custom-control-input" required> <span class="custom-control-indicator"></span> <span class="custom-control-description">{{__('company.anonymous')}}</span></label></div>
                                             <input type="hidden" name="company_id" value="{{$company->id}}">
-                                            <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Submit Review</button></div>
+                                            <div class="form-group"><button type="submit" class="btn btn-blue btn-yellow text-capitalize"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.submit_review')}}</button></div>
                                         </div>
                                     </div>
                                 </form>
@@ -1205,7 +1198,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 class="modal-title">Reply to <span class="company-name"></span></h5>
+                            <h5 class="modal-title">{{__('company.reply_to')}} <span class="company-name"></span></h5>
                         </div>
                     </div>
                 </div>
@@ -1215,14 +1208,14 @@
                     {{csrf_field()}}
                     <div class="row">
                         <div class="col">
-                            <label>Reply Content:</label>
+                            <label>{{__('company.reply_content')}}</label>
                             <div class="form-group">
-                                <textarea class="form-control" name="reply" placeholder="Reply Content" required></textarea>
+                                <textarea class="form-control" name="reply" placeholder="{{__('company.reply_content')}}" required></textarea>
                                 <input type="hidden" class="rev_id" name="rev_id" value="">
                             </div>
                         </div>
                     </div>
-                    <div class="text-center mt-4"><button type="submit" class="btn btn-blue btn-yellow">Reply to review</button></div>
+                    <div class="text-center mt-4"><button type="submit" class="btn btn-blue btn-yellow">{{__('company.reply_to_review')}}</button></div>
                 </form>
             </div>
         </div>

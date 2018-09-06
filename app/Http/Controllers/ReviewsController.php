@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use \App\Repositories\SMBeezFunctions;
 use Mail;
 use App\Mail\ReviewSubmitted;
+use App\Mail\ReviewSubmittedOwner;
 
 class ReviewsController extends Controller
 {
@@ -86,8 +87,10 @@ class ReviewsController extends Controller
         if($company->company_overall_exact_rating($review->company_id) >= 4.5) {
             Company::addRelevanceScore(5, $review->company_id);
         }
-
+        //mail to submitter
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+        //mail to company owner
+        Mail::to($company->user->email)->send(new ReviewSubmittedOwner($review));
 
         $do = new SMBeezFunctions;
         $do->email_log($review->user->id, $review->user->email);
@@ -143,8 +146,10 @@ class ReviewsController extends Controller
         if($company->company_overall_exact_rating($review->company_id) >= 4.5) {
             Company::addRelevanceScore(5, $review->company_id);
         }
-
+        //mail to submitter
         Mail::to($review->user->email)->send(new ReviewSubmitted($review));
+        //mail to company owner
+        Mail::to($company->user->email)->send(new ReviewSubmittedOwner($review));
         
         $do = new SMBeezFunctions;
         $do->email_log($review->user->id, $review->user->email);

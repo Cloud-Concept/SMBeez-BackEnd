@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use LaravelCloudSearch\Eloquent\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Speciality extends Model

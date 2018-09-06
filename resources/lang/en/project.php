@@ -30,4 +30,11 @@ return array (
   'project_close_hint' => 'The project will be automatically closed within 60 days, you can set your project status to “Draft”, “Open”, “Closed” whenever you need.',
   'save_draft' => 'Save Draft',
   'spec_hint_2' => 'Insert specialities that best describe your project',
+  'client_overall_rating' => 'Rating:',
+  'expressed_interest' => 'Expressed interests on your project “%s”',
+  'supplier' => 'Supplier',
+  'company_info' => 'Company Information',
+  'about_company' => 'About',
+  'company_size' => 'Company Size',
+  'no_login_express_interest' => 'Login to Express Interest',
 );

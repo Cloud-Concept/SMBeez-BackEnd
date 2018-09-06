@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ar',
 
     /*
     |--------------------------------------------------------------------------
@@ -90,7 +90,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ar',
 
     /*
     |--------------------------------------------------------------------------
@@ -189,6 +189,7 @@ return [
         Bogardo\Mailgun\MailgunServiceProvider::class,
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Spatie\Newsletter\NewsletterServiceProvider::class,
+        LaravelCloudSearch\LaravelCloudSearchServiceProvider::class,
 
     ],
 

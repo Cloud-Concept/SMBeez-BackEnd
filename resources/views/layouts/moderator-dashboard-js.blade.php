@@ -17,7 +17,7 @@
         $.get(url.replace(':company_id', company_id), function(data, status){
             $('#edit-company').find('#company_name').val(data.company_name);
             $('#edit-company').find('#company_email').val(data.company_email);
-            $('#edit-company').find('#company_phone').val(data.company_phone);
+            $('#edit-company').find('#company_phone').val(data.company_phone.replace(/-|\s/g,""));
             $('#edit-company').find('#location').val(data.location);
             $('#edit-company').find('.company-name-span').text('(' + data.company_name + ')');
             $('#edit-company').find('.com-city').text(data.city);

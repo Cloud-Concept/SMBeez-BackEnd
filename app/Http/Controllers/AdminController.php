@@ -130,7 +130,7 @@ class AdminController extends Controller
 
         $company->company_name = $request['company_name'];
         $company->company_email = $request['company_email'];
-        $company->company_phone = $request['company_phone'];
+        $company->company_phone = preg_replace("/[^A-Za-z0-9]/","",$request['company_phone']);
         $company->location = $request['location'];
         //$company->industry_id = $request['industry_id'];
 
@@ -591,10 +591,10 @@ class AdminController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-
+        $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
         $projects = Project::paginate(10);
 
-        return view('admin.project.index', compact('projects'));
+        return view('admin.project.index', compact('projects', 'industries'));
     }
 
     public function companies()
@@ -605,8 +605,9 @@ class AdminController extends Controller
         }
 
         $companies = Company::latest()->paginate(10);
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
 
-        return view('admin.company.index', compact('companies'));
+        return view('admin.company.index', compact('companies', 'industries'));
     }
 
     public function get_claims()

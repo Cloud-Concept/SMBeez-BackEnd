@@ -13,7 +13,7 @@ class ExpireProjects extends Command
      *
      * @var string
      */
-    protected $signature = 'command:expireprojects';
+    protected $signature = 'expireprojects';
 
     /**
      * The console command description.

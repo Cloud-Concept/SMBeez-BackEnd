@@ -5,9 +5,7 @@ use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 use Carbon\Carbon;
-
 use DB;
-
 use App\Company;
 
 class ExcelController extends Controller
@@ -81,20 +79,43 @@ class ExcelController extends Controller
                 if(!empty($arr)){
                     $duplicates = 0;
                     $added = 0;
+                    $dup_arr = array();
                     foreach($arr as $comp) {
                         if($company->exist('company_name', $comp['company_name']) || $company->exist('slug', $comp['slug'])) {
                             $duplicates++;
-
+                            $dup_arr[] = ['company_name' => $comp['company_name'], 'company_phone' => $comp['company_phone']];
                             continue;
                         }
 
                         $added++;
 
                         DB::table('companies')->insert($comp);
+                        $comp_id = Company::where('company_name', $comp['company_name'])->pluck('id');
+                        DB::table('cloudsearch_queues')->insert([
+                            'entry_id' => $comp_id[0],
+                            'entry_type' => 'App\Company',
+                            'action' => 'update',
+                            'status' => 0,
+                            'created_at' => Carbon::now()->getTimestamp(),
+                        ]);
+
 
                     }
 
                     session()->flash('success', 'File imported, ' . $added . ' companies imported, ' . $duplicates . ' duplicates found.' );
+                    if($duplicates > 0) {
+                        \Excel::create('companies_'.$duplicates.'_duplicates', function($excel) use ($dup_arr) {
+
+                            $excel->sheet('Companies Duplicates Sheet', function($sheet) use ($dup_arr)
+
+                            {
+
+                                $sheet->fromArray($dup_arr);
+
+                            });
+
+                        })->download('xls');
+                    }
 
                 }
 

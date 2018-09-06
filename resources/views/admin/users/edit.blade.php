@@ -24,7 +24,9 @@
                         @endif
                         @if($user->logins)
                             <br>Total Logins: <a href="{{route('admin.user.user-logins', $user->username)}}">{{$user->logins->count()}}</a>
+                            @if($last_login)
                             <br>Last Login: {{$last_login->created_at->diffForHumans()}}
+                            @endif
                         @endif
                     </div>
                     @if (session('success'))

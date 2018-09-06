@@ -12,4 +12,7 @@ return array (
   'listing' => 'Listing',
   'locations' => 'Locations',
   'cairo' => 'Cairo',
+  'links' => 'Links',
+  'email_newsletter' => 'Email',
+  'copyrights' => 'Made by Masharee3 © 2018 - All Rights Reserved',
 );

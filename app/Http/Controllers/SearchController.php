@@ -10,6 +10,7 @@ use App\Company;
 use Auth;
 use DB;
 use Session;
+use App\User;
 
 class SearchController extends Controller
 {
@@ -176,47 +177,34 @@ class SearchController extends Controller
 
         //check if the user has a company
         $hasCompany = $company->where('user_id', Auth::id())->first();
+        //search for companies
+        $companies = app(\LaravelCloudSearch\CloudSearcher::class)->newQuery();
+        $companies = $companies->searchableType(\App\Company::class)
+        ->qAnd(function ($q) use ($request, $hasCompany) {
+            $q->phrase($request['s'])
+            ->term(1, 'status');
+            if(Auth::user()) {
+                $q->term(auth()->user()->user_city, 'city');
+                if($hasCompany) {
+                    $q->term(Auth::user()->company->industry->id, 'industry_id');
+                }
+            }                   
+        })->sort('relevance_score', 'desc')->paginate(10);
+        //search for projects
+        $projects = app(\LaravelCloudSearch\CloudSearcher::class)->newQuery();
+        $projects = $projects->searchableType(\App\Project::class)
+        ->qAnd(function ($q) use ($request, $hasCompany) {
+            $q->phrase($request['s'])
+            ->term('publish', 'status');
+            if(Auth::user()) {
+                $q->term(auth()->user()->user_city, 'city');
+                if($hasCompany) {
+                    $q->term(Auth::user()->company->industry->id, 'industry_id');
+                }
+            }                   
+        })->sort('created_at', 'desc')->paginate(10);
 
-        if(Auth::user()) {
-            //if user signed in so find the user's company industry and get use it with request
-            $companies = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->paginate(10);
-            if($hasCompany) {
-                $companies->where('industry_id', Auth::user()->company->industry->id);
-            }
-
-            $project->with('industries')->whereHas('industries', function ($q) use ($industry, $request, $hasCompany) {
-                $q->where('industries.id', $hasCompany ? Auth::user()->company->industry->id : '');
-            });
-
-            $projects = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
-            ->where('city', auth()->user()->user_city)->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
-        
-            if($hasCompany) {
-                $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-                ->where('city', auth()->user()->user_city)->where('industry_id', Auth::user()->company->industry->id)->get()->count();
-            }else {
-                $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-                ->where('city', auth()->user()->user_city)->get()->count();
-            }
-            $projects_count = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
-            ->where('city', auth()->user()->user_city)->get()->count();
-
-        }else {
-            $companies = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->orderBy('relevance_score', 'desc')->paginate(10);
-
-            $projects = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
-            ->orderBy('relevance_score', 'desc')->orderBy('created_at', 'desc')->paginate(10);
-
-            $companies_count = $company->where('company_name', 'like', '%' . $request['s'] . '%')->where('status', 1)
-            ->get()->count();
-            $projects_count = $project->where('project_title', 'like', '%' . $request['s'] . '%')->where('status', 'publish')
-            ->get()->count();
-
-        }
-
-        return view('front.search.index', compact('companies', 'projects', 'companies_count', 'projects_count', 'scores'));
+        return view('front.search.index', compact('companies', 'projects'));
     }
 
     //Moderator Dashboard
@@ -228,7 +216,7 @@ class SearchController extends Controller
             app()->setLocale($locale);
         }
         
-        $industries = $industry->all();
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
         $filter_industry = $request['industry'];
         //if selected all industries go to all opportunities page
         if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
@@ -273,5 +261,88 @@ class SearchController extends Controller
             $company = new Company;
         }
         return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company')); 
+    }
+
+    //Superadmin Search
+    public function superadmin_filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
+        $filter_industry = $request['industry'];
+        //if selected all industries go to all opportunities page
+        if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
+
+            return redirect(route('admin.companies'));
+
+        }
+
+        $company = $company->newQuery();
+
+        if ($request->has('industry')) {
+            $company->where('industry_id', $request['industry']);
+        }
+        if ($request->has('s')) {
+            $company->where('company_name', 'like', '%' . $request['s'] . '%');
+        }
+        $companies = $company->where('city', $request['city'])->paginate(10);
+
+        if(!$company) {
+            $company = new Company;
+        }
+        return view('admin.company.search-results', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'company')); 
+    }
+
+    public function superadmin_filter_users(User $user, Request $request)
+    {
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
+        if ($request->has('s')) {
+            $users = $user->where('first_name', 'like', '%' . $request['s'] . '%')
+            ->orWhere('last_name', 'like', '%' . $request['s'] . '%')
+            ->orWhere('email', 'like', '%' . $request['s'] . '%')->paginate(10);
+        }
+
+        return view('admin.users.search-results', compact('users'));
+    }
+
+    public function superadmin_filter_projects(Request $request, Project $project,Industry $industry, Speciality $speciality)
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        
+        $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
+        $filter_industry = $request['industry'];
+        //if selected all industries go to all opportunities page
+        if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
+
+            return redirect(route('admin.projects'));
+
+        }
+
+        $project = $project->newQuery();
+
+        if ($request->has('industry')) {
+            $project->with('industries')->whereHas('industries', function ($q) use ($industry, $request) {
+                $q->where('industries.id', $request['industry']);
+            });
+        }
+        if ($request->has('s')) {
+            $project->where('project_title', 'like', '%' . $request['s'] . '%');
+        }
+        $projects = $project->where('city', $request['city'])->paginate(10);
+
+        if(!$project) {
+            $project = new Project;
+        }
+        return view('admin.project.search-results', compact('industries', 'industry', 'projects', 'specialities', 'filter_industry', 'company')); 
     }
 }
