@@ -1,0 +1,101 @@
+/* only Singin Page Cases independent */
+.sign-section {
+  @include rem(padding, 80px 0);
+}
+main {
+    &.signup{
+     background: $gray;
+   }
+}
+
+.sign-col  {
+  width: calc(100% - 30px);
+  @include rem(margin-right, 15px);
+  @include rem(margin-left, 15px);
+
+  @include mq(sm) {
+    width: 600px;
+    @include rem(margin, 0 auto);
+  }
+
+  .col {
+    flex-basis: inherit;
+    @include rem(margin-bottom, 10px);
+
+    @include mq(sm) {
+      flex-basis: 0;
+    }
+  }
+
+  @include mq(md) {
+    width: 670px;
+    margin: 0 auto;
+  }
+}
+
+
+.sign-block {
+  background: $offwhite;
+  -webkit-box-shadow: 0 20px 40px rgba(51,53,69,.5);
+	-moz-box-shadow: 0 20px 40px rgba(51,53,69,.5);
+	box-shadow: 0 20px 40px rgba(51,53,69,.5);
+
+  .nav-fill .nav-item {
+    width: auto;
+    @include mq(sm) {
+      width: 50%;
+    }
+  }
+
+  .nav-tabs .nav-item .nav-link,
+  .nav-tabs .nav-link {
+    background: $darkblue;
+    border: 0;
+    color: $yellow;
+    font-size: $g-font-size;
+    font-weight: 400;
+    cursor: pointer;
+
+    i {
+      font-size: $h4-font-size;
+      @include rem(margin-left, 10px);
+    }
+  }
+
+  .nav-tabs .nav-item.show .nav-link{}
+  .nav-tabs .nav-link.active {
+    background: $offwhite;
+    color: $main-blue;
+  }
+
+  //content inside
+
+
+  .custom-control {
+    margin-right: 0;
+  }
+
+  .btn-list {
+    a {
+    margin: 0 auto;
+
+    &.btn-fb {
+      @include rem(margin-top, 10px);
+        @include mq(sm) {
+          @include rem(margin-top, 0);
+        }
+      }
+    }
+  }
+}
+
+#tabs-content-signup {
+    #signup {
+      background: none;
+      min-height: auto;
+      @include mq(sm) {
+        min-height: 500px;
+        background: url(../images/common/signup-bg.jpg) no-repeat right bottom;
+      }
+    }
+}

@@ -1,0 +1,22 @@
+/*
+Images
+*/
+
+.img-full {
+  width: 100%;
+}
+
+.img-thumb-contact {
+  border-radius: 50%;
+  max-width: 35px;
+  border: 1px solid $yellow;
+  @include rem(margin-right, 5px);
+}
+
+.error-img {
+  clear: both;
+  display: block;
+  max-width: 400px;
+  max-height: 386px;
+  @include rem(margin, 50px auto);
+}

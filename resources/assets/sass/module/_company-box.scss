@@ -1,0 +1,46 @@
+/* Company Box */
+
+.company-box {
+  > img {
+    width: 100%;
+  }
+}
+
+
+.company-box-header {
+  > a > i {
+    color: $darkgray;
+  }
+
+  .thumb-review {
+    a {
+      color:  $main-blue;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.company-box-side {
+  border-bottom: 1px solid $gray;
+}
+
+.media-body-info {
+  a {
+    color: $main-blue;
+  }
+}
+
+
+/* Media */
+.underline {
+  padding-bottom: 5px;
+  border-bottom: 1px solid $gray;
+}
+
+.push-left {
+  margin-left: 100px;
+}

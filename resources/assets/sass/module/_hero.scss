@@ -1,0 +1,188 @@
+/*
+Global Heros Modules
+*/
+
+/*
+Home Page Hero
+*/
+
+.hero {
+  /*background: url(../images/hero/hero-bg.jpg) no-repeat center top;
+  background-size: cover;
+  background-attachment: fixed;
+  */
+
+  .hero-bg {
+    width: 100%;
+    background: rgba(255,244,0,.6);
+    min-height: 360px;
+    @include rem(padding, 100px 0);
+
+  }
+
+  &.about-hero {
+    min-height: 240px;
+    h1 {
+      @include rem(padding-top, 70px);
+    }
+  }
+
+  p {
+    @include rem(font-size, $h2-font-size);
+  }
+  .btn-hero {
+    @include rem(padding, 10px 0);
+    > span {
+      @include rem(margin, 10px 20px 0);
+      font-style: italic;
+      text-transform: uppercase;
+      color: $main-blue;
+      font-weight: 800;
+    }
+      a {
+        display: block;
+        float: none;
+        width: 60%;
+        @include rem(margin, 5px auto);
+
+        @include mq(sm) {
+          @include rem(margin,  0);
+          width: auto;
+          display: inline-block;
+        }
+    }
+  }
+}
+
+/*
+Hero Slider Logos
+*/
+
+.hero-slider {
+  background: #fff;
+  ul {
+    margin: 0;
+    padding: 0;
+    min-height: 120px;
+    list-style: none;
+  }
+  li {
+  }
+}
+
+/*
+Project Listing Hero
+*/
+
+.hero-project {
+  min-height:198px;
+  @include rem(padding-top, 20px);
+  background: $main-blue url(../images/hero/hero-project-listing.png) no-repeat center bottom;
+  @include mq(sm){
+    @include rem(padding-top, 30px);
+  }
+  h1 {
+    color: $white;
+    font-weight: 400;
+  }
+  p {
+    color: $white;
+    @include rem(font-size, $h4-font-size);
+  }
+}
+
+/*
+Company Listing Hero
+*/
+
+.hero-company {
+  min-height:198px;
+  @include rem(padding-top, 20px);
+  background: $yellow url(../images/hero/hero-company-listing.png) no-repeat center bottom;
+  @include mq(sm){
+    @include rem(padding-top, 40px);
+  }
+  h1 {
+    color: $main-blue;
+    font-weight: 400;
+  }
+  p {
+    color: $main-blue;
+    @include rem(font-size, $h4-font-size);
+  }
+}
+
+/*
+Company Details hero
+*/
+.hero-company-details {
+  position: relative;
+  height:183px;
+  width: 100%;
+  @include rem(padding-top, 20px);
+  background:  url(../images/media/company-banner-details.png) no-repeat right bottom;
+
+  h1 {
+    @include rem(font-size, $h4-font-size + 5);
+  }
+}
+
+.hero-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:  url(../images/hero/hero-shadow.png) no-repeat center bottom;
+  z-index: -1;
+}
+
+
+/*
+All Project Industries
+*/
+.hero-all {
+  background: url(../images/hero/hero-all.jpg) no-repeat 0 0;
+  background-size: cover;
+
+}
+
+
+.home {
+  .arrow-down {
+    position: absolute;
+    left: 50%;
+    bottom: -35px;
+    margin-left: -35px;
+    text-align: center;
+    vertical-align: center;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: $light-gray;
+    border-radius: 50%;
+    z-index: 100;
+    color: $main-blue;
+      @include transition(all .4s ease);
+    &:hover {
+      background: $yellow;
+      color: $black;
+    }
+  }
+  .here-center {
+    background: none;
+    @include rem(padding-bottom, 30px);
+
+    h1,p{
+      color: $white;
+    }
+  }
+}
+
+.hero-blank {
+  border-bottom: 1px solid $gray
+}

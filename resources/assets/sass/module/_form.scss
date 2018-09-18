@@ -1,0 +1,269 @@
+/*
+Global OverWrite
+*/
+
+
+
+.form-control {
+  border: 0;
+  border-radius: 0;
+  //@include rem(padding, 10px 20px);
+}
+
+.form-guide {
+  font-weight: 300;
+  font-size: $base-font-size - 2;
+  color: $offblack;
+}
+
+textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.custom-control {
+  cursor: pointer;
+}
+
+.custom-control-indicator {
+  width: 21px;
+  height: 21px;
+  margin-top: -3px;
+  border:1px solid $offblack;
+  background-color: $white;
+  box-shadow: none;
+  outline: none;
+  &:hover,
+  &:focus,
+  &:active {
+  }
+}
+.custom-control-input:checked ~ .custom-control-indicator {
+  background-color: $offblack;
+}
+
+.custom-control-input:focus ~ .custom-control-indicator,
+.custom-control-input:active ~ .custom-control-indicator,
+.custom-control-input:hover ~ .custom-control-indicator {
+  outline: none !important;
+  box-shadow: none;
+
+
+}
+.custom-control-description {
+  @include rem(margin-left, 10px);
+}
+
+
+/*
+Write Review Form
+*/
+.write-review{
+  .form-group{
+    margin-bottom: 0;
+    margin-top: 1rem;
+
+    &.form-bg  {
+      margin-top: 0;
+    }
+  }
+  label {
+    color: $darkblue;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  h5 {
+    color: $offblack;
+    font-weight: 300;
+    font-size: 16px;
+    @include rem(padding, 0);
+    @include rem(margin-right, 20px);
+  }
+
+  h6 {
+    color: $main-blue;
+    font-weight:300;
+  }
+}
+.form-bg{
+  background: $white;
+  @include rem(padding, 10px 15px);
+
+  label {
+    margin-bottom: 0;
+  }
+
+  .custom-control {
+    font-weight: 300;
+    color: $offblack;
+  }
+  .custom-control + .custom-control {
+    @include rem(margin-left, 50px);
+      @include mqs(sm) {
+        @include rem(margin-left, 0px);
+        @include rem(margin-top, 5px);
+      }
+  }
+}
+
+
+/*
+Sign up Form
+*/
+.sign-block,
+.modal-signup{
+  .form-control {
+    border-radius: 3px;
+    border: 1px solid $darkgray;
+    color: $offblack;
+
+    &.custom-file {
+      border: 0;
+    }
+
+    &.custom-select{
+      color: $offblack;
+    }
+  }
+}
+
+/*
+Add Company
+*/
+.modal-add-company {
+  .form-control{
+    @include rem(padding, 10px 20px);
+  }
+  select.form-control:not([size]):not([multiple]) {
+    outline: none;
+    height: calc(2.25rem + 9px);
+    padding-left: 5px;
+  }
+  .custom-file {
+    display: block;
+    width: 100%;
+  }
+}
+
+
+/*
+Add Project
+*/
+.modal-add-project {
+  @extend .modal-add-company;
+}
+
+
+/*
+Custom File Name
+*/
+
+.custom-file-input{
+  cursor: pointer;
+}
+
+.custom-file-control:lang(en):empty::after{
+  content: attr(data-label);
+  color: $placeholder;
+}
+
+.custom-file-control.selected:lang(en):after {
+  content: "" !important;
+}
+
+
+/* case to fix write-review */
+.casepushup {
+  margin-top: -90px;
+  @include mqs(md) {
+    margin-top: 0;
+  }
+}
+
+/* case to show on yes / no */
+.yes-case-info,
+.no-case-info {
+  display: none;
+}
+
+
+/* User Setting Forms */
+.user-setting {
+  label {
+    font-weight: bold;
+    color: $main-blue;
+  }
+
+  .form-control {
+    background-color: $gray;
+    width: calc(100% - 50px);
+  }
+
+  .edit-form {
+    @include rem(margin-left, 10px);
+    @include rem(margin-top, 3px);
+  }
+
+  .custom-control-description{
+    font-weight: normal;
+    color: $deepgray;
+  }
+}
+
+/* Searh Company */
+.search-company {
+  .form-control {
+    background: $gray;
+  }
+}
+
+/* Super Admin tickets */
+.sd-tickets {
+  .form-control {
+    width: 100%;
+  }
+}
+
+
+/* call center forms */
+.call-form {
+  .custom-control {
+    padding-left: 0;
+
+    &.single-label {
+      font-weight: 300;
+      font-size: 12px;
+      @include rem(padding-bottom, 10px);
+      @include rem(padding-top,3px);
+    }
+  }
+}
+
+/* Verify Block */
+.form-group-verify {
+  @extend .clearfix;
+  @include rem(margin, 15px 0);
+  @include rem(padding,10px 15px);
+  width: 100%;
+  background: $darkgray;
+  .verify {
+    color: $main-blue;
+    font-size: 12px;
+    @include rem(padding-top,5px);
+  }
+
+  .input-group {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      z-index: 100;
+      color: $green;
+    }
+  }
+  input {
+    width: 100%;
+  }
+}

@@ -1,0 +1,115 @@
+// bower:scss
+@import 'bower_components/sass-rem/_rem.scss';
+// endbower
+
+// system-wide variables, mixins and setting
+@import 'base/setting';
+@import 'base/variables';
+@import 'base/mixins';
+
+// system-wide styles  and placeholders
+@import 'utility/fonts';
+@import 'utility/modal';
+
+// CORE
+// basic building blocks, typically single html tags
+
+@import 'core/body';
+@import 'core/document';
+@import 'core/typography';
+@import 'core/anchor';
+@import 'core/button';
+@import 'core/dropdown';
+@import 'core/blockquote';
+@import 'core/code';
+@import 'core/definition-list';
+@import 'core/figure';
+@import 'core/horizontal-rule';
+@import 'core/icon';
+@import 'core/img';
+@import 'core/input';
+@import 'core/label';
+@import 'core/list';
+@import 'core/table';
+@import 'core/flag';
+@import 'core/thumbs';
+
+// MODULE
+// simple combinations of cores and reusable components not tied to a specific section
+
+@import 'module/breadcrumb';
+@import 'module/mainnav';
+@import 'module/dashboard-nav';
+@import 'module/hero';
+@import 'module/container';
+@import 'module/sidebar-details';
+@import 'module/sidebar-dashboard';
+@import 'module/box-block';
+@import 'module/company-box';
+@import 'module/project-box';
+@import 'module/details-box';
+@import 'module/dashboard-company-block';
+@import 'module/all-box';
+@import 'module/alert';
+@import 'module/dashboard-update';
+@import 'module/star-rating';
+@import 'module/vcard';
+@import 'module/review-social';
+@import 'module/company-details-sidebar';
+@import 'module/tabs';
+@import 'module/form';
+@import 'module/search-details';
+@import 'module/quickbtn';
+@import 'module/message-block';
+@import 'module/bookmarks-block';
+@import 'module/inline-children';
+@import 'module/media';
+@import 'module/pagination';
+@import 'module/placeholder';
+@import 'module/reveal';
+
+
+//new Modules required for Inside pages
+@import 'module/filter-list';
+
+// LAYOUT
+// distinct section of an interface
+
+@import 'layout/outdated-browser';
+@import 'layout/site-header';
+@import 'layout/loggedin-site-header';
+@import 'layout/site-content';
+@import 'layout/sidebar';
+@import 'layout/site-footer';
+
+
+// PAGE
+// layouts stitched together to form pages
+
+@import 'pages/home';
+@import 'pages/signin';
+@import 'pages/project-listing';
+@import 'pages/all-projects';
+@import 'pages/dashboard';
+@import 'pages/about';
+@import 'pages/claim';
+@import 'pages/overview';
+@import 'pages/sdprojects';
+@import 'pages/sdreviews';
+@import 'pages/company-edit';
+@import 'pages/callcenter';
+
+
+// OVERRIDING UTILITIES
+// any aditional utilities that should have more important than other CSS
+
+@import 'utility/flush-first';
+@import 'utility/helper-classes';
+@import 'utility/visible';
+@import 'utility/lang';
+
+
+// EXTRAS
+// miscellaneous project extras
+
+@import 'utility/print';

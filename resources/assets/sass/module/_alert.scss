@@ -1,0 +1,75 @@
+/*
+Alert Boxes
+*/
+
+.alert {
+  border: 0;
+  border-radius: 0;
+
+  h3 {
+    @include rem(padding, 0 0 10px 0);
+    font-weight: 400;
+
+    i {
+      @include rem(padding-right, 5px);
+    }
+  }
+}
+.alert-secondary {
+  background: $gray;
+}
+
+.alert-dismissible {
+  .close{
+    @include rem(padding, 2px 7px);
+    right: inherit;
+    left: 0;
+  }
+}
+
+.alert-yellow {
+  background: $yellow;
+
+  p {
+    color: $main-blue;
+  }
+}
+
+.alert-dark {
+  p {
+    color: $deepgray;
+  }
+}
+
+.claim-company-request {
+  .alert {
+    p {
+      font-weight: 500;
+      line-height: 30px;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.alert-green {
+  margin: 1rem 0;
+  background: $greennew;
+  border: 1px solid $gray;
+
+  h3 {
+    padding: .6rem 0;
+    line-height: 1;
+    vertical-align: middle;
+    color: $darkblue;
+    text-transform: inherit;
+    font-weight: 900;
+    font-size: 18px;
+    i {
+      float: left;
+      display: block;
+      color: $white;
+      margin-top: -11px;
+    }
+  }
+}
