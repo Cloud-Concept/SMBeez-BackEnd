@@ -22,7 +22,7 @@
 							
 							<p {{$rtl}}>ماذا بعد؟</p>
 
-							<p {{$rtl}}>لا تضيع الوقت! أتصل مباشرةً بالعميل <a href="{{route('front.company.show', $interest->project->user->company->slug)}}">{{$interest->project->user->company->company_name}}</a>! إضغط <a href="{{route('front.company.show', $interest->project->user->company->slug)}}">هنا</a> للوصول إلى بروفايل العميل. </p></p>
+							<p {{$rtl}}>لا تضيع الوقت! أتصل مباشرةً بالعميل <a href="{{route('front.company.show', $interest->project->user->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">{{$interest->project->user->company->company_name}}</a>! إضغط <a href="{{route('front.company.show', $interest->project->user->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">هنا</a> للوصول إلى بروفايل العميل. </p></p>
 
 							<p {{$rtl}}>بسرعة! العميل ينتظرك!</p>
 
@@ -39,7 +39,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
+        	<a href="https://www.masharee3.com?utm_source=newsletter&utm_medium=email&utm_campaign=call_center" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

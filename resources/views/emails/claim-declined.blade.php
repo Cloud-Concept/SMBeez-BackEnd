@@ -16,7 +16,7 @@
 	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
 	                        <h1 {{$rtl}}>رحباً</h1>
 
-							<p {{$rtl}}>شكراً على مطالبتك بشركة <a href="{{route('front.company.show', $company->slug)}}">"{{$company->company_name}}"</a>.  لم نتمكن من التحقق من دورك في هذه الشركة. قبل أن نوافق على مطالبتك فنحن نحتاج إلى بيانات إضافية.</p>
+							<p {{$rtl}}>شكراً على مطالبتك بشركة <a href="{{route('front.company.show', $company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">"{{$company->company_name}}"</a>.  لم نتمكن من التحقق من دورك في هذه الشركة. قبل أن نوافق على مطالبتك فنحن نحتاج إلى بيانات إضافية.</p>
 
 							<p {{$rtl}}>من فضلك أرسل ما يعزز مطالبتك من الإختيارات التالية:</p>
 							
@@ -46,7 +46,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
+        	<a href="https://www.masharee3.com?utm_source=newsletter&utm_medium=email&utm_campaign=call_center" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

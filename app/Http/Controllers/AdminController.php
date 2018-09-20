@@ -22,6 +22,7 @@ use App\Mail\ClaimAccepted;
 use App\Mail\ClaimDeclined;
 use Carbon\Carbon;
 use Session;
+use Mailgun;
 
 class AdminController extends Controller
 {   
@@ -83,7 +84,7 @@ class AdminController extends Controller
         if(!$user->hasRole(['moderator'])) {
             return redirect()->route('home');
         }
-        $companies = Company::where('status', 1)->latest()->paginate(10);
+        $companies = Company::where('status', 1)->latest()->paginate(100);
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
         $status_array = array(
             '',
@@ -196,7 +197,10 @@ class AdminController extends Controller
 
             $user->roles()->sync(3);
 
-            Mail::to($request['user_email'])->send(new Welcome($company));
+            $validate = Mailgun::validator()->validate($request['user_email']);
+            if($validate->is_valid == true) {
+                Mail::to($request['user_email'])->send(new Welcome($company));
+            }
             
             $do = new SMBeezFunctions;
             $do->email_log($user->id, $request['user_email']);
@@ -235,6 +239,12 @@ class AdminController extends Controller
             $user->user_city = $company->city;
             $user->honeycombs = 0;
 
+            $validate = Mailgun::validator()->validate($user->email);
+            if($validate->is_valid == true) {
+                Mail::to($user->email)->send(new NewUser($user, $unique_password));
+            }else {
+                return response()->json(['msg' => 'User Email Invalid, Please Ask for Another Email', 'data' => '']); 
+            }
             $user->save();
 
             $user->roles()->sync(3, false);
@@ -246,8 +256,6 @@ class AdminController extends Controller
             $company->role = $request['role'];
 
             $company->update();
-
-            Mail::to($user->email)->send(new NewUser($user, $unique_password));
 
             $do = new SMBeezFunctions;
             $do->email_log($user->id, $user->email);
@@ -366,8 +374,12 @@ class AdminController extends Controller
     }
 
     public function send_mod_message(Request $request, Company $company) {
-
-        Mail::to($request['user_email'])->send(new Welcome($company));
+        $validate = Mailgun::validator()->validate($request['user_email']);
+        if($validate->is_valid == true) {
+            Mail::to($request['user_email'])->send(new Welcome($company));
+        }else{
+            return response()->json(['msg' => 'Invalid Email']);
+        }
         $do = new SMBeezFunctions;
         $do->email_log(0, $request['user_email']);
         //Logging
@@ -650,7 +662,10 @@ class AdminController extends Controller
             $user->roles()->sync($role, true);
             //send email to notify user
 
-            Mail::to($user->email)->send(new ClaimAccepted($company));
+            $validate = Mailgun::validator()->validate($user->email);
+            if($validate->is_valid == true) {
+                Mail::to($user->email)->send(new ClaimAccepted($company));
+            }
             
             $do = new SMBeezFunctions;
             $do->email_log($user->id, $user->email);
@@ -688,7 +703,10 @@ class AdminController extends Controller
     {   
         $claim->status = 0;
         $claim->update();
-        Mail::to($claim->user->email)->send(new ClaimDeclined($company));
+        $validate = Mailgun::validator()->validate($claim->user->email);
+        if($validate->is_valid == true) {
+            Mail::to($claim->user->email)->send(new ClaimDeclined($company));
+        }
         $do = new SMBeezFunctions;
         $do->email_log($claim->user->id, $claim->user->email);
         session()->flash('success', 'Claim request has been declined.');

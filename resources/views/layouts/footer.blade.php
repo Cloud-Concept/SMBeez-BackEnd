@@ -50,8 +50,8 @@
                     @endif
                 @endif
                 <ul class="footer-social">
-                  <li><a href="https://www.linkedin.com/company/masharee3/"><i class="fa fa-2x fa-linkedin-square" aria-hidden="true"></i></a></li>
-                  <li><a href="https://www.facebook.com/Masharee3.EG"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.linkedin.com/company/masharee3/" target="_blank"><i class="fa fa-2x fa-linkedin-square" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.facebook.com/Masharee3.EG" target="_blank"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a></li>
                 </ul>
             </div>
             <div class="col-md-12">

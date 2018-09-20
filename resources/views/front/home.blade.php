@@ -79,50 +79,50 @@
         </div>
     </section>
 
-	<section class="featured-block mt-5 pt-5 mb-5">
-	    <div class="container">
-	      <div class="row">
-	        <div class="col-md-12">
-	          <div class="row justify-content-md-center">
-	            <div class="col-md-9 text-center align-self-center mb-5">
-	              <h2>{{__('home.featured_companies')}}</h2>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	      <div class="row">
-	      	@foreach($featured_companies as $company)
-	        <div class="col-md-6 d-flex">
-	          <div class="box-block-into box-trans px-3 pb-3">
-	          	@if($company->cover_url  && file_exists(public_path('/') . $company->cover_url))
-                    <img class="img-responsive img-box" src="{{ asset($company->cover_url) }}" alt="">
-                @endif
-                <a href="{{route('front.company.show', $company->slug)}}"><h3>{{$company->company_name}}</h3></a>
-	            <div class="media-body">
-                    <div class="star-rating">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <select class="star-rating-ro">
-                                    @for($i = 0; $i <= 5; $i++)
-                                    <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
-                                    @endfor
-                                </select>
-                            </li>
-                            <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
-                        </ul>
-                    </div>
-                </div>
-	            <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
-	            <a href="{{route('front.company.show', $company->slug)}}"> {{__('home.discover_more')}} <i class="fa fa-caret-left" aria-hidden="true"></i></a>
-	          </div>
-	        </div>
-	        @endforeach
-	        <div class="col-md-6 col-xs-12 offset-md-3 text-center mt-5">
-	          <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow">{{__('general.browse_companies')}}</a>
-	        </div>
-	      </div>
-	    </div>
-	</section>
+  	<section class="featured-block mt-5 pt-5 mb-5">
+  	    <div class="container">
+  	      <div class="row">
+  	        <div class="col-md-12">
+  	          <div class="row justify-content-md-center">
+  	            <div class="col-md-9 text-center align-self-center mb-5">
+  	              <h2>{{__('home.featured_companies')}}</h2>
+  	            </div>
+  	          </div>
+  	        </div>
+  	      </div>
+  	      <div class="row">
+  	      	@foreach($featured_companies as $company)
+  	        <div class="col-md-6 d-flex">
+  	          <div class="box-block-into box-trans px-3 pb-3">
+  	          	@if($company->cover_url  && file_exists(public_path('/') . $company->cover_url))
+                      <img class="img-responsive img-box" src="{{ asset($company->cover_url) }}" alt="">
+                  @endif
+                  <a href="{{route('front.company.show', $company->slug)}}"><h3>{{$company->company_name}}</h3></a>
+  	            <div class="media-body">
+                      <div class="star-rating">
+                          <ul class="list-inline">
+                              <li class="list-inline-item">
+                                  <select class="star-rating-ro">
+                                      @for($i = 0; $i <= 5; $i++)
+                                      <option value="{{$i}}" {{$i == $company->company_overall_rating($company->id) ? 'selected' : ''}}>{{$i}}</option>
+                                      @endfor
+                                  </select>
+                              </li>
+                              <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
+                          </ul>
+                      </div>
+                  </div>
+  	            <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
+  	            <a href="{{route('front.company.show', $company->slug)}}"> {{__('home.discover_more')}} <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+  	          </div>
+  	        </div>
+  	        @endforeach
+  	        <div class="col-md-6 col-xs-12 offset-md-3 text-center mt-5">
+  	          <a href="{{route('front.company.all')}}" class="btn btn-blue btn-yellow">{{__('general.browse_companies')}}</a>
+  	        </div>
+  	      </div>
+  	    </div>
+  	</section>
 </main>
 
 @if (!Auth::guest() && !$hascompany)

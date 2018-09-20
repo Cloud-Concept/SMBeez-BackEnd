@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.inner')
 
 @section('content')
 <nav class="dashboard-nav navbar navbar-expand-lg">

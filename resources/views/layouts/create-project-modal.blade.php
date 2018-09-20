@@ -58,7 +58,7 @@
 
                                 <div class="form-group">
                                     <label for="">{{__('project.supportive_docs')}}</label><label class="custom-file">
-                                        <input type="file" id="supportive_docs" name="supportive_docs[]" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar" multiple> 
+                                        <input type="file" id="supportive_docs" name="supportive_docs[]" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar, .jpg, .jpeg, .png, .gif" multiple> 
                                         <span class="custom-file-control" data-label="Upload Project Documents"></span>
                                     </label>
                                     <p class="form-guide">{{__('project.file_hint')}}</p>

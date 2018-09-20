@@ -184,12 +184,12 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Torann\GeoIP\GeoIPServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Bogardo\Mailgun\MailgunServiceProvider::class,
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Spatie\Newsletter\NewsletterServiceProvider::class,
         LaravelCloudSearch\LaravelCloudSearchServiceProvider::class,
+        CyrildeWit\EloquentViewable\EloquentViewableServiceProvider::class,
 
     ],
 
@@ -222,7 +222,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
-        'GeoIP' => Torann\GeoIP\GeoIPFacade::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,

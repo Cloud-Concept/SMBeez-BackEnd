@@ -87,6 +87,7 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::post('/manage/companies/store', 'CompaniesController@admin_store')->name('admin.company.store');
 	Route::get('/manage/companies/{company}/edit', 'CompaniesController@admin_edit')->name('admin.company.edit');
 	Route::post('/manage/companies/{company}/update', 'CompaniesController@admin_update')->name('admin.company.update');
+	Route::get('/manage/companies/{company}/activities', 'CompaniesController@company_activities')->name('admin.company.activity');
 	Route::post('/promote-company/{company}', 'CompaniesController@promote')->name('admin.company.promote');
 	Route::post('/unpromote-company/{company}', 'CompaniesController@unpromote')->name('admin.company.unpromote');
 	Route::post('/verify/{company}', 'CompaniesController@verify')->name('admin.company.verify');

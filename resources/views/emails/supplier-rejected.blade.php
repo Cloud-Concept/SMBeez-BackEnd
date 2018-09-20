@@ -37,7 +37,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
+        	<a href="https://www.masharee3.com?utm_source=newsletter&utm_medium=email&utm_campaign=call_center" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

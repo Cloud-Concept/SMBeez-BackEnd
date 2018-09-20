@@ -16,7 +16,7 @@
 	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
 	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p {{$rtl}}>مبروك - لقد حصلت على تقييم جديد لشركتك! إضغط على الرابط التالي لترى التقييم: <a href="{{route('front.company.show', $review->company->slug)}}">اضغط هنا</a> </p>
+							<p {{$rtl}}>مبروك - لقد حصلت على تقييم جديد لشركتك! إضغط على الرابط التالي لترى التقييم: <a href="{{route('front.company.show', $review->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">اضغط هنا</a> </p>
 
 							<p {{$rtl}}>يمكنك تقديم تقييمك لأي شركة والحصول على ٢٥ نقطة في حسابك</p>
 
@@ -33,7 +33,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
+        	<a href="https://www.masharee3.com?utm_source=newsletter&utm_medium=email&utm_campaign=call_center" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

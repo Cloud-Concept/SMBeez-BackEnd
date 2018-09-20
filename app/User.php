@@ -8,12 +8,13 @@ use Laratrust\Traits\LaratrustUserTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Role;
 use App\Company;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use LaratrustUserTrait;
-
+    use CausesActivity;
     use Sluggable;
     
     /**

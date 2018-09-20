@@ -170,7 +170,7 @@
                                         <td scope="row">{{__('company.upload_doc')}}:</td>
                                         <td>
                                             <label class="custom-file">
-                                                <input type="file" id="reg_doc" name="reg_doc[]" class="custom-file-input" accept=".jpg, .png, .jpeg, .doc, .docx, .xlsx, .xls,text/plain, application/pdf, .zip, .rar" multiple> 
+                                                <input type="file" id="reg_doc" name="reg_doc[]" class="custom-file-input" accept=".jpg, .png, .jpeg, .gif, .doc, .docx, .xlsx, .xls,text/plain, application/pdf, .zip, .rar" multiple> 
                                                 <span class="custom-file-control" data-label="Registration Documents"></span>
                                             </label>
                                             <p class="form-guide">{{__('company.reg_hint')}}</p>
