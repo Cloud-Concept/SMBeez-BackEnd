@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use LaravelCloudSearch\Eloquent\Searchable;
-use CyrildeWit\EloquentViewable\Viewable;
 use App\Interest;
 
 class Project extends Model
@@ -15,7 +14,6 @@ class Project extends Model
 
     use Sluggable;
     use Searchable;
-    use Viewable;
     /**
     * Return the sluggable configuration array for this model.
     *

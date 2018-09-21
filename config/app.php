@@ -189,7 +189,6 @@ return [
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Spatie\Newsletter\NewsletterServiceProvider::class,
         LaravelCloudSearch\LaravelCloudSearchServiceProvider::class,
-        CyrildeWit\EloquentViewable\EloquentViewableServiceProvider::class,
 
     ],
 

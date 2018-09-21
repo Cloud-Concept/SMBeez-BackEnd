@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+
 <main id="next-block" class="cd-main-content">
     <section class="featured-block text-center mt-5 pt-5">
         <div class="container">

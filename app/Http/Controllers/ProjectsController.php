@@ -194,9 +194,6 @@ class ProjectsController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-        
-        //record views
-        $project->addView();
 
         $company = new Company;
         $hasCompany = $company->where('user_id', Auth::id())->first();

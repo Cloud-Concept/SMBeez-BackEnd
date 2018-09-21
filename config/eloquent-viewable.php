@@ -47,7 +47,7 @@ return [
          */
         'store_new_view' => [
 
-            'enabled' => true,
+            'enabled' => false,
             'delay_in_seconds' => 60 * 2,
             'onQueue' => null,
             'onConnection' => null,

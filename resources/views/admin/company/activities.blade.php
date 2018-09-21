@@ -34,7 +34,7 @@
                                     <tr>
                                         <td>{{$activity->log_name}}</td>
                                         <td>{{$activity->description}}</td>
-                                        <td>{{$activity->causer->first_name}}</td>
+                                        <td>{{$activity->causer['first_name']}}</td>
                                         <td>{{$activity->properties}}</td>
                                         <td>{{$activity->created_at->toDateTimeString()}}</td>
                                     </tr>

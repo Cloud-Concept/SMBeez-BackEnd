@@ -206,8 +206,6 @@ class CompaniesController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-        //record views
-        $company->addView();
 
         $project = new Project;
         
@@ -220,7 +218,7 @@ class CompaniesController extends Controller
         //get suppliers reviews
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
-        
+                
         return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews'));
     }
 
