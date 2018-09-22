@@ -36,7 +36,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label>{{ __('company.documents') }}:</label>
-                                            <label class="form-control custom-file"><input type="file" id="document" name="document[]" class="custom-file-input" accept=".jpg, .png, .doc, .docx, .xlsx, .xls,text/plain, application/pdf" multiple required> <span class="custom-file-control" data-label="Registration Document"></span></label>
+                                            <label class="form-control custom-file"><input type="file" id="document" name="document[]" class="custom-file-input" accept=".jpg, .png, .jpeg, .gif, .doc, .docx, .xlsx, .xls,text/plain, application/pdf, .zip, .rar" multiple required> <span class="custom-file-control" data-label="Registration Document"></span></label>
                                             <p class="form-guide">{{ __('company.claim_docs_hint') }}</p>
                                         </div>
                                     </div>

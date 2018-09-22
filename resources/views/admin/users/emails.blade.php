@@ -44,8 +44,8 @@
                                 <tbody>
                                     @foreach ($emails as $email)
                                     <tr>
-                                        <td><a href="{{route('admin.user.edit', $email->user->username)}}">{{$email->user->email}}</a></td>
-                                        <td>{{$email->user->company ? $email->user->company->company_name : '-'}}</td>
+                                        <td><a href="{{$email->user_id != 0 ? route('admin.user.edit', $email->user->username) : '#'}}">{{$email->user_id != 0 ? $email->user->email : 'Anonymous'}}</a></td>
+                                        <td>{{$email->user_id != 0 && $email->user->company ? $email->user->company->company_name : '-'}}</td>
                                         <td>{{$email->created_at->toDateTimeString()}}</td>
                                     </tr>
                                     @endforeach

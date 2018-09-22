@@ -50,11 +50,20 @@
                                     <div class="d-flex"><input class="form-control" name="s" value="{{request()->query('s')}}" placeholder="Search Company" type="search"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
                                 </div>
                             </form>
+                            <form action="" class="user-setting sd-tickets" method="get">
+                                <div class="form-group">
+                                    <div class="d-flex">
+                                        <label for="">Page No.</label>
+                                        <input type="number" class="form-control" name="page" value="{{request()->query('page') ? request()->query('page') : 1}}"/>
+                                    </div>
+                                </div>
+                            </form>
                             <table class="table table-striped my-4">
                                 <thead class="thead-blue">
                                     <tr>
                                         <th scope="col">Company Name</th>
                                         <th scope="col">Status <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                        <th scope="col">User</th>
                                         <th scope="col">Industry</th>
                                         <th scope="col" width="10%">Actions</th>
                                     </tr>
@@ -68,6 +77,11 @@
                                         @else
                                         <td class="report-status {{$company->slug}}">In Queue</td>
                                         @endif
+                                        @if($company->mod_report)
+                                        <td>{{$company->mod_report->user->first_name}}</td>
+                                        @else
+                                        <td>-</td>
+                                        @endif
                                         @if(app()->getLocale() == 'ar')
                                         <td>{{$company->industry->industry_name_ar}}</td>
                                         @else
@@ -79,7 +93,7 @@
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#edit-company" class="px-2 edit-company"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#report-company" class="px-2 report-company" alt="Report Company"><i class="fa fa-list" aria-hidden="true"></i></a>
                                                 <a href="#" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#email-company" class="px-2 email-company"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                                                <!-- <a href="#" id="hide-company-{{$company->slug}}" class="px-2" company-id="{{$company->slug}}" onClick="event.preventDefault(); if(confirm('Do you really need to hide this company?')){ var e = $(this); hide_company(e)}"><i class="fa fa-eye-slash" aria-hidden="true"></i></a> -->
+                                                <a href="#" id="hide-company-{{$company->slug}}" class="px-2" company-id="{{$company->slug}}" onClick="event.preventDefault(); if(confirm('Do you really need to hide this company?')){ var e = $(this); hide_company(e)}"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                                 <a href="{{route('front.company.show', $company->slug)}}" target="_blank" class="px-2"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <a href="{{route('admin.company.edit', $company->slug)}}" target="_blank" class="px-2"><i class="fa fa-clone" aria-hidden="true"></i></a>
                                             </div>
@@ -87,7 +101,7 @@
                                     </tr>
                                     <script>
 
-                                    /*function hide_company(e) {                                        
+                                    function hide_company(e) {                                        
                                         var company_id = e.attr('company-id');
                                         console.log(company_id);
                                         var url = '{{ route("hide-company-ajax", ":company_id") }}';
@@ -99,7 +113,7 @@
                                             $('.'+ company_id).hide();
                                         });
 
-                                    }*/
+                                    }
                                     </script>
                                     @endforeach
                                 </tbody>

@@ -18,7 +18,7 @@
 
 	                        <p {{$rtl}}>البريد الالكتروني: {{$user->email}}</p>
 							<p {{$rtl}}>كلمة السر: {{$unique_password}}</p>
-							<p {{$rtl}}>رابط تسجيل الدخول: <a href="http://www.masharee3.com/login">http://www.masharee3.com/login</a></p>
+							<p {{$rtl}}>رابط تسجيل الدخول: <a href="http://www.masharee3.com/login?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">http://www.masharee3.com/login</a></p>
 							<p {{$rtl}}>رابط شركتك: ({{route('front.company.show', $user->company->slug)}})</p>
 							
 							<p {{$rtl}}>ماذا بعد؟ </p>
@@ -47,7 +47,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-        	<a href="https://www.masharee3.com/" title="">https://www.masharee3.com</a><br>
+        	<a href="https://www.masharee3.com?utm_source=newsletter&utm_medium=email&utm_campaign=call_center" title="">https://www.masharee3.com</a><br>
             &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
         @endcomponent
     @endslot

@@ -47,7 +47,6 @@ class CompaniesController extends Controller
 
         $company = new Company;
         $user = Auth::user();
-
         $hasCompany = $company->where('user_id', Auth::id())->first();
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
         $speciality = new Speciality;
@@ -207,6 +206,7 @@ class CompaniesController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
+
         $project = new Project;
         
         $closed_projects = $project->where('user_id', $company->user_id)
@@ -218,7 +218,7 @@ class CompaniesController extends Controller
         //get suppliers reviews
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
-        
+                
         return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews'));
     }
 
@@ -762,7 +762,8 @@ class CompaniesController extends Controller
         }
         $company_specialities = implode('","', $current_specialities);
         $last_login = UserLogins::where('user_id', $company->user_id)->latest()->first();
-        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login'));
+        $views = $company->getViews();
+        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login', 'views'));
     }
     public function admin_update(Request $request, Company $company)
     {
@@ -875,6 +876,11 @@ class CompaniesController extends Controller
         session()->flash('success', 'Your company has been updated.');
 
         return back();
+    }
+    //Company Activity Logs
+    public function company_activities(Company $company) {
+        $activities = $company->activity;
+        return view('admin.company.activities', compact('company', 'activities'));
     }
     //promote company to make featured
     public function promote(Company $company)

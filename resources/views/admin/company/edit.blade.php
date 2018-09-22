@@ -29,6 +29,10 @@
                         @endif
                     </div>
                     @endif
+                    <div class="alert alert-info">
+                        Company Activity: <a href="{{route('admin.company.activity', $company->slug)}}">Activities</a>
+                        <br>Company Views : {{$views}}
+                    </div>
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -195,7 +199,7 @@
                             <p class="form-group">
                                 <label for="">Registration Documents</label>
                                 <label class="custom-file">
-                                    <input type="file" id="reg_doc" name="reg_doc" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar"> 
+                                    <input type="file" id="reg_doc" name="reg_doc" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar, .jpg, .jpeg, .png, .gif"> 
                                     <span class="custom-file-control" data-label="Registration Documents"></span>
                                 </label>
                                 <p class="form-guide">Accepts Excel, Word, PowerPoint, Text, PDF, ZIP, RAR</p>

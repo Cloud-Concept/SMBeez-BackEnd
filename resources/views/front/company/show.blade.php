@@ -120,7 +120,7 @@
                                             </select>
                                         </li>
                                         <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
-                                        <li class="list-item"> 
+                                        <li class="list-inline-item"> 
                                             @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))
                                                 @if(!$company->bookmarked($company->id))
                                                     <a href="#" id="bookmark-b-{{$company->id}}" class="more-inf" onclick="event.preventDefault();"><i class="fa fa-bookmark-o" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Add to your Favorites"></i></a>
@@ -194,8 +194,8 @@
                     <div class="company-tabs">
                         <ul class="nav d-flex nav-tabs mt-5" id="myTab" role="tablist">
                             <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{__('company.profile')}}</a></li>
-                            <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('company.reviews_from_customers')}}</a></li>
-                            <li class="nav-item ml-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}}</a></li>
+                            <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('company.reviews_from_customers')}} ({{$customer_reviews->count()}})</a></li>
+                            <li class="nav-item ml-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}} ({{$suppliers_reviews->count()}})</a></li>
                             @if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
                             <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.write_review')}}</button></li>
                             @elseif(Auth::guest())

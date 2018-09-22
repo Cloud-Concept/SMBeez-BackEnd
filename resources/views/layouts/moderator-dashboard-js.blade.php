@@ -248,6 +248,8 @@ $("#create-user").click(function(e){
         $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
         $('.assign-msg').after('<p>' + data.data + '</p>');
         $('.assign-user-alert').addClass('show').show();
+        //clear
+        $("#create-user-form")[0].reset();
     });
 
 });
