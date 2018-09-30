@@ -1,0 +1,227 @@
+// Lang Arabic
+
+:lang(ar){
+  body {
+    text-align: right;
+    direction: rtl;
+    font-family: $fontTaj;
+  }
+  .pagination {
+    font-family: $fontrobo;
+  }
+
+  ul {
+    padding-right: 0;
+  }
+
+  .pull-right {
+    float: left;
+  }
+
+  .pull-left{
+    float: right;
+  }
+
+  .ml-3, .mx-3 {
+    margin-right: 1rem !important;
+    margin-left: 0!important;
+  }
+  .mr-3, .mx-3 {
+    margin-left: 1rem !important;
+    margin-right: 0!important;
+  }
+
+  .navbar-nav {
+    flex-direction : row-reverse;
+  }
+
+  /* case */
+  .footer {
+    .row {
+      //flex-direction : row;
+    }
+  }
+  .row{
+    //flex-direction : row-reverse;
+  }
+
+  .dropdown-menu:not(.datepicker) {
+    text-align: right;
+  }
+
+  .offset-xl-3 {
+    @include mq(xl) {
+      margin-left: 0;
+      margin-right: 25%;
+    }
+  }
+  .offset-md-3 {
+    @include mq(md) {
+      margin-left: 0;
+      margin-right: 25%;
+    }
+  }
+
+
+
+
+
+  .cd-main-nav,
+  .cd-search-trigger {
+    float: left;
+  }
+  .cd-main-nav li{
+    //float: left;
+    @include mq(lg2) {
+      float: right;
+    }
+  }
+
+
+  .cd-main-nav {
+    right: inherit;
+    left:  0;
+  }
+
+  .cd-main-header.nav-is-visible,
+  .cd-main-content.nav-is-visible {
+    -webkit-transform: translateX(260px);
+    -moz-transform: translateX(260px);
+    -ms-transform: translateX(260px);
+    -o-transform: translateX(260px);
+    transform: translateX(260px);
+  }
+
+  .cd-main-search input[type="search"] {
+    padding-left:170px;
+    padding-right: 20px;
+  }
+  .cd-main-search .close {
+    left: 15px;
+    right: inherit;
+  }
+  .cd-search-trigger.search-form-visible {
+    transform: translateX(46px);
+  }
+
+  .cd-nav-trigger {
+    left: 0;
+    right: inherit;
+  }
+
+  .list-group a.active::before {
+    right: inherit;
+    left: 0;
+    content: "\f053";
+  }
+
+  .custom-select {
+    background-position: left .75rem center;
+    padding: .375rem .75rem .375rem 1.75rem;
+  }
+
+
+  .mr-sm-2, .mx-sm-2 {
+    @include mq(sm) {
+      margin-right: 0!important;
+      margin-left: .5rem !important;
+    }
+  }
+
+  .custom-control-indicator {
+    left: inherit;
+    right: 0;
+  }
+
+  .custom-control-description {
+    @include rem(margin-right, 10px);
+    @include rem(margin-left, 0);
+  }
+  .custom-control {
+    padding-left: 0;
+    margin-right: 0;
+    padding-right: 1.5rem;
+    margin-left: 1rem;
+  }
+  .star-rating .list-inline-item.thumb-review {
+    float: right;
+  }
+
+  .hero-company-details {
+    text-align: left;
+    h1 {
+      float: left;
+      width: 70%;
+    }
+    h2 {
+      clear: both;
+    }
+    .star-rating .list-inline-item.thumb-review {
+      float: left;
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
+  }
+  .search-block h2 span {
+    float: left;
+  }
+
+  .terms-block .row {
+    flex-direction : row-reverse;
+  }
+  .modal-fullscreen .close, .modal-signup .close {
+    right: inherit;
+    left: 5px;
+  }
+  .form-group-verify .input-group i {
+    right: inherit;
+    left: 10px;
+  }
+
+  .thumb-int {
+    font-family: $fontTaj;
+  }
+  .btn-play,
+  .search-info ,
+  h6 ,
+  .modal-title {
+    font-family: $fontSch;
+  }
+
+  .btn {
+    line-height: 1;
+  }
+
+  .here-center {
+
+    .row {
+      align-items: center;
+      vertical-align: middle;
+      > .col-md-7 {
+        order: 2;
+      }
+      > .col-md-5{
+        order:1;
+      }
+    }
+  }
+
+  .custom-file-control:empty::after{
+    content: attr(data-label);
+    color: $placeholder;
+  }
+
+  .custom-file-control.selected:after {
+    content: "" !important;
+  }
+  .custom-file-control:lang(ar)::before {
+    content: "تصفح";
+    font-size: 12px;
+    line-height: 24px;
+  }
+  .custom-file-control::before {
+    left: -1px;
+    right: auto;
+    border-radius: .25rem 0 0 .25rem;
+  }
+}

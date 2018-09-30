@@ -49,11 +49,11 @@
 }
 @media only screen and (min-width: 1024px) {
   .cd-logo {
-    width: 180px;
-    height: 50px;
+    width: 173px;
+    height: 45px;
     position: absolute;
-    z-index: 3;
-    @include rem(margin, 10px 15px 0);
+    z-index: 1;
+    @include rem(margin, 20px 30px 0);
   }
   .cd-logo img {
   }
@@ -83,7 +83,7 @@
   -ms-transform: translateX(-50%) translateY(-50%);
   -o-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
-  background-color: $main-blue;
+  background-color: $white;
   -webkit-transition: background-color 0.3s;
   -moz-transition: background-color 0.3s;
   transition: background-color 0.3s;
@@ -96,7 +96,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: $main-blue;
+  background-color: $white;
   /* Force Hardware Acceleration */
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
@@ -169,7 +169,7 @@
   display: block;
   @include rem(font-size, $base-font-size);
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 700;
   padding: 0 2em 0 1em;
   line-height: 50px;
   color: $white;
@@ -180,7 +180,7 @@
 }
 @media only screen and (min-width: 1024px) {
   .cd-main-nav a, .cd-main-nav input[type="search"] {
-      color: $main-blue;
+      color: $white;
   }
 
 }
@@ -216,13 +216,16 @@
     display: inline-block;
     float: left;
     height: 100%;
-    padding: 1.7em .4em;
+    padding: 1.3em .4em;
   }
   .cd-main-nav a {
-    padding: .625em .8em;
+    padding: .625em .8em 0;
     line-height: 1;
     border-bottom: none;
     text-decoration: none;
+    &.active {
+      font-weight: 700;
+    }
   }
   .cd-main-nav a:hover {
     opacity: .6;
@@ -620,7 +623,8 @@ Search Form
     z-index: 3;
     height: 40px;
     width: 40px;
-    margin: 1.25em 0 ;
+    margin: 1.25em 0 0;
+    top: -2px;
     float: right;
     cursor: pointer;
     -webkit-transition: -webkit-transform 0.3s;
@@ -646,7 +650,7 @@ Search Form
     transform: translateX(-50%) translateY(-50%);
     height: 16px;
     width: 16px;
-    color: $main-blue;
+    color: $white;
     font-size: 16px;
     line-height: 1;
   }
@@ -931,15 +935,22 @@ JavaScript Disabled
   }
 
   .btn-menu {
-    a {
-      border: 1px solid $gray;
-      border-radius: 4px;
-      @include transition(all .4s ease);
 
-      &:hover{
-        opacity: 1;
-        background: $main-blue;
-        color: $white;
+    a {
+      background: none;
+
+      @include mq(lg2) {
+        background: $yellow;
+        border-radius: 25px;
+        color: $main-blue;
+        font-size: 14px;
+        line-height: 1;
+        @include rem(padding, 10px 15px);
+
+        &:hover{
+          background: $darkblue;
+          color: $white;
+        }
       }
     }
   }
@@ -948,4 +959,70 @@ JavaScript Disabled
     .no-effect a {
       pointer-events: none;
   }
+}
+
+
+// badge icon
+.badge-top {
+  margin: 4px 0 0 5px ;
+
+
+
+  .fa-stack{
+    width: 30px;
+  }
+  .fa-stack[data-count]:after{
+    position:absolute;
+    right:50%;
+    top:10px;
+    z-index: 1;
+    content: attr(data-count);
+    font-size: 10px;
+    padding:.5em .6em;
+    border-radius:999px;
+    line-height:.75em;
+    color: white;
+    background:rgba(255,0,0,.85);
+    text-align:center;
+    font-weight: bold;
+  }
+}
+
+.center-things {
+  font-family: arial;
+  @include mq(lg2) {
+    height: 100%;
+    top: 50%;
+    position: relative;
+  }
+  p {
+    top: -4px;
+    left: 5px;
+    margin: 0;
+    background: none;
+    position: absolute;
+    color: gray;
+    z-index: 2;
+    @include mq(md) {
+
+
+    }
+
+    @include mq(lg2) {
+      top: 50%;
+      left: 50%;
+      margin-left: -50%;
+      transform: translate(-50%, -50%);
+    }
+
+  }
+  .fa-stack-1x {
+    font-size: 25px;
+    color: $white;
+
+  }
+}
+
+.cd-serch-wrapper {
+  margin-top: -2px;
 }

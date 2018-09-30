@@ -17,6 +17,10 @@ DashBoard Main nav
   a {
     text-transform: uppercase;
     color: $main-blue;
+    &.active{
+      text-decoration: none;
+      font-weight: 700;
+    }
   }
 
   .navbar-toggler{

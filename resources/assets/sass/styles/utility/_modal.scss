@@ -51,8 +51,11 @@ Modal
     @include transition(all .4s ease);
 
     &:hover{
-
       background: $darkblue;
+    }
+
+    span {
+      line-height: 43px;
     }
   }
 }
@@ -105,5 +108,20 @@ Modal
     @include rem(padding, 5px 10px);
     margin-top: -17px;
     display: block;
+  }
+}
+
+// Call center
+.modal-call {
+  .modal-title {
+    margin: -7px 0 2px 0;
+    text-transform: inherit;
+    span {
+      font-weight: 400;
+      font-size: 12px;
+    }
+    i {
+      @include rem(margin-right, 5px );
+    }
   }
 }

@@ -1,5 +1,14 @@
 jQuery(document).ready(function($){
 
+  // Date Picker
+  $.fn.datepicker.defaults.format = 'dd/mm/yyyy';
+  $.fn.datepicker.defaults.autoclose = true;
+  $.fn.datepicker.defaults.orientation = 'right bottom',
+  $('.datepicker').datepicker({
+
+      startDate: '-3d'
+  });
+
   // Main Nav & Search
 	var resizing = false,
 		navigationWrapper = $('.cd-main-nav-wrapper'),
@@ -91,19 +100,27 @@ jQuery(document).ready(function($){
 	});
 
 
+
   // Star Rating
+  //$('.star-rating-fn').barrating('destroy');
   $('.star-rating-fn').barrating({
-    theme: 'fontawesome-stars'
+    theme: 'fontawesome-stars',
+    emptyValue: 0
   });
+
 
   // Star Rating ReadOnly
   $('.star-rating-ro').barrating({
     readonly: true,
     hoverState: false,
+    emptyValue: 0,
     theme: 'fontawesome-stars'
   });
 
-
+  // tooltips
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
 
 
 
@@ -112,7 +129,7 @@ jQuery(document).ready(function($){
   // input files
 
     $('.custom-file-input').on('change',function(){
-      $(this).next().after().text($(this).val().split('\\').slice(-1)[0])
+      $(this).next().after().text($(this).val().split('\\').slice(-1)[0]);
     })
 
 
@@ -167,12 +184,10 @@ jQuery(document).ready(function($){
       $('#five-level > .no-case-info , #five-level > .yes-case-info').hide();
 
     });
-    $("#third-level  .case-03 > select").change(function () {
-      if($(this).val() == 'other') {
-          $("#four-level > .no-case-info").show(), $("#four-level > .yes-case-info").hide(), $("#five-level > .no-case-info , #five-level > .yes-case-info").hide()
-      }else {
-        $("#four-level > .no-case-info").hide()
-      }
+    $('#third-level  .case-03 > .radio-no-case').click(function(){
+      $('#four-level > .no-case-info').show();
+      $('#four-level > .yes-case-info').hide();
+      $('#five-level > .no-case-info , #five-level > .yes-case-info').hide();
     });
 
     //level 4
@@ -186,16 +201,18 @@ jQuery(document).ready(function($){
     });
 
   // Scroll Animation
+
+
     if ($('body').hasClass('home')) {
-    window.sr = ScrollReveal({ reset: true });
-      sr.reveal('.home .hero h1', {
+    window.sr = ScrollReveal({ reset: false });
+      sr.reveal('.home .here-center h1', {
         opacity: 0,
         distance: '10rem',
         duration: 2000,
         scale: 1,
         origin: 'top'
       });
-      sr.reveal('.home .hero p', {
+      sr.reveal('.home .here-center p', {
         opacity: 0,
         duration: 2000,
         origin: 'top'
@@ -208,22 +225,35 @@ jQuery(document).ready(function($){
         scale: 1,
         origin: 'bottom'
       });
-
-      sr.reveal('.home .featured-companies h3, .home .featured-projects h3', {
+      sr.reveal('.home .img-fluid', {
+        opacity: 0,
+        distance: '10rem',
+        duration: 2000,
+        scale: 1,
+        origin: 'left'
+      });
+      sr.reveal('.home .arrow-down', {
+        opacity: 0,
+        distance: '10rem',
+        duration: 1000,
+        scale: 1,
+        origin: 'top'
+      });
+      sr.reveal('.home .featured-block h2, .home .featured-block p, .home .featured-block .btn', {
         opacity: 0,
         distance: '10rem',
         duration: 1000,
         scale: 1,
         origin: 'bottom'
       });
-      sr.reveal('.home .sidebar-01, .home .sidebar-02, .home .footer', {
+      sr.reveal('.home .box-block-into, .home .box-block-into h3, .home .box-block-into p, .home .box-block-into .btn, .home .box-block-into a', {
         opacity: 0,
         distance: '10rem',
         duration: 2000,
         scale: 1,
         origin: 'bottom'
       });
-      sr.reveal('.home .company-box, .home .project-box, .home .create-intro', {
+      sr.reveal('.home .company-box, .home .footer', {
         opacity: 0,
         distance: '10rem',
         duration: 1500,
@@ -231,4 +261,16 @@ jQuery(document).ready(function($){
         origin: 'bottom'
       });
   }
+
+
+
+  // smooth Scroll
+  $(document).on('click', 'a[href^="#"]', function (event) {
+      event.preventDefault();
+      $('html, body').animate({
+          scrollTop: $($.attr(this, 'href')).offset().top
+      }, 800);
+  });
+
+
 });
