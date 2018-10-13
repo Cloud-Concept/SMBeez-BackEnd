@@ -1,6 +1,6 @@
 var elixir = require('laravel-elixir');
 
-elixir.config.sourcemaps = false;
+elixir.config.sourcemaps = true;
 
 elixir(function(mix) {
 	mix.sass('resources/assets/sass/styles/main.scss', 'public/css');
@@ -9,6 +9,19 @@ elixir(function(mix) {
         'public/js'
     );
 	mix.browserSync({
-		proxy: 'localhost:8000'
+    // change by ur localhost address
+		proxy: 'http://localhost:8000'
 	});
 });
+
+
+
+// Run all tasks...
+//gulp
+
+// Run all tasks and minify all CSS and JavaScript...
+//gulp --production
+
+
+//watch files
+//gulp watch

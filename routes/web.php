@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
 	$locale = Session::get('locale');
     if($locale) {
@@ -36,7 +35,7 @@ Route::get('/language/{locale}', function ($locale) {
     return redirect()->to($refer_url);
 })->name('change.lang');
 
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/status', 'HomeController@status');
 
 
 //Dashboard for admins only
@@ -44,6 +43,7 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('/', 'AdminController@index');
 	Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
 	Route::get('/dashboard/moderator/companies', 'AdminController@moderator_dashboard_companies')->name('moderator.companies.dashboard');
+	Route::get('/dashboard/moderator/mycompanies/{user}', 'AdminController@moderator_dashboard_mycompanies')->name('moderator.companies.mycompanies');
 	Route::get('/dashboard/moderator/projects', 'AdminController@moderator_dashboard_projects')->name('moderator.projects.dashboard');
 	Route::get('/search-companies', 'SearchController@moderator_filter_companies')->name('mod.filter.companies');
 	Route::get('/search-companies/superadmin', 'SearchController@superadmin_filter_companies')->name('superadmin.filter.companies');
@@ -61,6 +61,7 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('/manage/users/logins', 'UserController@logins')->name('admin.user.logins');
 	Route::get('/manage/users/logins/{user}', 'UserController@user_logins')->name('admin.user.user-logins');
 	Route::get('/manage/users/emails', 'UserController@emails')->name('admin.user.emails');
+	Route::post('/manage/users/send-creds/{user}', 'AdminController@send_credentials_email')->name('admin.user.creds');
 	//Industries Module
 	Route::get('/manage/industries', 'AdminController@industries')->name('admin.industries');
 	Route::get('/manage/industries/create', 'IndustriesController@create')->name('admin.industry.create');

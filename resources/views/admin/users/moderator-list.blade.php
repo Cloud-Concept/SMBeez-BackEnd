@@ -26,6 +26,7 @@
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
                                 <p class="thumb-title mt-1 mb-1">{{$moderator->first_name}} {{$moderator->last_name}}</p>
+                                <p><b>{{$moderator->portfolio_count($moderator->id)}}</b> Companies In Portfolio</p>
                                 <p><a href="{{route('admin.user.mod_stat', $moderator->username)}}">Check Statistics</a></p>
                             </div>
                         </div>

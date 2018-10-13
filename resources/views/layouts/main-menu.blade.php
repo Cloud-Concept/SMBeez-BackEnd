@@ -30,7 +30,7 @@
             @if(\Laratrust::hasRole('administrator|superadmin'))
             <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{__('general.admin_dashboard')}}</a>
             @elseif(\Laratrust::hasRole('moderator'))
-            <a class="dropdown-item" href="{{ route('moderator.companies.dashboard') }}">{{__('general.dashboard')}}</a>
+            <a class="dropdown-item" href="{{ route('moderator.companies.mycompanies', Auth::user()->username) }}">{{__('general.dashboard')}}</a>
             @else
             <a class="dropdown-item" href="{{ route('front.user.dashboard', Auth::user()->username) }}">{{__('general.dashboard')}}</a>
             @endif

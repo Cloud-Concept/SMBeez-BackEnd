@@ -14,7 +14,6 @@ use URL;
 use App\Mail\Welcome;
 use \App\Repositories\SMBeezFunctions;
 use App\Mail\Mod\NewUser;
-//use Mailgun;
 
 class LoginController extends Controller
 {
@@ -42,11 +41,7 @@ class LoginController extends Controller
         $user->increment('logins_no', 1);
         $track = new SMBeezFunctions;
         $track->user_logins($user->id);
-        /*$validate = Mailgun::validator()->validate("hossam.struggler@qqq.com");
-        dd($validate);
-        if($validate) {
-          Mail::to($user->email)->send(new Welcome);
-        }*/
+
         if($request['action'] === 'add-company') { 
             //if unlogged user clicked on add company
             return redirect(route('front.user.dashboard', $user->username) . '?action=add-company');
@@ -68,7 +63,7 @@ class LoginController extends Controller
         }elseif(\Laratrust::hasRole('administrator|superadmin')){
             return redirect(route('admin.dashboard'));
         }elseif(\Laratrust::hasRole('moderator')){
-            return redirect(route('moderator.companies.dashboard'));
+            return redirect(route('moderator.companies.mycompanies', $user->username));
         }else {
             return redirect(route('front.user.dashboard', $user->username));
         }

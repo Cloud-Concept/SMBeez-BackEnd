@@ -12,6 +12,7 @@ use App\Speciality;
 use App\Claim;
 use App\ModCompanyReport;
 use App\ModLog;
+use App\ModComments;
 use App\EmailLogs;
 use App\Role;
 use Mail;
@@ -81,10 +82,37 @@ class AdminController extends Controller
 
         $user = auth()->user();
 
-        if(!$user->hasRole(['moderator'])) {
+        if(!$user->hasRole(['moderator', 'superadmin', 'administrator'])) {
             return redirect()->route('home');
         }
-        $companies = Company::where('status', 1)->latest()->paginate(100);
+        $companies = Company::where('status', 1)->latest()->paginate(50);
+        $moderators = User::whereHas('roles', function($q){
+            $q->where('name', 'moderator');
+        })->get();
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
+        $status_array = array(
+            'In Queue', 'Successful Call - Interested', 'Successful Call - Not Interested',
+            'Successful Call - Agreed to Call Back', 'Successful Call - Asked for more details via email',
+            'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
+            'Unsuccessful Call - No answer'
+        );
+
+        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array', 'moderators'));
+    }
+
+    public function moderator_dashboard_mycompanies()
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
+        $user = auth()->user();
+
+        if(!$user->hasRole(['moderator', 'superadmin', 'administrator'])) {
+            return redirect()->route('home');
+        }
+        $companies = Company::where('status', 1)->where('manager_id', $user->id)->latest()->paginate(50);
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
         $status_array = array(
             '',
@@ -109,9 +137,10 @@ class AdminController extends Controller
         if(!$user->hasRole(['moderator'])) {
             return redirect()->route('home');
         }
+        $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
         $projects = Project::paginate(10);
 
-        return view('admin.moderator-dashboard-projects', compact('projects'));
+        return view('admin.moderator-dashboard-projects', compact('projects', 'industries'));
     }
     //API
     public function get_company(Company $company, User $user)
@@ -240,11 +269,7 @@ class AdminController extends Controller
             $user->honeycombs = 0;
 
             $validate = Mailgun::validator()->validate($user->email);
-            if($validate->is_valid == true) {
-                Mail::to($user->email)->send(new NewUser($user, $unique_password));
-            }else {
-                return response()->json(['msg' => 'User Email Invalid, Please Ask for Another Email', 'data' => '']); 
-            }
+            
             $user->save();
 
             $user->roles()->sync(3, false);
@@ -269,6 +294,12 @@ class AdminController extends Controller
 
             $log->save();
 
+            if($validate->is_valid == true) {
+                Mail::to($user->email)->send(new NewUser($user, $unique_password));
+            }else {
+                return response()->json(['msg' => 'User Email Invalid, Please Ask for Another Email', 'data' => '']); 
+            }
+
             return response()->json(['msg' => 'User Created Successfully!', 'data' => 'An email will be sent to the user to complete the login process.']);
 
         }else {
@@ -279,7 +310,7 @@ class AdminController extends Controller
     public function get_company_report(Company $company) {
 
         if($company->mod_report) {
-            return response()->json($company->mod_report);
+            return response()->json(['report' => $company->mod_report, 'comments' => $company->mod_comments]);
         }else {
             return response()->json(['msg' => 'Add New Status Report']);
         }
@@ -306,6 +337,15 @@ class AdminController extends Controller
 
             $log->save();
 
+            //comments
+            $add_comment = new ModComments;
+            $add_comment->company_id = $company->id;
+            $add_comment->user_id = $mod_user;
+            $add_comment->username = User::where('id', $mod_user)->pluck('first_name')->first();
+            $add_comment->feedback = $request['feedback'];
+
+            $add_comment->save();
+
             return response()->json(['msg' => 'Updated Successfully!', 'status' => $report->status]);
 
         }else {
@@ -328,6 +368,15 @@ class AdminController extends Controller
             $log->activity_log = 'Company first call status is "' . $report->status . '"';
 
             $log->save();
+
+            //comments
+            $add_comment = new ModComments;
+            $add_comment->company_id = $company->id;
+            $add_comment->user_id = $mod_user;
+            $add_comment->username = User::where('id', $mod_user)->pluck('first_name')->first();
+            $add_comment->feedback = $request['feedback'];
+
+            $add_comment->save();
 
             return response()->json(['msg' => 'Saved Successfully!', 'status' => $report->status]);
         }
@@ -355,6 +404,46 @@ class AdminController extends Controller
         
 
         return response()->json(['msg' => 'Company Hidden Successfully!']);
+    }
+
+    public function manage_company(Request $request, Company $company) {
+        $mod_user = $request['mod_user'];
+        if(!$company->manager_id) {
+            $company->manager_id = $mod_user;
+            $company->update();
+        }else{
+            return response()->json(['msg' => 'SORRY! Company Already have a manager!']);
+        }
+
+        //Logging
+        $log = new ModLog;
+        
+        $log->user_id = $mod_user;
+        $log->company_id = $company->id;
+        $log->activity_type = 'company_manager_added';
+        $log->activity_log = 'Company Manager added "' . $company->manager($mod_user) . '"';
+
+        $log->save();
+        
+        return response()->json(['msg' => 'Company Managed Successfully!', 'manager' => $company->manager($mod_user)]);
+    }
+
+    public function assign_company_to_manager(Request $request, Company $company) {
+        $mod_user = $request['mod_user'];
+        $company->manager_id = $mod_user;
+        $company->update();
+
+        //Logging
+        $log = new ModLog;
+        
+        $log->user_id = $request['assigner'];
+        $log->company_id = $company->id;
+        $log->activity_type = 'company_manager_added';
+        $log->activity_log = 'Company Manager added "' . $company->manager($mod_user) . '"';
+
+        $log->save();
+        
+        return response()->json(['msg' => 'Company Managed Successfully!', 'manager' => $company->manager($mod_user)]);
     }
 
     public function hidden_companies(Company $company)
@@ -720,6 +809,21 @@ class AdminController extends Controller
             app()->setLocale($locale);
         }
         return view('vendor.translation-manager.index');
+    }
+
+    public function send_credentials_email(User $user) {   
+        $validate = Mailgun::validator()->validate($user->email);
+        $unique_password = uniqid();
+        $user->password = bcrypt($unique_password);
+        $user->update();
+        if($validate->is_valid == true) {
+            Mail::to($user->email)->send(new NewUser($user, $unique_password));
+            session()->flash('msg', 'Email Sent Successfully'); 
+        }else {
+            session()->flash('msg', 'User Email Invalid, Please Ask for Another Email'); 
+        }
+
+        return back();
     }
 
 }

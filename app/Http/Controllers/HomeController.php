@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Session;
 use Newsletter;
 use Auth;
+use App\ModCompanyReport;
+use App\Company;
 
 class HomeController extends Controller
 {
@@ -65,5 +67,17 @@ class HomeController extends Controller
         
         
         return back();
+    }
+
+    public function status()
+    {   
+        $with_status = ModCompanyReport::get()->toArray();
+        foreach(array_reverse($with_status) as $status) {
+            $company = Company::where('id', $status['company_id'])->first();
+            $company->mod_status = $status['status'];
+            $company->update();
+        }
+        
+        return 'Thanks All Done';
     }
 }

@@ -17,6 +17,7 @@
                         </ol>
                     </nav>
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.company.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add a new Company</a></div>
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('moderator.companies.dashboard')}}" class="btn btn-alert text-capitalize"><i class="fa fa-eye fa-3x" aria-hidden="true"></i> View As Moderator</a></div>
                     <div class="row">
                         <div class="col-md-12">
                             <form class="user-setting sd-tickets" action="{{route('superadmin.filter.companies')}}" role="search" method="get">
@@ -76,7 +77,7 @@
                                 </tbody>
                             </table>
 
-                            {{$companies->links()}}
+                            {{$companies->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 's' => request()->input('s') ])->links()}}
                             
                         </div>
                     </div>

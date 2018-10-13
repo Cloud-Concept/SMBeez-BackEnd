@@ -31,7 +31,10 @@
                     @endif
                     <div class="alert alert-info">
                         Company Activity: <a href="{{route('admin.company.activity', $company->slug)}}">Activities</a>
-                        <br>Company Views : {{$views}}
+                        <br>
+                        @if($manager)
+                        Company Manager: {{$manager}}
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">

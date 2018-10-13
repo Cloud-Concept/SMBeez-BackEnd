@@ -118,6 +118,12 @@ class User extends Authenticatable
         return $this->id === auth()->id();
     }
 
+    public function portfolio_count($manager_id)
+    {
+        return Company::where('manager_id', $manager_id)
+        ->count();
+    } 
+
     public function getReferrals()
     {
         return ReferralProgram::all()->map(function ($program) {

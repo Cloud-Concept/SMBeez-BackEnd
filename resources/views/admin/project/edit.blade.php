@@ -7,7 +7,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    @include('layouts.superadmin-sidebar')
+                    @if(\Laratrust::hasRole('moderator'))
+                        @include('layouts.moderator-sidebar')
+                    @else
+                        @include('layouts.superadmin-sidebar')
+                    @endif
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
@@ -19,11 +23,10 @@
                     <div class="alert alert-info">
                         Project Owner Company: <a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a> | <a href="{{route('admin.company.edit', $project->user->company->slug)}}">Edit Company</a>
                         <br>
-                        Project Owner User: <a href="{{route('admin.user.edit', $project->user->username)}}">{{$project->user->first_name}} {{$project->user->last_name}}</a>
+                        Project Owner User: <a href="{{\Laratrust::hasRole('superadmin') ? route('admin.user.edit', $project->user->username) : '#'}}">{{$project->user->first_name}} {{$project->user->last_name}}</a>
                         @if($last_login)
                         <br>Last Login: {{$last_login->created_at->diffForHumans()}}
                         @endif
-                        <br>Project Views: {{$views}}
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -31,10 +34,12 @@
                         </div>
                     @endif
 
-                    @if($project->is_promoted == 1)
-                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('unpromote').submit();"><i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Un-Promote</a></div>
-                    @else
-                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('promote').submit();"><i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Promote</a></div>
+                    @if(\Laratrust::hasRole('superadmin'))
+                        @if($project->is_promoted == 1)
+                        <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('unpromote').submit();"><i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Un-Promote</a></div>
+                        @else
+                        <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('promote').submit();"><i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Promote</a></div>
+                        @endif
                     @endif
 
                     <form id="promote" action="{{route('admin.project.promote', $project->slug)}}" method="post">
@@ -47,6 +52,9 @@
 
                     <form class="user-setting" action="{{route('admin.project.update', $project->slug)}}" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
+                        @if(\Laratrust::hasRole('moderator'))
+                        <fieldset disabled>
+                        @endif
                             <p class="form-group">
                                 <label for="">Project Title</label>
                                 <input class="form-control" type="text" value="{{$project->project_title}}" name="project_title" placeholder="Project Title" id="project_title" required>
@@ -85,6 +93,9 @@
                             <br>
                             <br>
                         <input type="submit" class="btn btn-primary" value="Submit">
+                        @if(\Laratrust::hasRole('moderator'))
+                        </fieldset>
+                        @endif
                     </form>
                 </div>
             </div>

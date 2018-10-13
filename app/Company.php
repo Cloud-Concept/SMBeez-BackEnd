@@ -92,6 +92,11 @@ class Company extends Model
         return $this->hasOne(ModCompanyReport::class);
 
     }
+    public function mod_comments() {
+
+        return $this->hasMany(ModComments::class);
+
+    }
     public function mod_logs() {
 
         return $this->hasMany(ModLog::class);
@@ -237,6 +242,13 @@ class Company extends Model
         ->pluck('id')
         ->first();
     }
+
+    public function manager($manager_id)
+    {
+        return User::where('id', $manager_id)
+        ->pluck('first_name')
+        ->first();
+    }   
 
     public static function addRelevanceScore($score, $company_id) {
         $company = Company::where('id', $company_id);
