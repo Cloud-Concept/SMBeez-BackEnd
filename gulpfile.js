@@ -24,4 +24,8 @@ elixir(function(mix) {
 
 
 //watch files
+<<<<<<< HEAD
 //gulp watch
+=======
+//gulp watch
+>>>>>>> 9243dc90590665c2629a08161a332ebe67403706

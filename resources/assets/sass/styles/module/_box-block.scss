@@ -4,6 +4,10 @@
     font-weight: 300;
     color: $darkblue;
 
+    &.address {
+      color: $main-blue;
+    }
+
     &.thumb-title {
       font-weight: 400;
       color: $main-blue;
@@ -74,4 +78,57 @@ White Box
       @include rem(padding-top,12px);
     }
   }
+}
+
+
+/*
+New Box block
+*/
+.featured-block-gray {
+  background: $light-gray;
+}
+.box-block-into {
+  width: 100%;
+  border-radius: 5px;
+  background: $white;
+  box-shadow: 0 0 8px 0 rgba(124,124,124,0.14);
+  @include transition(all .4s ease);
+
+
+  p {
+    font-weight: 400;
+    @include rem(font-size, $base-font-size - 3px);
+  }
+
+  a {
+    font-weight: 400;
+    @include rem(font-size, $base-font-size - 2px);
+    text-decoration: none;
+
+  }
+
+  .img-height {
+    min-height: 135px;
+  }
+
+  .img-box {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.box-gray {
+  box-shadow: none;
+  background: $light-gray;
+
+  &:hover{
+    background: $white;
+    box-shadow: 0 0 8px 0 rgba(124,124,124,0.14);
+  }
+}
+
+.box-trans {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
 }

@@ -78,3 +78,16 @@
     vertical-align: middle;
   }
 }
+
+
+/* Home Page */
+
+.home {
+  .br-theme-fontawesome-stars .br-widget a {
+    font-size: 16px;
+    &.br-selected:after,
+    &.br-active:after {
+      color: $star-yellow;
+    }
+  }
+}

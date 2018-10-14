@@ -13,3 +13,19 @@
     color: $white;
   }
 }
+
+
+.home {
+  overflow-x: hidden;
+}
+// animation rest @ start
+.home .hero h1,
+.home .hero p,
+.home .btn-hero,
+.home .featured-block h3,
+.home .footer,
+.home .box-block-into,
+.home .arrow-down,
+.home .create-intro {
+  transform: scale(0,0);
+}
