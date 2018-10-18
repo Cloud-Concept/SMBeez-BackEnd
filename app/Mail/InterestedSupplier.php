@@ -11,14 +11,15 @@ class InterestedSupplier extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $project;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($project)
     {
-        //
+        $this->project = $project;
     }
 
     /**
@@ -28,6 +29,9 @@ class InterestedSupplier extends Mailable
      */
     public function build()
     {
-        return $this->markdown('view.name');
+        return $this->subject('لديك شركة جديدة مهتمة بمشروعك "' . $this->project->project_title . '"')->markdown('emails.interested-supplier')
+        ->with([
+            'project' => $this->project,
+        ]);
     }
 }

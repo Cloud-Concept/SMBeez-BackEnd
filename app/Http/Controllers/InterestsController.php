@@ -74,6 +74,10 @@ class InterestsController extends Controller
         
         $message->save();
 
+        Mail::to($project->user->email)->send(new InterestedSupplier($project));
+
+        $do = new SMBeezFunctions;
+        $do->email_log($message->sender_id, $project->user->email);
 
         session()->flash('success', 'Thanks for expressing interest on that project.');
 
