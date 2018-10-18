@@ -101,7 +101,6 @@ jQuery(document).ready(function($){
 
 
 
-
   // Star Rating
   //$('.star-rating-fn').barrating('destroy');
   $('.star-rating-fn').barrating({
