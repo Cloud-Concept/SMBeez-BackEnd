@@ -127,7 +127,7 @@ class SearchController extends Controller
         if(Auth::user()) {
             //if user signed in so find the user's company industry and get use it with request
             if ($request->has('industry') && !$request['industry'] == '') {
-                $company->where('industry_id', $hasCompany ? Auth::user()->company->industry->id : $request['industry']);
+                $company->where('industry_id', $request['industry']);
             }
             if ($request->has('s')) {
                 $company->where('company_name', 'like', '%' . $request['s'] . '%');
@@ -176,7 +176,7 @@ class SearchController extends Controller
         }
 
         //check if the user has a company
-        $hasCompany = $company->where('user_id', Auth::id())->first();
+        /*$hasCompany = $company->where('user_id', Auth::id())->first();*/
         //search for companies
         $companies = app(\LaravelCloudSearch\CloudSearcher::class)->newQuery();
         $companies = $companies->searchableType(\App\Company::class)
@@ -185,9 +185,9 @@ class SearchController extends Controller
             ->term(1, 'status');
             if(Auth::user()) {
                 $q->term(auth()->user()->user_city, 'city');
-                if($hasCompany) {
+                /*if($hasCompany) {
                     $q->term(Auth::user()->company->industry->id, 'industry_id');
-                }
+                }*/
             }                   
         })->sort('relevance_score', 'desc')->paginate(10);
         //search for projects
@@ -228,9 +228,7 @@ class SearchController extends Controller
         $company = $company->newQuery();
 
         if ($request->has('status') && $request['status'] != '') {
-            //$with_reps = DB::table('mod_company_reports')->where('status', $request['status'])->pluck('company_id')->toArray();
             $company->where('mod_status', $request['status']);
-
         }
         if ($request->has('manager_id') && $request['manager_id'] != '') {
             $company->where('manager_id', $request['manager_id']);
@@ -251,7 +249,6 @@ class SearchController extends Controller
         })->get();
 
         $status_array = array(
-            '',
             'In Queue', 'Successful Call - Interested', 'Successful Call - Not Interested',
             'Successful Call - Agreed to Call Back', 'Successful Call - Asked for more details via email',
             'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',

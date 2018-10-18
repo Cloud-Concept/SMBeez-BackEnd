@@ -138,7 +138,7 @@ class AdminController extends Controller
             return redirect()->route('home');
         }
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
-        $projects = Project::paginate(10);
+        $projects = Project::paginate(50);
 
         return view('admin.moderator-dashboard-projects', compact('projects', 'industries'));
     }
@@ -406,6 +406,30 @@ class AdminController extends Controller
         return response()->json(['msg' => 'Company Hidden Successfully!']);
     }
 
+    public function unhide_company(Request $request, Company $company) {
+        $company->status = $request['status'];
+        $company->update();
+
+        $mod_user = $request['mod_user'];
+
+        if($company->mod_report) {
+            $report = $company->mod_report;
+            $report->user_id = $mod_user;
+            $report->status = 'UnHide Company';
+            $report->company_id = $company->id;
+            $report->update();
+        }else{
+            $report = new ModCompanyReport;
+            $report->user_id = $mod_user;
+            $report->status = 'UnHide Company';
+            $report->company_id = $company->id;
+            $report->save();  
+        }
+        
+
+        return response()->json(['msg' => 'Company UnHidden Successfully!']);
+    }
+
     public function manage_company(Request $request, Company $company) {
         $mod_user = $request['mod_user'];
         if(!$company->manager_id) {
@@ -458,7 +482,7 @@ class AdminController extends Controller
         if(!$user->hasRole(['superadmin', 'administrator'])) {
             return redirect()->route('home');
         }
-        $companies = Company::where('status', 0)->latest()->paginate(10);
+        $companies = Company::where('status', 0)->latest()->paginate(50);
         return view('admin.company.hidden', compact('companies'));
     }
 
@@ -693,7 +717,7 @@ class AdminController extends Controller
             app()->setLocale($locale);
         }
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
-        $projects = Project::paginate(10);
+        $projects = Project::paginate(50);
 
         return view('admin.project.index', compact('projects', 'industries'));
     }
@@ -705,7 +729,7 @@ class AdminController extends Controller
             app()->setLocale($locale);
         }
 
-        $companies = Company::latest()->paginate(10);
+        $companies = Company::latest()->paginate(50);
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
 
         return view('admin.company.index', compact('companies', 'industries'));

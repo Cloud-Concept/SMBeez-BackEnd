@@ -147,7 +147,7 @@
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <h2>2. Create User To Company</h2>
+                            <h2>3. Create User To Company</h2>
                             <form class="call-form" id="create-user-form" method="post">
                                 {{csrf_field()}}
                                 <div class="form-group"><input type="text" name="first_name" id="first_name" placeholder="First Name *" class="form-control" required/></div>

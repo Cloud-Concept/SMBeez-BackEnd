@@ -18,11 +18,11 @@
                     </nav>
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="" class="search-company">
+                            <!-- <form action="" class="search-company">
                                 <div class="form-group">
                                     <div class="d-flex"><input type="text" class="form-control" placeholder="link here"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
                                 </div>
-                            </form>
+                            </form> -->
 
                             <h4>Claim company request</h4>
                             <table class="table table-striped my-4">

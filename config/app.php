@@ -40,6 +40,28 @@ return [
 
     'debug' => env('APP_DEBUG', false),
 
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'MANDRILL_SECRET',
+            'MAILCHIMP_APIKEY',
+            'MAILCHIMP_LIST_ID',
+            'CLOUDSEARCH_ENDPOINT',
+            'CLOUDSEARCH_REGION',
+            'AWS_KEY',
+            'AWS_SECRET'
+        ],
+
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+        ],
+
+        '_POST' => [
+            'password',
+        ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Application URL

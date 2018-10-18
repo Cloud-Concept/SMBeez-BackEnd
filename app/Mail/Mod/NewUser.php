@@ -31,7 +31,7 @@ class NewUser extends Mailable
      */
     public function build()
     {
-        return $this->subject('مرحباً بك في مشاريع!')->markdown('emails.mod.newuser')
+        return $this->subject('تفاصيل حسابك في مشاريع!')->markdown('emails.mod.newuser')
         ->with([
             'user' => $this->user,
             'unique_password' => $this->unique_password,
