@@ -18,7 +18,13 @@ vCards Global
     i{
       @include rem(margin-right, 10px);
       color: $main-blue;
+
+      &:lang(ar) {
+        @include rem(margin-right, 0);
+        @include rem(margin-left, 10px);
+      }
     }
+
   }
 }
 
@@ -28,6 +34,6 @@ vCard Company Details
 
 .vcard-company{
   h4 {
-    border-bottom: 1px solid $gray;
+    //border-bottom: 1px solid $gray;
   }
 }

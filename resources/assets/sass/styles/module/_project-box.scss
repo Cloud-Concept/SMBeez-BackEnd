@@ -1,7 +1,8 @@
 /* Project Boxes */
 
 .project-box {
-  background:$gray;
+  background:$light-gray;
+  border-radius: 5px;
   @include rem(padding,10px 20px 20px);
   @include mq(md){
   };
@@ -9,5 +10,6 @@
 
 .project-box-side {
   background: none;
+  @include rem(padding,10px 0 20px);
   border-bottom: 1px solid $gray;
 }

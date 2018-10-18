@@ -19,8 +19,9 @@ button:hover,
   border-radius: $br01;
   text-transform: uppercase;
   @include rem(font-size, $base-font-size);
-  @include rem(padding, 10px 30px);
+  @include rem(padding, 15px 30px);
   @include transition(all .4s ease);
+  font-weight: 700;
 }
 
 .btn-dash {
