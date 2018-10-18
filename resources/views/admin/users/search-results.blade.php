@@ -49,7 +49,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{$users->links()}}
+                            {{$users->appends(['s' => request()->input('s')])->links()}}
                         </div>
                     </div>
                 </div>

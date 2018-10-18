@@ -43,7 +43,7 @@
                             </p>
                             <p class="form-group">
                                 <label for="">Website</label>
-                                <input class="form-control" type="url" name="company_website" placeholder="Company Website" id="company_website">
+                                <input class="form-control" type="text" name="company_website" placeholder="Company Website" id="company_website">
                             </p>
                             <p class="form-group">
                                 <label for="">Company Email</label>

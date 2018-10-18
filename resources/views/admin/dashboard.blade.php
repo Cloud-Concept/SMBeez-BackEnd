@@ -21,6 +21,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
+
                     <div class="row equal overview-blocks">
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">

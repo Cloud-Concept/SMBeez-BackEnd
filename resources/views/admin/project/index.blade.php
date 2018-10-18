@@ -64,7 +64,7 @@
                             </div>
                             @endforeach
                             
-                            {{$projects->links()}}
+                            {{$projects->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 's' => request()->input('s') ])->links()}}
                         </div>
                     </div>
                 </div>

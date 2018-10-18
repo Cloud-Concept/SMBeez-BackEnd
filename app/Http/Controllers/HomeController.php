@@ -33,6 +33,16 @@ class HomeController extends Controller
         return view('layouts.about');
     }
 
+    public function privacy_policy()
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
+        return view('layouts.privacy');
+    }
+
     public function subscribe(Request $request)
     {   
         
@@ -71,11 +81,18 @@ class HomeController extends Controller
 
     public function status()
     {   
-        $with_status = ModCompanyReport::get()->toArray();
-        foreach(array_reverse($with_status) as $status) {
-            $company = Company::where('id', $status['company_id'])->first();
-            $company->mod_status = $status['status'];
-            $company->update();
+        $chunks = ModCompanyReport::get()->chunk(1000)->toArray();
+
+        foreach($chunks as $chunk) {
+            foreach(array_reverse($chunk) as $status) {
+                $company = Company::where('id', $status['company_id'])->first();
+                if($company) {
+                    $company->mod_status = $status['status'];
+                    $company->update();
+                }else{
+                    continue;
+                }
+            }
         }
         
         return 'Thanks All Done';
