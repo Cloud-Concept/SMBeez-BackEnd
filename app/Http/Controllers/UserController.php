@@ -734,13 +734,13 @@ class UserController extends Controller
         $log = new ModLog;
         $report = new ModCompanyReport;
 
-        $today_company_updates = $log->where('activity_type', 'company_update')->whereDate('created_at', Carbon::today())->count();
-        $today_report_creates = $log->where('activity_type', 'report_create')->whereDate('created_at', Carbon::today())->count();
-        $today_assign_users = $log->where('activity_type', 'assign_user')->whereDate('created_at', Carbon::today())->count();
-        $today_assign_new_user = $log->where('activity_type', 'assign_new_user')->whereDate('created_at', Carbon::today())->count();
-        $today_message_sent = $log->where('activity_type', 'message_sent')->whereDate('created_at', Carbon::today())->count();
-        $today_companies_by_users = $log->where('activity_type', 'new_user_created_company')->whereDate('created_at', Carbon::today())->count();
-        $today_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->whereDate('created_at', Carbon::today())->count();
+        $today_company_updates = $log->where('activity_type', 'company_update')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_report_creates = $log->where('activity_type', 'report_create')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_assign_users = $log->where('activity_type', 'assign_user')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_assign_new_user = $log->where('activity_type', 'assign_new_user')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_message_sent = $log->where('activity_type', 'message_sent')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_companies_by_users = $log->where('activity_type', 'new_user_created_company')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
+        $today_companies_imported_admin = $log->where('activity_type', 'admin_created_company')->where('user_id', $user->id)->whereDate('created_at', Carbon::today())->count();
         $today_successful_calls = $report->whereIn('status', ['Successful Call - Interested',
         'Successful Call - Not Interested', 
         'Successful Call - Agreed to Call Back', 

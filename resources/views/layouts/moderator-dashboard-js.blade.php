@@ -45,14 +45,24 @@
         $('.company-row.' + company_id).addClass('highlight');
 
         $.get(url.replace(':company_id', company_id), function(data, status){
-            if(data.status) {
-                $('#report-company').find('#status').val(data.status);
+            if(data.report.status) {
+                $('#report-company').find('#status').val(data.report.status);
             }else {
                 $('#report-company').find('#status').val('In Queue');
             }
-            $('#report-company').find('#feedback').val(data.feedback);
+            $('#report-company').find('#feedback').val(data.report.feedback);
             $('#report-company').find('.company-name-span').text('(' + company_name + ')');
-            $('#report-company').find('.get-info').val(company_id);         
+            $('#report-company').find('.get-info').val(company_id);
+            console.log(data.comments);
+            var comments = data.comments.reverse();
+            var comments_length = comments.length;
+            $('#report-company .comments-wrapper table tbody').html('');
+            for (i = 0; i < comments_length; i++) {
+              $('<tr class="tr-'+ i + '" />').appendTo('#report-company .comments-wrapper table tbody');
+              $('<td />').text(comments[i].feedback).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+              $('<td />').text(comments[i].username).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+              $('<td />').text(comments[i].created_at).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+            }
         });
     });
 
@@ -72,12 +82,13 @@
         $.get(url.replace(':company_id', company_id), function(data, status){
             $('#email-company').find('.company-name-span').text('(' + data.company_name + ')');
             $('#email-company').find('.company-city').text(data.city);
-            $('#email-company').find('.get-info').val(company_id);              
+            $('#email-company').find('.get-info').val(company_id);            
         });
     });
 </script>
 
 <div class="modal fade modal-fullscreen modal-add-company" id="edit-company" tabindex="-1" role="dialog" aria-labelledby="edit-company" aria-hidden="true">
+    <div class="modal-cover" style="width: 100%; height: 800px; background: #3336; z-index: 9999; position: absolute; display:none;"></div>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <button type="button" class="close" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#edit-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
@@ -93,7 +104,7 @@
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <h2>1. Edit Company Details</h2>
                             <div class="alert alert-success alert-green alert-dismissible fade company-update-alert" role="alert">
                                 <h3><i class="fa fa-check fa-2x" aria-hidden="true"></i> Saved Successfully</h3>
@@ -113,7 +124,7 @@
                                 <button class="btn btn-blue btn-yellow pull-right update-company-submit">Save Details</button>
                             </form>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <h2>2. Assign Company to a User</h2>
                             <div class="alert alert-success alert-green alert-dismissible fade assign-user-alert" role="alert">
                                 <h3 class="assign-msg"></h3>
@@ -134,9 +145,12 @@
                                 <input type="hidden" class="get-info"/>
                                 <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                             </form>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>3. Create User To Company</h2>
                             <form class="call-form" id="create-user-form" method="post">
                                 {{csrf_field()}}
-                                <div class="form-group"><label class="custom-control">New User</label><input type="text" name="first_name" id="first_name" placeholder="First Name *" class="form-control" required/></div>
+                                <div class="form-group"><input type="text" name="first_name" id="first_name" placeholder="First Name *" class="form-control" required/></div>
                                 <div class="form-group"><input type="text" name="last_name" id="last_name" placeholder="Last Name *" class="form-control" required/></div>
                                 <div class="form-group"><input type="email" name="email" id="email" placeholder="Email Address *" class="form-control" required/></div>
                                 <div class="form-group"><input type="text" name="phone" id="phone" placeholder="Phone" class="form-control"/></div>
@@ -196,6 +210,7 @@ $(".update-company-submit").click(function(e){
 
     var company_id = $(this).closest('#update-company-form').find('.get-info').val();
     var url = '{{ route("update-company-ajax", ":company_id") }}';
+    $('#edit-company .modal-cover').show();
     $.post(url.replace(':company_id', company_id),
     {
         company_name: $(this).closest('#update-company-form').find('#company_name').val(),
@@ -206,6 +221,7 @@ $(".update-company-submit").click(function(e){
         mod_user: $(this).closest('#update-company-form').find( "input[name='mod_user']" ).val(),
 
     }).done(function( data ) {
+        $('#edit-company .modal-cover').hide();
         $('.company-update-alert').addClass('show').show();
     });
 
@@ -216,6 +232,7 @@ $("#assign-company").click(function(e){
 
     var company_id = $(this).closest('#assign-company-to-user').find('.get-info').val();
     var url = '{{ route("assign-company-ajax", ":company_id") }}';
+    $('#edit-company .modal-cover').show();
     $.post(url.replace(':company_id', company_id),
     {
         user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
@@ -226,6 +243,7 @@ $("#assign-company").click(function(e){
         $('#verified-check').show();
         $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.success);
         $('.assign-user-alert').addClass('show').show();
+        $('#edit-company .modal-cover').hide();
     });
 
 });
@@ -235,6 +253,7 @@ $("#create-user").click(function(e){
 
     var company_id = $(this).closest('#create-user-form').find('.get-info').val();
     var url = '{{ route("user-company-ajax", ":company_id") }}';
+    $('#edit-company .modal-cover').show();
     $.post(url.replace(':company_id', company_id),
     {
         first_name: $(this).closest('#create-user-form').find('#first_name').val(),
@@ -250,6 +269,7 @@ $("#create-user").click(function(e){
         $('.assign-user-alert').addClass('show').show();
         //clear
         $("#create-user-form")[0].reset();
+        $('#edit-company .modal-cover').hide();
     });
 
 });
@@ -259,6 +279,7 @@ $("#create-user").click(function(e){
 <!-- Report Modal -->
 
 <div class="modal fade modal-fullscreen modal-call" id="report-company" tabindex="-1" role="dialog" aria-labelledby="report-company" aria-hidden="true">
+    <div class="modal-cover" style="width: 100%; height: 800px; background: #3336; z-index: 9999; position: absolute; display:none;"></div>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <button type="button" class="close" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#report-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
@@ -274,7 +295,7 @@ $("#create-user").click(function(e){
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-7 mrt-auto">
+                        <div class="col-md-6">
                             <h2>Report Company Status</h2>
                             <div class="alert alert-success alert-green alert-dismissible fade report-alert" role="alert">
                                 <h3></h3>
@@ -300,6 +321,21 @@ $("#create-user").click(function(e){
                                 <button class="btn btn-blue btn-yellow pull-right" id="submit-report">Save Status</button>
                             </form>
                         </div>
+                        <div class="col-md-6">
+                            <div class="comments-wrapper" style="height:300px;overflow:scroll;">
+                                <table class="table table-striped my-4">
+                                    <thead class="thead-blue">
+                                        <tr>
+                                            <th scope="col">Comment</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -313,6 +349,7 @@ $("#submit-report").click(function(e){
 
     var company_id = $(this).closest('#report-company-form').find('.get-info').val();
     var url = '{{ route("create-update-company-report-ajax", ":company_id") }}';
+    $('#report-company .modal-cover').show();
     $.post(url.replace(':company_id', company_id),
     {
         status: $(this).closest('#report-company-form').find('#status').val(),
@@ -324,12 +361,14 @@ $("#submit-report").click(function(e){
         $('.report-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
         $('.report-alert').addClass('show').show();
         $('.report-status.' + company_id).text(data.status);
+        $('#report-company .modal-cover').hide();
     });
 
 });
 </script>
 
 <div class="modal fade modal-fullscreen modal-call" id="email-company" tabindex="-1" role="dialog" aria-labelledby="email-company" aria-hidden="true">
+    <div class="modal-cover" style="width: 100%; height: 800px; background: #3336; z-index: 9999; position: absolute; display:none;"></div>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <button type="button" class="close" aria-label="Close" onclick="event.preventDefault(); if(confirm('Do you really need to close?')){$('#email-company').modal('hide');}"><span aria-hidden="true">&times;</span></button>
@@ -380,6 +419,7 @@ $("#send-message").click(function(e){
 
     var company_id = $(this).closest('#send-msg-form').find('.get-info').val();
     var url = '{{ route("send-mod-msg-ajax", ":company_id") }}';
+    $('#email-company .modal-cover').show();
     $.post(url.replace(':company_id', company_id),
     {
         subject: $(this).closest('#send-msg-form').find('#subject').val(),
@@ -390,6 +430,7 @@ $("#send-message").click(function(e){
     }).done(function( data ) {
         $('.email-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
         $('.email-alert').addClass('show').show();
+        $('#email-company .modal-cover').hide();
     });
 
 });

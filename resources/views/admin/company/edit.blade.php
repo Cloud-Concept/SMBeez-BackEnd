@@ -31,7 +31,10 @@
                     @endif
                     <div class="alert alert-info">
                         Company Activity: <a href="{{route('admin.company.activity', $company->slug)}}">Activities</a>
-                        <br>Company Views : {{$views}}
+                        <br>
+                        @if($manager)
+                        Company Manager: {{$manager}}
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -87,7 +90,7 @@
                             </p>
                             <p class="form-group">
                                 <label for="">Website</label>
-                                <input class="form-control" value="{{$company->company_website}}" type="url" name="company_website" placeholder="Company Website" id="company_website">
+                                <input class="form-control" value="{{$company->company_website}}" type="text" name="company_website" placeholder="Company Website" id="company_website">
                             </p>
                             <p class="form-group">
                                 <label for="">Company Email</label>
@@ -228,7 +231,7 @@
                         
                     </form>
                     @role('superadmin')
-                    <h1>DON'T EVER USE THIS CUZ ALL COMPANY OWNER PROJECTS, INTERESTS, REVIEWS, CLAIMS, BOOKMARKS WILL BE DELETED PERMENTANTLY.</h1>
+                    <!-- <h1>DON'T EVER USE THIS CUZ ALL COMPANY OWNER PROJECTS, INTERESTS, REVIEWS, CLAIMS, BOOKMARKS WILL BE DELETED PERMENTANTLY.</h1>
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('delete').submit();"><i class="fa fa-trash fa-3x" aria-hidden="true"></i> DELETE COMPANY</a></div>
                     
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); document.getElementById('delete-reviews').submit();"><i class="fa fa-trash fa-3x" aria-hidden="true"></i> Clear Reviews</a></div>
@@ -241,8 +244,103 @@
                     <form id="delete-reviews" action="{{route('admin.company.delete-reviews', $company->slug)}}" method="post">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}                        
-                    </form>
+                    </form> -->
                     @endrole
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12 alert alert-success alert-green alert-dismissible fade assign-user-alert" role="alert">
+                            <h3 class="assign-msg"></h3>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>1. Assign Company to a User</h2>
+                            <form class="call-form" id="assign-company-to-user" method="post">
+                                {{csrf_field()}}
+                                
+                                <div class="form-group-verify">
+                                    <div class="from-group">
+                                        <label class="custom-control">Existing User</label>
+                                        <div class="input-group"><input type="email" id="user_email" name="user_email" placeholder="User Email" class="form-control" aria-label="User Email" aria-describedby="basic-addon1" value="{{$company->user ? $company->user->email : ''}}" required/> <i class="fa fa-check" id="verified-check" style="display:none;" aria-hidden="true"></i></div>
+                                    </div>
+                                    <div class="from-group mt-3">
+                                        <button id="assign-company" class="btn btn-sm btn-yellow-2 pull-left">Assign Company</button>
+                                        <p class="verify pull-left ml-3" style="display:none;">( Verified )</p>
+                                    </div>
+                                </div>
+                                <input type="hidden" class="get-info" value="{{$company->slug}}"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>2. Create User To Company</h2>
+                            <form class="call-form user-setting" id="create-user-form" method="post">
+                                {{csrf_field()}}
+                                <div class="form-group"><input type="text" name="first_name" id="first_name" placeholder="First Name *" class="form-control" required/></div>
+                                <div class="form-group"><input type="text" name="last_name" id="last_name" placeholder="Last Name *" class="form-control" required/></div>
+                                <div class="form-group"><input type="email" name="email" id="email" placeholder="Email Address *" class="form-control" required/></div>
+                                <div class="form-group"><input type="text" name="phone" id="phone" placeholder="Phone" class="form-control"/></div>
+                                <div class="form-group">
+                                    <label class="custom-control">Company Role</label>
+                                    <select name="role" class="form-control custom-select d-block" id="role" required>
+                                        <option value="Company Owner">Company Owner</option>
+                                        <option value="General Manager">General Manager</option>
+                                        <option value="Sales and/or Marketing Director">Sales and/or Marketing Director</option>
+                                        <option value="Account Manager">Other</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" class="get-info" value="{{$company->slug}}"/>
+                                <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
+                                <button class="btn btn-blue btn-yellow pull-right" id="create-user">Create User</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <script>
+                        $("#assign-company").click(function(e){
+                            e.preventDefault();
+
+                            var company_id = $(this).closest('#assign-company-to-user').find('.get-info').val();
+                            var url = '{{ route("assign-company-ajax", ":company_id") }}';
+                            $('#edit-company .modal-cover').show();
+                            $.post(url.replace(':company_id', company_id),
+                            {
+                                user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
+                                mod_user: $(this).closest('#assign-company-to-user').find( "input[name='mod_user']" ).val(),
+
+                            }).done(function( data ) {
+                                $('#assign-company-to-user').find('.verify').show();
+                                $('#verified-check').show();
+                                $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.success);
+                                $('.assign-user-alert').addClass('show').show();
+                            });
+
+                        });
+
+                        $("#create-user").click(function(e){
+                            e.preventDefault();
+
+                            var company_id = $(this).closest('#create-user-form').find('.get-info').val();
+                            var url = '{{ route("user-company-ajax", ":company_id") }}';
+                            $('#edit-company .modal-cover').show();
+                            $.post(url.replace(':company_id', company_id),
+                            {
+                                first_name: $(this).closest('#create-user-form').find('#first_name').val(),
+                                last_name: $(this).closest('#create-user-form').find('#last_name').val(),
+                                phone: $(this).closest('#create-user-form').find('#phone').val(),
+                                email: $(this).closest('#create-user-form').find('#email').val(),
+                                role: $(this).closest('#create-user-form').find('#role').val(),
+                                mod_user: $(this).closest('#create-user-form').find( "input[name='mod_user']" ).val(),
+
+                            }).done(function( data ) {
+                                $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
+                                $('.assign-msg').after('<p>' + data.data + '</p>');
+                                $('.assign-user-alert').addClass('show').show();
+                                //clear
+                                $("#create-user-form")[0].reset();
+                            });
+
+                        });
+
+                    </script>
                 </div>
             </div>
         </div>

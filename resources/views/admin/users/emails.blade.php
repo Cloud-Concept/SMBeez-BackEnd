@@ -51,7 +51,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{$emails->links()}}
+                            {{$emails->appends(['date_from' => request()->input('date_from'), 'date_to' => request()->input('date_to')])->links()}}
                         </div>
                     </div>
                 </div>

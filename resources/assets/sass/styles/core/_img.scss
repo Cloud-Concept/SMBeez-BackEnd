@@ -12,3 +12,11 @@ Images
   border: 1px solid $yellow;
   @include rem(margin-right, 5px);
 }
+
+.error-img {
+  clear: both;
+  display: block;
+  max-width: 400px;
+  max-height: 386px;
+  @include rem(margin, 50px auto);
+}

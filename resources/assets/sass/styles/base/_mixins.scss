@@ -54,6 +54,13 @@
       @content;
     }
   }
+  @if $mq == lg2 {
+     @media (min-width: 1024px){
+      @content;
+    }
+  }
+
+  
   @if $mq == xl {
      @media (min-width: 1200px){
       @content;

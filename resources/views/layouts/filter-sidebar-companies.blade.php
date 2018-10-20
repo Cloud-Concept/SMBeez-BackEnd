@@ -9,7 +9,6 @@
                 </div>
             </div>
             <br>
-            @if(Auth::guest() || !$hasCompany)
             <select name="industry" class="custom-select mb-2 mr-sm-2 mb-sm-0 w-100">
                 <option value="">{{__('general.all_industries_title')}}</option>
 
@@ -23,15 +22,6 @@
                 </option>
                 @endforeach
             </select>
-            @elseif(!Auth::guest() || $hasCompany)
-                <div class="search-filter mb-4">
-                    @if(app()->getLocale() == 'ar')
-                    <span>{{Auth::user()->company->industry->industry_name_ar}}</span>
-                    @else
-                    <span>{{Auth::user()->company->industry->industry_name}}</span>
-                    @endif
-                </div>
-            @endif
             <div class="search-filter">
                 <h3>{{__('general.specialities_tags_choose')}} <i class="fa fa-filter pull-right" aria-hidden="true"></i></h3>
                 <div class="form-group">

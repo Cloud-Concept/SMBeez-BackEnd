@@ -71,6 +71,9 @@ Route::post('create-user-to-company/{company}', 'AdminController@create_user_to_
 Route::get('get-company-report/{company}', 'AdminController@get_company_report')->name('get-company-report-ajax');
 Route::post('create-update-company-report/{company}', 'AdminController@create_update_company_report')->name('create-update-company-report-ajax');
 Route::post('hide-company/{company}', 'AdminController@hide_company')->name('hide-company-ajax');
+Route::post('unhide-company/{company}', 'AdminController@unhide_company')->name('unhide-company-ajax');
+Route::post('manage-company/{company}', 'AdminController@manage_company')->name('manage-company-ajax');
+Route::post('assign-manager-company/{company}', 'AdminController@assign_company_to_manager')->name('assign-company-to-manager-ajax');
 Route::post('send-mod-msg/{company}', 'AdminController@send_mod_message')->name('send-mod-msg-ajax');
 Route::post('upload-company-imgs/{company}', 'CompaniesController@update_logo_cover')->name('update-company-imgs');
 //Route::get('/search', 'SearchController@filter_opportunities')->name('filter.opportunities');

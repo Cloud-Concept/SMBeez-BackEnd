@@ -762,8 +762,8 @@ class CompaniesController extends Controller
         }
         $company_specialities = implode('","', $current_specialities);
         $last_login = UserLogins::where('user_id', $company->user_id)->latest()->first();
-        $views = $company->getViews();
-        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login', 'views'));
+        $manager = User::where('id', $company->manager_id)->pluck('first_name')->first();
+        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login', 'manager'));
     }
     public function admin_update(Request $request, Company $company)
     {

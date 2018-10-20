@@ -1,5 +1,8 @@
 /* only About Page Cases independent */
 
+.gray-bg {
+  background: $light-gray;
+}
 .video-demo {
   min-height: 590px;
   background: url(../images/hero/demo-video-bg.jpg) no-repeat center bottom;

@@ -158,8 +158,13 @@ Add Project
 Custom File Name
 */
 
+.custom-file-input{
+  cursor: pointer;
+}
+
 .custom-file-control:lang(en):empty::after{
   content: attr(data-label);
+  color: $placeholder;
 }
 
 .custom-file-control.selected:lang(en):after {
@@ -215,6 +220,50 @@ Custom File Name
 /* Super Admin tickets */
 .sd-tickets {
   .form-control {
+    width: 100%;
+  }
+}
+
+
+/* call center forms */
+.call-form {
+  .custom-control {
+    padding-left: 0;
+
+    &.single-label {
+      font-weight: 300;
+      font-size: 12px;
+      @include rem(padding-bottom, 10px);
+      @include rem(padding-top,3px);
+    }
+  }
+}
+
+/* Verify Block */
+.form-group-verify {
+  @extend .clearfix;
+  @include rem(margin, 15px 0);
+  @include rem(padding,10px 15px);
+  width: 100%;
+  background: $darkgray;
+  .verify {
+    color: $main-blue;
+    font-size: 12px;
+    @include rem(padding-top,5px);
+  }
+
+  .input-group {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      z-index: 100;
+      color: $green;
+    }
+  }
+  input {
     width: 100%;
   }
 }

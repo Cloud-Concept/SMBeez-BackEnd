@@ -15,7 +15,7 @@
                             <li class="breadcrumb-item active" aria-current="page">Edit User {{$user->first_name . " " . $user->last_name}}</li>
                         </ol>
                     </nav>
-                    
+                    <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="#" class="btn btn-alert text-capitalize" onclick="event.preventDefault(); var r = confirm('Are you sure you want to re-send credentials to this user ?'); if (r == true) {document.getElementById('creds-form-{{$user->id}}').submit();}">Resend Credentials</a></div>
                     <div class="alert alert-info">
                         @if($user->company)
                             Own Company: <a href="{{route('front.company.show', $user->company->slug)}}">{{$user->company->company_name}}</a> | <a href="{{route('admin.company.edit', $user->company->slug)}}">Edit Company</a>
@@ -32,6 +32,11 @@
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('msg'))
+                        <div class="alert alert-success">
+                            {{ session('msg') }}
                         </div>
                     @endif
                     <div class="alert alert-yellow alert-dismissible fade show my-4 text-center" role="alert"><a href="{{route('admin.user.create')}}" class="btn btn-alert text-capitalize"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i> Add New User</a></div>
@@ -84,6 +89,9 @@
                     <form id="delete-form-{{$user->id}}" action="{{route('admin.user.delete', $user->username)}}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
+                    </form>
+                    <form id="creds-form-{{$user->id}}" action="{{route('admin.user.creds', $user->username)}}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
                     </form>
                 </div>
             </div>

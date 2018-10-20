@@ -4,7 +4,7 @@
 }
 main {
     &.signup{
-     background: $main-blue;
+     background: $gray;
    }
 }
 
@@ -94,8 +94,8 @@ main {
       background: none;
       min-height: auto;
       @include mq(sm) {
-        min-height: 460px;
-        background: url(../images/common/signup-bg.jpg) no-repeat left bottom;
+        min-height: 500px;
+        background: url(../images/common/signup-bg.jpg) no-repeat right bottom;
       }
     }
 }

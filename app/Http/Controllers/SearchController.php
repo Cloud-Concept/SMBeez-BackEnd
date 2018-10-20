@@ -45,7 +45,7 @@ class SearchController extends Controller
 
         if(Auth::user()) {
             //if user signed in so find the user's company industry and get use it with request
-            if ($request->has('industry')) {
+            if ($request->has('industry') && !$request['industry'] == '') {
                 $project->with('industries')->whereHas('industries', function ($q) use ($industry, $request, $hasCompany) {
                     $q->where('industries.id', $hasCompany ? Auth::user()->company->industry->id : $request['industry']);
                 });
@@ -70,7 +70,7 @@ class SearchController extends Controller
                 ->get();
         }else {
             //get the requested industry
-            if ($request->has('industry')) {
+            if ($request->has('industry') && !$request['industry'] == '') {
                 $project->with('industries')->whereHas('industries', function ($q) use ($industry, $request) {
                     $q->where('industries.id', $request['industry']);
                 });
@@ -126,8 +126,8 @@ class SearchController extends Controller
 
         if(Auth::user()) {
             //if user signed in so find the user's company industry and get use it with request
-            if ($request->has('industry')) {
-                $company->where('industry_id', $hasCompany ? Auth::user()->company->industry->id : $request['industry']);
+            if ($request->has('industry') && !$request['industry'] == '') {
+                $company->where('industry_id', $request['industry']);
             }
             if ($request->has('s')) {
                 $company->where('company_name', 'like', '%' . $request['s'] . '%');
@@ -145,7 +145,7 @@ class SearchController extends Controller
                 ->get();
         }else {
             //get the requested industry
-            if ($request->has('industry')) {
+            if ($request->has('industry') && !$request['industry'] == '') {
                 $company->where('industry_id', $request['industry']);
             }
 
@@ -176,7 +176,7 @@ class SearchController extends Controller
         }
 
         //check if the user has a company
-        $hasCompany = $company->where('user_id', Auth::id())->first();
+        /*$hasCompany = $company->where('user_id', Auth::id())->first();*/
         //search for companies
         $companies = app(\LaravelCloudSearch\CloudSearcher::class)->newQuery();
         $companies = $companies->searchableType(\App\Company::class)
@@ -185,9 +185,9 @@ class SearchController extends Controller
             ->term(1, 'status');
             if(Auth::user()) {
                 $q->term(auth()->user()->user_city, 'city');
-                if($hasCompany) {
+                /*if($hasCompany) {
                     $q->term(Auth::user()->company->industry->id, 'industry_id');
-                }
+                }*/
             }                   
         })->sort('relevance_score', 'desc')->paginate(10);
         //search for projects
@@ -211,10 +211,10 @@ class SearchController extends Controller
 
     public function moderator_filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
     {   
-        $locale = Session::get('locale');
+        /*$locale = Session::get('locale');
         if($locale) {
             app()->setLocale($locale);
-        }
+        }*/
         
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
         $filter_industry = $request['industry'];
@@ -227,31 +227,28 @@ class SearchController extends Controller
 
         $company = $company->newQuery();
 
-        if ($request->has('status')) {
-            if($request['status'] == 'In Queue') {
-               
-
-                $company->leftJoin('mod_company_reports', function ($join) use ($request) {
-                    $join->on('companies.id', '=', 'mod_company_reports.company_id');
-                })
-                ->whereNull('mod_company_reports.company_id');
-                
-            }else {
-                $company->with('mod_report')->whereHas('mod_report', function ($q) use ($request) {
-                    $q->where('mod_company_reports.status', $request['status']);
-                });
-            }
+        if ($request->has('status') && $request['status'] != '') {
+            $company->where('mod_status', $request['status']);
         }
-        if ($request->has('industry')) {
+        if ($request->has('manager_id') && $request['manager_id'] != '') {
+            $company->where('manager_id', $request['manager_id']);
+        }
+        if ($request->has('moderator') && $request['moderator'] != '') {
+            $company->where('manager_id', $request['moderator']);
+        }
+        if ($request->has('industry') && !$request['industry'] == '') {
             $company->where('industry_id', $request['industry']);
         }
         if ($request->has('s')) {
             $company->where('company_name', 'like', '%' . $request['s'] . '%');
         }
-        $companies = $company->where('city', $request['city'])->paginate(10);
+        $companies = $company->where('city', $request['city'])->latest()->paginate(50);
+
+        $moderators = User::whereHas('roles', function($q){
+            $q->where('name', 'moderator');
+        })->get();
 
         $status_array = array(
-            '',
             'In Queue', 'Successful Call - Interested', 'Successful Call - Not Interested',
             'Successful Call - Agreed to Call Back', 'Successful Call - Asked for more details via email',
             'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
@@ -260,7 +257,7 @@ class SearchController extends Controller
         if(!$company) {
             $company = new Company;
         }
-        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company')); 
+        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company', 'moderators')); 
     }
 
     //Superadmin Search
@@ -282,13 +279,13 @@ class SearchController extends Controller
 
         $company = $company->newQuery();
 
-        if ($request->has('industry')) {
+        if ($request->has('industry') && !$request['industry'] == '') {
             $company->where('industry_id', $request['industry']);
         }
         if ($request->has('s')) {
             $company->where('company_name', 'like', '%' . $request['s'] . '%');
         }
-        $companies = $company->where('city', $request['city'])->paginate(10);
+        $companies = $company->where('city', $request['city'])->paginate(50);
 
         if(!$company) {
             $company = new Company;
@@ -306,7 +303,7 @@ class SearchController extends Controller
         if ($request->has('s')) {
             $users = $user->where('first_name', 'like', '%' . $request['s'] . '%')
             ->orWhere('last_name', 'like', '%' . $request['s'] . '%')
-            ->orWhere('email', 'like', '%' . $request['s'] . '%')->paginate(10);
+            ->orWhere('email', 'like', '%' . $request['s'] . '%')->paginate(50);
         }
 
         return view('admin.users.search-results', compact('users'));
@@ -338,7 +335,7 @@ class SearchController extends Controller
         if ($request->has('s')) {
             $project->where('project_title', 'like', '%' . $request['s'] . '%');
         }
-        $projects = $project->where('city', $request['city'])->paginate(10);
+        $projects = $project->where('city', $request['city'])->paginate(50);
 
         if(!$project) {
             $project = new Project;
