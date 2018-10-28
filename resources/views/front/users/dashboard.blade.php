@@ -35,7 +35,6 @@
                                 <div class="pull-right">
                                     <p class="numb">{{count($user->projects)}}</p>
                                     <p>{{__('general.published_project')}}</p>
-                                    <a href="{{route('front.user.myprojects', $user->username)}}">{{__('general.my_projects')}}</a>
                                 </div>
                             </li>
                         </ul>
