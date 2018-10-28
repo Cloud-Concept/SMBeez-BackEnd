@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'lifetime' => 120,
+    'lifetime' => 40320,
 
     'expire_on_close' => false,
 
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'smbeez_session',
+    'cookie' => 'masharee3_session',
 
     /*
     |--------------------------------------------------------------------------

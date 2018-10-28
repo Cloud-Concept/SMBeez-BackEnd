@@ -50,7 +50,6 @@
             }else {
                 $('#report-company').find('#status').val('In Queue');
             }
-            $('#report-company').find('#feedback').val(data.report.feedback);
             $('#report-company').find('.company-name-span').text('(' + company_name + ')');
             $('#report-company').find('.get-info').val(company_id);
             console.log(data.comments);

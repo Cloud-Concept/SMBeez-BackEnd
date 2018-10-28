@@ -225,10 +225,11 @@ class AdminController extends Controller
             $company->update();
 
             $user->roles()->sync(3);
+            $moderator = Auth::user();
 
             $validate = Mailgun::validator()->validate($request['user_email']);
             if($validate->is_valid == true) {
-                Mail::to($request['user_email'])->send(new Welcome($company));
+                Mail::to($request['user_email'])->send(new Welcome($company, $moderator));
             }
             
             $do = new SMBeezFunctions;
@@ -282,8 +283,6 @@ class AdminController extends Controller
 
             $company->update();
 
-            $do = new SMBeezFunctions;
-            $do->email_log($user->id, $user->email);
             //Logging
             $log = new ModLog;
             $mod_user = $request['mod_user'];
@@ -296,6 +295,8 @@ class AdminController extends Controller
 
             if($validate->is_valid == true) {
                 Mail::to($user->email)->send(new NewUser($user, $unique_password));
+                $do = new SMBeezFunctions;
+                $do->email_log($user->id, $user->email);
             }else {
                 return response()->json(['msg' => 'User Email Invalid, Please Ask for Another Email', 'data' => '']); 
             }
@@ -327,6 +328,9 @@ class AdminController extends Controller
 
             $report->update();
 
+            $company->mod_status = $request['status'];
+            $company->update();
+
             //Logging
             $log = new ModLog;
             $mod_user = $request['mod_user'];
@@ -338,13 +342,15 @@ class AdminController extends Controller
             $log->save();
 
             //comments
-            $add_comment = new ModComments;
-            $add_comment->company_id = $company->id;
-            $add_comment->user_id = $mod_user;
-            $add_comment->username = User::where('id', $mod_user)->pluck('first_name')->first();
-            $add_comment->feedback = $request['feedback'];
+            if($request['feedback'] != '') {
+                $add_comment = new ModComments;
+                $add_comment->company_id = $company->id;
+                $add_comment->user_id = $mod_user;
+                $add_comment->username = User::where('id', $mod_user)->pluck('first_name')->first();
+                $add_comment->feedback = $request['feedback'];
 
-            $add_comment->save();
+                $add_comment->save();
+            }
 
             return response()->json(['msg' => 'Updated Successfully!', 'status' => $report->status]);
 
@@ -359,6 +365,9 @@ class AdminController extends Controller
 
             $report->save();
 
+            $company->mod_status = $request['status'];
+            $company->update();
+
             //Logging
             $log = new ModLog;
             
@@ -370,13 +379,15 @@ class AdminController extends Controller
             $log->save();
 
             //comments
-            $add_comment = new ModComments;
-            $add_comment->company_id = $company->id;
-            $add_comment->user_id = $mod_user;
-            $add_comment->username = User::where('id', $mod_user)->pluck('first_name')->first();
-            $add_comment->feedback = $request['feedback'];
+            if($request['feedback'] != '') {
+                $add_comment = new ModComments;
+                $add_comment->company_id = $company->id;
+                $add_comment->user_id = $mod_user;
+                $add_comment->username = User::where('id', $mod_user)->pluck('first_name')->first();
+                $add_comment->feedback = $request['feedback'];
 
-            $add_comment->save();
+                $add_comment->save();
+            }
 
             return response()->json(['msg' => 'Saved Successfully!', 'status' => $report->status]);
         }
@@ -488,8 +499,10 @@ class AdminController extends Controller
 
     public function send_mod_message(Request $request, Company $company) {
         $validate = Mailgun::validator()->validate($request['user_email']);
+        $moderator = Auth::user();
+
         if($validate->is_valid == true) {
-            Mail::to($request['user_email'])->send(new Welcome($company));
+            Mail::to($request['user_email'])->send(new Welcome($company, $moderator));
         }else{
             return response()->json(['msg' => 'Invalid Email']);
         }

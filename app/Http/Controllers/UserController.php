@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function index()
     {   
-        $users = User::orderBy('id', 'asc')->with('roles')->paginate(10);
+        $users = User::orderBy('id', 'asc')->with('roles')->paginate(50);
         return view('admin.users.index', compact('users'));
     }
 
@@ -75,7 +75,7 @@ class UserController extends Controller
         $itemCollection = collect($lists);
  
         // Define how many items we want to be visible in each page
-        $perPage = 10;
+        $perPage = 50;
  
         // Slice the collection to get the items to display in current page
         $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
@@ -93,7 +93,7 @@ class UserController extends Controller
     }
     public function user_logins(User $user, Request $request)
     {   
-        $logins = UserLogins::where('user_id', $user->id)->latest()->paginate(10);
+        $logins = UserLogins::where('user_id', $user->id)->latest()->paginate(50);
         return view('admin.users.login-details', compact('logins'));
     }
     public function emails(Request $request)
@@ -101,7 +101,7 @@ class UserController extends Controller
         if($request['date_from'] || $request['date_to']) {
             $emails = EmailLogs::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->paginate(10);
         }else{
-            $emails = EmailLogs::latest()->paginate(10);
+            $emails = EmailLogs::latest()->paginate(50);
         }
 
         return view('admin.users.emails', compact('emails'));
