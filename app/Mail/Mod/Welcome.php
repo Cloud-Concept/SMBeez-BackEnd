@@ -12,15 +12,16 @@ class Welcome extends Mailable
     use Queueable, SerializesModels;
 
 
-    protected $company;
+    protected $company, $moderator;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($company)
+    public function __construct($company, $moderator)
     {
         $this->company = $company;
+        $this->moderator = $moderator;
     }
 
     /**
@@ -30,9 +31,10 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->subject('مرحباً بك في مشاريع!')->markdown('emails.mod.welcome')
+        return $this->from($this->moderator)->subject('مرحباً بك في مشاريع!')->markdown('emails.mod.welcome')
         ->with([
             'company' => $this->company,
+
         ]);
     }
 }

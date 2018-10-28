@@ -50,7 +50,6 @@
             }else {
                 $('#report-company').find('#status').val('In Queue');
             }
-            $('#report-company').find('#feedback').val(data.report.feedback);
             $('#report-company').find('.company-name-span').text('(' + company_name + ')');
             $('#report-company').find('.get-info').val(company_id);
             console.log(data.comments);
@@ -144,6 +143,7 @@
                                 </div>
                                 <input type="hidden" class="get-info"/>
                                 <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
+                                <input type="hidden" name="mod_email" value="{{Auth()->user()->email}}"/>
                             </form>
                         </div>
                         <div class="col-md-4">
@@ -237,6 +237,7 @@ $("#assign-company").click(function(e){
     {
         user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
         mod_user: $(this).closest('#assign-company-to-user').find( "input[name='mod_user']" ).val(),
+        mod_email: $(this).closest('#assign-company-to-user').find( "input[name='mod_email']" ).val(),
 
     }).done(function( data ) {
         $('#assign-company-to-user').find('.verify').show();
@@ -404,6 +405,7 @@ $("#submit-report").click(function(e){
                                 <!-- <div class="form-group"><label class="custom-control">Message Body</label><textarea id="body" name="body" class="form-control" placeholder="Message Body"></textarea></div> -->
                                 <input type="hidden" class="get-info"/>
                                 <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
+                                <input type="hidden" name="mod_email" value="{{Auth()->user()->email}}"/>
                                 <button id="send-message" class="btn btn-blue btn-yellow pull-right">Send</button>
                             </form>
                         </div>
@@ -426,6 +428,7 @@ $("#send-message").click(function(e){
         body: $(this).closest('#send-msg-form').find('#body').val(),
         user_email: $(this).closest('#send-msg-form').find('#user_email').val(),
         mod_user: $(this).closest('#send-msg-form').find( "input[name='mod_user']" ).val(),
+        mod_email: $(this).closest('#send-msg-form').find( "input[name='mod_email']" ).val(),
 
     }).done(function( data ) {
         $('.email-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);

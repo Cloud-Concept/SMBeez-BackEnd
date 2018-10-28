@@ -180,7 +180,7 @@ class SearchController extends Controller
         //search for companies
         $companies = app(\LaravelCloudSearch\CloudSearcher::class)->newQuery();
         $companies = $companies->searchableType(\App\Company::class)
-        ->qAnd(function ($q) use ($request, $hasCompany) {
+        ->qAnd(function ($q) use ($request) {
             $q->phrase($request['s'])
             ->term(1, 'status');
             if(Auth::user()) {

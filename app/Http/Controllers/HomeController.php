@@ -81,7 +81,7 @@ class HomeController extends Controller
 
     public function status()
     {   
-        $chunks = ModCompanyReport::get()->chunk(1000)->toArray();
+        /*$chunks = ModCompanyReport::get()->chunk(1000)->toArray();
 
         foreach($chunks as $chunk) {
             foreach(array_reverse($chunk) as $status) {
@@ -93,7 +93,7 @@ class HomeController extends Controller
                     continue;
                 }
             }
-        }
+        }*/
         
         return 'Thanks All Done';
     }
