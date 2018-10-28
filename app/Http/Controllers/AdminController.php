@@ -225,7 +225,7 @@ class AdminController extends Controller
             $company->update();
 
             $user->roles()->sync(3);
-            $moderator = Auth::user();
+            $moderator = $request['mod_email'];
 
             $validate = Mailgun::validator()->validate($request['user_email']);
             if($validate->is_valid == true) {
@@ -499,7 +499,7 @@ class AdminController extends Controller
 
     public function send_mod_message(Request $request, Company $company) {
         $validate = Mailgun::validator()->validate($request['user_email']);
-        $moderator = Auth::user();
+        $moderator = $request['mod_email'];
 
         if($validate->is_valid == true) {
             Mail::to($request['user_email'])->send(new Welcome($company, $moderator));
