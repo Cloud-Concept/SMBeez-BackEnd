@@ -104,4 +104,7 @@ return array (
   'sign_linkedin' => 'تسجيل دخول بلينكدإن',
   'signup_facebook' => 'تسجيل حساب بفيسبوك',
   'signup_linkedin' => 'تسجيل حساب بلينكدإن',
+  'project_interests' => 'طلبات المشروع',
+  'rejected_interests' => 'طلبات الاشتراك المرفوضة',
+  'approved_interests' => 'طلبات الاشتراك الموافق عليها',
 );

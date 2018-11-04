@@ -104,4 +104,7 @@ return array (
   'reg_hint' => 'Create your new Masharee3 account',
   'password_with_hint' => 'Password (at least 6 characters) *',
   'confirm_password' => 'Confirm Password',
+  'project_interests' => 'Project Interests',
+  'approved_interests' => 'Accepted Interests',
+  'rejected_interests' => 'Rejected Interests',
 );

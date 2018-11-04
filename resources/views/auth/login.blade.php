@@ -65,7 +65,7 @@ if($locale) {
                                 <h2 class="py-2 text-center">
                                     {{__('general.reg_hint')}}
                                 </h2>
-                                <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href="{{route('socialLogin', 'linkedin')}}?action={{request()->input('action')}}"><i class="fa fa-linkedin" aria-hidden="true"></i> {{__('general.signup_linkedin')}}</a> <a class="btn btn-fb mr-3" href="{{route('socialLogin', 'facebook')}}?action={{request()->input('action')}}"><i class="fa fa-facebook" aria-hidden="true"></i> {{__('general.signup_linkedin')}}</a></div>
+                                <div class="btn-list mt-3 mb-4 text-center"><a class="btn btn-lk mr-3" href="{{route('socialLogin', 'linkedin')}}?action={{request()->input('action')}}"><i class="fa fa-linkedin" aria-hidden="true"></i> {{__('general.signup_linkedin')}}</a> <a class="btn btn-fb mr-3" href="{{route('socialLogin', 'facebook')}}?action={{request()->input('action')}}"><i class="fa fa-facebook" aria-hidden="true"></i> {{__('general.signup_facebook')}}</a></div>
                                 <p class="text-center my-3">{{__('general.login_hint')}}</p>
                                 <form class="form-signin my-4" method="POST" action="{{ route('register') }}" role="form" enctype="multipart/form-data">
                                     {{ csrf_field() }}

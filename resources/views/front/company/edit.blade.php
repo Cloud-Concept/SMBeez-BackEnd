@@ -160,7 +160,7 @@
                                 <tbody>
                                     <tr>
                                         <td scope="row">{{__('company.reg_no')}} :</td>
-                                        <td><input class="form-control" type="text" name="reg_number" value="{{$company->reg_number}}" id="reg_number" placeholder="345A-499-LLC213"></td>
+                                        <td><input class="form-control" type="text" name="reg_number" value="{{$company->reg_number}}" id="reg_number" placeholder="{{__('company.reg_no')}}"></td>
                                     </tr>
                                     <tr>
                                         <td scope="row">{{__('company.date_of_reg')}} :</td>

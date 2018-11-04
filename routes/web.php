@@ -116,6 +116,7 @@ Route::prefix('user')->group(function() {
 	Route::get('/dashboard/{user}', 'UserController@dashboard')->name('front.user.dashboard');
 	Route::get('/dashboard/{user}/myprojects', 'UserController@myprojects')->name('front.user.myprojects');
 	Route::get('/dashboard/{user}/opportunities', 'UserController@opportunities')->name('front.user.opportunities');
+	Route::get('/dashboard/{user}/project-interests/{project}', 'UserController@project_interests')->name('front.user.project-interests');
 	//Company Module
 	Route::post('/company/store', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@store'])->name('front.company.store');
 	Route::get('/company/create', ['middleware' => ['permission:create-company', 'role:user|superadmin'], 'uses' => 'CompaniesController@create'])->name('front.company.create');

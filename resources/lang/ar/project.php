@@ -2,7 +2,7 @@
 
 return array (
   'currency' => 'ج.م',
-  'title_label' => 'عنوان المشروع',
+  'title_label' => 'اسم المشروع',
   'budget' => 'الميزانية:',
   'client' => 'العميل:',
   'close' => 'أغلق المشروع',
@@ -24,7 +24,7 @@ return array (
   'edit_project' => 'تحرير المشروع',
   'express_interest' => 'أرغب في الإشتراك',
   'withdraw_interest' => 'إسحب رغبتي في الإشتراك',
-  'estimated_budget' => 'الميزانية المحتملة',
+  'estimated_budget' => 'أقصي ميزانية',
   'industry' => 'الصناعة',
   'project_close_hint' => 'سيتم إغلاق المشروع تلقائياً في خلال ٦٠ يوماً. يمكنك أن تضع حالة مشروعك "مسودة" أو "مفتوح" أو "مغلق" في أي وقت',
   'save_draft' => 'حفظ كمسودة',
