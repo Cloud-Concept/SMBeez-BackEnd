@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         // Register a composer with the name of the view when it's loaded in our case the view is layouts.main-menu
-        view()->composer(['layouts.main-menu', 'front.home', 'layouts.footer', 'front.users.myprojects', 'front.users.opportunities', 'front.users.messages', 'front.users.show-message', 'front.users.bookmarks', 'front.users.companies-bookmarks', 'front.users.opportunities-bookmarks', 'front.users.settings.basic-info', 'front.users.settings.location', 'front.users.profile', 'layouts.about'], function ($view) {
+        view()->composer(['layouts.main-menu', 'front.users.projects-interests', 'front.home', 'layouts.footer', 'front.users.myprojects', 'front.users.opportunities', 'front.users.messages', 'front.users.show-message', 'front.users.bookmarks', 'front.users.companies-bookmarks', 'front.users.opportunities-bookmarks', 'front.users.settings.basic-info', 'front.users.settings.location', 'front.users.profile', 'layouts.about'], function ($view) {
             // set the view industries from industries method
             $company = new \App\Company;
             if($company->has_company()) {

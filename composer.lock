@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e26f19dbbb71eefeca6b74cda0ae4c05",
+    "content-hash": "9ec10b69a387bdb5c81efb1c2e1bd4c5",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -433,16 +433,16 @@
         },
         {
             "name": "cyrildewit/eloquent-viewable",
-            "version": "v2.4.1",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cyrildewit/eloquent-viewable.git",
-                "reference": "d3ec41b01a7e88145818578417af7b65ca051435"
+                "reference": "4954728d2ccb03fb2b5552ae1b4f77c6f3bd78e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cyrildewit/eloquent-viewable/zipball/d3ec41b01a7e88145818578417af7b65ca051435",
-                "reference": "d3ec41b01a7e88145818578417af7b65ca051435",
+                "url": "https://api.github.com/repos/cyrildewit/eloquent-viewable/zipball/4954728d2ccb03fb2b5552ae1b4f77c6f3bd78e3",
+                "reference": "4954728d2ccb03fb2b5552ae1b4f77c6f3bd78e3",
                 "shasum": ""
             },
             "require": {
@@ -504,7 +504,7 @@
                 "visitable",
                 "visits"
             ],
-            "time": "2018-09-12T14:44:56+00:00"
+            "time": "2018-10-21T09:36:52+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

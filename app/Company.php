@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use LaravelCloudSearch\Eloquent\Searchable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use CyrildeWit\EloquentViewable\Viewable;
 use DB;
 use App\Bookmark;
 
@@ -15,6 +16,7 @@ class Company extends Model
 	use Sluggable;
     use Searchable;
     use LogsActivity;
+    use Viewable;
 
     protected $fillable = ['relevance_score'];
     protected static $logAttributes = ['company_name', 'industry_id', 'user_id', 'status', 'is_verified', 'is_promoted'];

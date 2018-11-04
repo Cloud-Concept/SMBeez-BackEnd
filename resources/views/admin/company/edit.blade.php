@@ -35,6 +35,10 @@
                         @if($manager)
                         Company Manager: {{$manager}}
                         @endif
+                        <br>
+                        @if($views)
+                        Views: {{$views}}
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">
