@@ -194,7 +194,8 @@ class ProjectsController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-
+        $project->addView();
+        
         $company = new Company;
         $hasCompany = $company->where('user_id', Auth::id())->first();
         //if access deleted project redirect home
@@ -368,7 +369,7 @@ class ProjectsController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-        
+        $views = $project->getViews();
         $current_specialities = array();
 
         foreach($project->specialities as $speciality) {
@@ -376,7 +377,6 @@ class ProjectsController extends Controller
         }
         $project_specialities = implode('","', $current_specialities);
         $last_login = UserLogins::where('user_id', $project->user_id)->latest()->first();
-        $views = $project->getViews();
         return view('admin.project.edit', compact('project', 'project_specialities', 'last_login', 'views'));
     }
 

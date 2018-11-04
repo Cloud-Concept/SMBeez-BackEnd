@@ -10,6 +10,7 @@ use \App\Repositories\SMBeezFunctions;
 use Mail;
 use App\Mail\SupplierAccepted;
 use App\Mail\SupplierRejected;
+use App\Mail\InterestedSupplier;
 use Session;
 
 class InterestsController extends Controller

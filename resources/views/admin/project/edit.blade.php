@@ -27,7 +27,10 @@
                         @if($last_login)
                         <br>Last Login: {{$last_login->created_at->diffForHumans()}}
                         @endif
-                        <br>Project Views: {{$views}}
+                        <br>
+                        @if($views)
+                        Views: {{$views}}
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">

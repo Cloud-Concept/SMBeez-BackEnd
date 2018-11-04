@@ -711,6 +711,26 @@ class UserController extends Controller
         }
     }
 
+    public function project_interests(User $user, Project $project)
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+        //if trying to access the dashboard 
+        //and you are not the owner redirect to home
+        if (!$user->dashboard_owner(auth()->id()) ) {
+
+            return redirect(route('home'));
+            
+        }else {
+            $user = auth()->user();
+            $interests = $project->interests->where('is_accepted', '===', null);
+            $approved_interests = $project->interests->where('is_accepted', '===', 1);
+            $rejected_interests = $project->interests->where('is_accepted', '===', 0);
+            return view('front.users.project-interests', compact('user', 'project', 'interests', 'approved_interests', 'rejected_interests'));
+        }
+    }
 
     public function moderators() {
         $user = auth()->user();

@@ -206,7 +206,8 @@ class CompaniesController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-
+        $company->addView();
+        
         $project = new Project;
         
         $closed_projects = $project->where('user_id', $company->user_id)
@@ -754,7 +755,7 @@ class CompaniesController extends Controller
         if($locale) {
             app()->setLocale($locale);
         }
-
+        $views = $company->getViews();
         $current_specialities = array();
 
         foreach($company->specialities as $speciality) {
@@ -763,7 +764,7 @@ class CompaniesController extends Controller
         $company_specialities = implode('","', $current_specialities);
         $last_login = UserLogins::where('user_id', $company->user_id)->latest()->first();
         $manager = User::where('id', $company->manager_id)->pluck('first_name')->first();
-        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login', 'manager'));
+        return view('admin.company.edit', compact('company', 'company_specialities', 'last_login', 'manager', 'views'));
     }
     public function admin_update(Request $request, Company $company)
     {

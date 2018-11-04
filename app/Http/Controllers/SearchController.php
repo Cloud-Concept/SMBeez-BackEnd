@@ -242,7 +242,7 @@ class SearchController extends Controller
         if ($request->has('s')) {
             $company->where('company_name', 'like', '%' . $request['s'] . '%');
         }
-        $companies = $company->where('city', $request['city'])->latest()->paginate(50);
+        $companies = $company->where('city', $request['city'])->where('status', 1)->latest()->paginate(50);
 
         $moderators = User::whereHas('roles', function($q){
             $q->where('name', 'moderator');
@@ -285,7 +285,7 @@ class SearchController extends Controller
         if ($request->has('s')) {
             $company->where('company_name', 'like', '%' . $request['s'] . '%');
         }
-        $companies = $company->where('city', $request['city'])->paginate(50);
+        $companies = $company->where('city', $request['city'])->where('status', 1)->paginate(50);
 
         if(!$company) {
             $company = new Company;

@@ -127,7 +127,7 @@
                                 @elseif($project->status == 'deleted')
                                     <td>{{__('project.deleted')}}</td> 
                                 @endif
-                                <td><a href="#" data-toggle="modal" data-target="#expressInterestModal-{{$project->id}}">{{count($project->interests) > 0 ? count($project->interests) . ' ' .__("general.suppliers") : 'NA'}}</a></td>
+                                <td><a href="{{count($project->interests) > 0 ? route('front.user.project-interests', [$user->username, $project->slug]) : '#'}}">{{count($project->interests) > 0 ? count($project->interests) . ' ' .__("general.suppliers") : 'NA'}}</a></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -172,7 +172,6 @@
 
 @if($hascompany)
     @include ('layouts.create-project-modal')
-    @include ('layouts.interests-modal')
     @include ('layouts.dashboard-review-modal')
 @else
     @include ('layouts.add-company-modal')
