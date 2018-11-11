@@ -107,4 +107,5 @@ return array (
   'project_interests' => 'Project Interests',
   'approved_interests' => 'Accepted Interests',
   'rejected_interests' => 'Rejected Interests',
+  'lang' => 'العربية',
 );

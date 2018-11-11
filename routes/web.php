@@ -175,6 +175,7 @@ Route::post('/interest/store', ['uses' => 'InterestsController@store'])->name('e
 Route::delete('/interest/delete/{interest}', ['uses' => 'InterestsController@destroy'])->name('withdraw.interest');
 Route::post('/interest/{interest}/accept', ['uses' => 'InterestsController@accept_interest'])->name('accept.interest');
 Route::post('/interest/{interest}/decline', ['uses' => 'InterestsController@decline_interest'])->name('decline.interest');
+Route::post('/interest/{interest}/undo', ['uses' => 'InterestsController@undo_interest'])->name('undo.interest');
 
 Route::post('/review/customer', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store_customer_review'])->name('add.review.customer');
 Route::post('/review/supplier', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'ReviewsController@store_supplier_review'])->name('add.review.supplier');

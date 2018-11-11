@@ -186,10 +186,16 @@
                                                         <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">{{__('company.accept')}}</button>                  
                                                         <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button>
                                                     @endif
+
+                                                    <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('undo-interest-{{$interest->id}}').submit();">{{__('company.undo')}}</button> 
                                                     <form id="accept-interest-{{$interest->id}}" action="{{route('accept.interest', $interest->id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
                                                     </form>  
                                                     <form id="decline-interest-{{$interest->id}}" action="{{route('decline.interest', $interest->id)}}" method="post" class="write-review">
+                                                        {{csrf_field()}}
+                                                    </form>
+
+                                                    <form id="undo-interest-{{$interest->id}}" action="{{route('undo.interest', $interest->id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
                                                     </form>
                                                 </div>
@@ -260,10 +266,16 @@
                                                         <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">{{__('company.accept')}}</button>                  
                                                         <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button>
                                                     @endif
+
+                                                    <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('undo-interest-{{$interest->id}}').submit();">{{__('company.undo')}}</button> 
                                                     <form id="accept-interest-{{$interest->id}}" action="{{route('accept.interest', $interest->id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
                                                     </form>  
                                                     <form id="decline-interest-{{$interest->id}}" action="{{route('decline.interest', $interest->id)}}" method="post" class="write-review">
+                                                        {{csrf_field()}}
+                                                    </form>
+
+                                                    <form id="undo-interest-{{$interest->id}}" action="{{route('undo.interest', $interest->id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
                                                     </form>
                                                 </div>

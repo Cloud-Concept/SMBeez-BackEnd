@@ -111,6 +111,14 @@ class InterestsController extends Controller
 
         return back();
     }
+
+    public function undo_interest(Interest $interest)
+    {   
+        
+        $interest->where('id', $interest->id)->update(['is_accepted' => null]);
+
+        return back();
+    }
     /**
      * Display the specified resource.
      *
