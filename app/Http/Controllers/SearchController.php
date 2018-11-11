@@ -260,9 +260,9 @@ class SearchController extends Controller
         return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company', 'moderators')); 
     }
 
-    //Superadmin Search
+    //Superadmin HIDDEN COMPANIES Search
     public function superadmin_filter_companies(Request $request, Company $company,Industry $industry, Speciality $speciality)
-    {   
+    {   //WORKING NOW FOR HIDDEN COMPANIES ONLY
         $locale = Session::get('locale');
         if($locale) {
             app()->setLocale($locale);
@@ -273,7 +273,7 @@ class SearchController extends Controller
         //if selected all industries go to all opportunities page
         if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
 
-            return redirect(route('admin.companies'));
+            return redirect(route('admin.hidden-companies'));
 
         }
 
@@ -285,12 +285,12 @@ class SearchController extends Controller
         if ($request->has('s')) {
             $company->where('company_name', 'like', '%' . $request['s'] . '%');
         }
-        $companies = $company->where('city', $request['city'])->where('status', 1)->paginate(50);
+        $companies = $company->where('city', $request['city'])->where('status', 0)->paginate(50);
 
         if(!$company) {
             $company = new Company;
         }
-        return view('admin.company.search-results', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'company')); 
+        return view('admin.company.hidden', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'company')); 
     }
 
     public function superadmin_filter_users(User $user, Request $request)

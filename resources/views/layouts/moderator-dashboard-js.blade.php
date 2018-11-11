@@ -144,6 +144,9 @@
                                 <input type="hidden" class="get-info"/>
                                 <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                                 <input type="hidden" name="mod_email" value="{{Auth()->user()->email}}"/>
+                                <input type="hidden" name="mod_name" value="{{Auth()->user()->first_name}} {{Auth()->user()->last_name}}"/>
+                                <input type="hidden" name="mod_sign" value="{{strtolower(Auth()->user()->first_name)}}"/>
+                                <input type="hidden" name="mod_phone" value="{{strtolower(Auth()->user()->phone)}}"/>
                             </form>
                         </div>
                         <div class="col-md-4">
@@ -238,6 +241,9 @@ $("#assign-company").click(function(e){
         user_email: $(this).closest('#assign-company-to-user').find('#user_email').val(),
         mod_user: $(this).closest('#assign-company-to-user').find( "input[name='mod_user']" ).val(),
         mod_email: $(this).closest('#assign-company-to-user').find( "input[name='mod_email']" ).val(),
+        mod_name: $(this).closest('#assign-company-to-user').find( "input[name='mod_name']" ).val(),
+        mod_sign: $(this).closest('#assign-company-to-user').find( "input[name='mod_sign']" ).val(),
+        mod_phone: $(this).closest('#assign-company-to-user').find( "input[name='mod_phone']" ).val(),
 
     }).done(function( data ) {
         $('#assign-company-to-user').find('.verify').show();
@@ -406,6 +412,9 @@ $("#submit-report").click(function(e){
                                 <input type="hidden" class="get-info"/>
                                 <input type="hidden" name="mod_user" value="{{Auth()->user()->id}}"/>
                                 <input type="hidden" name="mod_email" value="{{Auth()->user()->email}}"/>
+                                <input type="hidden" name="mod_name" value="{{Auth()->user()->first_name}} {{Auth()->user()->last_name}}"/>
+                                <input type="hidden" name="mod_sign" value="{{strtolower(Auth()->user()->first_name)}}"/>
+                                <input type="hidden" name="mod_phone" value="{{strtolower(Auth()->user()->phone)}}"/>
                                 <button id="send-message" class="btn btn-blue btn-yellow pull-right">Send</button>
                             </form>
                         </div>
@@ -429,6 +438,9 @@ $("#send-message").click(function(e){
         user_email: $(this).closest('#send-msg-form').find('#user_email').val(),
         mod_user: $(this).closest('#send-msg-form').find( "input[name='mod_user']" ).val(),
         mod_email: $(this).closest('#send-msg-form').find( "input[name='mod_email']" ).val(),
+        mod_name: $(this).closest('#send-msg-form').find( "input[name='mod_name']" ).val(),
+        mod_sign: $(this).closest('#send-msg-form').find( "input[name='mod_sign']" ).val(),
+        mod_phone: $(this).closest('#send-msg-form').find( "input[name='mod_phone']" ).val(),
 
     }).done(function( data ) {
         $('.email-alert h3').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);

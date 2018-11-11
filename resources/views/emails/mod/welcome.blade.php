@@ -31,6 +31,14 @@
 							<p {{$rtl}}>
 							شكراً,
 							</p>
+
+							<h2>{{$mod_name}}</h2>
+							<p><b>Customer Success Manager</b></p>
+							<img src="https://www.masharee3.com/images/common/logo-ar.svg" alt="Masharee3">
+							<a href="https://www.masharee3.com/?utm_source=mailgun&utm_medium=email&utm_campaign=mailgun_{{$mod_sign}}" title="Masharee3.com">www.masharee3.com</a>
+	                    	<p>111 Al Mirghany St.</p>
+	                    	<p>Heliopolis 11341, Cairo, Egypt</p>
+	                    	<p>M +2{{$mod_phone}} | T +20 2 2291 7674 | F +20 2 2291 299</p>
 	                    </td>
 	                </tr>
 	            </table>
@@ -42,7 +50,7 @@
     @slot('footer')
         @component('mail::footer')
         	<a href="https://www.masharee3.com?utm_source=newsletter&utm_medium=email&utm_campaign=call_center" title="">https://www.masharee3.com</a><br>
-            &copy; {{ date('Y') }} Cloud Concept DMCC. All rights reserved.
+            &copy; {{ date('Y') }} masharee3.com. All rights reserved.
         @endcomponent
     @endslot
 @endcomponent

@@ -107,4 +107,6 @@ return array (
   'project_interests' => 'طلبات المشروع',
   'rejected_interests' => 'طلبات الاشتراك المرفوضة',
   'approved_interests' => 'طلبات الاشتراك الموافق عليها',
+  'sign_in_btn' => 'ســجـل الان',
+  'lang' => 'EN',
 );
