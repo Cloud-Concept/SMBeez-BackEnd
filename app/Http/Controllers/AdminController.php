@@ -226,10 +226,13 @@ class AdminController extends Controller
 
             $user->roles()->sync(3);
             $moderator = $request['mod_email'];
+            $moderator_name = $request['mod_name'];
+            $moderator_sign = $request['mod_sign'];
+            $moderator_phone = $request['mod_phone'];
 
             $validate = Mailgun::validator()->validate($request['user_email']);
             if($validate->is_valid == true) {
-                Mail::to($request['user_email'])->send(new Welcome($company, $moderator));
+                Mail::to($request['user_email'])->send(new Welcome($company, $moderator, $moderator_name, $moderator_sign, $moderator_phone));
             }
             
             $do = new SMBeezFunctions;
@@ -494,15 +497,18 @@ class AdminController extends Controller
             return redirect()->route('home');
         }
         $companies = Company::where('status', 0)->latest()->paginate(50);
-        return view('admin.company.hidden', compact('companies'));
+        $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
+        return view('admin.company.hidden', compact('companies', 'industries'));
     }
 
     public function send_mod_message(Request $request, Company $company) {
         $validate = Mailgun::validator()->validate($request['user_email']);
         $moderator = $request['mod_email'];
-
+        $moderator_name = $request['mod_name'];
+        $moderator_sign = $request['mod_sign'];
+        $moderator_phone = $request['mod_phone'];
         if($validate->is_valid == true) {
-            Mail::to($request['user_email'])->send(new Welcome($company, $moderator));
+            Mail::to($request['user_email'])->send(new Welcome($company, $moderator, $moderator_name, $moderator_sign, $moderator_phone));
         }else{
             return response()->json(['msg' => 'Invalid Email']);
         }

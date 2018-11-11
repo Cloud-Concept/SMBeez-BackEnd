@@ -16,7 +16,7 @@
         <a href="#"><span class="flag-icon flag-icon-eg"></span> {{__('footer.cairo')}}</a>
     </li>
     @if (Auth::guest())
-    <li class="btn-menu"><a href="{{ route('login') }}">{{__('general.sign_in')}}</a></li>
+    <li class="btn-menu"><a href="{{ route('login') }}">{{__('general.sign_in_btn')}}</a></li>
     @else
     <li class="nav-item dropdown usernav">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,4 +48,5 @@
         </form>
     </li>
     @endif
+    <li class="btn-menu"><a href="#">{{__('general.lang')}}</a></li>
 </ul>

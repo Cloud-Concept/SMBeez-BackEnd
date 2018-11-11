@@ -23,6 +23,7 @@
         "php-http/guzzle6-adapter": "^1.1",
         "ramsey/uuid": "^3.7",
         "santigarcor/laratrust": "5.0.*",
+        "sentry/sentry-laravel": "^0.11.0",
         "spatie/laravel-activitylog": "^2.8",
         "spatie/laravel-newsletter": "^4.2.2",
         "torann/laravel-cloudsearch": "^0.1.5"

@@ -64,7 +64,12 @@
         <script src="{{ asset('js/bootstrap-tagsinput.js') }}"></script>
         <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
         <script src="{{ asset('js/bloodhound.min.js') }}"></script>
-
+        <style>
+            .pagination li.active span{
+                background: #ffe100!important;
+                color: #40508e!important;
+            }
+        </style>
         <script type="text/javascript">
             /*google.maps.event.addDomListener(window, 'load', function () {
                 var places = new google.maps.places.Autocomplete(document.getElementById('location'));

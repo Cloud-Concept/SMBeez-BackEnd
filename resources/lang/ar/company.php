@@ -1,9 +1,9 @@
 <?php
 
 return array (
+  'city_label' => 'المدينة *',
   'address_label' => 'العنوان',
-  'basic_information' => 'البيانات الأساسية',
-  'city_label' => 'المدينة',
+  'basic_information' => 'المعلومات الاساسية',
   'claim_company_btn' => 'طالب بالشركة',
   'company_berif' => 'نبذة عن الشركة',
   'company_reg_details' => 'تفاصيل تسجيل الشركة',
@@ -107,4 +107,5 @@ return array (
   'reply_content' => 'الرد',
   'reply_to_review' => 'الرد علي تقييم',
   'profile' => 'بروفايل',
+  'undo' => 'إعادة اختيار',
 );

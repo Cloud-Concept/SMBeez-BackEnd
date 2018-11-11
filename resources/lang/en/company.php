@@ -107,4 +107,5 @@ return array (
   'reply_to' => 'Reply To',
   'reply_to_review' => 'Reply to Review',
   'profile' => 'Profile',
+  'undo' => 'Undo Selection',
 );
