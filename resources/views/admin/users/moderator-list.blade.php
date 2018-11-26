@@ -28,6 +28,7 @@
                                 <p class="thumb-title mt-1 mb-1">{{$moderator->first_name}} {{$moderator->last_name}}</p>
                                 <p><b>{{$moderator->portfolio_count($moderator->id)}}</b> Companies In Portfolio</p>
                                 <p><a href="{{route('admin.user.mod_stat', $moderator->username)}}">Check Statistics</a></p>
+                                <p><a href="{{route('admin.user.mod_portfolio_track', $moderator->username)}}">Track Portfolio</a></p>
                             </div>
                         </div>
                         @endforeach

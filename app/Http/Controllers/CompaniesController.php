@@ -209,7 +209,7 @@ class CompaniesController extends Controller
         $company->addView();
         
         $project = new Project;
-        
+        $views = $company->getViews();
         $closed_projects = $project->where('user_id', $company->user_id)
         ->where('status', 'closed')
         ->take(8)->latest()->get();
@@ -220,7 +220,7 @@ class CompaniesController extends Controller
         $suppliers_reviews = $company->reviews->where('company_id', $company->id)
         ->where('reviewer_relation', 'supplier');
                 
-        return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews'));
+        return view('front.company.show', compact('company', 'closed_projects', 'user', 'customer_reviews', 'suppliers_reviews', 'views'));
     }
 
     /**

@@ -17,12 +17,12 @@
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">SuperAdmin</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Logins</li>
+                            <li class="breadcrumb-item active" aria-current="page">Track Portfolio</li>
                         </ol>
                     </nav>
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="{{route('admin.user.logins')}}" method="get">
+                            <form  method="get">
                                 <div class="form-group">
                                     <div class="d-flex"><label>Date From: <input type="date" class="form-control" name="date_from" value="{{request()->query('date_from')}}"></label></div>
                                 </div>
@@ -34,30 +34,34 @@
                                 </div>
                             </form>
                             @if(request()->query('date_from') || request()->query('date_to'))
-                            <h1>Logins From {{request()->query('date_from')}} TO {{request()->query('date_to')}}</h1>
+                            <h1>Tracking From {{request()->query('date_from')}} TO {{request()->query('date_to')}}</h1>
                             @else
-                            <h1>Overall Logins</h1>
+                            <h1>Overall Trackings</h1>
                             @endif
                             <table class="table table-striped my-4">
                                 <thead class="thead-blue">
                                     <tr>
-                                        <th scope="col">User Email</th>
-                                        <th scope="col">Total Logins</th>
-                                        <th scope="col">Company</th>
-                                        @if(request()->query('date_from') || request()->query('date_to'))
-                                        <th scope="col">Time</th>
-                                        @endif
+                                        <th scope="col">Company Name</th>
+                                        <th scope="col">Login</th>
+                                        <th scope="col">Projects</th>
+                                        <th scope="col">Interests</th>
+                                        <th scope="col">Accept Interests</th>
+                                        <th scope="col">Decline Interests</th>
+                                        <th scope="col">Customer Reviews</th>
+                                        <th scope="col">Supplier Reviews</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($lists as $list)
+                                    @foreach ($lists as $csm)
                                     <tr>
-                                        <td><a href="@role('superadmin'){{route('admin.user.edit', $list['user']->username)}}@endrole">{{$list['user']->email}}</a></td>
-                                        <td><a href="{{route('admin.user.user-logins', $list['user']->username)}}">{{$list['logins']}}</a></td>
-                                        <td>{{$list['user']->company ? $list['user']->company->company_name : '-'}}</td>
-                                        @if(request()->query('date_from') || request()->query('date_to'))
-                                        <td>{{request()->query('date_from')}} - {{request()->query('date_to')}}</td>
-                                        @endif
+                                        <td>{{$csm['company']->company_name}}</td>
+                                        <td>Yes</td>
+                                        <td>{{$csm['projects_count']}}</td>
+                                        <td>{{$csm['express_interest']}}</td>
+                                        <td>{{$csm['accept_interest']}}</td>
+                                        <td>{{$csm['decline_interest']}}</td>
+                                        <td>{{$csm['customer_reviews']}}</td>
+                                        <td>{{$csm['supplier_reviews']}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

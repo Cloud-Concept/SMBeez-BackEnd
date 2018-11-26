@@ -45,22 +45,24 @@
         $('.company-row.' + company_id).addClass('highlight');
 
         $.get(url.replace(':company_id', company_id), function(data, status){
-            if(data.report.status) {
+            if(data.report) {
                 $('#report-company').find('#status').val(data.report.status);
             }else {
                 $('#report-company').find('#status').val('In Queue');
             }
             $('#report-company').find('.company-name-span').text('(' + company_name + ')');
             $('#report-company').find('.get-info').val(company_id);
-            console.log(data.comments);
-            var comments = data.comments.reverse();
-            var comments_length = comments.length;
-            $('#report-company .comments-wrapper table tbody').html('');
-            for (i = 0; i < comments_length; i++) {
-              $('<tr class="tr-'+ i + '" />').appendTo('#report-company .comments-wrapper table tbody');
-              $('<td />').text(comments[i].feedback).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
-              $('<td />').text(comments[i].username).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
-              $('<td />').text(comments[i].created_at).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+
+            if(data.comments) {
+                var comments = data.comments.reverse();
+                var comments_length = comments.length;
+                $('#report-company .comments-wrapper table tbody').html('');
+                for (i = 0; i < comments_length; i++) {
+                  $('<tr class="tr-'+ i + '" />').appendTo('#report-company .comments-wrapper table tbody');
+                  $('<td />').text(comments[i].feedback).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+                  $('<td />').text(comments[i].username).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+                  $('<td />').text(comments[i].created_at).appendTo('#report-company .comments-wrapper table tbody .tr-'+ i);
+                }
             }
         });
     });

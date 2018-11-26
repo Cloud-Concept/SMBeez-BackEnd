@@ -85,6 +85,10 @@ class User extends Authenticatable
         return $this->hasOne(Claim::class)->where('status', null);
     }
 
+    public function csm_trackings() {
+        return $this->hasMany(CsmTracking::class);
+    }
+
     public function mod_reports() {
 
         return $this->hasMany(ModCompanyReport::class);

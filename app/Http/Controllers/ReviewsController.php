@@ -94,6 +94,14 @@ class ReviewsController extends Controller
 
         $do = new SMBeezFunctions;
         $do->email_log($review->user->id, $review->user->email);
+
+        //track CSM company
+        $user = auth()->user();
+        $track = new SMBeezFunctions;
+        if($user->company->hasManager()) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'submit_customer_review');
+        }
+
         return back();
     }
 
@@ -154,6 +162,13 @@ class ReviewsController extends Controller
         $do = new SMBeezFunctions;
         $do->email_log($review->user->id, $review->user->email);
         
+        //track CSM company
+        $user = auth()->user();
+        $track = new SMBeezFunctions;
+        if($user->company->hasManager()) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'submit_supplier_review');
+        }
+
         return back();
     }
     /**
