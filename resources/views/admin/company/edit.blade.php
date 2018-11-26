@@ -85,7 +85,7 @@
                                 <input class="form-control" value="{{$company->company_name}}" type="text" name="company_name" placeholder="Company Name" id="company_name" required>
                             </p>
                             <p class="form-group">
-                                <label for="">What is your company main message? *</label>
+                                <label for="">What is your company main message?</label>
                                 <textarea name="company_description" class="form-control" placeholder="Company Description" id="company_description">{{$company->company_description}}</textarea>
                             </p>
                             <p class="form-group">

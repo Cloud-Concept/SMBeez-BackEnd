@@ -85,6 +85,14 @@
                                 <input type="text" name="speciality_id" placeholder="Specialities" class="typeahead tm-input form-control tm-input-info"/>
                             </p>
                             <p class="form-group">
+                                <label for="">Status</label>
+                                <select name="status" class="form-control" id="status" required>
+                                    @foreach($project_status as $status)
+                                    <option value="{{$status}}" {{$project->status == $status ? 'selected' : '' }}>{{$status}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <p class="form-group">
                                 <label for="supportive_docs">Supportive Document</label>
                                 <label class="custom-file">
                                     <input type="file" id="supportive_docs" name="supportive_docs" class="custom-file-input" accept=".doc, .docx, .xlsx, .xls, application/vnd.ms-powerpoint,text/plain, application/pdf, .zip, .rar, .jpg, .jpeg, .png, .gif"> 

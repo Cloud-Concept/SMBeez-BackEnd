@@ -22,8 +22,8 @@
                             // use the public DSN (dont include your secret!)
                             dsn: 'https://fad83c2e991b452fa8127b29e54377a4@sentry.io/1318760',
                             user: {
-                                'name': 'Hossam',
-                                'email': 'hossam@masharee3.com',
+                                'name': 'Your Name',
+                                'email': 'your@email.com',
                             }
                         });
                     </script>

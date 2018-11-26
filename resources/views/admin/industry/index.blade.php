@@ -28,6 +28,7 @@
                                         @else
                                         <td scope="row">{{$industry->industry_name}}</td>
                                         @endif
+                                        <td scope="row">"{{$industry->companies->count()}}" Companies</td>
                                         <td width="10%">
                                             <div class="d-flex"><a href="{{route('admin.industry.edit', $industry->slug)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></div>
                                         </td>

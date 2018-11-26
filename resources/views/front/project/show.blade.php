@@ -84,6 +84,7 @@
                                 @endif
 
                             </li>
+                            <li>{{__('project.views')}} <span>{{$views}}</span> </li>
                         </ul>
                         @if($hasCompany && !$project->has_interest() && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('express.interest')}}" method="post">

@@ -18,7 +18,9 @@ use App\Message;
 use App\ModLog;
 use App\EmailLogs;
 use App\ModCompanyReport;
+use App\CsmTracking;
 use Illuminate\Pagination\LengthAwarePaginator;
+use \App\Repositories\SMBeezFunctions;
 use Carbon\Carbon;
 use App\UserLogins;
 use Image;
@@ -877,4 +879,73 @@ class UserController extends Controller
 
         return view('admin.users.moderator-stat', compact('logs', 'user'));
     }
+
+    public function mod_portfolio_track(User $user, Request $request) {
+        $csm_companies = CsmTracking::where('user_id', $user->id)->latest()->paginate(50);
+        $count = new SMBeezFunctions;
+
+        if($request['date_from'] || $request['date_to']) {
+            $get_companies = CsmTracking::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->get();
+        }else{
+            $get_companies = CsmTracking::latest()->get();
+        }
+
+        $companies = array();
+        foreach($get_companies as $company) {
+            $companies[] = $company->company_id;
+        }
+        $companies = Company::whereIn('id', $companies)->get();
+
+        $lists = array();
+
+        foreach($companies as $u) {
+            if($request['date_from'] || $request['date_to']) {
+                $projects_count = CsmTracking::where('company_id', $u->id)->where('activity_type', 'published_project')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+                $express_interest = CsmTracking::where('company_id', $u->id)->where('activity_type', 'express_interest')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+                $accept_interest = CsmTracking::where('company_id', $u->id)->where('activity_type', 'accept_interest')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+                $decline_interest = CsmTracking::where('company_id', $u->id)->where('activity_type', 'decline_interest')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+                $customer_reviews = CsmTracking::where('company_id', $u->id)->where('activity_type', 'submit_customer_review')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+                $supplier_reviews = CsmTracking::where('company_id', $u->id)->where('activity_type', 'submit_supplier_review')->whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+            }else{
+                $projects_count = CsmTracking::where('company_id', $u->id)->where('activity_type', 'published_project')->count();
+                $express_interest = CsmTracking::where('company_id', $u->id)->where('activity_type', 'express_interest')->count();
+                $accept_interest = CsmTracking::where('company_id', $u->id)->where('activity_type', 'accept_interest')->count();
+                $decline_interest = CsmTracking::where('company_id', $u->id)->where('activity_type', 'decline_interest')->count();
+                $customer_reviews = CsmTracking::where('company_id', $u->id)->where('activity_type', 'submit_customer_review')->count();
+                $supplier_reviews = CsmTracking::where('company_id', $u->id)->where('activity_type', 'submit_supplier_review')->count();
+            }
+            array_push($lists, array(
+                'company' => $u,
+                'projects_count' => $projects_count,
+                'express_interest' => $express_interest,
+                'accept_interest' => $accept_interest,
+                'decline_interest' => $decline_interest,
+                'customer_reviews' => $customer_reviews,
+                'supplier_reviews' => $supplier_reviews
+            ));
+        }
+
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+ 
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($lists);
+ 
+        // Define how many items we want to be visible in each page
+        $perPage = 50;
+ 
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+ 
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+ 
+        // set url path for generted links
+        $paginatedItems->setPath($request->url());
+
+        $lists = $paginatedItems;
+
+        return view('admin.users.moderator-track', compact('companies', 'lists'));
+    }
+    
 }

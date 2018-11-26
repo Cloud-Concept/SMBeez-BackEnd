@@ -22,9 +22,9 @@ class Welcome extends Mailable
     {
         $this->company = $company;
         $this->moderator = $moderator;
-        $this->moderator_name = $moderator_name,
-        $this->moderator_sign = $moderator_sign,
-        $this->moderator_phone = $moderator_phone,
+        $this->moderator_name = $moderator_name;
+        $this->moderator_sign = $moderator_sign;
+        $this->moderator_phone = $moderator_phone;
     }
 
     /**
