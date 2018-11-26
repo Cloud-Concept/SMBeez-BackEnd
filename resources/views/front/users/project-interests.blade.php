@@ -89,7 +89,7 @@
                                                                         @endfor
                                                                     </select>
                                                                 </li>
-                                                                <li class="list-inline-item thumb-review"><a href="">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
+                                                                <li class="list-inline-item thumb-review"><a href="#">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
                                                             </ul>
                                                         </div>
                                                         @endif
@@ -164,7 +164,7 @@
                                                                         @endfor
                                                                     </select>
                                                                 </li>
-                                                                <li class="list-inline-item thumb-review"><a href="">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
+                                                                <li class="list-inline-item thumb-review"><a href="#">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
                                                             </ul>
                                                         </div>
                                                         @endif
@@ -242,7 +242,7 @@
                                                                         @endfor
                                                                     </select>
                                                                 </li>
-                                                                <li class="list-inline-item thumb-review"><a href="">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
+                                                                <li class="list-inline-item thumb-review"><a href="#">({{$interest->user->company->reviews->count()}} {{__('general.reviews_title')}})</a></li>
                                                             </ul>
                                                         </div>
                                                         @endif

@@ -138,7 +138,7 @@ class AdminController extends Controller
             return redirect()->route('home');
         }
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
-        $projects = Project::paginate(50);
+        $projects = Project::latest()->paginate(50);
 
         return view('admin.moderator-dashboard-projects', compact('projects', 'industries'));
     }
@@ -736,7 +736,7 @@ class AdminController extends Controller
             app()->setLocale($locale);
         }
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
-        $projects = Project::paginate(50);
+        $projects = Project::latest()->paginate(50);
 
         return view('admin.project.index', compact('projects', 'industries'));
     }

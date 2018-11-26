@@ -6,7 +6,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    @include('layouts.superadmin-sidebar')
+                    @role('superadmin')
+                        @include('layouts.superadmin-sidebar')
+                    @endrole
+                    @role('moderator')
+                        @include('layouts.moderator-sidebar')
+                    @endrole
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
@@ -29,7 +34,7 @@
                                 <tbody>
                                     @foreach ($logins as $login)
                                     <tr>
-                                        <td><a href="{{route('admin.user.edit', $login->user->username)}}">{{$login->user->email}}</a></td>
+                                        <td><a href="@role('superadmin'){{route('admin.user.edit', $login->user->username)}}@endrole">{{$login->user->email}}</a></td>
                                         <td>1</td>
                                         <td>{{$login->user->company ? $login->user->company->company_name : '-'}}</td>
                                         <td>{{$login->created_at->toDateTimeString()}}</td>

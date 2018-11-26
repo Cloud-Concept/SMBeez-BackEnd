@@ -89,6 +89,11 @@ class Company extends Model
     public function claims() {
         return $this->hasOne(Claim::class);
     }
+
+    public function csm_trackings() {
+        return $this->hasMany(CsmTracking::class);
+    }
+    
     public function mod_report() {
 
         return $this->hasOne(ModCompanyReport::class);
@@ -110,6 +115,19 @@ class Company extends Model
         $hasCompany = Company::where('user_id', auth()->id())->first();
 
         if($hasCompany) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    public function hasManager()
+    {
+        $hasManager = Company::where('manager_id', '!=', null)
+        ->where('id', $this->id)->first();
+
+        if($hasManager) {
             return true;
         }else {
             return false;

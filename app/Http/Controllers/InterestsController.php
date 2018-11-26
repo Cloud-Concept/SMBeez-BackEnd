@@ -80,6 +80,12 @@ class InterestsController extends Controller
         $do = new SMBeezFunctions;
         $do->email_log($message->sender_id, $project->user->email);
 
+        //track CSM company
+        $track = new SMBeezFunctions;
+        if($user->company->hasManager()) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'express_interest');
+        }
+
         session()->flash('success', 'Thanks for expressing interest on that project.');
 
         return back();
@@ -96,6 +102,13 @@ class InterestsController extends Controller
         $do = new SMBeezFunctions;
         $do->email_log($interest->user->id, $interest->user->email);
 
+        //track CSM company
+        $user = auth()->user();
+        $track = new SMBeezFunctions;
+        if($user->company->hasManager()) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'accept_interest');
+        }
+
         return back();
     }
 
@@ -108,6 +121,13 @@ class InterestsController extends Controller
 
         $do = new SMBeezFunctions;
         $do->email_log($interest->user->id, $interest->user->email);
+
+        //track CSM company
+        $user = auth()->user();
+        $track = new SMBeezFunctions;
+        if($user->company->hasManager()) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'decline_interest');
+        }
 
         return back();
     }

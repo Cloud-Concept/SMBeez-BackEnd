@@ -35,5 +35,14 @@ class SMBeezFunctions {
 		return $user_login->save();
 	}
 
+	public function csm_company($user, $company, $action) {
+		$csmTracking = new \App\CsmTracking;
+
+		$csmTracking->user_id = $user;
+		$csmTracking->company_id = $company;
+		$csmTracking->activity_type = $action;
+		return $csmTracking->save();
+	}
+
 }
 ?>

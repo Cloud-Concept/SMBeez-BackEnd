@@ -6,7 +6,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    @include('layouts.superadmin-sidebar')
+                    @role('superadmin')
+                        @include('layouts.superadmin-sidebar')
+                    @endrole
+                    @role('moderator')
+                        @include('layouts.moderator-sidebar')
+                    @endrole
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">
@@ -47,7 +52,7 @@
                                 <tbody>
                                     @foreach ($lists as $list)
                                     <tr>
-                                        <td><a href="{{route('admin.user.edit', $list['user']->username)}}">{{$list['user']->email}}</a></td>
+                                        <td><a href="@role('superadmin'){{route('admin.user.edit', $list['user']->username)}}@endrole">{{$list['user']->email}}</a></td>
                                         <td><a href="{{route('admin.user.user-logins', $list['user']->username)}}">{{$list['logins']}}</a></td>
                                         <td>{{$list['user']->company ? $list['user']->company->company_name : '-'}}</td>
                                         @if(request()->query('date_from') || request()->query('date_to'))

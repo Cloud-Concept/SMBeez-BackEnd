@@ -119,6 +119,7 @@
                                                 @endfor
                                             </select>
                                         </li>
+                                        <li class="list-inline-item thumb-review"><p>(<i class="fa fa-eye"></i> {{$views}} )</p></li>
                                         <li class="list-inline-item thumb-review"><p>({{$company->reviews->count()}} {{__('general.reviews_title')}})</p></li>
                                         <li class="list-inline-item"> 
                                             @if(!Auth::guest() && $company->user_id != 0 && !$company->is_owner(Auth::user()->id))

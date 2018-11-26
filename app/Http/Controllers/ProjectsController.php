@@ -178,6 +178,11 @@ class ProjectsController extends Controller
             $do = new SMBeezFunctions;
             $do->email_log($project->user->id, $project->user->email);
         }
+        //track CSM company
+        $track = new SMBeezFunctions;
+        if($user->company->hasManager()) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'published_project');
+        }
 
         return redirect(route('front.project.show', $project->slug));
     }
@@ -195,7 +200,7 @@ class ProjectsController extends Controller
             app()->setLocale($locale);
         }
         $project->addView();
-        
+        $views = $project->getViews();
         $company = new Company;
         $hasCompany = $company->where('user_id', Auth::id())->first();
         //if access deleted project redirect home
@@ -210,7 +215,7 @@ class ProjectsController extends Controller
         ->where('user_id', '!=', auth()->id())
         ->take(4)->get();
 
-        return view('front.project.show', compact('project', 'relatedprojects', 'hasCompany'));
+        return view('front.project.show', compact('project', 'relatedprojects', 'hasCompany', 'views'));
     }
 
     /**
@@ -377,7 +382,8 @@ class ProjectsController extends Controller
         }
         $project_specialities = implode('","', $current_specialities);
         $last_login = UserLogins::where('user_id', $project->user_id)->latest()->first();
-        return view('admin.project.edit', compact('project', 'project_specialities', 'last_login', 'views'));
+        $project_status = array('publish', 'closed');
+        return view('admin.project.edit', compact('project', 'project_specialities', 'last_login', 'views', 'project_status'));
     }
 
     public function admin_update(Request $request, Project $project)
@@ -385,6 +391,7 @@ class ProjectsController extends Controller
         $project->project_title = $request['project_title'];
         $project->project_description = $request['project_description'];
         $project->budget = $request['budget'];
+        $project->status = $request['status'];
 
         if($request->hasFile('supportive_docs')) {
 

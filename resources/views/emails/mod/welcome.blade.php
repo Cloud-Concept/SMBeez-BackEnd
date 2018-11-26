@@ -34,7 +34,6 @@
 
 							<h2>{{$mod_name}}</h2>
 							<p><b>Customer Success Manager</b></p>
-							<img src="https://www.masharee3.com/images/common/logo-ar.svg" alt="Masharee3">
 							<a href="https://www.masharee3.com/?utm_source=mailgun&utm_medium=email&utm_campaign=mailgun_{{$mod_sign}}" title="Masharee3.com">www.masharee3.com</a>
 	                    	<p>111 Al Mirghany St.</p>
 	                    	<p>Heliopolis 11341, Cairo, Egypt</p>

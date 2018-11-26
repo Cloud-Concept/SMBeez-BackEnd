@@ -41,6 +41,11 @@ class LoginController extends Controller
         $user->increment('logins_no', 1);
         $track = new SMBeezFunctions;
         $track->user_logins($user->id);
+        //user has company and this company has manager and didn't get tracked for logins b4
+        //dd($user->company->csm_trackings->count());
+        if($user->company && $user->company->hasManager() && $user->company->csm_trackings->count() < 1) {
+          $track->csm_company($user->company->manager_id, $user->company->id, 'first_login');
+        }
 
         if($request['action'] === 'add-company') { 
             //if unlogged user clicked on add company
@@ -128,36 +133,40 @@ class LoginController extends Controller
 
        if($user){
 
-            Auth::login($user);
-            
-            $user->increment('logins_no', 1);
-            $track = new SMBeezFunctions;
-            $track->user_logins($user->id);
+          Auth::login($user);
+          
+          $user->increment('logins_no', 1);
+          $track = new SMBeezFunctions;
+          $track->user_logins($user->id);
 
-            if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
-                //if unlogged user clicked on add company
-                return redirect(route('front.user.dashboard', $user) . '?action=add-company');
-            }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && $user->company ) { 
-                //if unlogged user clicked on add project and he have a company
-                return redirect(route('front.user.dashboard', $user) . '?action=add-project');
-            }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && !$user->company ) { 
-                //if unlogged user clicked on add project and he dont have a company
-                return redirect(route('front.user.dashboard', $user) . '?action=add-company');
-            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=express-interest') !== false ) {
-                //if unlogged user clicked on claim company
-                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=express-interest&name='));
-                return redirect(route('front.project.show', $string . '?action=express-interest'));
-            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=claim-company') !== false ) {
-                //if unlogged user clicked on claim company
-                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=claim-company&name='));
-                return redirect(route('front.company.claim_application', $string));
-            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=write-review') !== false) {
-                //if unlogged user clicked on write review
-                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=write-review&name='));
-                return redirect(route('front.company.show', $string)  . '?action=write-review');
-            }else {
-                return redirect(route('front.user.dashboard', $user));
-            }
+          if($user->company && $user->company->hasManager() && $user->company->csm_trackings->count() < 1) {
+            $track->csm_company($user->company->manager_id, $user->company->id, 'first_login');
+          }
+
+          if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
+              //if unlogged user clicked on add company
+              return redirect(route('front.user.dashboard', $user) . '?action=add-company');
+          }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && $user->company ) { 
+              //if unlogged user clicked on add project and he have a company
+              return redirect(route('front.user.dashboard', $user) . '?action=add-project');
+          }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && !$user->company ) { 
+              //if unlogged user clicked on add project and he dont have a company
+              return redirect(route('front.user.dashboard', $user) . '?action=add-company');
+          }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=express-interest') !== false ) {
+              //if unlogged user clicked on claim company
+              $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=express-interest&name='));
+              return redirect(route('front.project.show', $string . '?action=express-interest'));
+          }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=claim-company') !== false ) {
+              //if unlogged user clicked on claim company
+              $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=claim-company&name='));
+              return redirect(route('front.company.claim_application', $string));
+          }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=write-review') !== false) {
+              //if unlogged user clicked on write review
+              $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=write-review&name='));
+              return redirect(route('front.company.show', $string)  . '?action=write-review');
+          }else {
+              return redirect(route('front.user.dashboard', $user));
+          }
  
        }else{
 
@@ -178,30 +187,34 @@ class LoginController extends Controller
           $track = new SMBeezFunctions;
           $track->user_logins($user->id);
 
-            if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
-                //if unlogged user clicked on add company
-                return redirect(route('front.user.dashboard', $user) . '?action=add-company');
-            }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && $user->company ) { 
-                //if unlogged user clicked on add project and he have a company
-                return redirect(route('front.user.dashboard', $user) . '?action=add-project');
-            }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && !$user->company ) { 
-                //if unlogged user clicked on add project and he dont have a company
-                return redirect(route('front.user.dashboard', $user) . '?action=add-company');
-            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=express-interest') !== false ) {
-                //if unlogged user clicked on claim company
-                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=express-interest&name='));
-                return redirect(route('front.project.show', $string . '?action=express-interest'));
-            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=claim-company') !== false ) {
-                //if unlogged user clicked on claim company
-                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=claim-company&name='));
-                return redirect(route('front.company.claim_application', $string));
-            }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=write-review') !== false) {
-                //if unlogged user clicked on write review
-                $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=write-review&name='));
-                return redirect(route('front.company.show', $string)  . '?action=write-review');
-            }else {
-                return redirect(route('front.user.dashboard', $user));
-            }
+          if($user->company && $user->company->hasManager() && $user->company->csm_trackings->count() < 1) {
+            $track->csm_company($user->company->manager_id, $user->company->id, 'first_login');
+          }
+
+          if(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-company') { 
+              //if unlogged user clicked on add company
+              return redirect(route('front.user.dashboard', $user) . '?action=add-company');
+          }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && $user->company ) { 
+              //if unlogged user clicked on add project and he have a company
+              return redirect(route('front.user.dashboard', $user) . '?action=add-project');
+          }elseif(isset($parsed_url['query']) && $parsed_url['query'] === 'action=add-project' && !$user->company ) { 
+              //if unlogged user clicked on add project and he dont have a company
+              return redirect(route('front.user.dashboard', $user) . '?action=add-company');
+          }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=express-interest') !== false ) {
+              //if unlogged user clicked on claim company
+              $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=express-interest&name='));
+              return redirect(route('front.project.show', $string . '?action=express-interest'));
+          }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=claim-company') !== false ) {
+              //if unlogged user clicked on claim company
+              $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=claim-company&name='));
+              return redirect(route('front.company.claim_application', $string));
+          }elseif(isset($parsed_url['query']) && strpos($parsed_url['query'], 'action=write-review') !== false) {
+              //if unlogged user clicked on write review
+              $string = str_replace(' ', '', $action->get_last_word(1, $parsed_url['query'], 'action=write-review&name='));
+              return redirect(route('front.company.show', $string)  . '?action=write-review');
+          }else {
+              return redirect(route('front.user.dashboard', $user));
+          }
 
        }
  
