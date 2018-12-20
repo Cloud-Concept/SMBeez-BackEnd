@@ -167,7 +167,14 @@ class UserController extends Controller
     {   
         $roles = Role::all();
         $last_login = UserLogins::where('user_id', $user->id)->latest()->first();
-        return view('admin.users.edit', compact('user', 'roles', 'last_login'));
+        //get the user interests
+        $interests = $user->interests->modelKeys();
+        $project = new Project;
+        //find the interested projects where the user id is the user_id in the interests table
+        $interested_projects = $project->whereHas('interests', function ($q) use ($interests) {
+            $q->whereIn('interests.id', $interests);
+        })->where('id', '<>', $user->id)->get();
+        return view('admin.users.edit', compact('user', 'roles', 'last_login', 'interested_projects'));
     }
 
     /**
@@ -894,7 +901,7 @@ class UserController extends Controller
         foreach($get_companies as $company) {
             $companies[] = $company->company_id;
         }
-        $companies = Company::whereIn('id', $companies)->get();
+        $companies = Company::whereIn('id', $companies)->where('manager_id', $user->id)->get();
 
         $lists = array();
 

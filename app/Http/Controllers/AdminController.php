@@ -96,8 +96,8 @@ class AdminController extends Controller
             'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
             'Unsuccessful Call - No answer'
         );
-
-        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array', 'moderators'));
+        $verified = $promoted = array('Yes' => '1', 'No' => '0');
+        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array', 'moderators', 'promoted', 'verified'));
     }
 
     public function moderator_dashboard_mycompanies()
@@ -121,8 +121,8 @@ class AdminController extends Controller
             'Unsuccessful Call - Unreachable', 'Unsuccessful Call - Wrong number',
             'Unsuccessful Call - No answer'
         );
-
-        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array'));
+        $verified = $promoted = array('Yes' => '1', 'No' => '0');
+        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array', 'verified', 'promoted'));
     }
 
     public function moderator_dashboard_projects()
@@ -736,9 +736,9 @@ class AdminController extends Controller
             app()->setLocale($locale);
         }
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
-        $projects = Project::latest()->paginate(50);
-
-        return view('admin.project.index', compact('projects', 'industries'));
+        $projects = Project::where('status', 'publish')->latest()->paginate(50);
+        $status = array('publish', 'closed');
+        return view('admin.project.index', compact('projects', 'industries', 'status'));
     }
 
     public function companies()

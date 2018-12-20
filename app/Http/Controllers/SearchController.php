@@ -218,6 +218,7 @@ class SearchController extends Controller
         
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name_ar')->get();
         $filter_industry = $request['industry'];
+        $verified = $promoted = array('Yes' => '1', 'No' => '0');
         //if selected all industries go to all opportunities page
         if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
 
@@ -239,10 +240,13 @@ class SearchController extends Controller
         if ($request->has('industry') && !$request['industry'] == '') {
             $company->where('industry_id', $request['industry']);
         }
+        if ($request->has('verified') && !$request['verified'] == '') {
+            $company->where('is_verified', $request['verified']);
+        }
         if ($request->has('s')) {
             $company->where('company_name', 'like', '%' . $request['s'] . '%');
         }
-        $companies = $company->where('city', $request['city'])->where('status', 1)->latest()->paginate(50);
+        $companies = $company->where('city', $request['city'])->where('status', 1)->latest()->paginate(2);
 
         $moderators = User::whereHas('roles', function($q){
             $q->where('name', 'moderator');
@@ -257,7 +261,7 @@ class SearchController extends Controller
         if(!$company) {
             $company = new Company;
         }
-        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company', 'moderators')); 
+        return view('admin.moderator-dashboard-companies', compact('industries', 'industry', 'companies', 'specialities', 'filter_industry', 'status_array', 'company', 'moderators', 'verified', 'promoted')); 
     }
 
     //Superadmin HIDDEN COMPANIES Search
@@ -319,7 +323,7 @@ class SearchController extends Controller
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
         $filter_industry = $request['industry'];
         //if selected all industries go to all opportunities page
-        if($request['industry'] == '' && !$request->has('status') && $request['s'] == '') {
+        if($request['industry'] == '' && $request['status'] == 'publish' && $request['s'] == '') {
 
             return redirect(route('admin.projects'));
 
@@ -327,11 +331,16 @@ class SearchController extends Controller
 
         $project = $project->newQuery();
 
-        if ($request->has('industry')) {
+        if ($request->has('status')) {
+            $project->where('status', $request['status']);
+        }
+
+        if ($request->has('industry') && $request['industry'] != '') {
             $project->with('industries')->whereHas('industries', function ($q) use ($industry, $request) {
                 $q->where('industries.id', $request['industry']);
             });
         }
+
         if ($request->has('s')) {
             $project->where('project_title', 'like', '%' . $request['s'] . '%');
         }
@@ -340,6 +349,7 @@ class SearchController extends Controller
         if(!$project) {
             $project = new Project;
         }
-        return view('admin.project.search-results', compact('industries', 'industry', 'projects', 'specialities', 'filter_industry', 'company')); 
+        $status = array('publish', 'closed');
+        return view('admin.project.search-results', compact('industries', 'industry', 'projects', 'specialities', 'filter_industry', 'company', 'status')); 
     }
 }

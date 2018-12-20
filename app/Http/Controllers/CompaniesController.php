@@ -27,6 +27,7 @@ use DB;
 use GeoIP;
 use Session;
 use Mail;
+use App\Mail\NotifyAdmin;
 
 class CompaniesController extends Controller
 {   
@@ -184,6 +185,8 @@ class CompaniesController extends Controller
                 $log->save();
                 
                 session()->flash('success', 'Your company has been created.');
+
+                Mail::to('info@masharee3.com')->send(new NotifyAdmin('Company', $company->slug, $company->company_name));
                 //if save go to company page, if continue go to edit page
                 if(Input::get('save')) {
                     return redirect(route('front.company.show', $company->slug));
