@@ -13,6 +13,6 @@ return array (
   'listing' => 'روابط اخري',
   'locations' => 'المدن',
   'links' => 'روابط',
-  'email_newsletter' => 'الاميل',
-  'copyrights' => 'Made by Masharee3 © 2018 - All Rights Reserved',
+  'email_newsletter' => 'البريد الإلكتروني',
+  'copyrights' => 'Developed by Masharee3 © 2018 - All Rights Reserved',
 );

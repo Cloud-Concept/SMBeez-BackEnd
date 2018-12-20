@@ -12,6 +12,7 @@ use Auth;
 use Socialite;
 use URL;
 use App\Mail\Welcome;
+use App\Mail\NotifyAdmin;
 use \App\Repositories\SMBeezFunctions;
 use App\Mail\Mod\NewUser;
 
@@ -176,7 +177,9 @@ class LoginController extends Controller
             $data = ['first_name' => $userSocial->user['firstName'], 'last_name' => $userSocial->user['lastName'], 'email' => $userSocial->user['emailAddress'], 'password' => bcrypt(uniqid()), 'user_city' => 'Cairo', 'honeycombs' => 0];
           }
           $user = User::create($data);
-
+          
+          Mail::to($user)->send(new Welcome);
+          Mail::to('info@masharee3.com')->send(new NotifyAdmin('New User', $user->username, $user->email));
           $user->roles()->attach(4);
           $sluggable = $user->replicate();
           event(new \App\Events\UserReferred(request()->cookie('ref'), $user));

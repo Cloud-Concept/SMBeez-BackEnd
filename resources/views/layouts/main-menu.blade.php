@@ -48,5 +48,5 @@
         </form>
     </li>
     @endif
-    <li class="btn-menu"><a href="#">{{__('general.lang')}}</a></li>
+    <!-- <li class="btn-menu"><a href="#">{{__('general.lang')}}</a></li> -->
 </ul>

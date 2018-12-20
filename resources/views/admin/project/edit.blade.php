@@ -24,6 +24,8 @@
                         Project Owner Company: <a href="{{route('front.company.show', $project->user->company->slug)}}">{{$project->user->company->company_name}}</a> | <a href="{{route('admin.company.edit', $project->user->company->slug)}}">Edit Company</a>
                         <br>
                         Project Owner User: <a href="{{\Laratrust::hasRole('superadmin') ? route('admin.user.edit', $project->user->username) : '#'}}">{{$project->user->first_name}} {{$project->user->last_name}}</a>
+                        <br>
+                        Project Link: <a href="{{route('front.project.show', $project->slug)}}" title="">Click Here</a>
                         @if($last_login)
                         <br>Last Login: {{$last_login->created_at->diffForHumans()}}
                         @endif
@@ -110,6 +112,40 @@
                         @endif
                     </form>
                 </div>
+            </div>
+            <div class="row">
+                @if(count($project->interests) > 0)
+                <h4>{{count($project->interests)}} Interests.</h4>
+                <table class="table table-striped">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th scope="col">Supplier</th>
+                            <th scope="col">User</th>
+                            <th scope="col">User Email</th>
+                            <th scope="col">User Phone</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($project->interests as $interest)
+                        <tr>
+                            <td><a href="{{route('admin.company.edit', $interest->user->company->slug)}}">{{$interest->user->company->company_name}}</a></td>
+                            <td><a href="{{route('admin.user.edit', $interest->user->username)}}">{{$interest->user->first_name}} {{$interest->user->last_name}}</a></td>
+                            <td>{{$interest->user->email}}</td>
+                            <td>{{$interest->user->phone}}</td>
+                            <td>@if($interest->is_accepted === 1)
+                                    <p>{{__('company.accepted')}}</p>
+                                @elseif($interest->is_accepted === 0)
+                                    <p>{{__('company.declined')}}</p>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
             </div>
         </div>
     </section>

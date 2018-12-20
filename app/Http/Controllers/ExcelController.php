@@ -7,12 +7,13 @@ use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Carbon\Carbon;
 use DB;
 use App\Company;
+use App\User;
 
 class ExcelController extends Controller
 
 {
 
-	/**
+    /**
 
      * Create a new controller instance.
 
@@ -54,13 +55,13 @@ class ExcelController extends Controller
 
                 foreach ($data as $key => $value) {
 
-                	$slug = SlugService::createSlug(Company::class, 'slug', $value->company_name, ['unique' => true]);
+                    $slug = SlugService::createSlug(Company::class, 'slug', $value->company_name, ['unique' => true]);
 
                     $company = new Company;
 
                     $arr[] = ['company_name' => $value->company_name,
                      'location' => $value->location,
-                     'slug' 	=> $slug,
+                     'slug'     => $slug,
                      'company_phone' => $value->company_phone,
                      'company_email' => $value->company_email,
                      'company_website' => $value->company_website,
@@ -117,6 +118,17 @@ class ExcelController extends Controller
                         })->download('xls');
                     }
 
+                    \Excel::create('companies_'.$duplicates.'_duplicates', function($excel) use ($dup_arr) {
+
+                        $excel->sheet('Companies Duplicates Sheet', function($sheet) use ($dup_arr)
+
+                        {
+
+                            $sheet->fromArray($dup_arr);
+
+                        });
+
+                    })->download('xls');
                 }
 
             }
@@ -144,10 +156,10 @@ class ExcelController extends Controller
     public function exportFile($type){
 
         $companies = Company::get()->toArray();
+        $users = User::get()->toArray();
 
 
-
-        return \Excel::create('companies_sheet', function($excel) use ($companies) {
+        return \Excel::create('companies_sheet', function($excel) use ($companies, $users) {
 
             $excel->sheet('Companies Sheet', function($sheet) use ($companies)
 
@@ -157,7 +169,18 @@ class ExcelController extends Controller
 
             });
 
+            $excel->sheet('Users Sheet', function($sheet) use ($users)
+
+            {
+
+                $sheet->fromArray($users);
+
+            });
+
         })->download($type);
+
+
+        
 
     }      
 

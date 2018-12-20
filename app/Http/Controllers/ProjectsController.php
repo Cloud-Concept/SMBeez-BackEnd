@@ -20,6 +20,7 @@ use App\Mail\ProjectCreated;
 use App\Mail\ProjectPublished;
 use File;
 use Session;
+use App\Mail\NotifyAdmin;
 
 class ProjectsController extends Controller
 {
@@ -183,6 +184,8 @@ class ProjectsController extends Controller
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'published_project');
         }
+
+        Mail::to('info@masharee3.com')->send(new NotifyAdmin('Project', $project->slug, $project->project_title));
 
         return redirect(route('front.project.show', $project->slug));
     }

@@ -95,6 +95,87 @@
                     </form>
                 </div>
             </div>
+            <div class="row">
+                @if(count($user->projects) > 0)
+                <h4>{{__('general.published_project')}} ({{count($user->projects)}})</h4>
+                <table class="table table-striped">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th scope="col">{{__('general.project_name')}}</th>
+                            <th scope="col">{{__('general.status')}}</th>
+                            <th scope="col">{{__('general.suppliers')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($user->projects as $project)
+                        <tr>
+                            <td scope="row"><a href="{{route('front.project.show', $project->slug)}}">{{$project->project_title}}</a>
+                                @if($project->status != 'closed' && $project->status != 'deleted')
+                                    <div class="btn-list my-1"><a href="{{route('admin.project.edit', $project->slug)}}" class="btn-blank">{{__('project.edit_project')}}</a></div>
+                                @endif
+                            </td>
+                            @if($project->status == 'draft')
+
+                                <td>{{__('project.draft')}}</td>
+
+                            @elseif($project->status == 'closed' && $project->status_on_close == 'expired')
+
+                                <td>{{__('project.expired_on')}} {{$project->close_date->toFormattedDateString()}}</td>
+
+                            @elseif($project->status == 'closed' && $project->status_on_close == 'by_owner')
+
+                                <td>{{__('project.closed')}}</td>
+
+                            @elseif($project->status == 'publish')
+
+                                <td>{{__('project.open_until')}} {{$project->close_date->toFormattedDateString()}}</td>
+                            @elseif($project->status == 'deleted')
+                                <td>{{__('project.deleted')}}</td>
+                            @else
+                                <td></td> 
+                            @endif
+                            <td>{{count($project->interests) > 0 ? count($project->interests) . ' ' .__("general.suppliers") : 'NA'}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                @if(count($user->interests) > 0)
+                <h4>{{__('general.my_opportunities')}} ({{count($user->interests)}})</h4>
+                <table class="table table-striped">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th scope="col">{{__('general.opportunity_name')}}</th>
+                            <th scope="col">{{__('general.status')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($user->interests) > 0)
+
+                        @foreach($interested_projects as $project)
+                        <tr>
+                            <td scope="row"><a href="{{route('admin.project.edit', $project->slug)}}">{{$project->project_title}}</a></td>
+                            @if($project->admin_interest_status($user->id) == 1)
+                                <td>{{__('general.interest_accepted')}}
+                                    <br><span><a href="{{route('admin.company.edit', $project->user->company->slug)}}">{{__('general.contact_client')}}</a></span>
+                                </td>
+                            @elseif(is_null($project->admin_interest_status($user->id)))
+                                <td>{{__('general.waiting_for_client')}}</td>
+                            @elseif($project->admin_interest_status($user->id) == 0)
+                                <td>{{__('general.interest_rejected')}}</td>
+                            @endif
+                        </tr>
+                        @endforeach
+
+                        @endif
+                    </tbody>
+                </table>
+                @endif
+            </div>
         </div>
     </section>
 </main>

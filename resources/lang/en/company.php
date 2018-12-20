@@ -51,7 +51,7 @@ return array (
   'documents' => 'Documents *',
   'claim_docs_hint' => '*Upload your scanned business card, trade license, shareholder certificate, or a company authorization letter.',
   'additional_comments' => 'Additional Comments',
-  'claim_no_success' => 'This company already has a manager. If you didn\'t claim it, please send us your verification documents, and we should get back to you very soon.',
+  'claim_no_success' => 'The account representing this company already has a manager. If you didn\'t claim it, please send us your verification documents, and we should get back to you very soon.',
   'claim_thnx_msg' => 'Thank you for your request. Will send you future instruction to verify your ownership of this company.',
   'go_back' => 'Go Back',
   'employees' => 'Employees',
