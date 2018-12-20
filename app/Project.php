@@ -109,6 +109,14 @@ class Project extends Model
 
     }
 
+    public function admin_interest_status($user)
+    {
+        $interest = Interest::where('user_id', $user)->where('project_id', $this->id)->first();
+
+        return $interest->is_accepted;
+
+    }
+
     //check if the user is the owner of this project
     public function is_owner($user) {
         return $this->user_id === auth()->id();

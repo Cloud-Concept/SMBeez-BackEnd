@@ -65,6 +65,22 @@
                                 </div>
                                 @endif
                                 <div class="form-group">
+                                    <select name="verified" class="form-control custom-select d-block">
+                                        <option value="">Verified/UnVerified</option>
+                                        @foreach($verified as $key => $verify)
+                                            <option value="{{$verify}}" {{ $verify == request()->query('verified') ? 'selected' : ''}}>{{$key}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select name="promoted" class="form-control custom-select d-block">
+                                        <option value="">Promoted/UnPromoted</option>
+                                        @foreach($promoted as $key => $promote)
+                                            <option value="{{$promote}}" {{ $promote == request()->query('promoted') ? 'selected' : ''}}>{{$key}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <div class="d-flex"><input class="form-control" name="s" value="{{request()->query('s')}}" placeholder="Search Company" type="search"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Company</button></div>
                                 </div>
                             </form>
@@ -195,7 +211,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{$companies->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 'status' => request()->input('status'), 's' => request()->input('s') ])->links()}}
+                            {{$companies->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 'status' => request()->input('status'), 'verified' => request()->input('verified'), 'promoted' => request()->input('promoted'), 's' => request()->input('s') ])->links()}}
                         </div>
                     </div>
                 </div>

@@ -42,7 +42,17 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <select name="status" class="form-control custom-select d-block">
+                                                @foreach($status as $stat)
+                                                    <option value="{{$stat}}" {{ $stat == request()->query('status') ? 'selected' : ''}}>{{$stat}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <div class="d-flex"><input class="form-control" name="s" value="{{request()->query('s')}}" placeholder="Search Projects" type="search"> <button class="btn btn-blue btn-yellow text-capitalize ml-3">Find Project</button></div>
                                 </div>
@@ -64,7 +74,7 @@
                             </div>
                             @endforeach
                             
-                            {{$projects->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 's' => request()->input('s') ])->links()}}
+                            {{$projects->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 'status' => request()->input('status'), 's' => request()->input('s') ])->links()}}
                         </div>
                     </div>
                 </div>

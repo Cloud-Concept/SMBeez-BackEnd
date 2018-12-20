@@ -11,6 +11,7 @@ use Image;
 use Illuminate\Support\Facades\Input;
 use Mail;
 use App\Mail\Welcome;
+use App\Mail\NotifyAdmin;
 use \App\Repositories\SMBeezFunctions;
 
 class RegisterController extends Controller
@@ -87,6 +88,7 @@ class RegisterController extends Controller
         event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
         
         Mail::to($user)->send(new Welcome);
+        Mail::to('info@masharee3.com')->send(new NotifyAdmin('New User', $user->username, $user->email));
 
         $do = new SMBeezFunctions;
         $do->email_log($user->id, $user->email);
