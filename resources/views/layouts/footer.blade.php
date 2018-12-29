@@ -7,6 +7,7 @@
                     <li><a href="{{route('about')}}">{{__('footer.about')}}</a></li>
                     <li><a href="{{route('login')}}">{{__('footer.sign_up')}}</a></li>
                     <li><a href="{{route('privacy')}}">{{__('footer.terms')}}</a></li>
+                    <li><a href="{{route('team')}}">{{__('footer.team')}}</a></li>
                 </ul>
             </div>
             <div class="col-md-3">

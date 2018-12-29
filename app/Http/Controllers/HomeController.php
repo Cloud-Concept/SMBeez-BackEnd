@@ -43,6 +43,16 @@ class HomeController extends Controller
         return view('layouts.privacy');
     }
 
+    public function our_team()
+    {   
+        $locale = Session::get('locale');
+        if($locale) {
+            app()->setLocale($locale);
+        }
+
+        return view('layouts.team');
+    }
+
     public function subscribe(Request $request)
     {   
         
