@@ -195,6 +195,7 @@ Route::post('/bookmark/remove/{bookmark}', 'BookmarksController@removeBookmark')
 Route::post('/delete/{file}', ['uses' => 'MyFilesController@destroy'])->name('front.file.delete');
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/privacy-policy', 'HomeController@privacy_policy')->name('privacy');
+Route::get('/our-team', 'HomeController@our_team')->name('team');
 
 Route::post('/reply', ['middleware' => ['role:user|company|superadmin'], 'uses' => 'RepliesController@store'])->name('add.reply.toreview');
 //Social Connect

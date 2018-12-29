@@ -15,4 +15,5 @@ return array (
   'links' => 'روابط',
   'email_newsletter' => 'البريد الإلكتروني',
   'copyrights' => 'Developed by Masharee3 © 2018 - All Rights Reserved',
+  'team' => 'عن الفريق',
 );
