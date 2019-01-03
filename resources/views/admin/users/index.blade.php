@@ -31,10 +31,12 @@
                             <table class="table table-striped my-4">
                                 <thead class="thead-blue">
                                     <tr>
-                                        <th scope="col">id</th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Logins <i class="fa fa-caret-down" aria-hidden="true"></i></th>
-                                        <th colspan="2" scope="col" width="30%">Company</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Logins</th>
+                                        <th scope="col">Company</th>
+                                        <th scope="col">Industry</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,9 +44,10 @@
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td scope="row"><a href="{{route('admin.user.edit', $user->username)}}">{{$user->first_name . " " . $user->last_name}}</a></td>
+                                        <td>{{$user->email}}</td>
                                         <td>{{$user->logins_no}}</td>
                                         <td>{{$user->company ? $user->company->company_name : '-'}}</td>
-                                        <td><a href="{{route('admin.user.edit', $user->username)}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                        <td>{{$user->company ? $user->company->industry->industry_name : '-'}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
