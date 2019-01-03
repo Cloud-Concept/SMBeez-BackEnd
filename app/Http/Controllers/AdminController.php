@@ -113,6 +113,9 @@ class AdminController extends Controller
             return redirect()->route('home');
         }
         $companies = Company::where('status', 1)->where('manager_id', $user->id)->latest()->paginate(50);
+        $moderators = User::whereHas('roles', function($q){
+            $q->where('name', 'moderator');
+        })->get();
         $industries = Industry::whereIn('display', ['companies', 'both'])->orderBy('industry_name')->get();
         $status_array = array(
             '',
@@ -122,7 +125,7 @@ class AdminController extends Controller
             'Unsuccessful Call - No answer'
         );
         $verified = $promoted = array('Yes' => '1', 'No' => '0');
-        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array', 'verified', 'promoted'));
+        return view('admin.moderator-dashboard-companies', compact('companies', 'industries', 'status_array', 'verified', 'promoted', 'moderators'));
     }
 
     public function moderator_dashboard_projects()
@@ -138,9 +141,10 @@ class AdminController extends Controller
             return redirect()->route('home');
         }
         $industries = Industry::whereIn('display', ['projects', 'both'])->orderBy('industry_name_ar')->get();
-        $projects = Project::latest()->paginate(50);
+        $projects = Project::where('status', 'publish')->latest()->paginate(50);
+        $status = array('publish', 'closed');
 
-        return view('admin.moderator-dashboard-projects', compact('projects', 'industries'));
+        return view('admin.moderator-dashboard-projects', compact('projects', 'industries', 'status'));
     }
     //API
     public function get_company(Company $company, User $user)

@@ -60,21 +60,28 @@
                             <div class="d-flex justify-content-between mt-4 pb-3 all-project-list">
                                 <h4 class="pt-2">All Projects</h4>
                             </div>
-                            @foreach($projects as $project)
-                            <div class="project-box-side box-block my-3 {{$project->status === 'deleted' ? 'disable' : ''}}">
-                                <a href="{{route('admin.project.edit', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
-                                <p>{{strip_tags(substr($project->project_description, 0, 150))}}...</p>
-                            	<p class="tags">{{__('general.more_in')}} 
-	                                <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
-                                        <td>{{$project->industries[0]->industry_name_ar}}</td>
-                                        @else
-                                        <td>{{$project->industries[0]->industry_name}}</td>
-                                        @endif</a>
-	                            </p>
+                            <div class="row">
+                                @foreach($projects as $project)
+                                <div class="project-box-side box-block my-3 {{$project->status === 'deleted' ? 'disable' : ''}} col-md-9">
+                                    <a href="{{route('admin.project.edit', $project->slug)}}"><p class="thumb-title mt-1 mb-1">{{$project->project_title}}</p></a>
+                                    <p>{{strip_tags(substr($project->project_description, 0, 150))}}...</p>
+                                    <p class="tags">{{__('general.more_in')}} 
+                                        <a href="{{route('front.industry.show', $project->industries[0]->slug)}}">@if(app()->getLocale() == 'ar')
+                                            <td>{{$project->industries[0]->industry_name_ar}}</td>
+                                            @else
+                                            <td>{{$project->industries[0]->industry_name}}</td>
+                                            @endif</a>
+                                    </p>
+                                </div>
+                                <div class="col-md-3 btn-info mb-3">
+                                    Company: "{{$project->user->company->company_name}}" <br>Owner: {{$project->user->first_name . ' ' . $project->user->last_name}}
+                                    <br> CSM: {{$project->user->company->manager($project->user->company->manager_id)}}
+                                </div>
+                                @endforeach
+
+                                
+                                {{$projects->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 'status' => request()->input('status'), 's' => request()->input('s') ])->links()}}
                             </div>
-                            @endforeach
-                            
-                            {{$projects->appends(['city' => request()->input('city'), 'industry' => request()->input('industry'), 'status' => request()->input('status'), 's' => request()->input('s') ])->links()}}
                         </div>
                     </div>
                 </div>
