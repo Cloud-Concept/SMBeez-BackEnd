@@ -23,6 +23,7 @@
                                 <tbody>
                                     @foreach($industries as $industry)
                                     <tr {{$industry->is_disabled == 1 ? 'style=background:red;' : '' }}>
+                                        <td scope="row" class="btn-primary">{{$industry->id}}</td>
                                         @if(app()->getLocale() == 'ar')
                                         <td scope="row">{{$industry->industry_name_ar}}</td>
                                         @else

@@ -234,9 +234,14 @@ class SearchController extends Controller
         if ($request->has('manager_id') && $request['manager_id'] != '') {
             $company->where('manager_id', $request['manager_id']);
         }
-        if ($request->has('moderator') && $request['moderator'] != '') {
+        if ($request->has('moderator') && $request['moderator'] == 'unassigned') {
+            $company->where('manager_id', null);
+        }elseif ($request->has('moderator') && $request['moderator'] != ''){
             $company->where('manager_id', $request['moderator']);
+        }else{
+
         }
+
         if ($request->has('industry') && !$request['industry'] == '') {
             $company->where('industry_id', $request['industry']);
         }

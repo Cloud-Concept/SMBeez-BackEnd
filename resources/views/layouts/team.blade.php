@@ -3,7 +3,7 @@
 @section('content')
 
 <main class="cd-main-content">
-  		
+      
       <section class="featured-block text-center pt-5 gray-bg">
         <div class="container">
           <div class="row">
@@ -113,7 +113,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6 d-flex">
               <div class="box-block-into box-gray team-box mb-5">
                 <a href="https://www.linkedin.com/in/fady-tharwat-375781a1/" target="_blank">
-                  <i class="fa fa-user fa-user-placeholder" aria-hidden="true"></i>
+                  <figure>
+                    <img src="images/media/team-06.jpg" alt=" Fady Tharwat" class="img-fluid">
+                  </figure>
                 </a>
                 <h3 class="px-3"> Fady Tharwat</h3>
                 <p class="px-3">
@@ -124,7 +126,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6 d-flex">
               <div class="box-block-into box-gray team-box mb-5">
                 <a href="https://www.linkedin.com/in/rehab-saad-80ba6427/" target="_blank">
-                <i class="fa fa-user fa-user-placeholder" aria-hidden="true"></i>
+                  <figure>
+                    <img src="images/media/team-07.jpg" alt="  Rehab Saad" class="img-fluid">
+                  </figure>
               </a>
                 <h3 class="px-3"> Rehab Saad</h3>
                 <p class="px-3">
@@ -135,19 +139,21 @@
 
             <div class="col-lg-3 col-md-4 col-sm-6 d-flex">
               <div class="box-block-into box-gray team-box mb-5">
-                <a href="#" target="_blank">
-                  <i class="fa fa-user fa-user-placeholder" aria-hidden="true"></i>
-                </a>
+                <a href="https://www.linkedin.com/in/salma-samir-7789b544/" target="_blank">
+                <figure>
+                  <img src="images/media/team-08.jpg" alt=" Salma Samir" class="img-fluid">
+                </figure>
+
                 <h3 class="px-3">Salma Samir</h3>
                 <p class="px-3">
                Customer Success Manager 
                 </p>
-              </div>
+              </a></div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 d-flex">
               <div class="box-block-into box-gray team-box mb-5">
                 <a href="https://www.linkedin.com/in/asmaa-farghaly-5a6795127/" target="_blank">
-                  <i class="fa fa-user fa-user-placeholder" aria-hidden="true"></i>
+                  <img src="images/media/team-09.jpg" alt="  Asmaa Farghaly" class="img-fluid">
                 </a>
                 <h3 class="px-3">Asmaa Farghaly</h3>
                 <p class="px-3">
@@ -157,7 +163,7 @@
             </div>
           </div>
         </div>
-  	</section>
+    </section>
 
 </main>
 

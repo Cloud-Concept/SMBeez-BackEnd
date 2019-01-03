@@ -54,16 +54,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                @if(\Laratrust::hasRole('superadmin'))
+                                
                                 <div class="form-group">
                                     <select name="moderator" class="form-control custom-select d-block">
                                         <option value="">All Moderators</option>
+                                        <option value="unassigned" {{request()->query('moderator') == 'unassigned' ? 'selected' : ''}}>Unassigned</option>
                                         @foreach($moderators as $moderator)
                                             <option value="{{$moderator->id}}" {{ $moderator->id == request()->query('moderator') ? 'selected' : ''}}>{{$moderator->first_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @endif
+                                
                                 <div class="form-group">
                                     <select name="verified" class="form-control custom-select d-block">
                                         <option value="">Verified/UnVerified</option>
