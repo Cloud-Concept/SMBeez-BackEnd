@@ -16,13 +16,20 @@
 	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
 	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p {{$rtl}}>شكراً على مطالبتك بشركة <a href="{{route('front.company.show', $company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">"{{$company->company_name}}"</a>. يسعدنا أن نعلمك بأنه تم الموافقة على طلبك. أدخل على رابط شركتك لإكمال البروفايل: <a href="{{route('front.company.show', $company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">"{{$company->company_name}}"</a></p>
+							<p {{$rtl}}>شكراً على مطالبتك بشركة <a href="{{route('front.company.show', $company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">"{{$company->company_name}}"</a>.  يسعدنا أننا نبلغك بأنه تم الموافقة على طلبك. أدخل على رابط شركتك عشان تكمل معلومات الحساب: <a href="{{route('front.company.show', $company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">"{{$company->company_name}}"</a></p>
 
 							<p {{$rtl}}>مرحباً في مشاريع!</p>
 							
-							<p {{$rtl}}>
-							لقد ربحت ١٠٠ نقطة في حسابك! أنشر مشروع جديد وأحصل على ١٠٠ نقطة أخرى!
-							</p>
+							<p {{$rtl}}>بداية الطريق هنا! </p>
+
+							<h3 {{$rtl}}>بعض الطرق التي هتخليك تستفيد من حسابك على مشاريع:</h3>
+							<ul {{$rtl}}>
+								<li {{$rtl}}>دور على فرص المشاريع في مجال عمل شركتك.</li>
+								<li {{$rtl}}>دور على موردين يشتغلوا معاك.</li>
+								<li {{$rtl}}>أعمل تقييمات للشركات التانية اللي اتعاملت معاها قبل كده</li>
+								<li {{$rtl}}>أطلب من عملائك و موردينك انهم يقيموا شركتك على مشاريع.كوم</li>
+								<li {{$rtl}}>طالب بشركتك و حدث بياناتها</li>
+							</ul>
 
 							<p {{$rtl}}>
 							أصدقاءك في مشاريع

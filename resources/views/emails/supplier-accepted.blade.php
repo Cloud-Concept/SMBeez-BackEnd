@@ -17,14 +17,14 @@
 	                        <h1 {{$rtl}}>مرحباً</h1>
 
 							<p {{$rtl}}>
-							مبروك! شرك “{{$interest->project->user->company->company_name}}” - قامت بقبولك لمشروع “{{$interest->project->project_title}}”. لإتمام التعاقد من العميل عليك التواصل مع العميل عن طريق مشاريع أو بالإتصال بالعميل مباشرة لمناقشة تفاصيل التعاقد. 
+							مبروك! شرك “{{$interest->project->user->company->company_name}}” - قبلت اهتمامك لمشروع “{{$interest->project->project_title}}”.  دلوقتي لازم تتواصل مع العميل عن طريق فريق مشاريع أو بالإتصال بالعميل مباشرة لمناقشة تفاصيل التعاقد.
 							</p>
 							
 							<p {{$rtl}}>ماذا بعد؟</p>
 
-							<p {{$rtl}}>لا تضيع الوقت! أتصل مباشرةً بالعميل <a href="{{route('front.company.show', $interest->project->user->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">{{$interest->project->user->company->company_name}}</a>! إضغط <a href="{{route('front.company.show', $interest->project->user->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">هنا</a> للوصول إلى بروفايل العميل. </p></p>
+							<p {{$rtl}}>ماتضيعش وقت! أتصل مباشرةً بالعميل <a href="{{route('front.company.show', $interest->project->user->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">{{$interest->project->user->company->company_name}}</a>! إضغط <a href="{{route('front.company.show', $interest->project->user->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">هنا</a> للوصول إلى بروفايل العميل. </p></p>
 
-							<p {{$rtl}}>بسرعة! العميل ينتظرك!</p>
+							<p {{$rtl}}>بسرعة! العميل الجديد مستنيك!</p>
 
 							<p {{$rtl}}>
 							أصدقاءك في مشاريع 

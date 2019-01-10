@@ -16,10 +16,12 @@
 	                    	<?php $rtl = 'style=text-align:right!important;'; ?>
 	                        <h1 {{$rtl}}>مرحباً</h1>
 
-							<p {{$rtl}}>مبروك - لقد حصلت على تقييم جديد لشركتك! إضغط على الرابط التالي لترى التقييم: <a href="{{route('front.company.show', $review->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">اضغط هنا</a> </p>
+							<p {{$rtl}}>مبروك - شركتك جالها تقييم جديد! إضغط على الرابط التالي لترى التقييم: <a href="{{route('front.company.show', $review->company->slug)}}?utm_source=newsletter&utm_medium=email&utm_campaign=call_center">اضغط هنا</a> </p>
 
-							<p {{$rtl}}>يمكنك تقديم تقييمك لأي شركة والحصول على ٢٥ نقطة في حسابك</p>
+							<p {{$rtl}}>انت كمان ممكن تعمل تقييمات للشركات اللي اتعاملت معاها سواء كنت عميل أو مورد و تحكي عن تجربتك معاهم. </p>
 
+							<p {{$rtl}}>ادخل من هنا عشان تعمل تقييمات لشركات تانية <a href="{{route('front.company.all')}}">اضغط هنا</a></p>
+							
 							<p {{$rtl}}>
 							أصدقاءك في مشاريع 
 							</p>
