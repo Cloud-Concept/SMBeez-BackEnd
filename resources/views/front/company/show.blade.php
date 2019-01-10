@@ -70,7 +70,18 @@
                                 @if($company->company_phone && $company->company_phone != '-')
                                 <li>
                                     <span class="pull-left"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                    <div class="pull-left"><a href="tel:{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}">{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}</a></div>
+                                    <div class="pull-left">
+                                        <span data-replace="{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}" id="phoneTrigger">
+                                        <!-- <a href="tel:{{preg_replace("/[^A-Za-z0-9]/","",$company->company_phone)}}"> -->{{substr(preg_replace("/[^A-Za-z0-9]/","",$company->company_phone), 0, 4)}}<!-- </a> -->
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
                                 </li>
                                 @endif
 
