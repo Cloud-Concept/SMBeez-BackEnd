@@ -17,9 +17,12 @@
 	                        <h1 {{$rtl}}>مرحباً</h1>
 
 							<p {{$rtl}}>
-							لقد قامت شركة بالتقديم علي مشروعك <a href="{{route('front.project.show', $project->slug)}}">"{{$project->project_title}}"</a> برجاء الذهاب الي قائمة مشروعاتك للرد من <a href="{{route('front.user.myprojects', $project->user->username)}}">هنا</a>.
+							عندك موردين مهتمين بتنفيذ مشروع <a href="{{route('front.project.show', $project->slug)}}">"{{$project->project_title}}"</a> ، ممكن تبص عليهم من <a href="{{route('front.user.myprojects', $project->user->username)}}">هنا</a>. علشان تقدر تحدد هتقبل مين ينفذلك المشروع.
 							</p>
 
+							<p {{$rtl}}>
+								ماتنساش انك تعمل تقييمات للموردين اللي هتشوفهم.
+							</p>
 							<p {{$rtl}}>
 							أصدقاءك في مشاريع 
 							</p>

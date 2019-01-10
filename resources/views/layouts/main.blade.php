@@ -78,13 +78,17 @@
                             <a href="{{route('login')}}?action=add-company" class="btn btn-yellow-2"><i class="fa fa-clone" aria-hidden="true"></i> {{__('general.add_company_button')}}</a>
                             @endif
                             <span>{{__('home.or_title')}}</span> -->
-                            @if (!Auth::guest() && !$hascompany)
+                            <!-- @if (!Auth::guest() && !$hascompany)
                             <a href="{{route('front.industry.index')}}" class="btn btn-yellow-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.browse_opportunities_button')}}</a>
                             @elseif (!Auth::guest() && $hascompany)
                             <a href="#" data-toggle="modal" data-target="#add-project" class="btn btn-yellow-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.publish_project')}}</a>
                             @elseif(Auth::guest())
                             <a href="{{route('login')}}/?action=add-project" class="btn btn-yellow-2"><i class="fa fa-folder-open-o" aria-hidden="true"></i> {{__('general.publish_project')}}</a>
-                            @endif
+                            @endif -->
+                            <div class="btn-hero">
+                                <a href="{{route('front.company.all')}}" class="btn btn-yellow-2 mb-3">{{__('general.browse_companies')}}</a>
+                                <a href="{{route('front.industry.index')}}" class="btn btn-yellow-2 mb-3">{{__('general.browse_opportunities_button')}}</a>
+                            </div>
                       </div>
                     </div>
                   </div>
