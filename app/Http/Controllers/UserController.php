@@ -20,7 +20,7 @@ use App\EmailLogs;
 use App\ModCompanyReport;
 use App\CsmTracking;
 use Illuminate\Pagination\LengthAwarePaginator;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use Carbon\Carbon;
 use App\UserLogins;
 use Image;
@@ -436,9 +436,9 @@ class UserController extends Controller
             $user->update();
 
             if($user->update()) {
-                session()->flash('success', 'User has been updated');
+                session()->flash('success', 'تم تحديث بيانات ملفك الشخصي.');
             }else {
-                session()->flash('error', 'Sorry, an error occured while editing the user.');
+                session()->flash('success', 'نأسف! لقد حدث خطأ برجاء المحاولة لاحقاً.');
             }
 
             return redirect(route('front.user.profile', $user->username));
@@ -461,7 +461,6 @@ class UserController extends Controller
             return redirect(route('home'));
 
         }else {
-
             return view('front.users.settings.location', compact('user'));
 
         }
@@ -483,11 +482,10 @@ class UserController extends Controller
             $user->update();
 
             if($user->update()) {
-                session()->flash('success', 'User has been updated');
+                session()->flash('success', 'تم تحديث بيانات ملفك الشخصي.');
             }else {
-                session()->flash('error', 'Sorry, an error occured while editing the user.');
+                session()->flash('success', 'نأسف! لقد حدث خطأ برجاء المحاولة لاحقاً.');
             }
-
             return redirect(route('front.user.profile', $user->username));
 
         }
@@ -567,9 +565,9 @@ class UserController extends Controller
             $review->update();
 
             if($review->update()) {
-                session()->flash('success', 'Feedback has been updated');
+                session()->flash('success', 'تم تحديث تقييمك.');
             }else {
-                session()->flash('error', 'Sorry, an error occured while editing the review.');
+                session()->flash('error', 'عفواً! حدث خطأ ما برجاء المحاولة لاحقاً.');
             }
 
             return back();
@@ -593,7 +591,7 @@ class UserController extends Controller
             foreach($review->replies as $reply) {
                 $reply->delete();
             }
-
+            session()->flash('success', 'تم مسح تقييمك.');
             return back();
 
         }
@@ -620,7 +618,7 @@ class UserController extends Controller
         }
 
         $user->update();
-
+        session()->flash('success', 'تم تحديث صورة ملفك الشخصي.');
         return back();
     }
     public function myprojects(User $user)
@@ -889,7 +887,7 @@ class UserController extends Controller
 
     public function mod_portfolio_track(User $user, Request $request) {
         $csm_companies = CsmTracking::where('user_id', $user->id)->latest()->paginate(50);
-        $count = new SMBeezFunctions;
+        $count = new ProjectFunctions;
 
         if($request['date_from'] || $request['date_to']) {
             $get_companies = CsmTracking::whereBetween('created_at', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->get();

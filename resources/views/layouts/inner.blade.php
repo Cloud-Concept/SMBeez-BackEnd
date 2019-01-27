@@ -65,7 +65,15 @@
         </header>
         
         @yield('content')
-
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; display: block; z-index: 999999; bottom: 0; margin: 0 auto; left: 15px; bottom: 15px;">
+            <br>
+            <p>{{ session('success') }}</p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        @endif
         @include('layouts.footer')
         <!-- Scripts -->
         <script src="{{ asset('js/vendor.js') }}"></script>

@@ -111,6 +111,10 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('callcenter-details', 'AdminController@admin_callcenter_reports_details')->name('callcenter.reports.details');
 	//Translation
 	Route::get('/manage/translations', '\Barryvdh\TranslationManager\Controller@getIndex')->name('admin.translation');
+	//Settings
+	Route::get('/manage/settings', 'AdminController@settings')->name('admin.settings');
+	Route::post('/manage/add-setting', 'AdminController@add_setting')->name('admin.add-setting');
+	Route::post('/manage/update-setting/{setting}', 'AdminController@update_setting')->name('admin.update-setting');
 });
 
 Route::prefix('user')->group(function() {

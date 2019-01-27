@@ -16,7 +16,7 @@ use App\Claim;
 use App\Reply;
 use App\ModLog;
 use App\UserLogins;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Mail\ClaimNotification;
@@ -184,8 +184,8 @@ class CompaniesController extends Controller
 
                 $log->save();
                 
-                session()->flash('success', 'Your company has been created.');
-
+                session()->flash('success', 'مبروك! تم انشاء شركتك بنجاح.');
+                event(new \App\Events\AddPoints($company->id, 'add-company', 50, 'lifetime'));
                 Mail::to('info@masharee3.com')->send(new NotifyAdmin('Company', $company->slug, $company->company_name));
                 //if save go to company page, if continue go to edit page
                 if(Input::get('save')) {
@@ -358,7 +358,7 @@ class CompaniesController extends Controller
             $company->update(['relevance_score' => $value]);
         }
         // redirect to the home page
-        session()->flash('success', 'Your company has been updated.');
+        session()->flash('success', 'تم تحديث بيانات شركتك.');
 
         return back();
     }
@@ -405,7 +405,7 @@ class CompaniesController extends Controller
         }
 
         $company->update();
-
+        session()->flash('success', 'تم تحديث بيانات شركتك.');
         return back();
 
         //return json_encode($company->update());
@@ -467,8 +467,10 @@ class CompaniesController extends Controller
         //if user trying to access his company
         //if user already have company assigned to him
         if($company->requested_claim(auth()->id(), $company->id) || $company->has_company() == true || $company->is_owner(auth()->id())) {
+            session()->flash('success', 'لا يمكنك طلب الشركة.');
             return redirect(route('front.company.all'));
         }elseif(count(auth()->user()->claims) > 0) {
+            session()->flash('success', 'لقد قمت بطلب الشركة من قبل.');
             return redirect(route('front.company.all'));
         }else {
             return view('front.company.claim-notification', compact('company'));
@@ -535,9 +537,11 @@ class CompaniesController extends Controller
 
             $claim->save();
 
+            session()->flash('success', 'تم ارسال طلبك بنجاح.');
+            
             Mail::to('info@masharee3.com')->send(new ClaimNotification($company));
 
-            $do = new SMBeezFunctions;
+            $do = new ProjectFunctions;
             $do->email_log($claim->user_id, $claim->user->email);
 
             return redirect(route('front.company.claim-thanks', $company->slug));

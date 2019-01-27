@@ -7,7 +7,7 @@ use App\Company;
 use App\ReviewsLikeUnlike;
 use App\ReviewFlags;
 use Illuminate\Http\Request;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use Mail;
 use App\Mail\ReviewSubmitted;
 use App\Mail\ReviewSubmittedOwner;
@@ -92,16 +92,16 @@ class ReviewsController extends Controller
         //mail to company owner
         Mail::to($company->user->email)->send(new ReviewSubmittedOwner($review));
 
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($review->user->id, $review->user->email);
 
         //track CSM company
         $user = auth()->user();
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'submit_customer_review');
         }
-
+        session()->flash('success', 'تم نشر تقييمك.');
         return back();
     }
 
@@ -159,16 +159,16 @@ class ReviewsController extends Controller
         //mail to company owner
         Mail::to($company->user->email)->send(new ReviewSubmittedOwner($review));
         
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($review->user->id, $review->user->email);
         
         //track CSM company
         $user = auth()->user();
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'submit_supplier_review');
         }
-
+        session()->flash('success', 'تم نشر تقييمك.');
         return back();
     }
     /**

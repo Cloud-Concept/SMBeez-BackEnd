@@ -135,12 +135,12 @@ class User extends Authenticatable
         });
     }
 
-    public function addHoneyCombs($amount)
+    /*public function addHoneyCombs($amount)
     {   
         $current_honeycombs = $this->honeycombs;
 
         return $this->update(['honeycombs'=> $current_honeycombs + $amount]);
-    }
+    }*/
     //use slug to get dashboard
     public function getRouteKeyName() {
         return 'username';

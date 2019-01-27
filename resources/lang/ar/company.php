@@ -108,4 +108,5 @@ return array (
   'reply_to_review' => 'الرد علي تقييم',
   'profile' => 'بروفايل',
   'undo' => 'إعادة اختيار',
+  'shownumber' => 'أظهر الرقم',
 );

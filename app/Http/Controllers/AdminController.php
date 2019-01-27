@@ -12,11 +12,12 @@ use App\Speciality;
 use App\Claim;
 use App\ModCompanyReport;
 use App\ModLog;
+use App\Setting;
 use App\ModComments;
 use App\EmailLogs;
 use App\Role;
 use Mail;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use App\Mail\Mod\Welcome;
 use App\Mail\Mod\NewUser;
 use App\Mail\ClaimAccepted;
@@ -239,7 +240,7 @@ class AdminController extends Controller
                 Mail::to($request['user_email'])->send(new Welcome($company, $moderator, $moderator_name, $moderator_sign, $moderator_phone));
             }
             
-            $do = new SMBeezFunctions;
+            $do = new ProjectFunctions;
             $do->email_log($user->id, $request['user_email']);
             //Logging
             $log = new ModLog;
@@ -302,7 +303,7 @@ class AdminController extends Controller
 
             if($validate->is_valid == true) {
                 Mail::to($user->email)->send(new NewUser($user, $unique_password));
-                $do = new SMBeezFunctions;
+                $do = new ProjectFunctions;
                 $do->email_log($user->id, $user->email);
             }else {
                 return response()->json(['msg' => 'User Email Invalid, Please Ask for Another Email', 'data' => '']); 
@@ -516,7 +517,7 @@ class AdminController extends Controller
         }else{
             return response()->json(['msg' => 'Invalid Email']);
         }
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log(0, $request['user_email']);
         //Logging
         $log = new ModLog;
@@ -803,7 +804,7 @@ class AdminController extends Controller
                 Mail::to($user->email)->send(new ClaimAccepted($company));
             }
             
-            $do = new SMBeezFunctions;
+            $do = new ProjectFunctions;
             $do->email_log($user->id, $user->email);
 
             $other_claims = Claim::where('status', null)
@@ -843,7 +844,7 @@ class AdminController extends Controller
         if($validate->is_valid == true) {
             Mail::to($claim->user->email)->send(new ClaimDeclined($company));
         }
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($claim->user->id, $claim->user->email);
         session()->flash('success', 'Claim request has been declined.');
 
@@ -873,4 +874,29 @@ class AdminController extends Controller
         return back();
     }
 
+    public function settings(Setting $setting) { 
+        $settings = $setting->orderBy('category', 'desc')->get();
+        $categories = array_unique($setting->pluck('category')->toArray());
+        
+        return view('admin.settings.index', compact('settings', 'categories'));
+    }
+    
+    public function add_setting(Setting $setting, Request $request) {
+        $setting->setting_name = $request['setting_name'];
+        $setting->setting_slug = $request['setting_slug'];
+        $setting->value = $request['value'];
+        $setting->category = $request['category'];
+
+        $setting->save();
+
+        return back();
+    }
+
+    public function update_setting(Setting $setting, Request $request) {
+        $setting->value = $request['value'];
+
+        $setting->update();
+
+        return back();
+    }
 }

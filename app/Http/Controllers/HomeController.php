@@ -65,9 +65,9 @@ class HomeController extends Controller
             }else {
                 Newsletter::subscribe($request->email);
             }
-            session()->flash('msg', 'Thank you for subscribtion.');
+            session()->flash('msg', 'شكراً لاشتراكك.');
         }else {
-            session()->flash('msg', 'Sorry! You have already subscribed');
+            session()->flash('msg', 'نأسف! انت بالفعل مشترك.');
         }
         
         
@@ -80,9 +80,9 @@ class HomeController extends Controller
         if ( Newsletter::isSubscribed($request->email) ) 
         {   
             Newsletter::unsubscribe($request->email);
-            session()->flash('msg', 'You are now unsubscribed from our Newsletter.');
+            session()->flash('msg', 'لقد تم ازالتك من نشرة الرسائل.');
         }else {
-            session()->flash('msg', 'Your email is not listed in our Newsletter.');
+            session()->flash('msg', 'انت غير مشترك في النشرة.');
         }
         
         

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Input;
 use Mail;
 use App\Mail\Welcome;
 use App\Mail\NotifyAdmin;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 
 class RegisterController extends Controller
 {
@@ -85,12 +85,12 @@ class RegisterController extends Controller
         // set user role as user (4) is user role id
         $user->roles()->attach(4);
         $sluggable = $user->replicate();
-        event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
+        //event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
         
         Mail::to($user)->send(new Welcome);
         Mail::to('info@masharee3.com')->send(new NotifyAdmin('New User', $user->username, $user->email));
 
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($user->id, $user->email);
         
         return $user;

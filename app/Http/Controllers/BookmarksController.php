@@ -23,8 +23,6 @@ class BookmarksController extends Controller
     	
     	$bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project')->take(4);
 
-
-
         return view('front.users.bookmarks', compact('bookmarked_companies', 'bookmarked_projects'));
     }
 
@@ -40,8 +38,6 @@ class BookmarksController extends Controller
         $bookmarked_companies = $user->bookmarks->where('bookmark_type', 'App\Company');
         
         $bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project');
-
-
 
         return view('front.users.companies-bookmarks', compact('bookmarked_companies', 'bookmarked_projects'));
     }
@@ -59,8 +55,6 @@ class BookmarksController extends Controller
         
         $bookmarked_projects = $user->bookmarks->where('bookmark_type', 'App\Project');
 
-
-
         return view('front.users.opportunities-bookmarks', compact('bookmarked_companies', 'bookmarked_projects'));
     }
 
@@ -73,7 +67,7 @@ class BookmarksController extends Controller
             $bookmark->save();
             return json_encode($bookmark);
         }else {
-            return response()->json(['success' => 'Already Bookmarked.']);
+            return response()->json(['success' => 'مضافة بالفعل.']);
         }
 
     }
@@ -91,7 +85,7 @@ class BookmarksController extends Controller
             $check_bookmark->delete();
         }
         
-        return response()->json(['success' => 'Bookmark Deleted.']);
+        return response()->json(['success' => 'تم المسح من المفضلة.']);
     }
 
 }
