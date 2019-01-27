@@ -17,9 +17,19 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
         
-        'App\Events\UserReferred' => [
+        /*'App\Events\UserReferred' => [
             'App\Listeners\RewardUser',
-        ],
+        ],*/
+    ];
+
+
+    /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        'App\Listeners\PointsReward',
     ];
 
     /**

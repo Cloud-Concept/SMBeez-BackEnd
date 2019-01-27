@@ -8,11 +8,11 @@
                 <div class="col-xl-6 col-md-12 offset-xl-3">
                     <h1 class="text-center">{{__('general.opportunities_headline')}}</h1>
                     <p class="text-center">{{__('general.opportunities_sub_headline')}}</p>
-                    @if (!Auth::guest() && $hasCompany)
+                    <!-- @if (!Auth::guest() && $hasCompany)
                     <div class="btn-hero text-center"><button class="btn btn-yellow-2" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button></div>
                     @elseif(Auth::guest())
                     <div class="btn-hero text-center"><a href="{{route('login')}}?action=add-project" class="btn btn-yellow-2">{{__('general.publish_project')}}</a></div>
-                    @endif
+                    @endif -->
                 </div>
             </div>
         </div>

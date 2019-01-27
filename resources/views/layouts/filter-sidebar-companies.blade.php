@@ -22,7 +22,7 @@
                 </option>
                 @endforeach
             </select>
-            <div class="search-filter">
+            <div class="search-filter" style="display:none">
                 <h3>{{__('general.specialities_tags_choose')}} <i class="fa fa-filter pull-right" aria-hidden="true"></i></h3>
                 <div class="form-group">
                     <select name="specialities[]" class="form-control multi-select" multiple>
@@ -32,7 +32,7 @@
                     </select>
                 </div>
             </div>
-            <br>
+            <br><br>
             <button type="submit" class="btn btn-blue">{{__('general.submit_filter_button')}}</button>
         </div>
     </form>

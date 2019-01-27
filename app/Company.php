@@ -22,6 +22,7 @@ class Company extends Model
     protected static $logAttributes = ['company_name', 'industry_id', 'user_id', 'status', 'is_verified', 'is_promoted'];
     protected static $logOnlyDirty = true;
     protected static $logName = 'company_update';
+
     /**
     * Return the sluggable configuration array for this model.
     *
@@ -108,6 +109,10 @@ class Company extends Model
 
         return $this->hasMany(ModLog::class);
 
+    }
+
+    public function points() {
+        return $this->hasMany(Point::class);
     }
     //check if user is a manager of a company
     public function has_company()

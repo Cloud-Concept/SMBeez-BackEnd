@@ -43,7 +43,7 @@ class RepliesController extends Controller
         $reply->content = $request['reply'];
 
         $reply->save();
-
+        session()->flash('success', 'تم نشر ردك.');
         return back();
     }
 
