@@ -6,7 +6,7 @@ use App\Interest;
 use App\Project;
 use App\Message;
 use Illuminate\Http\Request;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use Mail;
 use App\Mail\SupplierAccepted;
 use App\Mail\SupplierRejected;
@@ -77,16 +77,16 @@ class InterestsController extends Controller
 
         Mail::to($project->user->email)->send(new InterestedSupplier($project));
 
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($message->sender_id, $project->user->email);
 
         //track CSM company
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'express_interest');
         }
 
-        session()->flash('success', 'Thanks for expressing interest on that project.');
+        session()->flash('success', 'تم تقديم طلبك للمشروع.');
 
         return back();
     }
@@ -99,16 +99,16 @@ class InterestsController extends Controller
         //$interest->project->where('id', $interest->project->id)->update(['status' => 'closed', 'status_on_close' => 'awarded', 'awarded_to' => $interest->user->id]);
         Mail::to($interest->user->email)->send(new SupplierAccepted($interest));
 
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($interest->user->id, $interest->user->email);
 
         //track CSM company
         $user = auth()->user();
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'accept_interest');
         }
-
+        session()->flash('success', 'لقد قمت بالموافقة علي طلب المورد ' . $interest->user->company->company_name);
         return back();
     }
 
@@ -119,16 +119,16 @@ class InterestsController extends Controller
 
         Mail::to($interest->user->email)->send(new SupplierRejected($interest));
 
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($interest->user->id, $interest->user->email);
 
         //track CSM company
         $user = auth()->user();
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'decline_interest');
         }
-
+        session()->flash('success', 'لقد قمت برفض طلب المورد ' . $interest->user->company->company_name);
         return back();
     }
 
@@ -136,7 +136,7 @@ class InterestsController extends Controller
     {   
         
         $interest->where('id', $interest->id)->update(['is_accepted' => null]);
-
+        session()->flash('success', 'لقد قمت باسترجاع طلب المورد ' . $interest->user->company->company_name);
         return back();
     }
     /**
@@ -160,7 +160,7 @@ class InterestsController extends Controller
     {
         $interest->delete();
 
-        session()->flash('success', 'You have withdrawn your interest.');
+        session()->flash('success', 'لقد قمت بسحب طلب الاشترك في المشروع.');
 
         return back();
     }

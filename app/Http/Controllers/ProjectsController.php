@@ -13,7 +13,7 @@ use App\UserLogins;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use Mail;
 use Auth;
 use App\Mail\ProjectCreated;
@@ -168,19 +168,19 @@ class ProjectsController extends Controller
         }
 
         // redirect to the home page
-        session()->flash('success', 'Your project has been created as ' . $project->save_as);
+        session()->flash('success', 'مبروك! لقد قمت بانشاء مشروع جديد.');
 
         if(Input::get('publish')) {
             Mail::to($project->user->email)->send(new ProjectPublished($project));
-            $do = new SMBeezFunctions;
+            $do = new ProjectFunctions;
             $do->email_log($project->user->id, $project->user->email);
         }elseif(Input::get('draft')) {
             Mail::to($project->user->email)->send(new ProjectCreated($project));
-            $do = new SMBeezFunctions;
+            $do = new ProjectFunctions;
             $do->email_log($project->user->id, $project->user->email);
         }
         //track CSM company
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'published_project');
         }
@@ -245,9 +245,8 @@ class ProjectsController extends Controller
             }
             $project_specialities = implode('","', $current_specialities);
 
-            $project_files = explode(',', $project->supportive_docs);
+            $project_files = explode(',', $project->supportive_docs); 
 
-            
             return view('front.project.edit', compact('project', 'industries', 'project_specialities', 'project_files'));
         }else {
             return redirect(route('front.industry.index'));
@@ -317,6 +316,9 @@ class ProjectsController extends Controller
         //sync project specialities
         $project->specialities()->sync($specs_ids, true);
 
+        // redirect to the home page
+        session()->flash('success', 'تم تعديل بيانات مشروعك.');
+
         return back();
     }
 
@@ -351,6 +353,8 @@ class ProjectsController extends Controller
         if($projects_count == 11) {
             Company::addRelevanceScore(15, $project->user->company->id);
         }
+        // redirect to the home page
+        session()->flash('success', 'تم اغلاق مشروعك.');
         return redirect(route('front.user.myprojects', $project->user->username));
     }
 
@@ -365,9 +369,10 @@ class ProjectsController extends Controller
         $project->where('id', $project->id)->update(['status' => 'publish']);
 
         Mail::to($project->user->email)->send(new ProjectPublished($project));
-        $do = new SMBeezFunctions;
+        $do = new ProjectFunctions;
         $do->email_log($project->user->id, $project->user->email);
-        
+        // redirect to the home page
+        session()->flash('success', 'تم نشر مشروعك.');
         return back();
     }
 

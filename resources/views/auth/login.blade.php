@@ -67,7 +67,7 @@ if($locale) {
                                         </div>
 
                                         <div class="col">
-                                            <input id="phone" type="text" class="form-control {{$errors->has('phone') ? 'is-invalid' : ''}}" name="phone" placeholder="{{__('general.phone')}}" value="{{ old('phone') }}">
+                                            <input id="phone" type="text" class="form-control {{$errors->has('phone') ? 'is-invalid' : ''}}" name="phone" placeholder="{{__('general.phone')}} *" value="{{ old('phone') }}" required>
                                         </div>
                                     </div>
                                     <div class="row">

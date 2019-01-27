@@ -56,7 +56,7 @@ if($locale) {
                                     <div class="row">
                                         <div class="col">
                                             <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
-                                            <input id="email" type="email" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}" name="email" placeholder="{{__('general.email')}} *" value="{{ old('email') }}" required>
+                                            <input id="reg-email" type="email" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}" name="email" placeholder="{{__('general.email')}} *" value="{{ old('email') }}" required>
 
                                             @if ($errors->has('email'))
                                                 <div class="text-left invalid-feedback">
@@ -67,13 +67,13 @@ if($locale) {
                                         </div>
 
                                         <div class="col">
-                                            <input id="phone" type="text" class="form-control {{$errors->has('phone') ? 'is-invalid' : ''}}" name="phone" placeholder="{{__('general.phone')}}" value="{{ old('phone') }}">
+                                            <input id="phone" type="text" class="form-control {{$errors->has('phone') ? 'is-invalid' : ''}}" name="phone" placeholder="{{__('general.phone')}} *" value="{{ old('phone') }}" required>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
-                                            <input id="password" type="password" class="form-control {{$errors->has('password') ? 'is-invalid' : ''}}" name="password" placeholder="{{__('general.password_with_hint')}} *" required>
+                                            <input id="reg-password" type="password" class="form-control {{$errors->has('password') ? 'is-invalid' : ''}}" name="password" placeholder="{{__('general.password_with_hint')}} *" required>
 
                                             @if ($errors->has('password'))
                                                 <div class="text-left invalid-feedback">

@@ -13,7 +13,7 @@ use Socialite;
 use URL;
 use App\Mail\Welcome;
 use App\Mail\NotifyAdmin;
-use \App\Repositories\SMBeezFunctions;
+use \App\Repositories\ProjectFunctions;
 use App\Mail\Mod\NewUser;
 
 class LoginController extends Controller
@@ -40,7 +40,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user) {
 
         $user->increment('logins_no', 1);
-        $track = new SMBeezFunctions;
+        $track = new ProjectFunctions;
         $track->user_logins($user->id);
         //user has company and this company has manager and didn't get tracked for logins b4
         //dd($user->company->csm_trackings->count());
@@ -130,14 +130,14 @@ class LoginController extends Controller
        $user = User::where(['email' => $userSocial->getEmail()])->first();
        $action_url = URL::previous();
        $parsed_url = parse_url($action_url);
-       $action = new SMBeezFunctions;
+       $action = new ProjectFunctions;
 
        if($user){
 
           Auth::login($user);
           
           $user->increment('logins_no', 1);
-          $track = new SMBeezFunctions;
+          $track = new ProjectFunctions;
           $track->user_logins($user->id);
 
           if($user->company && $user->company->hasManager() && $user->company->csm_trackings->count() < 1) {
@@ -182,12 +182,12 @@ class LoginController extends Controller
           Mail::to('info@masharee3.com')->send(new NotifyAdmin('New User', $user->username, $user->email));
           $user->roles()->attach(4);
           $sluggable = $user->replicate();
-          event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
+          //event(new \App\Events\UserReferred(request()->cookie('ref'), $user));
           
           Auth::login($user);
 
           $user->increment('logins_no', 1);
-          $track = new SMBeezFunctions;
+          $track = new ProjectFunctions;
           $track->user_logins($user->id);
 
           if($user->company && $user->company->hasManager() && $user->company->csm_trackings->count() < 1) {
