@@ -45,11 +45,11 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="speciality_id">{{__('general.speciality_title')}}</label>
                                     <input type="text" name="speciality_id" placeholder="{{__('project.spec_hint_2')}}" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">{{__('company.specs_hint')}}</p>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
                                     <label for="">{{__('project.estimated_budget')}} *</label>
@@ -67,8 +67,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="form-guide">{{__('project.project_close_hint')}}</p>
-                                <div class="btn-list text-center my-3"><button type="submit" name="draft" value="draft" class="btn btn-blue mr-3">{{__('project.save_draft')}}</button> <button type="submit" name="publish" value="publish" class="btn btn-blue">{{__('project.publish')}}</button></div>
+                                <div class="btn-list text-center my-3"><button type="submit" name="publish" value="publish" class="btn btn-blue">{{__('project.publish')}}</button></div>
                             </div>
                         </div>
                     </div>

@@ -45,13 +45,13 @@
                                     <input class="form-control" type="text" name="company_website" placeholder="{{__('company.website')}}" id="company_website">
                                 </div>
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                                 <div class="form-group">
                                     <label for="speciality_id">{{__('general.specs_tag_title')}}</label>
                                     <input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/>
                                     <p class="form-guide">{{__('company.specs_hint')}}</p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
                             <div class="col">
