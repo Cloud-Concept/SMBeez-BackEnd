@@ -395,8 +395,9 @@
                                             @if($review->replies->count() > 0)
                                                 <h3 class="mt-4 mb-3 underline">{{__('company.replies_title')}}</h3>
                                                 @foreach($review->replies as $reply)
-                                                <div class="media mt-5">
-                                                    <div class="media-body push-left">
+                                                <div class="media mt-5 mr-5">
+                                                    <a href="{{route('front.company.show', $reply->user->company->slug)}}" class="mr-3 thumb-int"> {{substr($reply->user->company->company_name, 0, 1)}} </a>
+                                                    <div class="media-body">
                                                         @if($review->review_privacy === 'public' && $reply->user->id != $company->user_id)
                                                         <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
                                                         @elseif($review->review_privacy === 'private' && $reply->user->id != $company->user_id)
@@ -719,8 +720,9 @@
                                             @if($review->replies->count() > 0)
                                                 <h3 class="mt-4 mb-3 underline">{{__('company.replies_title')}}</h3>
                                                 @foreach($review->replies as $reply)
-                                                <div class="media mt-5">
-                                                    <div class="media-body push-left">
+                                                <div class="media mt-5 mr-5">
+                                                    <a href="{{route('front.company.show', $reply->user->company->slug)}}" class="mr-3 thumb-int"> {{substr($reply->user->company->company_name, 0, 1)}} </a>
+                                                    <div class="media-body">
                                                         @if($review->review_privacy === 'public' && $reply->user->id != $company->user_id)
                                                         <h5 class="mt-0">{{$reply->user->company->company_name}}</h5>
                                                         @elseif($review->review_privacy === 'private' && $reply->user->id != $company->user_id)

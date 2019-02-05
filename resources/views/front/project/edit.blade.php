@@ -30,7 +30,7 @@
                                         @endforeach
                                     </select>
                                 </li>
-                                <li>{{__('general.speciality_title')}} <input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/></li>
+                                <!-- <li>{{__('general.speciality_title')}} <input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/></li> -->
                             </ul>
                             <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.update')}}</button></div>
                             @if($project->status === 'draft')
