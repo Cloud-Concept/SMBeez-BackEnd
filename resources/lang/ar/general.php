@@ -36,7 +36,7 @@ return array (
   'email' => 'البريد الالكتروني',
   'my_dashboard' => 'لوحة التحكم',
   'my_profile' => 'حسابي',
-  'my_projects' => 'مشروعاتي',
+  'my_projects' => 'مشاريعي',
   'my_reviews' => 'تقييماتي',
   'my_subscription' => 'اشتراكي',
   'my_subscription_details' => 'لأنك مؤمن بينا و من الرواد الاوائل في مشاريع.كوم، اشتراكك مجاني مدى الحياة',

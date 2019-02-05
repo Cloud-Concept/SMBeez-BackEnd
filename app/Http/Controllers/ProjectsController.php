@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Input;
 use \App\Repositories\ProjectFunctions;
 use Mail;
 use Auth;
-use App\Mail\ProjectCreated;
 use App\Mail\ProjectPublished;
 use File;
 use Session;
@@ -169,16 +168,10 @@ class ProjectsController extends Controller
 
         // redirect to the home page
         session()->flash('success', 'مبروك! لقد قمت بانشاء مشروع جديد.');
-
-        if(Input::get('publish')) {
-            Mail::to($project->user->email)->send(new ProjectPublished($project));
-            $do = new ProjectFunctions;
-            $do->email_log($project->user->id, $project->user->email);
-        }elseif(Input::get('draft')) {
-            Mail::to($project->user->email)->send(new ProjectCreated($project));
-            $do = new ProjectFunctions;
-            $do->email_log($project->user->id, $project->user->email);
-        }
+        //send published project email
+        Mail::to($project->user->email)->send(new ProjectPublished($project));
+        $do = new ProjectFunctions;
+        $do->email_log($project->user->id, $project->user->email);
         //track CSM company
         $track = new ProjectFunctions;
         if($user->company->hasManager()) {

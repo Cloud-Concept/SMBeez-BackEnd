@@ -67,6 +67,11 @@ if($locale) {
                                         </div>
 
                                         <div class="col">
+                                            @if ($errors->has('phone'))
+                                                <div class="text-left invalid-feedback">
+                                                    {{ $errors->first('phone') }}
+                                                </div>
+                                            @endif
                                             <input id="phone" type="text" class="form-control {{$errors->has('phone') ? 'is-invalid' : ''}}" name="phone" placeholder="{{__('general.phone')}} *" value="{{ old('phone') }}" required>
                                         </div>
                                     </div>

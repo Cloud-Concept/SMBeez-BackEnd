@@ -140,10 +140,10 @@
                                             @endforeach
                                         </select></td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td scope="row"><b>{{__('general.specs_tag_title')}}</b></td>
                                         <td><input type="text" name="speciality_id" placeholder="{{__('general.specs_tag_title')}}" class="typeahead tm-input form-control tm-input-info"/></td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td scope="row"><b>{{__('company.address_label')}}</b></td>
                                         <td><input class="form-control" type="text" name="location" value="{{$company->location}}" id="location" placeholder="{{__('company.address_label')}}"></td>
