@@ -85,7 +85,7 @@ class InterestsController extends Controller
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'express_interest');
         }
-
+        event(new \App\Events\AddPoints($user->company->id, 'express-interest', 'monthly'));
         session()->flash('success', 'تم تقديم طلبك للمشروع.');
 
         return back();
@@ -159,7 +159,8 @@ class InterestsController extends Controller
     public function destroy(Interest $interest)
     {
         $interest->delete();
-
+        $user = auth()->user();
+        event(new \App\Events\AddPoints($user->company->id, 'withdraw-interest', 'monthly'));
         session()->flash('success', 'لقد قمت بسحب طلب الاشترك في المشروع.');
 
         return back();

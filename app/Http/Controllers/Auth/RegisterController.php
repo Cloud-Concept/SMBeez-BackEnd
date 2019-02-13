@@ -80,7 +80,6 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'user_city' => $data['user_city'],
             'phone' => $data['phone'],
-            'honeycombs' => 0,
         ]);
 
         // set user role as user (4) is user role id

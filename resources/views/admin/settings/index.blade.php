@@ -37,6 +37,10 @@
                                 <input class="form-control" type="text" name="value" required>
                             </p>
                             <p class="group-control">
+                                <label for="limit">Limit</label>
+                                <input class="form-control" type="text" name="limit">
+                            </p>
+                            <p class="group-control">
                                 <label for="category">Category</label>
                                 Like:
                                 @foreach($categories as $category)
