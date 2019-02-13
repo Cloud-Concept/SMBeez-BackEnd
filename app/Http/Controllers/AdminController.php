@@ -275,7 +275,6 @@ class AdminController extends Controller
             $user->phone = $request['phone'];
             $user->password = bcrypt($unique_password);
             $user->user_city = $company->city;
-            $user->honeycombs = 0;
 
             $validate = Mailgun::validator()->validate($user->email);
             
@@ -885,6 +884,7 @@ class AdminController extends Controller
         $setting->setting_name = $request['setting_name'];
         $setting->setting_slug = $request['setting_slug'];
         $setting->value = $request['value'];
+        $setting->limit = $request['limit'];
         $setting->category = $request['category'];
 
         $setting->save();

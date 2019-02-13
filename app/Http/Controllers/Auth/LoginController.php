@@ -172,9 +172,9 @@ class LoginController extends Controller
        }else{
 
           if($social === 'facebook') {
-            $data = ['first_name' => $userSocial->user['first_name'], 'last_name' => $userSocial->user['last_name'], 'email' => $userSocial->getEmail(), 'password' => bcrypt(uniqid()), 'user_city' => 'Cairo', 'honeycombs' => 0];
+            $data = ['first_name' => $userSocial->user['first_name'], 'last_name' => $userSocial->user['last_name'], 'email' => $userSocial->getEmail(), 'password' => bcrypt(uniqid()), 'user_city' => 'Cairo'];
           }else {
-            $data = ['first_name' => $userSocial->user['firstName'], 'last_name' => $userSocial->user['lastName'], 'email' => $userSocial->user['emailAddress'], 'password' => bcrypt(uniqid()), 'user_city' => 'Cairo', 'honeycombs' => 0];
+            $data = ['first_name' => $userSocial->user['firstName'], 'last_name' => $userSocial->user['lastName'], 'email' => $userSocial->user['emailAddress'], 'password' => bcrypt(uniqid()), 'user_city' => 'Cairo'];
           }
           $user = User::create($data);
           

@@ -13,8 +13,8 @@ class PointsReward
      * Handle company created events.
      */
     public function onCompanyCreated(AddPoints $event) {
-        $add = new ProjectFunctions;
-        $add->points($event->action, $event->company, $event->limit, $event->limit_type);
+        $action = new ProjectFunctions;
+        $action->addPoints($event->action, $event->company, $event->limit_type);
     }
 
 

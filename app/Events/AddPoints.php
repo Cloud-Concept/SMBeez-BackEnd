@@ -16,18 +16,16 @@ class AddPoints
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $company;
     public $action;
-    public $limit;
     public $limit_type;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($company, $action, $limit, $limit_type)
+    public function __construct($company, $action, $limit_type)
     {
         $this->company = $company;
         $this->action = $action;
-        $this->limit = $limit;
         $this->limit_type = $limit_type;
     }
 
