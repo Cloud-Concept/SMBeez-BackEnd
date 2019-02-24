@@ -69,7 +69,11 @@
                 </p>
                 @endif
                 <p>{{strip_tags(substr($project->project_description, 0, 100))}}...</p>
+                @if(app()->getLocale() == 'ar')
                 <a href="{{route('front.project.show', $project->slug)}}"> {{__('home.discover_more')}} <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                @else
+                <a href="{{route('front.project.show', $project->slug)}}"> <i class="fa fa-caret-right" aria-hidden="true"></i> {{__('home.discover_more')}} </a>
+                @endif
               </div>
             </div>
             @endforeach
@@ -114,7 +118,11 @@
                       </div>
                   </div>
   	            <p>{{strip_tags(substr($company->company_description, 0, 180))}}...</p>
-  	            <a href="{{route('front.company.show', $company->slug)}}"> {{__('home.discover_more')}} <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+  	            @if(app()->getLocale() == 'ar')
+                <a href="{{route('front.company.show', $company->slug)}}"> {{__('home.discover_more')}} <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                @else
+                <a href="{{route('front.company.show', $company->slug)}}"><i class="fa fa-caret-right" aria-hidden="true"></i> {{__('home.discover_more')}} </a>
+                @endif
   	          </div>
   	        </div>
   	        @endforeach

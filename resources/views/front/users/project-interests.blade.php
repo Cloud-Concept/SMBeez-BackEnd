@@ -102,21 +102,33 @@
                                                 <p class="tags"><b>{{__('project.company_size')}}:</b> {{$interest->user->company->company_size}}</p>
                                                 <p class="tags"><b>{{__('project.about_company')}}:</b></p>
                                                 {!! substr($interest->user->company->company_description, 0, 400) !!}
-                                                <div class="btn-list mt-3 mb-4">
+                                                <div class="btn-list mt-3 mb-4 d-flex justify-content-between">
                                                     @if($interest->is_accepted === 1)
                                                         <p>{{__('company.accepted')}}</p>
                                                     @elseif($interest->is_accepted === 0)
-                                                        <p>{{__('company.declined')}}</p>
+                                                        <p>{{__('company.declined')}} - {{$interest->reason}}</p>
                                                     @else
+
                                                         <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">{{__('company.accept')}}</button>                  
-                                                        <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button>
+                                                        <!-- <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button> -->
+                                                        {{__('home.or_title')}}
+                                                        <br>
+                                                        <form id="decline-interest-{{$interest->id}}" action="{{route('decline.interest', $interest->id)}}" method="post" class="write-review compnay-edit">
+                                                            {{csrf_field()}}
+                                                            <select id="decline-select" class="form-control custom-select d-block" name="decline_reason" onchange="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">
+                                                                <option>اختر  سبب الرفض</option>
+                                                                @foreach($rejection_reasons as $reason)
+                                                                    <option value="{{$reason}}" {{$reason == $interest->reason ? 'selected' : ''}}>{{$reason}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </form>
                                                     @endif
                                                     <form id="accept-interest-{{$interest->id}}" action="{{route('accept.interest', $interest->id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
                                                     </form>  
-                                                    <form id="decline-interest-{{$interest->id}}" action="{{route('decline.interest', $interest->id)}}" method="post" class="write-review">
+                                                    <!-- <form id="decline-interest-{{$interest->id}}" action="{{route('decline.interest', $interest->id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
-                                                    </form>
+                                                    </form> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -181,7 +193,7 @@
                                                     @if($interest->is_accepted === 1)
                                                         <p>{{__('company.accepted')}}</p>
                                                     @elseif($interest->is_accepted === 0)
-                                                        <p>{{__('company.declined')}}</p>
+                                                        <p>{{__('company.declined')}} - {{$interest->reason}}</p>
                                                     @else
                                                         <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">{{__('company.accept')}}</button>                  
                                                         <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button>
@@ -259,7 +271,7 @@
                                                     @if($interest->is_accepted === 1)
                                                         <p>{{__('company.accepted')}}</p>
                                                     @elseif($interest->is_accepted === 0)
-                                                        <p>{{__('company.declined')}}</p>
+                                                        <p>{{__('company.declined')}} - {{$interest->reason}}</p>
                                                     @else
                                                         <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$interest->id}}').submit();">{{__('company.accept')}}</button>                  
                                                         <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">{{__('company.decline')}}</button>

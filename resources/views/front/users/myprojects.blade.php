@@ -19,14 +19,14 @@
                     </div>
                     <div class="sidebar-dashboard mb-5">
                         <ul class="dash-info">
-                            <!-- <li>
+                            <li>
                                 <i class="fa fa-cubes fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
-                                    <p class="numb">{{$user->honeycombs ? $user->honeycombs : 0}}</p>
-                                    <p><i><b>Honeycombs</b></i> Earned</p>
-                                    <a href="">My Achievements</a>
+                                    <p class="numb">{{$user->company ? $user->company->points : 0}}</p>
+                                    <p><i><b>{{__('company.points')}}</b></i> {{__('company.earned')}}</p>
+                                    <!-- <a href="">My Achievements</a> -->
                                 </div>
-                            </li> -->
+                            </li>
                             <!-- <li>
                                 <i class="fa fa-pie-chart fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">

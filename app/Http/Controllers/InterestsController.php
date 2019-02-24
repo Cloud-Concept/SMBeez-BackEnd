@@ -12,6 +12,7 @@ use App\Mail\SupplierAccepted;
 use App\Mail\SupplierRejected;
 use App\Mail\InterestedSupplier;
 use Session;
+use App\Setting;
 
 class InterestsController extends Controller
 {
@@ -33,6 +34,13 @@ class InterestsController extends Controller
      */
     public function store(Request $request)
     {   
+        $setting = new \App\Setting;
+        $points = $setting->where('setting_slug', 'express-interest')->pluck('value')->first();
+        $company_available_points = auth()->user()->company->points;
+        if($points < 0 && abs($points) > $company_available_points) {
+            session()->flash('success', 'لا يوجد لديك نقاط كافية.' . auth()->user()->company->points);
+            return back();
+        }
         $interest = new Interest;
 
         $interest->user_id = auth()->id();
@@ -75,7 +83,7 @@ class InterestsController extends Controller
         
         $message->save();
 
-        Mail::to($project->user->email)->send(new InterestedSupplier($project));
+        //Mail::to($project->user->email)->send(new InterestedSupplier($project));
 
         $do = new ProjectFunctions;
         $do->email_log($message->sender_id, $project->user->email);
@@ -85,9 +93,9 @@ class InterestsController extends Controller
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'express_interest');
         }
-        event(new \App\Events\AddPoints($user->company->id, 'express-interest', 'monthly'));
+        
         session()->flash('success', 'تم تقديم طلبك للمشروع.');
-
+        event(new \App\Events\AddPoints($user->company->id, 'express-interest', 'monthly'));
         return back();
     }
 
@@ -109,14 +117,15 @@ class InterestsController extends Controller
           $track->csm_company($user->company->manager_id, $user->company->id, 'accept_interest');
         }
         session()->flash('success', 'لقد قمت بالموافقة علي طلب المورد ' . $interest->user->company->company_name);
+        event(new \App\Events\AddPoints($user->company->id, 'accept-interest', 'monthly'));
         return back();
     }
 
     public function decline_interest(Request $request, Interest $interest)
     {   
         
-        $interest->where('id', $interest->id)->update(['is_accepted' => 0]);
-
+        $interest->where('id', $interest->id)->update(['is_accepted' => 0, 'reason' => $request['decline_reason']]);
+        
         Mail::to($interest->user->email)->send(new SupplierRejected($interest));
 
         $do = new ProjectFunctions;
@@ -129,6 +138,7 @@ class InterestsController extends Controller
           $track->csm_company($user->company->manager_id, $user->company->id, 'decline_interest');
         }
         session()->flash('success', 'لقد قمت برفض طلب المورد ' . $interest->user->company->company_name);
+        event(new \App\Events\AddPoints($user->company->id, 'reject-interest', 'monthly'));
         return back();
     }
 
@@ -157,12 +167,19 @@ class InterestsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Interest $interest)
-    {
+    {   
+        $setting = new \App\Setting;
+        $points = $setting->where('setting_slug', 'withdraw-interest')->pluck('value')->first();
+        $company_available_points = auth()->user()->company->points;
+        if($points < 0 && abs($points) > $company_available_points) {
+            session()->flash('success', 'لا يوجد لديك نقاط كافية.');
+            return back();
+        }
         $interest->delete();
         $user = auth()->user();
-        event(new \App\Events\AddPoints($user->company->id, 'withdraw-interest', 'monthly'));
+        
         session()->flash('success', 'لقد قمت بسحب طلب الاشترك في المشروع.');
-
+        event(new \App\Events\AddPoints($user->company->id, 'withdraw-interest', 'monthly'));
         return back();
     }
 }

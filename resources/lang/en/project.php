@@ -25,7 +25,7 @@ return array (
   'express_interest' => 'Express Interest',
   'withdraw_interest' => 'Withdraw Interest',
   'industry' => 'Industry',
-  'estimated_budget' => 'Maximum Budget',
+  'estimated_budget' => 'Expected Budget',
   'supportive_docs' => 'Supportive Documents',
   'project_close_hint' => 'The project will be automatically closed within 60 days, you can set your project status to “Draft”, “Open”, “Closed” whenever you need.',
   'save_draft' => 'Save Draft',
@@ -37,4 +37,5 @@ return array (
   'about_company' => 'About',
   'company_size' => 'Company Size',
   'no_login_express_interest' => 'Login to Express Interest',
+  'views' => 'Views:',
 );
