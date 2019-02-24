@@ -156,4 +156,7 @@ if($locale) {
         </div>
     </section>
 </main>
+<style>.invalid-feedback {
+    display: block!important;
+}</style>
 @endsection

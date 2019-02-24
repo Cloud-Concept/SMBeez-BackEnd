@@ -109,4 +109,6 @@ return array (
   'profile' => 'بروفايل',
   'undo' => 'إعادة اختيار',
   'shownumber' => 'أظهر الرقم',
+  'points' => 'نقاط',
+  'earned' => 'مكتسبة',
 );

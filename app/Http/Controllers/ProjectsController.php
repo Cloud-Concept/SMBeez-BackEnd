@@ -177,7 +177,7 @@ class ProjectsController extends Controller
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'published_project');
         }
-
+        event(new \App\Events\AddPoints($project->user->company->id, 'add-project', 'monthly'));
         Mail::to('info@masharee3.com')->send(new NotifyAdmin('Project', $project->slug, $project->project_title));
 
         return redirect(route('front.project.show', $project->slug));

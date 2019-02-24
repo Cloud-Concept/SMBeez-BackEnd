@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Image;
 use Illuminate\Support\Facades\Input;
 use Mail;
+use Config;
+use Session;
 use App\Mail\Welcome;
 use App\Mail\NotifyAdmin;
 use \App\Repositories\ProjectFunctions;
@@ -59,7 +61,7 @@ class RegisterController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'user_city' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits_between:5,11',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -80,7 +82,7 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'user_city' => $data['user_city'],
             'phone' => $data['phone'],
-            'honeycombs' => 0,
+            'lang' => Session::get('locale', Config::get('app.locale')),
         ]);
 
         // set user role as user (4) is user role id

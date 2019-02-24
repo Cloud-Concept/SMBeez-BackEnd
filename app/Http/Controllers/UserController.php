@@ -735,7 +735,8 @@ class UserController extends Controller
             $interests = $project->interests->where('is_accepted', '===', null);
             $approved_interests = $project->interests->where('is_accepted', '===', 1);
             $rejected_interests = $project->interests->where('is_accepted', '===', 0);
-            return view('front.users.project-interests', compact('user', 'project', 'interests', 'approved_interests', 'rejected_interests'));
+            $rejection_reasons = array(trans('general.rejection_reason1'), trans('general.rejection_reason2'), trans('general.rejection_reason3'), trans('general.rejection_reason4'), trans('general.rejection_reason5'), trans('general.rejection_reason6'));
+            return view('front.users.project-interests', compact('user', 'project', 'interests', 'approved_interests', 'rejected_interests', 'rejection_reasons'));
         }
     }
 

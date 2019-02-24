@@ -14,14 +14,14 @@
                 <div class="col-md-3">
                     <div class="sidebar-dashboard mb-5">
                         <ul class="dash-info">
-                            <!-- <li>
+                            <li>
                                 <i class="fa fa-cubes fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
-                                    <p class="numb">{{$user->honeycombs ? $user->honeycombs : 0}}</p>
-                                    <p><i><b>Honeycombs</b></i> Earned</p>
-                                    <a href="">My Achievements</a>
+                                    <p class="numb">{{$user->company ? $user->company->points : 0}}</p>
+                                    <p><i><b>{{__('company.points')}}</b></i> {{__('company.earned')}}</p>
+                                    <!-- <a href="">My Achievements</a> -->
                                 </div>
-                            </li> -->
+                            </li>
                             <!-- <li>
                                 <i class="fa fa-pie-chart fa-2x pull-left mr-3" aria-hidden="true"></i>
                                 <div class="pull-right">
@@ -74,7 +74,7 @@
                 <div class="col-md-9">
                     <ul class="dashbord-quickbtn nav nav-pills nav-fill">
                         @if($hascompany)
-                            <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
+                            <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <span class="inf">({{$user->company->points}} <i>{{__('company.points')}}</i>)</span></li>
                         @elseif(!$hascompany && !count($user->claims) > 0)
                             <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">{{__('general.add_company_button')}}</button></a></li>
                         @endif

@@ -185,7 +185,7 @@ class CompaniesController extends Controller
                 $log->save();
                 
                 session()->flash('success', 'مبروك! تم انشاء شركتك بنجاح.');
-                //event(new \App\Events\AddPoints($company->id, 'add-company', 50, 'lifetime'));
+                event(new \App\Events\AddPoints($company->id, 'add-company', 'lifetime'));
                 Mail::to('info@masharee3.com')->send(new NotifyAdmin('Company', $company->slug, $company->company_name));
                 //if save go to company page, if continue go to edit page
                 if(Input::get('save')) {
@@ -357,6 +357,7 @@ class CompaniesController extends Controller
             $value = $current_score + ($current - $old_profile_relevance_score);
             $company->update(['relevance_score' => $value]);
         }
+        event(new \App\Events\AddPoints($company->id, 'complete-company-profile', 'lifetime'));
         // redirect to the home page
         session()->flash('success', 'تم تحديث بيانات شركتك.');
 

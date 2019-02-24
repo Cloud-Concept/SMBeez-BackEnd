@@ -11,7 +11,9 @@
 |
 */
 Route::get('/', function () {
+
 	$locale = Session::get('locale');
+
     if($locale) {
         app()->setLocale($locale);
     }
@@ -23,13 +25,19 @@ Auth::routes();
 
 Route::get('/language/{locale}', function ($locale) {
 	$refer_url = URL::previous();
-	
+
 	if($locale == '') {
 		App::setLocale('en');
 		session(['locale' => 'en']);
 	}else{
 		App::setLocale($locale);
 		session(['locale' => $locale]);
+	}
+
+	if(Auth::user()) {
+		$user = Auth::user();
+		$user->lang = $locale;
+		$user->update();
 	}
 
     return redirect()->to($refer_url);
