@@ -13,7 +13,7 @@
             <div class="col-md-3">
                 <h6>{{__('footer.opportunities')}}</h6>
                 <ul>
-                	@foreach($industries as $industry)
+                	@foreach($industries->take(5) as $industry)
                     <li><a href="{{route('front.industry.show', $industry->slug)}}">
                         @if(app()->getLocale() == 'ar')
                         {{$industry->industry_name_ar}}
@@ -40,13 +40,14 @@
                     <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
                     <form action="{{route('subscribe')}}" class="newsletter" method="post">
                         {{csrf_field()}}
-                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
+                        <div class="input-group">@if(app()->getLocale() == 'ar')<input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail"> <span class="input-group-btn">@endif<button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span>@if(app()->getLocale() == 'en')
+                            <input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail">@endif</div>
                     </form>
                     @else
                     <h6 class="mb-3">{{__('footer.stay_in_touch')}}</h6>
                     <form action="{{route('subscribe')}}" class="newsletter" method="post">
                         {{csrf_field()}}
-                        <div class="input-group"><input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail" value="{{Auth::user()->email}}"> <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span></div>
+                        <div class="input-group">@if(app()->getLocale() == 'ar')<input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail" value="{{Auth::user()->email}}">@endif <span class="input-group-btn"><button class="btn btn-blue btn-yellow" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button></span>@if(app()->getLocale() == 'en')<input type="text" class="form-control" name="email" placeholder="{{__('footer.email_newsletter')}}" aria-label="E-mail" value="{{Auth::user()->email}}">@endif</div>
                     </form>
                     @endif
                 @endif

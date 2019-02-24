@@ -73,15 +73,29 @@ class ProjectFunctions {
 					session()->flash('success', 'لقد وصلت الي الحد الاقصي للنقاط.');
 					return false;
 				}else {
-					//Add Points
-					$point->points = $points;
-					$point->company_id = $company;
-					$point->action = $action;
-					$point->limit_type = $limit_type;
-					$point->expiry_date = new Carbon('first day of next month', 'Africa/Cairo');
-					session()->flash('success', 'تم اضافة ' .$points. ' الي رصيدك.');
-					$point->save();
-					return $point->company->increment('points', $points);
+					//if the points available are not sufficient to the deduction.
+					if($points < 0 && abs($points) > $company_available_points) {
+						session()->flash('success', 'لا يوجد لديك نقاط كافية.');
+						return false;
+					}else {
+						//Add Points
+						$point->points = abs($points);
+						$point->company_id = $company;
+						$point->action = $action;
+						$point->limit_type = $limit_type;
+						$point->expiry_date = new Carbon('first day of next month', 'Africa/Cairo');
+						if($points > 0) {
+							session()->flash('success', 'تم اضافة ' .$points. ' نقطة الي رصيدك.');
+						}else{
+							session()->flash('success', 'تم خصم ' .abs($points). ' نقطة من رصيدك.');
+						}
+						$point->save();
+						if($points > 0) {
+							return $point->company->increment('points', $points);
+						}else {
+							return $point->company->decrement('points', abs($points));
+						}
+					}
 				}
 			}else {
 				//return nothing cuz he already awarded points for this lifetime action

@@ -47,8 +47,6 @@
                         <br>
                     @endif
                     <br>
-                    <p>This user have {{$user->honeycombs ? $user->honeycombs : 0}} Honycombs points</p>
-                    <br>
                     <form action="{{route('admin.user.update', $user->username)}}" class="user-setting" role="form" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <div class="field">

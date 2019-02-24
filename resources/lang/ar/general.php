@@ -109,4 +109,10 @@ return array (
   'approved_interests' => 'طلبات الاشتراك الموافق عليها',
   'sign_in_btn' => 'ســجـل الان',
   'lang' => 'EN',
+  'rejection_reason1' => 'صفحة المورد لا توجد بها معلومات',
+  'rejection_reason2' => 'صفحة المورد لا توجد بها تقييمات',
+  'rejection_reason3' => 'مجال شركة المورد لا يتوافق او لا يتطابق مع المشروع',
+  'rejection_reason4' => 'لا يوجد وسيلة للتواصل مع المورد',
+  'rejection_reason5' => 'سعر طلب المورد أعلى من المطلوب',
+  'rejection_reason6' => 'اخرى (مع التوضيح)',
 );

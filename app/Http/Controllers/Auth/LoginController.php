@@ -15,6 +15,7 @@ use App\Mail\Welcome;
 use App\Mail\NotifyAdmin;
 use \App\Repositories\ProjectFunctions;
 use App\Mail\Mod\NewUser;
+use Session;
 
 class LoginController extends Controller
 {
@@ -38,10 +39,15 @@ class LoginController extends Controller
      */
 
     protected function authenticated(Request $request, $user) {
-
         $user->increment('logins_no', 1);
         $track = new ProjectFunctions;
         $track->user_logins($user->id);
+        //if user logged in let his prefered language be
+        $locale = $user->lang;
+        if($locale) {
+            app()->setLocale($locale);
+            Session::put('locale',$locale);
+        }
         //user has company and this company has manager and didn't get tracked for logins b4
         //dd($user->company->csm_trackings->count());
         if($user->company && $user->company->hasManager() && $user->company->csm_trackings->count() < 1) {

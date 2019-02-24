@@ -2,7 +2,7 @@
 
 return array (
   'contact_info' => 'Contact Info',
-  'claim_company_btn' => 'Claim Company',
+  'claim_company_btn' => 'Claim Company Account',
   'edit_company_btn' => 'Edit Company',
   'linked_in' => 'LinkedIn Profile',
   'customer_overall_rating' => '(Customers Overall Rating)',
@@ -108,4 +108,7 @@ return array (
   'reply_to_review' => 'Reply to Review',
   'profile' => 'Profile',
   'undo' => 'Undo Selection',
+  'shownumber' => 'Show Contact Details',
+  'points' => 'Points',
+  'earned' => 'Earned',
 );

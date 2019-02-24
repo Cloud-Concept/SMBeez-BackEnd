@@ -5,11 +5,11 @@
     </li>
     @if(app()->getLocale() == 'en')
         <li class="nav-item dropdown">
-            <a class="nav-link" href="{{route('change.lang', 'ar')}}">Arabic</a>
+            <a class="nav-link" href="{{route('change.lang', 'ar')}}">{{__('general.lang')}}</a>
         </li>
     @else
         <li class="nav-item dropdown">
-            <a class="nav-link" href="{{route('change.lang', 'en')}}">English</a>
+            <a class="nav-link" href="{{route('change.lang', 'en')}}">{{__('general.lang')}}</a>
         </li>
     @endif
     <li class="no-effect">
