@@ -83,7 +83,7 @@ class InterestsController extends Controller
         
         $message->save();
 
-        //Mail::to($project->user->email)->send(new InterestedSupplier($project));
+        Mail::to($project->user->email)->send(new InterestedSupplier($project));
 
         $do = new ProjectFunctions;
         $do->email_log($message->sender_id, $project->user->email);
