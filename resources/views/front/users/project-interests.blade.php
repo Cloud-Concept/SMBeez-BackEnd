@@ -12,11 +12,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="sidebar-dashboard mb-3">
-                        @if(\Laratrust::hasRole('company|superadmin'))
-                            <div class="dashbord-quickbtn dashbord-quickbtn-single"><button class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></div>
-                        @endif
-                    </div>
                     <div class="sidebar-dashboard mb-5">
                         <ul class="dash-info">
                             <li>
@@ -116,7 +111,7 @@
                                                         <form id="decline-interest-{{$interest->id}}" action="{{route('decline.interest', $interest->id)}}" method="post" class="write-review compnay-edit">
                                                             {{csrf_field()}}
                                                             <select id="decline-select" class="form-control custom-select d-block" name="decline_reason" onchange="event.preventDefault(); document.getElementById('decline-interest-{{$interest->id}}').submit();">
-                                                                <option>اختر  سبب الرفض</option>
+                                                                <option>{{__('company.choose_rej_reason')}}</option>
                                                                 @foreach($rejection_reasons as $reason)
                                                                     <option value="{{$reason}}" {{$reason == $interest->reason ? 'selected' : ''}}>{{$reason}}</option>
                                                                 @endforeach

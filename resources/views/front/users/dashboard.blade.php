@@ -74,12 +74,11 @@
                 <div class="col-md-9">
                     <ul class="dashbord-quickbtn nav nav-pills nav-fill">
                         @if($hascompany)
-                            <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <span class="inf">({{$user->company->points}} <i>{{__('company.points')}}</i>)</span></li>
+                            <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <span class="inf">(<i>{{__('company.earn')}}</i> {{$setting->action_points('add-project')}} <i>{{__('company.action_points')}}</i>)</span></li>
                         @elseif(!$hascompany && !count($user->claims) > 0)
                             <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">{{__('general.add_company_button')}}</button></a></li>
                         @endif
-                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow {{$hascompany ? '' : 'disable'}}" data-toggle="modal" data-target="#reviewModal">{{__('general.submit_review')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
-                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow disable"><i class="fa fa-cubes mr-1" aria-hidden="true"></i> {{__('general.redeem_honeycombs')}}</button> <!-- <span class="inf">(900 <i>Honeycombs</i>)</span> --></li>
+                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow {{$hascompany ? '' : 'disable'}}" data-toggle="modal" data-target="#reviewModal">{{__('general.submit_review')}}</button> <span class="inf">(<i>{{__('company.earn')}}</i> {{$setting->action_points('submit-review')}} <i>{{__('company.action_points')}}</i>)</span></li>
                     </ul>
                     @if(count($user->claims) > 0)
                     <br>

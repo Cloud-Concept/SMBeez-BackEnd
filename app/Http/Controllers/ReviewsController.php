@@ -101,8 +101,8 @@ class ReviewsController extends Controller
         if($user->company->hasManager()) {
           $track->csm_company($user->company->manager_id, $user->company->id, 'submit_customer_review');
         }
-        event(new \App\Events\AddPoints($user->company->id, 'submit-review', 'monthly'));
         session()->flash('success', 'تم نشر تقييمك.');
+        event(new \App\Events\AddPoints($user->company->id, 'submit-review', 'monthly'));
         return back();
     }
 

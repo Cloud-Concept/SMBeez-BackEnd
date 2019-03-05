@@ -114,5 +114,5 @@ return array (
   'rejection_reason3' => 'مجال شركة المورد لا يتوافق او لا يتطابق مع المشروع',
   'rejection_reason4' => 'لا يوجد وسيلة للتواصل مع المورد',
   'rejection_reason5' => 'سعر طلب المورد أعلى من المطلوب',
-  'rejection_reason6' => 'اخرى (مع التوضيح)',
+  'rejection_reason6' => 'اخري',
 );

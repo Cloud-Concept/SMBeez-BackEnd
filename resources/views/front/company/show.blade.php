@@ -60,6 +60,11 @@
                             @endif
 
                             <h3>{{__('company.contact_info')}}</h3>
+                            @if (Auth::guest())
+                            <div class="text-center my-3">
+                                <button data-toggle="modal" data-target="#request-info" onclick="ga('send', 'event', 'ContactInfoClicked', 'ContactInfoClicked', '{{$company->company_name}}');" class="btn btn-blue btn-yellow" id="contactInfo-Clicked">{{__('company.show_contact_info')}}</button>
+                            </div>
+                            @else
                             <ul class="list-unstyled details-box vcard-list">
                                 @if($company->location)
                                 <li>
@@ -104,11 +109,17 @@
                                 </li>
                                 @endif
                             </ul>
+                            @endif
                             
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <div class="hero-blank">
                         <h1>{{$company->company_name}}</h1>
                         <h2>{{$company->company_tagline}}</h2>
@@ -1229,6 +1240,64 @@
     </div>
 </div>
 
+@if (Auth::guest())
+<div class="modal fade modal-fullscreen modal-request-info" id="request-info" tabindex="-1" role="dialog" aria-labelledby="request-info" aria-hidden="true">
+    <div class="modal-cover" style="width: 100%; height: 800px; background: #3336; z-index: 9999; position: absolute; display:none;"></div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="modal-title">{{__('company.show_contact_info')}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin my-4" id="request-info-form" enctype="multipart/form-data" action="{{route('company-request-info', $company->slug)}}" method="post">
+                    {{csrf_field()}}
+                    <div class="row">
+                        <div class="col">
+                            <div class="alert alert-success alert-green alert-dismissible fade assign-user-alert" role="alert">
+                                <h3 class="assign-msg"></h3>
+                            </div>
+                            @if(session('companyContactRequest') && session('companyContactRequest') >= 0)
+                                {{__('company.anonymous_credit')}} {{session('companyContactRequest')}} 
+                            @else
+                                <label>{{__('company.credits_hint')}}</label>
+                            @endif
+                            @if(!session('companyContactRequest') || session('companyContactRequest') != 0)
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_name')}}" name="yourName" value="{{session('userContactName')}}" required {{session('userContactName') ? 'disabled' : ''}}>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_title')}}" value="{{session('userContactTitle')}}" name="title" {{session('userContactTitle') ? 'disabled' : ''}}>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_company')}}" value="{{session('userContactCompany')}}" name="companyName" {{session('userContactCompany') ? 'disabled' : ''}}>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_phone')}}" value="{{session('userContactPhone')}}" name="phoneNumber" required {{session('userContactPhone') ? 'disabled' : ''}}>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_email')}}" name="email" value="{{session('userContactEmail')}}" required {{session('userContactEmail') ? 'disabled' : ''}}>
+                                    <input type="hidden" name="company_id" value="{{$company->id}}" {{session('userContactPhone') ? 'disabled' : ''}}>
+                                </div>
+                                <div class="form-group">
+                                    <div class="text-center mt-4"><button type="submit" id="requestInfo" class="btn btn-blue btn-yellow">{{__('company.show_contact_info')}}</button></div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 <script>
 $(document).ready(function() {
     $('.add-reply').on('click', function(){
@@ -1238,6 +1307,29 @@ $(document).ready(function() {
         $('.modal-add-reply').find('.modal-title span').text(rev_user);
         $('.modal-add-reply').find('.modal-body .rev_id').val(rev_id);
     });
+    //request info
+    /*$('#requestInfo').on('click', function(e){
+        e.preventDefault();
+        var company_id = '{{$company->slug}}';
+        var url = '{{ route("company-request-info", ":company_id") }}';
+        $('#request-info .modal-cover').show();
+        $.post(url.replace(':company_id', company_id),
+        {
+            name: $(this).closest('#request-info-form').find("input[name='yourName']").val(),
+            title: $(this).closest('#request-info-form').find("input[name='title']").val(),
+            company: $(this).closest('#request-info-form').find("input[name='companyName']").val(),
+            phone: $(this).closest('#request-info-form').find("input[name='phoneNumber']").val(),
+            email: $(this).closest('#request-info-form').find("input[name='email']").val(),
+            company_id: $(this).closest('#request-info-form').find( "input[name='company_id']" ).val(),
+
+        }).done(function( data ) {
+            $('.assign-msg').html('<i class="fa fa-check fa-2x" aria-hidden="true"></i>' + data.msg);
+            $('.assign-msg').after('<p>' + data.data + '</p>');
+            //clear
+            $("#request-info-form")[0].reset();
+            $('#request-info .modal-cover').hide();
+        });
+    });*/
 });
 </script>
 @endsection

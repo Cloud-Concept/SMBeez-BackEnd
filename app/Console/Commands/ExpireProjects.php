@@ -40,6 +40,7 @@ class ExpireProjects extends Command
     public function handle()
     {
         Project::where('created_at', '<=', Carbon::now('Africa/Cairo')->subDays(60))
+        ->where('status', '!=', 'closed')
         ->update(['status' => 'closed', 'status_on_close' => 'expired']);
 
         $this->info('All projects passed 60 Days closed automatically.');

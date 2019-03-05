@@ -15,17 +15,29 @@
 	                    <td class="panel-item">
 	                        <h1>Hello,</h1>
 
-							<p>New {{$type}} has been created.</p>
-							@if($type == 'Project')
-								<a href="{{route('front.project.show', $slug)}}" >{{$title}}</a>
-							@elseif($type == 'Company' || $type == 'Contact Info Request')
-								<a href="{{route('front.company.show', $slug)}}" >{{$title}}</a>
-							@elseif($type == 'New User')
-								<p>{{$title}}</p>
-							@else
-								<p>-</p>
-							@endif
 
+	                        Company Name: {{$company->company_name}}
+	                        <br>
+	                        @if($company->location)
+	                        Company Location: {{$company->location}}
+	                        @endif
+	                        <br>
+	                        @if($company->company_phone)
+	                        Company Phone: {{$company->company_phone}}
+	                        @endif
+	                        <br>
+	                        @if($company->company_website)
+	                        Company Website: {{$company->company_website}}
+	                        @endif
+	                        <br>
+	                        @if($company->company_email)
+	                        Company Email: {{$company->company_email}}
+	                        @endif
+	                        <br>
+	                        @if($company->linkedin_url)
+	                        Company Linkedin: {{$company->linkedin_url}}
+	                        @endif
+	                        <br>
 	                    </td>
 	                </tr>
 	            </table>

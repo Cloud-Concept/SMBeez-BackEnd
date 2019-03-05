@@ -90,14 +90,14 @@
                         <form action="{{route('express.interest')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <div class="text-center"><button type="submit" id="express-interest" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button></div>
+                            <div class="text-center dashbord-quickbtn dashbord-quickbtn-single"><button type="submit" id="express-interest" class="btn btn-blue btn-yellow">{{__('project.express_interest')}}</button><span class="inf">(<i>{{__('company.spend')}}</i> {{abs($setting->action_points('express-interest'))}} <i>{{__('company.action_points')}}</i>)</span></div>
                         </form>
                         @elseif($project->has_interest() && $hasCompany && !$project->is_owner(Auth::user()->id))
                         <form action="{{route('withdraw.interest', $project->withdraw_interest())}}" method="post">
                             {{csrf_field()}}
                             {{ method_field('DELETE') }}
                             <input type="hidden" value="{{$project->id}}" name="project_id">
-                            <div class="text-center"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.withdraw_interest')}}</button></div>
+                            <div class="text-center dashbord-quickbtn dashbord-quickbtn-single"><button type="submit" class="btn btn-blue btn-yellow">{{__('project.withdraw_interest')}}</button><span class="inf">(<i>{{__('company.spend')}}</i> {{abs($setting->action_points('withdraw-interest'))}} <i>{{__('company.action_points')}}</i>)</span></div>
                         </form>
                         @elseif(!Auth::guest() && $project->is_owner(Auth::user()->id) && $project->status === 'publish')
                         <form action="{{route('front.project.close', $project->slug)}}" method="post">

@@ -114,5 +114,5 @@ return array (
   'rejection_reason3' => 'Not matching or out of scope',
   'rejection_reason4' => 'No contact information on supplier’s profile',
   'rejection_reason5' => 'Price was higher than expected',
-  'rejection_reason6' => 'Other (please specify)',
+  'rejection_reason6' => 'Other',
 );
