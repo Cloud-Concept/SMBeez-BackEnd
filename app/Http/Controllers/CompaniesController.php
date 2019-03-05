@@ -28,6 +28,7 @@ use GeoIP;
 use Session;
 use Mail;
 use App\Mail\NotifyAdmin;
+use Cookie;
 
 class CompaniesController extends Controller
 {   
@@ -986,6 +987,49 @@ class CompaniesController extends Controller
         $company_reviews = Review::where('company_id', $company->id)->get();
         foreach($company_reviews as $review) {
             $review->delete();
+        }
+
+        return back();
+    }
+
+    public function request_info(Company $company, Request $request) {
+        $credit = 5;
+
+        if(Session::get('companyContactRequested-0')) {
+            session()->flash('success', __('company.exceded_credit'));
+        }else{
+            //if no cookies stored - first time to request
+            if(!Session::get('companyContactRequest')) {
+                //deduct the credit
+                $credit--;
+                session(['companyContactRequest' => $credit]);
+                session(['companyContactRequested-'. $credit => $company->slug]);
+                session(['userContactName' =>  $request['yourName']]);
+                session(['userContactTitle' => $request['title']]);
+                session(['userContactCompany' => $request['companyName']]);
+                session(['userContactPhone' =>  $request['phoneNumber']]);
+                session(['userContactEmail' =>  $request['email']]);                                     
+
+                session()->flash('success', __('company.check_mail'));
+            }else{
+                //if cookie already stored - get it let credit = 4
+                $credit = Session::get('companyContactRequest');
+                $credit--;
+
+                session(['companyContactRequest' => $credit]);
+                session(['companyContactRequested-'. $credit => $company->slug]);
+
+                session()->flash('success', __('company.check_mail'));
+            }
+
+            $log = new ModLog;
+            $log->company_id = $company->id;
+            $log->activity_type = 'contact_info_requested';
+            $log->activity_log = 'Someone requested the contact info for company ' . $company->company_name;
+            Mail::to('info@masharee3.com')->send(new NotifyAdmin('Contact Info Request', $company->slug, $company->company_name));
+
+            Mail::to($request['email'])->send(new ContactRequest($company));
+
         }
 
         return back();

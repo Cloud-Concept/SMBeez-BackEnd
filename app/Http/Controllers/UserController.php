@@ -23,6 +23,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use \App\Repositories\ProjectFunctions;
 use Carbon\Carbon;
 use App\UserLogins;
+use App\Setting;
 use Image;
 use File;
 use DB;
@@ -337,8 +338,9 @@ class UserController extends Controller
             }
             $speciality = new Speciality;
             $specialities = $speciality->all();
-            
-            return view('front.users.dashboard', compact('user_messages','user', 'hascompany','interested_projects', 'industries', 'specialities'));
+            $setting = new Setting;
+
+            return view('front.users.dashboard', compact('user_messages','user', 'hascompany','interested_projects', 'industries', 'specialities', 'setting'));
 
         }
     }
@@ -661,8 +663,8 @@ class UserController extends Controller
             $industries = $industries->orderBy('industry_name')->get();
             $speciality = new Speciality;
             $specialities = $speciality->all();
-
-            return view('front.users.myprojects', compact('user_messages','user', 'suggested_projects', 'industries', 'specialities'));
+            $setting = new Setting;
+            return view('front.users.myprojects', compact('user_messages','user', 'suggested_projects', 'industries', 'specialities', 'setting'));
         }
     }
 
@@ -713,8 +715,8 @@ class UserController extends Controller
             $industries = $industries->orderBy('industry_name')->get();
             $speciality = new Speciality;
             $specialities = $speciality->all();
-
-            return view('front.users.opportunities', compact('user_messages','user', 'suggested_projects', 'interested_projects', 'industries', 'specialities'));
+            $setting = new Setting;
+            return view('front.users.opportunities', compact('user_messages','user', 'suggested_projects', 'interested_projects', 'industries', 'specialities', 'setting'));
         }
     }
 
@@ -736,7 +738,8 @@ class UserController extends Controller
             $approved_interests = $project->interests->where('is_accepted', '===', 1);
             $rejected_interests = $project->interests->where('is_accepted', '===', 0);
             $rejection_reasons = array(trans('general.rejection_reason1'), trans('general.rejection_reason2'), trans('general.rejection_reason3'), trans('general.rejection_reason4'), trans('general.rejection_reason5'), trans('general.rejection_reason6'));
-            return view('front.users.project-interests', compact('user', 'project', 'interests', 'approved_interests', 'rejected_interests', 'rejection_reasons'));
+            $setting = new Setting;
+            return view('front.users.project-interests', compact('user', 'project', 'interests', 'approved_interests', 'rejected_interests', 'rejection_reasons', 'setting'));
         }
     }
 
