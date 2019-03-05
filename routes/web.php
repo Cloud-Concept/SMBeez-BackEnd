@@ -217,3 +217,4 @@ Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social'
 Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','facebook|linkedin')->name('socialCallback');
 Route::post('/subscribe', 'HomeController@subscribe')->name('subscribe');
 Route::post('/unsubscribe', 'HomeController@unsubscribe')->name('unsubscribe');
+Route::post('request-company-info/{company}', 'CompaniesController@request_info')->name('company-request-info');

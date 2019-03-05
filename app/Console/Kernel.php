@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ExpireProjects::class,
+        Commands\AddMonthlyPoints::class,
         //Commands\QueueCloudSearch::class,
     ];
 
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
     {   
         $schedule->command('expireprojects')->hourly();
         $schedule->command('search:queue')->everyTenMinutes();
+        $schedule->command('addmonthlypoints')->monthlyOn(1, '00:00')->timezone('Africa/Cairo');
     }
 
     /**

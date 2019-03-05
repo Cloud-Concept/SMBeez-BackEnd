@@ -10,6 +10,7 @@ use App\Interest;
 use App\User;
 use App\MyFile;
 use App\UserLogins;
+use App\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -210,8 +211,8 @@ class ProjectsController extends Controller
         ->where('status', 'publish')
         ->where('user_id', '!=', auth()->id())
         ->take(4)->get();
-
-        return view('front.project.show', compact('project', 'relatedprojects', 'hasCompany', 'views'));
+        $setting = new Setting;
+        return view('front.project.show', compact('project', 'relatedprojects', 'hasCompany', 'views', 'setting'));
     }
 
     /**
