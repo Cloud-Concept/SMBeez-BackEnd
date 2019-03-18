@@ -28,6 +28,7 @@ use GeoIP;
 use Session;
 use Mail;
 use App\Mail\NotifyAdmin;
+use App\Mail\ContactRequest;
 use Cookie;
 
 class CompaniesController extends Controller
@@ -1026,9 +1027,10 @@ class CompaniesController extends Controller
             $log->company_id = $company->id;
             $log->activity_type = 'contact_info_requested';
             $log->activity_log = 'Someone requested the contact info for company ' . $company->company_name;
-            Mail::to('info@masharee3.com')->send(new NotifyAdmin('Contact Info Request', $company->slug, $company->company_name));
+            Mail::to('info@masharee3.com')->send(new NotifyAdmin('company contact request ' .$request['title'] . '/' .$request['yourName'] . '/' . $request['companyName'] . '/' . $request['phoneNumber'] . '/' . $request['email'], $company->slug, $company->company_name));
 
-            Mail::to($request['email'])->send(new ContactRequest($company));
+            Mail::to($request['email'])->send(new ContactRequest($company->company_name, $company->location, $company->company_phone, $company->company_website, $company->company_email, $company->linkedin_url
+            ));
 
         }
 
