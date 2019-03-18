@@ -18,12 +18,12 @@
 							<p>New {{$type}} has been created.</p>
 							@if($type == 'Project')
 								<a href="{{route('front.project.show', $slug)}}" >{{$title}}</a>
-							@elseif($type == 'Company' || $type == 'Contact Info Request')
+							@elseif($type == 'Company')
 								<a href="{{route('front.company.show', $slug)}}" >{{$title}}</a>
 							@elseif($type == 'New User')
 								<p>{{$title}}</p>
 							@else
-								<p>-</p>
+								<a href="{{route('front.company.show', $slug)}}" >{{$title}}</a>
 							@endif
 
 	                    </td>

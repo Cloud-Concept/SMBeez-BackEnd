@@ -75,6 +75,9 @@
                     <ul class="dashbord-quickbtn nav nav-pills nav-fill">
                         @if($hascompany)
                             <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <span class="inf">(<i>{{__('company.earn')}}</i> {{$setting->action_points('add-project')}} <i>{{__('company.action_points')}}</i>)</span></li>
+                            @if($user->company->portfolios->count() < 3)
+                            <li class="nav-item"><button id="portfolio-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-portfolio">{{__('company.add_portfolio')}}</button></li>
+                            @endif
                         @elseif(!$hascompany && !count($user->claims) > 0)
                             <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">{{__('general.add_company_button')}}</button></a></li>
                         @endif
@@ -172,6 +175,7 @@
 @if($hascompany)
     @include ('layouts.create-project-modal')
     @include ('layouts.dashboard-review-modal')
+    @include ('layouts.add-portfolio-modal')
 @else
     @include ('layouts.add-company-modal')
 @endif

@@ -114,6 +114,10 @@ class Company extends Model
     public function points() {
         return $this->hasMany(Point::class);
     }
+
+    public function portfolios() {
+        return $this->hasMany(Portfolio::class);
+    }
     //check if user is a manager of a company
     public function has_company()
     {
