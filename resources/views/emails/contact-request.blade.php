@@ -16,26 +16,26 @@
 	                        <h1>Hello,</h1>
 
 
-	                        Company Name: {{$company->company_name}}
+	                        Company Name: {{$company_name}}
 	                        <br>
-	                        @if($company->location)
-	                        Company Location: {{$company->location}}
+	                        @if($location)
+	                        Company Location: {{$location}}
 	                        @endif
 	                        <br>
-	                        @if($company->company_phone)
-	                        Company Phone: {{$company->company_phone}}
+	                        @if($company_phone)
+	                        Company Phone: {{$company_phone}}
 	                        @endif
 	                        <br>
-	                        @if($company->company_website)
-	                        Company Website: {{$company->company_website}}
+	                        @if($company_website)
+	                        Company Website: {{$company_website}}
 	                        @endif
 	                        <br>
-	                        @if($company->company_email)
-	                        Company Email: {{$company->company_email}}
+	                        @if($company_email)
+	                        Company Email: {{$company_email}}
 	                        @endif
 	                        <br>
-	                        @if($company->linkedin_url)
-	                        Company Linkedin: {{$company->linkedin_url}}
+	                        @if($linkedin_url)
+	                        Company Linkedin: {{$linkedin_url}}
 	                        @endif
 	                        <br>
 	                    </td>

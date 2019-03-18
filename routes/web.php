@@ -163,6 +163,9 @@ Route::prefix('companies')->group(function() {
 	Route::get('/claim/form/{company}', 'CompaniesController@claim_application')->name('front.company.claim_application');
 	Route::post('/claim/confirm/{company}', 'CompaniesController@claim')->name('front.company.claim');
 	Route::get('/claim/thanks/{company}', 'CompaniesController@claim_thanks')->name('front.company.claim-thanks');
+	//Portfolio
+	Route::post('/add-portfolio/{company}', 'PortfoliosController@store')->name('front.portfolio.store');
+	Route::post('/delete-portfolio/{company}/{portfolio}', 'PortfoliosController@destroy')->name('front.portfolio.delete');
 });
 
 

@@ -125,4 +125,11 @@ return array (
   'request_email' => 'بريدك الالكتروني *',
   'anonymous_credit' => 'النقاط المتبقية:',
   'exceded_credit' => 'لقد تخطيت العدد المسموح به لطلب البيانات.',
+  'check_mail' => 'برجاء مراجعة بريدك الالكتروني للحصول علي بيانات الشركة.',
+  'add_portfolio' => 'أضف سابقة اعمال',
+  'portfolio_description' => 'الوصف',
+  'portfolio_img' => 'الصورة',
+  'portfolio_title' => 'العنوان',
+  'portfolio_add_msg' => 'تم اضافة سابقة اعمال',
+  'portfolio_tab' => 'سابقة الاعمال',
 );

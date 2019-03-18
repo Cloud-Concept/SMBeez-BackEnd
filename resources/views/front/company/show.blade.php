@@ -210,8 +210,13 @@
                     <div class="company-tabs">
                         <ul class="nav d-flex nav-tabs mt-5" id="myTab" role="tablist">
                             <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{__('company.profile')}}</a></li>
+                            @if($company->portfolios->count() > 0)
+                            <li class="nav-item"><a class="nav-link" id="portfolio-tab" data-toggle="tab" href="#portfolio" role="tab" aria-controls="portfolio" aria-selected="false">{{__('company.portfolio_tab')}}</a></li>
+                            @endif
                             <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('company.reviews_from_customers')}} ({{$customer_reviews->count()}})</a></li>
                             <li class="nav-item ml-auto"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">{{__('company.reviews_from_suppliers')}} ({{$suppliers_reviews->count()}})</a></li>
+                            
+
                             @if(!Auth::guest() && !$company->is_owner(Auth::user()->id) && Auth::user()->company)
                             <li><button id="write-review-modal" class="btn btn-blue btn-yellow pull-right btn-sm" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{__('company.write_review')}}</button></li>
                             @elseif(Auth::guest())
@@ -221,7 +226,8 @@
                     </div>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade active show pt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
-                           	@if($company->company_description)
+
+                            @if($company->company_description)
                             <p>{!!str_replace("\n","<p>",$company->company_description)!!}</p>
                             @endif
                             
@@ -248,6 +254,23 @@
                             </div>
                             @endif
                         </div>
+                        @if($company->portfolios->count() > 0)
+                        <div class="tab-pane fade active show pt-4" id="portfolio" role="tabpanel" aria-labelledby="portfolio-tab">
+                            <div class="dashboard-update dashboard-portfolio mt-5">
+                                <ul class="list-group">
+                                    @foreach($company->portfolios as $portfolio)
+                                    <li class="list-group-item">
+                                        <h3 class="mb-3">{{$portfolio->title}}</h3>
+                                        <p>{{$portfolio->description}}</p>
+                                        @if($portfolio->file_path && file_exists(public_path('/companies/files/'. $portfolio->file_path)))
+                                        <img src="{{asset('companies/files/'. $portfolio->file_path)}}" alt="{{$portfolio->title}}" class="img-thumbnail mt-2 mb-3">
+                                        @endif
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                        @endif
                         <div class="tab-pane fade pt-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="review-bar">
                                 <div class="star-rating">
@@ -1255,7 +1278,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center container">
                 <form class="form-signin my-4" id="request-info-form" enctype="multipart/form-data" action="{{route('company-request-info', $company->slug)}}" method="post">
                     {{csrf_field()}}
                     <div class="row">
@@ -1270,20 +1293,20 @@
                             @endif
                             @if(!session('companyContactRequest') || session('companyContactRequest') != 0)
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{__('company.request_name')}}" name="yourName" value="{{session('userContactName')}}" required {{session('userContactName') ? 'disabled' : ''}}>
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_name')}}" name="yourName" value="{{session('userContactName')}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{__('company.request_title')}}" value="{{session('userContactTitle')}}" name="title" {{session('userContactTitle') ? 'disabled' : ''}}>
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_title')}}" value="{{session('userContactTitle')}}" name="title">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{__('company.request_company')}}" value="{{session('userContactCompany')}}" name="companyName" {{session('userContactCompany') ? 'disabled' : ''}}>
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_company')}}" value="{{session('userContactCompany')}}" name="companyName">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{__('company.request_phone')}}" value="{{session('userContactPhone')}}" name="phoneNumber" required {{session('userContactPhone') ? 'disabled' : ''}}>
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_phone')}}" value="{{session('userContactPhone')}}" name="phoneNumber" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{__('company.request_email')}}" name="email" value="{{session('userContactEmail')}}" required {{session('userContactEmail') ? 'disabled' : ''}}>
-                                    <input type="hidden" name="company_id" value="{{$company->id}}" {{session('userContactPhone') ? 'disabled' : ''}}>
+                                    <input type="text" class="form-control" placeholder="{{__('company.request_email')}}" name="email" value="{{session('userContactEmail')}}" required>
+                                    <input type="hidden" name="company_id" value="{{$company->id}}">
                                 </div>
                                 <div class="form-group">
                                     <div class="text-center mt-4"><button type="submit" id="requestInfo" class="btn btn-blue btn-yellow">{{__('company.show_contact_info')}}</button></div>
