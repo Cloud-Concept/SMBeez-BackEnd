@@ -30,7 +30,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="custom-file">
-                                    <input type="file" id="portfolio-img" name="portfolio-img" class="custom-file-input" accept=".jpeg,.jpg,.png"> 
+                                    <input type="file" id="portfolio-img" name="portfolio-img" class="custom-file-input" accept=".jpeg,.jpg,.png,.pdf"> 
                                     <span class="custom-file-control" data-label="{{__('company.portfolio_img')}}"></span>
                                 </label>
                             </div>

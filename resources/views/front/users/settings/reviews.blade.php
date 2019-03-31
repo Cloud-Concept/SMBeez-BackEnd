@@ -22,6 +22,9 @@
                     </div>
                 </div>
                 <div class="col-md-9">
+                    <ul class="dashbord-quickbtn nav nav-pills nav-fill">
+                        <li class="nav-item"><button class="btn-dash btn-blue btn-yellow {{Auth::user()->company ? '' : 'disable'}}" data-toggle="modal" data-target="#reviewModal">{{__('general.submit_review')}}</button> <span class="inf">(<i>{{__('company.earn')}}</i> {{$setting->action_points('submit-review')}} <i>{{__('company.action_points')}}</i>)</span></li>
+                    </ul>
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{route('front.user.dashboard', $user->username)}}">{{__('general.my_dashboard')}}</a></li>
@@ -52,17 +55,17 @@
                                     	@foreach($user_reviews as $review)
                                         <tr>
                                             <td scope="row">{{$review->company->company_name}}</td>
-                                            <td>{{substr($review->feedback, 0, 60)}}
+                                            <td>{{$review->feedback}}
                                             	<br>
                                             	{{$review->created_at->toFormattedDateString()}}
                                             </td>
-                                            <td width="10%">
+                                            <!-- <td width="10%">
                                                 <div class="d-flex"><a href="" data-toggle="modal" data-target="#edit-review-{{$review->id}}" class="px-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a href="#" onclick="event.preventDefault(); document.getElementById('delete-{{$review->id}}').submit();" class="px-2"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
                                             	<form id="delete-{{$review->id}}" action="{{route('front.user.review_delete', [$user->username, $review->id])}}" method="post">
                     								{{csrf_field()}}
                     								{{ method_field('DELETE') }}
                     							</form>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -117,5 +120,7 @@
     </div>
 </div>
 @endforeach
-
+@if(Auth::user()->company)
+@include ('layouts.dashboard-review-modal')
+@endif
 @endsection

@@ -38,7 +38,7 @@ class PortfoliosController extends Controller
     {   
 
         $this->validate($request, [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:100',
             'description' => 'required|string|max:500',
             'portfolio-img' => 'mimes:jpeg,jpg,png|max:5000'
 
@@ -68,6 +68,7 @@ class PortfoliosController extends Controller
 
         $company->addRelevanceScore(5, $company->id);
         session()->flash('success', __('company.portfolio_add_msg'));
+        event(new \App\Events\AddPoints($portfolio->company->id, 'add-portfolio', 'monthly'));
         return back();
     }
 
@@ -111,8 +112,10 @@ class PortfoliosController extends Controller
      * @param  \App\Portfolio  $portfolio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Portfolio $portfolio)
+    public function destroy(Company $company, Portfolio $portfolio)
     {
-        //
+        $portfolio->delete();
+
+        return back();
     }
 }

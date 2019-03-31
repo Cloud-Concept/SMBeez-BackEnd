@@ -96,7 +96,7 @@
         </script>
 
         <script type="text/javascript">
-            $('ul.pagination').hide();
+            /*$('ul.pagination').hide();*/
             $(function() {
                 $('.infinite-scroll').jscroll({
                     autoTrigger: true,
