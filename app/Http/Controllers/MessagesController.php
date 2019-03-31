@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Interest;
 use Illuminate\Http\Request;
 use Session;
 
@@ -22,8 +23,8 @@ class MessagesController extends Controller
         $user = auth()->user();
 
         $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->paginate(10);
-
-        return view('front.users.messages', compact('user', 'user_messages'));
+        $rejection_reasons = array(trans('general.rejection_reason1'), trans('general.rejection_reason2'), trans('general.rejection_reason3'), trans('general.rejection_reason4'), trans('general.rejection_reason5'), trans('general.rejection_reason6'));
+        return view('front.users.messages', compact('user', 'user_messages', 'rejection_reasons'));
     }
 
     /**
@@ -53,7 +54,7 @@ class MessagesController extends Controller
      * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $id)
+    public function show(Message $id, Interest $interest)
     {   
         $locale = Session::get('locale');
         if($locale) {
@@ -63,9 +64,10 @@ class MessagesController extends Controller
         $user = auth()->user();
 
         $user_messages = Message::with('user')->where('user_id', $user->id)->latest()->paginate(15);
-
+        $rejection_reasons = array(trans('general.rejection_reason1'), trans('general.rejection_reason2'), trans('general.rejection_reason3'), trans('general.rejection_reason4'), trans('general.rejection_reason5'), trans('general.rejection_reason6'));
+        $decline_reason = $interest->where('id', $id->interest_id)->first()->pluck('reason');
         if($id->user_id === $user->id) {
-            return view('front.users.show-message', compact('id', 'user', 'user_messages'));
+            return view('front.users.show-message', compact('id', 'user', 'user_messages', 'rejection_reasons', 'decline_reason'));
         }else {
             return redirect(route('front.messages.index'));
         }

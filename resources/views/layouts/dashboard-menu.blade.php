@@ -1,5 +1,4 @@
 <ul class="nav navbar-nav">
-    <li class="nav-item ajax-item"><a class="nav-link {{ Request::is('user/profile/*') ? 'active' : 'no' }}" href="{{route('front.user.editprofile', $user->username)}}">{{__('general.settings')}}</a></li>
     <li class="nav-item ajax-item"><a class="nav-link {{ Request::is('user/messages/all') ? 'active' : 'no' }}" href="{{route('front.messages.index')}}">{{__('general.messages')}}</a></li>
     <li class="nav-item ajax-item"><a class="nav-link {{ Request::is('user/bookmarks') ? 'active' : 'no' }}" href="{{route('front.bookmarks.list')}}">{{__('general.bookmarks')}}</a></li>
 	@if($hascompany)

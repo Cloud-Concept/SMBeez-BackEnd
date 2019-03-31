@@ -507,8 +507,9 @@ class UserController extends Controller
             return redirect(route('home'));
 
         }else {
-            $user_reviews = $user->reviews()->paginate(3);
-            return view('front.users.settings.reviews', compact('user', 'user_reviews'));
+            $user_reviews = $user->reviews()->paginate(20);
+            $setting = new Setting;
+            return view('front.users.settings.reviews', compact('user', 'user_reviews', 'setting'));
 
         }
     }
@@ -527,8 +528,9 @@ class UserController extends Controller
             return redirect(route('home'));
 
         }else {
-            $user_reviews = $user->reviews()->where('reviewer_relation', 'supplier')->paginate(3);
-            return view('front.users.settings.reviews', compact('user', 'user_reviews'));
+            $user_reviews = $user->reviews()->where('reviewer_relation', 'supplier')->paginate(20);
+            $setting = new Setting;
+            return view('front.users.settings.reviews', compact('user', 'user_reviews', 'setting'));
 
         }
     }
@@ -547,8 +549,9 @@ class UserController extends Controller
             return redirect(route('home'));
 
         }else {
-            $user_reviews = $user->reviews()->where('reviewer_relation', 'customer')->paginate(3);
-            return view('front.users.settings.reviews', compact('user', 'user_reviews'));
+            $user_reviews = $user->reviews()->where('reviewer_relation', 'customer')->paginate(20);
+            $setting = new Setting;
+            return view('front.users.settings.reviews', compact('user', 'user_reviews', 'setting'));
 
         }
     }

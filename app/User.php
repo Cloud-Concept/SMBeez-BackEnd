@@ -110,6 +110,12 @@ class User extends Authenticatable
         return $this->hasMany(UserLogins::class);
 
     }
+
+    public function returns() {
+
+        return $this->hasMany(ReturningUser::class);
+
+    }
     //check for profile completion
     public function profile_completion() {
 

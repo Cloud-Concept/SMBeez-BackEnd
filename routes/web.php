@@ -17,8 +17,30 @@ Route::get('/', function () {
     if($locale) {
         app()->setLocale($locale);
     }
+    $return_user = new App\ReturningUser;
+    $ip = Request::ip();
+    $noLogin_returning = $return_user->where('return_ip', $ip)->where('return_time', '>', Carbon\Carbon::now()->subHour(1)->toDateTimeString())->first();
+    if(Auth::user()) {
+        $Login_returning = $return_user->where('user_id', Auth::user()->id)->where('return_time', '>', Carbon\Carbon::now()->subHour(1)->toDateTimeString())->first();
+    }
+    if(Auth::guest() && !$noLogin_returning) {
+        $return_user->return_time = Carbon\Carbon::now()->toDateTimeString();
+        $return_user->return_ip = $ip;
+        $return_user->status = 'no_login';
+        $return_user->save();
+    }elseif(Auth::user() && !$Login_returning) {
+        $return_user->user_id = Auth::user()->id;
+        $return_user->return_time = Carbon\Carbon::now()->toDateTimeString();
+        $return_user->return_ip = $ip;
+        $return_user->status = 'logged_in';
+        $return_user->save();
+    }
 
-    return view('front.home');
+    if(Auth::user()) {
+    	return redirect(route('front.user.dashboard', Auth::user()->username));
+    }else {
+    	return view('front.home');
+    }
 })->name('home');
 
 Auth::routes();
@@ -123,6 +145,8 @@ Route::prefix('admin')->middleware('role:superadmin|administrator|moderator')->g
 	Route::get('/manage/settings', 'AdminController@settings')->name('admin.settings');
 	Route::post('/manage/add-setting', 'AdminController@add_setting')->name('admin.add-setting');
 	Route::post('/manage/update-setting/{setting}', 'AdminController@update_setting')->name('admin.update-setting');
+	//EndSettings
+	Route::get('/returning-users', 'AdminController@returning_users')->name('admin.returning-users');
 });
 
 Route::prefix('user')->group(function() {
