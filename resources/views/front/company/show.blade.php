@@ -261,11 +261,15 @@
                                     @foreach($company->portfolios as $portfolio)
                                     <li class="list-group-item">
                                         <h3 class="mb-3">{{$portfolio->title}}</h3>
+                                        <span class="pull-right"><a href="#" onclick="event.preventDefault(); if(confirm('Do you want to delete this portfolio item?')){document.getElementById('delete-portfolio-{{$portfolio->id}}').submit();}"><i class="fa fa-times"></i></a></span>
                                         <p>{{$portfolio->description}}</p>
                                         @if($portfolio->file_path && file_exists(public_path('/companies/files/'. $portfolio->file_path)))
                                         <img src="{{asset('companies/files/'. $portfolio->file_path)}}" alt="{{$portfolio->title}}" class="img-thumbnail mt-2 mb-3">
                                         @endif
                                     </li>
+                                    <form id="delete-portfolio-{{$portfolio->id}}" action="{{route('front.portfolio.delete', [$company->slug, $portfolio->id])}}" method="post">
+                                        {{csrf_field()}}                        
+                                    </form>
                                     @endforeach
                                 </ul>
                             </div>

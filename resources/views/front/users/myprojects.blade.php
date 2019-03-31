@@ -50,32 +50,6 @@
                         <p>s conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you</p>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div> -->
-                    <div class="sidebar-updates mt-5">
-                        <h5 class="title-blue">{{__('company.updates')}} ({{$user->messages->count()}})</h5>
-                        <ul class="list-group">
-                            @if($user->messages->count() > 0)
-                                @foreach($user_messages as $message)
-                                    <li class="list-group-item">
-                                        @if($message->interest_id)
-                                            @if($message->message_company_exists($message->sender_id))
-                                            <a href="{{route('front.messages.show', $message->id)}}">
-                                                {{$message->created_at->diffForHumans()}} :
-                                                {{strip_tags($message->subject, '')}}
-                                            </a>
-                                            @else
-                                            <p>{{__('company.sender_no_exist')}}</p>
-                                            @endif
-                                        @else
-                                            {{strip_tags($message->subject, '')}}
-                                        @endif
-                                    </li>
-                                @endforeach
-                            @else
-                                <li class="list-group-item">{{__('company.no_msgs')}}</li>
-                            @endif                       
-                            <li class="list-group-item"><a href="{{route('front.messages.index')}}">{{__('general.all_messages')}}</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-md-9">
                     <nav aria-label="breadcrumb" role="navigation">

@@ -64,13 +64,25 @@
                                                     <p>{{__('company.interest_withdrawn')}}</p>
                                                 @else
                                                     <button type="submit" class="btn btn-sm btn-yellow-2 mr-3" onclick="event.preventDefault(); document.getElementById('accept-interest-{{$message->interest_id}}').submit();">{{__('company.accept')}}</button>
-                                                    <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$message->interest_id}}').submit();">{{__('company.decline')}}</button>
+                                                    <!-- <button type="submit" class="btn btn-sm btn-blue btn-yellow" onclick="event.preventDefault(); document.getElementById('decline-interest-{{$message->interest_id}}').submit();">{{__('company.decline')}}</button> -->
+                                                    {{__('home.or_title')}}
+                                                    <br>
+                                                    <br>
+                                                    <form id="decline-interest-{{$message->interest_id}}" action="{{route('decline.interest', $message->interest_id)}}" method="post" class="write-review compnay-edit">
+                                                        {{csrf_field()}}
+                                                        <select id="decline-select" class="form-control custom-select d-block" name="decline_reason" onchange="event.preventDefault(); document.getElementById('decline-interest-{{$message->interest_id}}').submit();">
+                                                            <option>{{__('company.choose_rej_reason')}}</option>
+                                                            @foreach($rejection_reasons as $reason)
+                                                                <option value="{{$reason}}">{{$reason}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </form>
                                                     <form id="accept-interest-{{$message->interest_id}}" action="{{route('accept.interest', $message->interest_id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
                                                     </form> 
-                                                    <form id="decline-interest-{{$message->interest_id}}" action="{{route('decline.interest', $message->interest_id)}}" method="post" class="write-review">
+                                                    <!-- <form id="decline-interest-{{$message->interest_id}}" action="{{route('decline.interest', $message->interest_id)}}" method="post" class="write-review">
                                                         {{csrf_field()}}
-                                                    </form>
+                                                    </form> -->
                                                 @endif
                                             </div>
                                         @endif

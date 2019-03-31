@@ -44,39 +44,13 @@
                         <p>s conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you</p>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div> -->
-                    <div class="sidebar-updates mt-5">
-                        <h5 class="title-blue">{{__('company.updates')}} ({{$user->messages->count()}})</h5>
-                        <ul class="list-group">
-                            @if($user->messages->count() > 0)
-                                @foreach($user_messages as $message)
-                                    <li class="list-group-item">
-                                        @if($message->interest_id)
-                                            @if($message->message_company_exists($message->sender_id))
-                                            <a href="{{route('front.messages.show', $message->id)}}">
-                                                {{$message->created_at->diffForHumans()}} :
-                                                {{strip_tags($message->subject, '')}}
-                                            </a>
-                                            @else
-                                            <p>{{__('company.sender_no_exist')}}</p>
-                                            @endif
-                                        @else
-                                            {{strip_tags($message->subject, '')}}
-                                        @endif
-                                    </li>
-                                @endforeach
-                            @else
-                                <li class="list-group-item">{{__('company.no_msgs')}}</li>
-                            @endif                       
-                            <li class="list-group-item"><a href="{{route('front.messages.index')}}">{{__('general.all_messages')}}</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-md-9">
                     <ul class="dashbord-quickbtn nav nav-pills nav-fill">
                         @if($hascompany)
                             <li class="nav-item"><button id="project-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-project">{{__('general.publish_project')}}</button> <span class="inf">(<i>{{__('company.earn')}}</i> {{$setting->action_points('add-project')}} <i>{{__('company.action_points')}}</i>)</span></li>
                             @if($user->company->portfolios->count() < 3)
-                            <li class="nav-item"><button id="portfolio-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-portfolio">{{__('company.add_portfolio')}}</button></li>
+                            <li class="nav-item"><button id="portfolio-add" class="btn-dash btn-blue btn-yellow" data-toggle="modal" data-target="#add-portfolio">{{__('company.add_portfolio')}}</button> <span class="inf">(<i>{{__('company.earn')}}</i> {{$setting->action_points('add-portfolio')}} <i>{{__('company.action_points')}}</i>)</span></li>
                             @endif
                         @elseif(!$hascompany && !count($user->claims) > 0)
                             <li class="nav-item"><a href="#" data-toggle="modal" data-target="#add-company"><button id="company-add" class="btn-dash btn-blue btn-yellow">{{__('general.add_company_button')}}</button></a></li>

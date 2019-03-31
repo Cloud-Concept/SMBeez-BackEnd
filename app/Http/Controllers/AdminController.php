@@ -16,6 +16,7 @@ use App\Setting;
 use App\ModComments;
 use App\EmailLogs;
 use App\Role;
+use App\ReturningUser;
 use Mail;
 use \App\Repositories\ProjectFunctions;
 use App\Mail\Mod\Welcome;
@@ -898,5 +899,18 @@ class AdminController extends Controller
         $setting->update();
 
         return back();
+    }
+
+    public function returning_users(Request $request, ReturningUser $returning_users) {
+
+        $allreturning_loggedIn = $returning_users->where('status', 'logged_in')->count();
+
+        $allreturning_noLogin = $returning_users->where('status', 'no_login')->count();
+
+        $returning_loggedIn = $returning_users->where('status', 'logged_in')->whereBetween('return_time', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+
+        $returning_noLogin = $returning_users->where('status', 'no_login')->whereBetween('return_time', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+
+        return view('admin.reports.returning-users', compact('returning_loggedIn', 'returning_noLogin', 'allreturning_loggedIn', 'allreturning_noLogin'));
     }
 }
