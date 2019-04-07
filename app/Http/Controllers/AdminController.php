@@ -901,16 +901,16 @@ class AdminController extends Controller
         return back();
     }
 
-    public function returning_users(Request $request, ReturningUser $returning_users) {
+    public function returning_users(Request $request, ReturningUser $returning_users, User $user) {
 
         $allreturning_loggedIn = $returning_users->where('status', 'logged_in')->count();
 
-        $allreturning_noLogin = $returning_users->where('status', 'no_login')->count();
-
         $returning_loggedIn = $returning_users->where('status', 'logged_in')->whereBetween('return_time', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
 
-        $returning_noLogin = $returning_users->where('status', 'no_login')->whereBetween('return_time', [$request['date_from'] ." 00:00:00", $request['date_to'] ." 23:59:59"])->count();
+        $registred_users_from = $user->where('created_at', '<=', $request['date_from'] . ' 23:59:59')->count();
 
-        return view('admin.reports.returning-users', compact('returning_loggedIn', 'returning_noLogin', 'allreturning_loggedIn', 'allreturning_noLogin'));
+        $registred_users_to = $user->where('created_at', '<=', $request['date_to'] . ' 23:59:59')->count();
+
+        return view('admin.reports.returning-users', compact('returning_loggedIn', 'allreturning_loggedIn', 'registred_users_from', 'registred_users_to'));
     }
 }

@@ -19,16 +19,10 @@ Route::get('/', function () {
     }
     $return_user = new App\ReturningUser;
     $ip = Request::ip();
-    $noLogin_returning = $return_user->where('return_ip', $ip)->where('return_time', '>', Carbon\Carbon::now()->subHour(1)->toDateTimeString())->first();
     if(Auth::user()) {
-        $Login_returning = $return_user->where('user_id', Auth::user()->id)->where('return_time', '>', Carbon\Carbon::now()->subHour(1)->toDateTimeString())->first();
+        $Login_returning = $return_user->where('user_id', Auth::user()->id)->where('return_time', '>', Carbon\Carbon::now()->subDay(1)->toDateTimeString())->first();
     }
-    if(Auth::guest() && !$noLogin_returning) {
-        $return_user->return_time = Carbon\Carbon::now()->toDateTimeString();
-        $return_user->return_ip = $ip;
-        $return_user->status = 'no_login';
-        $return_user->save();
-    }elseif(Auth::user() && !$Login_returning) {
+	if(Auth::user() && !$Login_returning) {
         $return_user->user_id = Auth::user()->id;
         $return_user->return_time = Carbon\Carbon::now()->toDateTimeString();
         $return_user->return_ip = $ip;
