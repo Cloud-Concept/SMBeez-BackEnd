@@ -31,12 +31,6 @@
                                 <p><a href="#">LoggedIn Returning User</a></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="project-box box-block mb-3">
-                                <p class="thumb-title mt-1 mb-1">{{$allreturning_noLogin}}</p>
-                                <p><a href="#">Anonymous Returning User</a></p>
-                            </div>
-                        </div>
                     </div>
 
                     <form action="{{route('admin.returning-users')}}" method="get">
@@ -62,8 +56,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="project-box box-block mb-3">
-                                <p class="thumb-title mt-1 mb-1">{{$returning_noLogin}}</p>
-                                <p><a href="#">Anonymous Returning User</a></p>
+                                <p class="thumb-title mt-1 mb-1">{{$registred_users_from}}</p>
+                                <p><a href="#">Users Until {{request()->query('date_from')}}</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="project-box box-block mb-3">
+                                <p class="thumb-title mt-1 mb-1">{{$registred_users_to}}</p>
+                                <p><a href="#">Users Until {{request()->query('date_to')}}</a></p>
                             </div>
                         </div>
                     </div>
